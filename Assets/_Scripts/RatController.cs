@@ -5,6 +5,7 @@ public class RatController : MonoBehaviour
 {
     [Header("Parametri di movimento")]
     public float moveSpeed = 5f;        // Velocità di spostamento orizzontale
+    public float sprintMultiplier = 2f;    // Moltiplicatore velocità quando Shift è premuto
     public float rotationSpeed = 10f;   // Velocità di rotazione verso la direzione di marcia
 
     [SerializeField] private float _ratRay = 5f;  // Added default value
@@ -38,6 +39,13 @@ public class RatController : MonoBehaviour
 
     void FixedUpdate()
     {
+        // Controlla se Shift è premuto
+        float currentSpeed = moveSpeed;
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            currentSpeed *= sprintMultiplier;
+        }
+
         // 1. Input grezzo
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputZ = Input.GetAxisRaw("Vertical");
@@ -46,11 +54,11 @@ public class RatController : MonoBehaviour
         if (inputDir.magnitude > 1f)
             inputDir.Normalize();
 
-        // 3. Calcola forward/right rispetto alla camera (proietta sul piano)
-        Vector3 camForward = camTransform.forward;
+        Vector3 camForward = transform.forward;
         camForward.y = 0f;
         camForward.Normalize();
-        Vector3 camRight = camTransform.right;
+
+        Vector3 camRight = transform.right;
         camRight.y = 0f;
         camRight.Normalize();
 
@@ -63,13 +71,12 @@ public class RatController : MonoBehaviour
         rb.linearVelocity = new Vector3(targetVel.x, currentVel.y, targetVel.z);
 
         // 6. Rotazione graduale verso la direzione di movimento
-        if (moveDir.sqrMagnitude > 0.001f)
+        if (moveDir.sqrMagnitude > 0.001f && inputZ >= 0)
         {
             Quaternion targetRot = Quaternion.LookRotation(moveDir);
             Quaternion newRot = Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newRot);
         }
-
     }
 
     private void OnDrawGizmos()
