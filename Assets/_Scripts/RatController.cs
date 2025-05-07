@@ -70,9 +70,6 @@ public class RatController : MonoBehaviour
             rb.MoveRotation(newRot);
         }
 
-        //7. infetta
-
-        
     }
 
     private void OnDrawGizmos()

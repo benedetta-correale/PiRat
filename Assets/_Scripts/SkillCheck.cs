@@ -9,6 +9,8 @@ public class SkillCheck : MonoBehaviour
     private bool isActive = false;
     private float time = 0f;
 
+    [SerializeField] private EnemyController _enemyController;  // Added reference to EnemyController
+
     void Start()
     {
         if (_bar != null)  // Fixed syntax error
@@ -48,17 +50,27 @@ public class SkillCheck : MonoBehaviour
 
     private void CheckResult(float value)
     {
+        Transform playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        Vector3 jumpDirection = -playerTransform.forward; // Backward direction
+        
         if (value < 0.6f)
         {
             Debug.Log("Success!");
+            // infezione + salto lontano 
+            playerTransform.position += jumpDirection * 8f;
         }
         else if (value < 0.9f)
         {
             Debug.Log("Chase!");
+            //salto medio
+            playerTransform.position += jumpDirection * 2f;
         }
         else
         {
+            // il pirata si gira verso il topo e comincia ad inseguirlo
+            
             Debug.Log("Failure!");
+            
         }
     }
 }

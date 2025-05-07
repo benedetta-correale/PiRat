@@ -58,7 +58,7 @@ public class EnemyController : MonoBehaviour
         UpdateVisionCone(); // Aggiorna il cono di visione ogni frame
     }
 
-   private void StartFollowing()
+   public void StartFollowing()
 
     {
         Vector3 direction = _mainCharacter.transform.position - transform.position;
