@@ -208,6 +208,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   rotationSpeed: 10
+  _ratRay: 3
+  _skillCheck: {fileID: 1345917326}
+  _enemyController: {fileID: 977615309}
 --- !u!54 &189591413
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -622,6 +625,7 @@ GameObject:
   - component: {fileID: 445651938}
   - component: {fileID: 445651937}
   - component: {fileID: 445651936}
+  - component: {fileID: 445651940}
   m_Layer: 0
   m_Name: Ground
   m_TagString: Untagged
@@ -646,7 +650,7 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
@@ -719,6 +723,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &445651940
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 445651935}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 10, y: 2.220446e-16, z: 9.999999}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &502619141
 GameObject:
   m_ObjectHideFlags: 0
@@ -733,7 +758,7 @@ GameObject:
   - component: {fileID: 502619142}
   m_Layer: 0
   m_Name: Cube (3)
-  m_TagString: Untagged
+  m_TagString: Pirate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -841,7 +866,7 @@ GameObject:
   - component: {fileID: 519308609}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Untagged
+  m_TagString: Pirate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -949,7 +974,7 @@ GameObject:
   - component: {fileID: 520468217}
   m_Layer: 0
   m_Name: Cube (2)
-  m_TagString: Untagged
+  m_TagString: Pirate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1133,36 +1158,15 @@ GameObject:
   - component: {fileID: 977615308}
   - component: {fileID: 977615307}
   - component: {fileID: 977615306}
-  - component: {fileID: 977615305}
   - component: {fileID: 977615309}
+  - component: {fileID: 977615310}
   m_Layer: 0
   m_Name: Cube (1)
-  m_TagString: Untagged
+  m_TagString: Pirate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!65 &977615305
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 977615304}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!23 &977615306
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1243,11 +1247,34 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23051eac276c4ac88fd16f5c771bbc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  followSpeed: 3
-  minDistance: 0.5
-  viewAngle: 50
-  viewDistance: 3
-  _skillCheck: {fileID: 1345917326}
+  _followSpeed: 3
+  _viewAngle: 90
+  _viewDistance: 5
+  _rayAttachment: 2
+  visionConeMaterial: {fileID: 0}
+  startFollowing: 0
+--- !u!64 &977615310
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 977615304}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!1 &1020054451
 GameObject:
   m_ObjectHideFlags: 0
