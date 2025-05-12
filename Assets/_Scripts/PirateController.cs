@@ -5,6 +5,7 @@ public class PirateController : MonoBehaviour
 {
     public Transform[] patrolPoints;    // Inserisci qui i tuoi punti (empty objects nella scena)
     public float waitTimeAtPoint = 2f;  // Quanto si ferma a ogni punto
+    public Animator animator;            // Riferimento all'animatore del pirata
 
     private NavMeshAgent agent;
     private int currentPointIndex = 0;
@@ -12,6 +13,7 @@ public class PirateController : MonoBehaviour
 
     void Start()
     {
+        animator.SetBool("isWalking", true);
         agent = GetComponent<NavMeshAgent>();
 
         if (patrolPoints.Length > 0)
@@ -38,6 +40,8 @@ public class PirateController : MonoBehaviour
     System.Collections.IEnumerator WaitAndGoToNextPoint()
     {
         waiting = true;
+        animator.SetBool("isWalking", false); // Ferma l'animazione
+
 
         yield return new WaitForSeconds(waitTimeAtPoint);
 
@@ -45,5 +49,6 @@ public class PirateController : MonoBehaviour
         agent.SetDestination(patrolPoints[currentPointIndex].position);
 
         waiting = false;
+        animator.SetBool("isWalking", true); // Riprende l'animazione
     }
 }

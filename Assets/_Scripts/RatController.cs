@@ -7,7 +7,7 @@ public class RatController : MonoBehaviour
     public float moveSpeed = 5f;        // Velocità di spostamento orizzontale
     public float sprintMultiplier = 2f;    // Moltiplicatore velocità quando Shift è premuto
     public float rotationSpeed = 10f;   // Velocità di rotazione verso la direzione di marcia
-
+    private Animator animator; // Riferimento all'animatore
     [SerializeField] private float _ratRay = 5f;  // Added default value
 
     Rigidbody rb;
@@ -20,6 +20,8 @@ public class RatController : MonoBehaviour
 
     void Start()
     {
+        animator = GetComponent<Animator>();
+        animator.SetBool("isWalking", false); // Imposta l'animazione di camminata
         rb = GetComponent<Rigidbody>();
         // Blocca le rotazioni sugli assi X e Z se non vuoi che il personaggio rotoli
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
