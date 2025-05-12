@@ -136,10 +136,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e32253277c634b8e810ea4c3f36f346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 5
+  moveSpeed: 3
   sprintMultiplier: 2
-  rotationSpeed: 2
-  animator: {fileID: 0}
+  rotationSpeed: 1
   _ratRay: 3
   _skillCheck: {fileID: 1345917326}
   _enemyController: {fileID: 977615309}
@@ -191,11 +190,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!95 &16770296 stripped
-Animator:
-  m_CorrespondingSourceObject: {fileID: 5866666021909216657, guid: 0931c8d2640adfc4192107986bce38d5, type: 3}
-  m_PrefabInstance: {fileID: 674481413}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &84909950
 GameObject:
   m_ObjectHideFlags: 0
@@ -626,7 +620,6 @@ MonoBehaviour:
   moveSpeed: 5
   sprintMultiplier: 2
   rotationSpeed: 2
-  animator: {fileID: 16770296}
   _ratRay: 3
   _skillCheck: {fileID: 1345917326}
   _enemyController: {fileID: 977615309}
@@ -4401,7 +4394,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1760634700
 MonoBehaviour:
   m_ObjectHideFlags: 0

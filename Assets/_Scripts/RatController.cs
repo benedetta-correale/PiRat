@@ -7,7 +7,7 @@ public class RatController : MonoBehaviour
     public float moveSpeed = 5f;        // Velocità di spostamento orizzontale
     public float sprintMultiplier = 2f;    // Moltiplicatore velocità quando Shift è premuto
     public float rotationSpeed = 10f;   // Velocità di rotazione verso la direzione di marcia
-    private Animator animator; // Riferimento all'animatore
+    private Animator _ratAnimator; // Riferimento all'animatore
     [SerializeField] private float _ratRay = 5f;  // Added default value
 
     Rigidbody rb;
@@ -20,8 +20,8 @@ public class RatController : MonoBehaviour
 
     void Start()
     {
-        animator = GetComponent<Animator>();
-        animator.SetBool("isWalking", false); // Imposta l'animazione di camminata
+        _ratAnimator = GetComponent<Animator>();
+        _ratAnimator.SetBool("isWalking", false); // Imposta l'animazione di camminata
         rb = GetComponent<Rigidbody>();
         // Blocca le rotazioni sugli assi X e Z se non vuoi che il personaggio rotoli
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
@@ -51,6 +51,7 @@ public class RatController : MonoBehaviour
         // 1. Input grezzo
         float inputX = Input.GetAxisRaw("Horizontal");
         float inputZ = Input.GetAxisRaw("Vertical");
+
         Vector3 inputDir = new Vector3(inputX, 0f, inputZ);
         // 2. Normalizza (evita boost in diagonale)
         if (inputDir.magnitude > 1f)
@@ -106,6 +107,21 @@ public class RatController : MonoBehaviour
 
         // Call infectPirate to check for and infect nearby pirates
         infectPirate();
+        chekIsWalking();
+    }
+
+    
+
+    private void chekIsWalking()
+    {
+        if (Input.GetAxis("Vertical") != 0 || Input.GetAxis("Horizontal") != 0)
+        {
+            _ratAnimator.SetBool("isWalking", true);
+        }
+        else
+        {
+            _ratAnimator.SetBool("isWalking", false);
+        }
     }
 
     private void DrawCircle(float radius)
