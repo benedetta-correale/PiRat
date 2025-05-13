@@ -138,7 +138,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 3
   sprintMultiplier: 2
-  rotationSpeed: 1
+  rotationSpeed: 1.5
   _ratRay: 3
   _skillCheck: {fileID: 1345917326}
   _enemyController: {fileID: 977615309}
@@ -190,6 +190,11 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!4 &16770297 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 0931c8d2640adfc4192107986bce38d5, type: 3}
+  m_PrefabInstance: {fileID: 674481413}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &84909950
 GameObject:
   m_ObjectHideFlags: 0
@@ -573,6 +578,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 40178b7f9acabf040ac95832346997da, type: 3}
       propertyPath: m_Layer
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 40178b7f9acabf040ac95832346997da, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 40178b7f9acabf040ac95832346997da, type: 3}
       propertyPath: m_TagString
@@ -1046,13 +1055,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.379146, y: -0.46913418, z: 0.2331976, w: 0.76274526}
-  m_LocalPosition: {x: 25.860008, y: 15.818674, z: -30.099995}
+  m_LocalRotation: {x: 0.25763613, y: -0.658501, z: 0.2576362, w: 0.6585011}
+  m_LocalPosition: {x: 16.1, y: 16.27, z: -7.43}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 47.64, y: -12.362, z: 13.519}
+  m_LocalEulerAnglesHint: {x: 42.736, y: -90, z: 0}
 --- !u!114 &330585547
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1141,10 +1150,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4540661bec4e46018a47211d7653605, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 189591415}
-  offset: {x: -0.06, y: 15.2, z: -4.68}
-  sideOffset: 9.26
-  smoothSpeed: 0.125
+  target: {fileID: 16770297}
+  positionOffset: {x: -10, y: 10, z: -10}
+  rotationOffset: {x: 35, y: 45, z: 0}
+  followSpeed: 5
+  rotationSpeed: 5
 --- !u!1 &349699770
 GameObject:
   m_ObjectHideFlags: 0
@@ -3768,6 +3778,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Pirat
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: ed670ec173ee24245ab1f91e2615abfb, type: 3}
+      propertyPath: m_TagString
+      value: Pirate
+      objectReference: {fileID: 0}
     - target: {fileID: 5866666021909216657, guid: ed670ec173ee24245ab1f91e2615abfb, type: 3}
       propertyPath: m_Controller
       value: 
@@ -4394,7 +4408,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1760634700
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4408,19 +4422,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fogRevealers:
-  - revealerTransform: {fileID: 863830828}
+  - revealerTransform: {fileID: 1157612406}
     sightRange: 5
     updateOnlyOnMove: 1
     lastSeenAt: {x: 0, y: 0}
-  - revealerTransform: {fileID: 322428791}
-    sightRange: 5
+  - revealerTransform: {fileID: 16770297}
+    sightRange: 1
     updateOnlyOnMove: 1
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 445651939}
   FogRefreshRate: 10
-  fogPlaneHeight: 2.4
+  fogPlaneHeight: 2.6
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
-  fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
+  fogColor: {r: 0, g: 0, b: 0, a: 1}
   fogPlaneAlpha: 1
   fogLerpSpeed: 2.5
   keepRevealedTiles: 0
@@ -4429,7 +4443,7 @@ MonoBehaviour:
   fogPlaneTextureLerpBuffer: {fileID: 0}
   LevelDataToLoad: {fileID: 0}
   saveDataOnScan: 1
-  levelNameToSave: Default
+  levelNameToSave: prova level
   levelDimensionX: 128
   levelDimensionY: 128
   unitScale: 0.5
@@ -4451,7 +4465,7 @@ Transform:
   m_GameObject: {fileID: 1760634699}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 10.2, y: 12.711995, z: 9.4}
+  m_LocalPosition: {x: 10.2, y: 11.38, z: 9.4}
   m_LocalScale: {x: 0.8234276, y: 0.8234276, z: 0.22227605}
   m_ConstrainProportionsScale: 0
   m_Children: []

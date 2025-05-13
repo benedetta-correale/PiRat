@@ -2,26 +2,32 @@ using UnityEngine;
 
 public class SeguireCamera : MonoBehaviour
 {
-    public Transform target;            // Il topo
-    public Vector3 offset; // Offset rispetto al topo
-    public float sideOffset = 2f;        // Quanto spostare lateralmente (a destra)
-    public float smoothSpeed = 0.125f;  // Velocità smooth
+    [Header("Target da seguire")]
+    public Transform target;
+
+    [Header("Offset")]
+    [Tooltip("Posizione della camera rispetto al target, in coordinate locali mondo")]
+    public Vector3 positionOffset = new Vector3(-10f, 10f, -10f);
+    [Tooltip("Rotazione della camera (Euler) per l’angolo di visuale")]
+    public Vector3 rotationOffset = new Vector3(35f, 45f, 0f);
+
+    [Header("Smoothing")]
+    [Tooltip("Velocità di inseguimento")]
+    public float followSpeed = 5f;
+    [Tooltip("Velocità di allineamento rotazione")]
+    public float rotationSpeed = 5f;
 
     void LateUpdate()
     {
-        // Posizione base dietro al topo
-        Vector3 desiredPosition = target.position 
-                                  + target.up * offset.y 
-                                  + target.forward * offset.z;
+        if (target == null) return;
 
-        // Aggiungiamo spostamento laterale a destra (usa target.right)
-        desiredPosition += target.right * sideOffset;
+        // 1. Posizione desiderata
+        Vector3 desiredPos = target.position + positionOffset;
+        // 2. Smooth follow
+        transform.position = Vector3.Lerp(transform.position, desiredPos, followSpeed * Time.deltaTime);
 
-        // Smooth movimento
-        Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
-        transform.position = smoothedPosition;
-
-        // Guarda sempre il topo, leggermente sopra
-        transform.LookAt(target.position + Vector3.up * 1.5f);
+        // 3. Rotazione fissa (ma interpolata per maggiore fluidità)
+        Quaternion desiredRot = Quaternion.Euler(rotationOffset);
+        transform.rotation = Quaternion.Slerp(transform.rotation, desiredRot, rotationSpeed * Time.deltaTime);
     }
 }
