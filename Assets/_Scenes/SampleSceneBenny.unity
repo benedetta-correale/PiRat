@@ -503,6 +503,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -886,6 +890,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (161)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1384,6 +1392,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (177)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -3360,6 +3372,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (152)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3632,6 +3648,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (146)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3775,6 +3795,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -6182,6 +6206,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (174)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6438,6 +6466,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -6643,6 +6675,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (175)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7039,6 +7075,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (109)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7502,6 +7542,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (107)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -7869,6 +7913,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -9289,6 +9337,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (159)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -9796,6 +9848,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (125)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10576,6 +10632,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (169)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11181,8 +11241,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25763613, y: -0.658501, z: 0.2576362, w: 0.6585011}
-  m_LocalPosition: {x: 16.1, y: 16.27, z: -7.43}
+  m_LocalRotation: {x: 0, y: -0.7071068, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: 11.506124, y: 1.0690217, z: -22.029335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11245,7 +11305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ShowDebugText: 0
-  ShowCameraFrustum: 1
+  ShowCameraFrustum: 0
   IgnoreTimeScale: 0
   WorldUpOverride: {fileID: 0}
   ChannelMask: -1
@@ -11853,6 +11913,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (144)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -12331,6 +12395,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (116)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -13101,6 +13169,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (136)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -14647,6 +14719,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (164)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14947,6 +15023,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (150)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15082,6 +15162,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (151)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17446,6 +17530,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (165)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17519,6 +17607,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (119)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -18090,6 +18182,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (123)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18496,6 +18592,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: muro_angolo_45_gradi_per_andare_dritto_2 (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65f2c5d53c1284b6597f4da74c3b287f, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -18627,6 +18727,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19632,6 +19736,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (117)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20012,6 +20120,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (5)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20272,6 +20384,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (155)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20408,6 +20524,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (103)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -20481,6 +20601,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (127)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -21076,6 +21200,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (110)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21665,6 +21793,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (106)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -21738,6 +21870,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (133)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -23574,6 +23710,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (148)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23709,6 +23849,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (143)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24614,6 +24758,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (113)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -25071,6 +25219,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (114)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -26468,6 +26620,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (149)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -26541,6 +26697,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (115)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -26739,6 +26899,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (156)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -28496,6 +28660,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (158)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -29486,6 +29654,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (124)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -30031,6 +30203,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (120)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -31218,6 +31394,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (176)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -33569,6 +33749,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (121)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -33890,6 +34074,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (139)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34501,6 +34689,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (108)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35060,6 +35252,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (153)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -35331,6 +35527,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (157)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -35665,6 +35865,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (105)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -36174,6 +36378,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (111)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36325,6 +36533,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (141)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -37161,6 +37373,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (130)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -37366,6 +37582,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -37876,6 +38096,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1150215515}
   - component: {fileID: 1150215516}
+  - component: {fileID: 1150215517}
   m_Layer: 0
   m_Name: VCamp_Pirate
   m_TagString: Untagged
@@ -37892,7 +38113,7 @@ Transform:
   m_GameObject: {fileID: 1150215514}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 27.307394, y: -1.259788, z: -25.860334}
+  m_LocalPosition: {x: 15.368264, y: -0.8367392, z: -26.758722}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -37905,7 +38126,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150215514}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
@@ -37941,6 +38162,37 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &1150215517
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150215514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraDistance: 10
+  DeadZoneDepth: 0
+  Composition:
+    ScreenPosition: {x: 0, y: 0}
+    DeadZone:
+      Enabled: 0
+      Size: {x: 0.2, y: 0.2}
+    HardLimits:
+      Enabled: 0
+      Size: {x: 0.8, y: 0.8}
+      Offset: {x: 0, y: 0}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0, y: 0, z: 0}
+  Damping: {x: 1, y: 1, z: 1}
+  Lookahead:
+    Enabled: 0
+    Time: 0
+    Smoothing: 0
+    IgnoreY: 0
 --- !u!1001 &1151864420
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -39503,6 +39755,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (162)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39836,6 +40092,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (134)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -41652,6 +41912,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (02)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -41987,7 +42251,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1260997469
 Transform:
   m_ObjectHideFlags: 0
@@ -42453,6 +42717,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (137)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -42522,6 +42790,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -42658,6 +42930,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (132)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -44453,6 +44729,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (142)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -44892,6 +45172,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (170)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -44965,6 +45249,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (131)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47861,6 +48149,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (168)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -48256,6 +48548,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (166)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -49633,6 +49929,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (128)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50197,6 +50497,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (160)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50270,6 +50574,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (147)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -50469,6 +50777,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (104)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -50542,6 +50854,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (126)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -50773,6 +51089,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (135)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -51033,6 +51353,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 65f2c5d53c1284b6597f4da74c3b287f, type: 3}
       propertyPath: m_Name
       value: muro_angolo_45_gradi_per_andare_dritto_2 (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 65f2c5d53c1284b6597f4da74c3b287f, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -51355,6 +51679,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (122)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -54831,6 +55159,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (112)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -54946,16 +55278,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fogRevealers:
   - revealerTransform: {fileID: 1157612406}
-    sightRange: 5
+    sightRange: 2
     updateOnlyOnMove: 1
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 445651939}
   FogRefreshRate: 10
-  fogPlaneHeight: 2.6
+  fogPlaneHeight: 0
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0, g: 0, b: 0, a: 1}
   fogPlaneAlpha: 1
-  fogLerpSpeed: 2.5
+  fogLerpSpeed: 1
   keepRevealedTiles: 0
   revealedTileOpacity: 0.5
   fogPlaneTextureLerpTarget: {fileID: 0}
@@ -55419,6 +55751,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (138)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -55881,6 +56217,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (145)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -56016,6 +56356,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (140)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -58528,7 +58872,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1854350873}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Muro
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -59544,6 +59888,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (6)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -59688,7 +60036,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1885645530}
   - component: {fileID: 1885645531}
-  - component: {fileID: 1885645532}
   - component: {fileID: 1885645533}
   m_Layer: 0
   m_Name: VCamp_Rat
@@ -59755,37 +60102,6 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
---- !u!114 &1885645532
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1885645529}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CameraDistance: 10
-  DeadZoneDepth: 0
-  Composition:
-    ScreenPosition: {x: 0.015094109, y: -0.21}
-    DeadZone:
-      Enabled: 1
-      Size: {x: 0.2, y: 0.15918365}
-    HardLimits:
-      Enabled: 0
-      Size: {x: 0.8, y: 0.8}
-      Offset: {x: 0, y: 0}
-  CenterOnActivate: 1
-  TargetOffset: {x: 0.84, y: 8.34, z: -0.43}
-  Damping: {x: 1, y: 1, z: 1}
-  Lookahead:
-    Enabled: 0
-    Time: 0
-    Smoothing: 0
-    IgnoreY: 0
 --- !u!114 &1885645533
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -60804,6 +61120,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (154)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -61258,6 +61578,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (173)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -61518,6 +61842,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (167)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -63708,6 +64036,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (118)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -64149,6 +64481,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (171)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -64728,6 +65064,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (178)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -65045,6 +65385,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (172)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -65554,6 +65898,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Muro_dritto2 (129)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -65813,6 +66161,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
       propertyPath: m_Name
       value: Muro_dritto2 (163)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 73e5511d423d24b13a76b38ef4bcfed2, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
