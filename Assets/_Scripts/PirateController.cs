@@ -3,9 +3,13 @@ using UnityEngine.AI;
 
 public class PirateController : MonoBehaviour
 {
+    [Header("Patrol Settings")]
     public Transform[] patrolPoints;    // Inserisci qui i tuoi punti (empty objects nella scena)
     public float waitTimeAtPoint = 2f;  // Quanto si ferma a ogni punto
     public Animator animator;            // Riferimento all'animatore del pirata
+
+    [Header("Camera Settings")]
+    [SerializeField] private CameraManager cameraManager;
 
     private NavMeshAgent agent;
     private int currentPointIndex = 0;
@@ -15,6 +19,18 @@ public class PirateController : MonoBehaviour
     {
         animator.SetBool("isWalking", true);
         agent = GetComponent<NavMeshAgent>();
+
+        // Trova il CameraManager se non è assegnato
+        if (cameraManager == null)
+        {
+            cameraManager = FindObjectOfType<CameraManager>();
+        }
+
+        // Informa il CameraManager della transform del pirata
+        if (cameraManager != null)
+        {
+            cameraManager.SetPirateTransform(transform);
+        }
 
         if (patrolPoints.Length > 0)
         {
