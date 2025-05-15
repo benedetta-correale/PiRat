@@ -13,5 +13,5 @@ AssetOrigin:
   productId: 249249
   packageName: AOS Fog of War
   packageVersion: 1.3
-  assetPath: Assets/AOSFogWar/Shaders/FogPlane.shader
+  assetPath: Assets/_Imported_Packages/AOSFogWar/Shaders/FogPlane.shader
   uploadId: 689650

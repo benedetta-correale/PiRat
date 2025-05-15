@@ -18,7 +18,6 @@ using UnityEditor;                  // Handles
 
 
 
-
 namespace FischlWorks_FogWar
 {
 
@@ -461,55 +460,24 @@ namespace FischlWorks_FogWar
         }
 
 
-        // vechia versione commentata
-        /* private void UpdateFogField()
-         {
-             shadowcaster.ResetTileVisibility();
-
-             foreach (FogRevealer fogRevealer in fogRevealers)
-             {
-                 fogRevealer.GetCurrentLevelCoordinates(this);
-
-                 shadowcaster.ProcessLevelData(
-                     fogRevealer._CurrentLevelCoordinates,
-                     Mathf.RoundToInt(fogRevealer._SightRange / unitScale));
-             }
-
-             UpdateFogPlaneTextureTarget();
-         }
-
-         */
 
         private void UpdateFogField()
         {
-            // 1) reset globale, ma tenendo viva la “memoria” dei pirati
-            keepRevealedTiles = true;
-            shadowcaster.ResetTileVisibility();
+            if (!keepRevealedTiles)
+                shadowcaster.ResetTileVisibility();
 
-            // 2) rivela con i pirati (permanenza attiva)
-            foreach (var fogRevealer in fogRevealers
-                      .Where(fr => fr._RevealerTransform.CompareTag("Pirate")))
+            foreach (FogRevealer fogRevealer in fogRevealers)
             {
-                Vector2Int coords = fogRevealer.GetCurrentLevelCoordinates(this);
-                shadowcaster.ProcessLevelData(coords,
+                fogRevealer.GetCurrentLevelCoordinates(this);
+
+                shadowcaster.ProcessLevelData(
+                    fogRevealer._CurrentLevelCoordinates,
                     Mathf.RoundToInt(fogRevealer._SightRange / unitScale));
             }
 
-            // 3) disabilito la persistenza per il topo
-            keepRevealedTiles = false;
-
-            // 4) rivela con tutti gli altri (ad es. il topo)
-            foreach (var fogRevealer in fogRevealers
-                      .Where(fr => !fr._RevealerTransform.CompareTag("Pirate")))
-            {
-                Vector2Int coords = fogRevealer.GetCurrentLevelCoordinates(this);
-                shadowcaster.ProcessLevelData(coords,
-                    Mathf.RoundToInt(fogRevealer._SightRange / unitScale));
-            }
-
-            // 5) infine aggiorno il texture target
             UpdateFogPlaneTextureTarget();
         }
+
 
 
         // Doing shader business on the script, if we pull this out as a shader pass, same operations must be repeated

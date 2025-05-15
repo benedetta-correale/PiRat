@@ -14,5 +14,5 @@ AssetOrigin:
   productId: 249249
   packageName: AOS Fog of War
   packageVersion: 1.3
-  assetPath: Assets/AOSFogWar/Examples/csRevealerSpawner.cs
+  assetPath: Assets/_Imported_Packages/AOSFogWar/Examples/csRevealerSpawner.cs
   uploadId: 689650

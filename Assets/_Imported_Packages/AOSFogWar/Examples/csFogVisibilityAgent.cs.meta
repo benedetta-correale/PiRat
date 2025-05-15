@@ -14,5 +14,5 @@ AssetOrigin:
   productId: 249249
   packageName: AOS Fog of War
   packageVersion: 1.3
-  assetPath: Assets/AOSFogWar/Examples/csFogVisibilityAgent.cs
+  assetPath: Assets/_Imported_Packages/AOSFogWar/Examples/csFogVisibilityAgent.cs
   uploadId: 689650

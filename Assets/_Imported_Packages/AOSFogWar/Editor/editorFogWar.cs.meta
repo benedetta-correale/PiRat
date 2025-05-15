@@ -14,5 +14,5 @@ AssetOrigin:
   productId: 249249
   packageName: AOS Fog of War
   packageVersion: 1.3
-  assetPath: Assets/AOSFogWar/Editor/editorFogWar.cs
+  assetPath: Assets/_Imported_Packages/AOSFogWar/Editor/editorFogWar.cs
   uploadId: 689650
