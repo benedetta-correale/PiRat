@@ -982,6 +982,7 @@ GameObject:
   - component: {fileID: 330585547}
   - component: {fileID: 330585549}
   - component: {fileID: 330585550}
+  - component: {fileID: 330585551}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -1031,7 +1032,7 @@ Camera:
   near clip plane: 0.3
   far clip plane: 1000
   field of view: 60.000004
-  orthographic: 0
+  orthographic: 1
   orthographic size: 5
   m_Depth: -1
   m_CullingMask:
@@ -1156,6 +1157,25 @@ MonoBehaviour:
   rotationOffset: {x: 35, y: 45, z: 0}
   followSpeed: 5
   rotationSpeed: 5
+--- !u!114 &330585551
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 330585543}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5c952bb26f7db9f46a16a855081264c7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textureSize: 256
+  lightCookie: {fileID: 2800000, guid: 7f0e35e0e9f6929428b775f4c630fc84, type: 3}
+  cookieWorldRadius: 2.16
+  pirateRevealers:
+  - {fileID: 1157612406}
+  ratRevealer: {fileID: 16770297}
+  compositeShader: {fileID: 4800000, guid: bc73fcc1b19bbcb4d82174347e2c7b07, type: 3}
 --- !u!1 &349699770
 GameObject:
   m_ObjectHideFlags: 0
@@ -1577,7 +1597,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
+  m_VoxelSize: 0.33333334
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 02341ec119bfe4038a5a90f8540c4905, type: 2}
   m_BuildHeightMesh: 0
@@ -4411,7 +4431,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1760634700
 MonoBehaviour:
   m_ObjectHideFlags: 0
