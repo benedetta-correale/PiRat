@@ -14,6 +14,9 @@ public class CameraSwitcher : MonoBehaviour
     public Vector3 cameraOffset = new Vector3(0f, 5f, -10f);
     public Vector3 cameraEulerAngles = new Vector3(20f, 0f, 0f);
 
+    [Header("Transition Settings")]
+    [Range(0.1f, 10f)] public float transitionSpeed = 3f;
+
     private Transform camTransform;
     private bool followPirate = false;
     private Transform currentTarget;
@@ -22,7 +25,6 @@ public class CameraSwitcher : MonoBehaviour
     {
         camTransform = Camera.main.transform;
         currentTarget = ratTransform;
-        // inizializza la rotazione usando Euler
         camTransform.rotation = Quaternion.Euler(cameraEulerAngles);
     }
 
@@ -38,9 +40,14 @@ public class CameraSwitcher : MonoBehaviour
 
     void LateUpdate()
     {
-        // posiziona la camera rispetto al target + offset
-        camTransform.position = currentTarget.position + cameraOffset;
-        // Applica la rotazione che vedi in Inspector
-        camTransform.rotation = Quaternion.Euler(cameraEulerAngles);
+        // Posizione target desiderata
+        Vector3 targetPosition = currentTarget.position + cameraOffset;
+
+        // Interpolazione della posizione
+        camTransform.position = Vector3.Lerp(camTransform.position, targetPosition, Time.deltaTime * transitionSpeed);
+
+        // Interpolazione della rotazione
+        Quaternion targetRotation = Quaternion.Euler(cameraEulerAngles);
+        camTransform.rotation = Quaternion.Slerp(camTransform.rotation, targetRotation, Time.deltaTime * transitionSpeed);
     }
 }
