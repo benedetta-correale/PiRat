@@ -39,7 +39,12 @@ namespace FischlWorks_FogWar
         /// 
         /// This class is only instantiated and managed by a single Shadowcaster object,\n
         /// and the object only lasts per session, unlike the serialized LevelData of csFogWar.\n
-        /// This class also has the GetColors() method, which returns the actual texture data in a 1D Color array format. 
+        /// This class also has the GetColors() method, which returns the actual texture data in a 1D Color array format.  <summary>
+        /// A class that holds visibility data updated based on the FOV.
+        ///     // flag temporaneo settato da csFogWar prima di ogni ProcessLevelData
+        public bool currentRevealerIsPirate = false;
+
+        /// </summary>
         public class FogField
         {
             public void AddColumn(LevelColumn levelColumn)
@@ -132,6 +137,7 @@ namespace FischlWorks_FogWar
             {
                 Hidden,
                 Revealed,
+                RevealedByPirate,
                 PreviouslyRevealed
             }
 
@@ -141,14 +147,19 @@ namespace FischlWorks_FogWar
                 {
                     if (fogWar.keepRevealedTiles == false)
                     {
-                        levelColumn[i] = ETileVisibility.Hidden;
+                        
+                        if (levelColumn[i] != ETileVisibility.RevealedByPirate && levelColumn[i] != ETileVisibility.PreviouslyRevealed)
+                            levelColumn[i] = ETileVisibility.Hidden;
 
                         continue;
                     }
 
-                    if (levelColumn[i] == ETileVisibility.Revealed)
+                    if (levelColumn[i] == ETileVisibility.RevealedByPirate)
                     {
                         levelColumn[i] = ETileVisibility.PreviouslyRevealed;
+                    }
+                    else {
+                        levelColumn[i] = ETileVisibility.Hidden;
                     }
                 }
             }
@@ -430,7 +441,16 @@ namespace FischlWorks_FogWar
                 return;
             }
 
-            fogField[levelCoordinates.x][levelCoordinates.y] = LevelColumn.ETileVisibility.Revealed;
+            // se il tile è già segnato da un Pirate e sono un topo, non tocco nulla
+            if (!currentRevealerIsPirate
+                && fogField[levelCoordinates.x][levelCoordinates.y] == LevelColumn.ETileVisibility.RevealedByPirate)
+            {
+                return;
+            }
+            fogField[levelCoordinates.x][levelCoordinates.y] = currentRevealerIsPirate
+                ? LevelColumn.ETileVisibility.RevealedByPirate
+                : LevelColumn.ETileVisibility.Revealed;
+
         }
 
 
@@ -442,7 +462,16 @@ namespace FischlWorks_FogWar
                 return;
             }
 
-            fogField[levelCoordinates.x][levelCoordinates.y] = LevelColumn.ETileVisibility.Revealed;
+            // se il tile è già segnato da un Pirate e sono un topo, non tocco nulla
+            if (!currentRevealerIsPirate
+                && fogField[levelCoordinates.x][levelCoordinates.y] == LevelColumn.ETileVisibility.RevealedByPirate)
+            {
+                return;
+            }
+            fogField[levelCoordinates.x][levelCoordinates.y] = currentRevealerIsPirate
+                ? LevelColumn.ETileVisibility.RevealedByPirate
+                : LevelColumn.ETileVisibility.Revealed;
+
         }
 
 

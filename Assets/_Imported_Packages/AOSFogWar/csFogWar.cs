@@ -46,8 +46,10 @@ namespace FischlWorks_FogWar
             }
 
             // Indexer definition
-            public LevelColumn this[int index] {
-                get {
+            public LevelColumn this[int index]
+            {
+                get
+                {
                     if (index >= 0 && index < levelRow.Count)
                     {
                         return levelRow[index];
@@ -59,7 +61,8 @@ namespace FischlWorks_FogWar
                         return null;
                     }
                 }
-                set {
+                set
+                {
                     if (index >= 0 && index < levelRow.Count)
                     {
                         levelRow[index] = value;
@@ -103,8 +106,10 @@ namespace FischlWorks_FogWar
             }
 
             // Indexer definition
-            public ETileState this[int index] {
-                get {
+            public ETileState this[int index]
+            {
+                get
+                {
                     if (index >= 0 && index < levelColumn.Count)
                     {
                         return levelColumn[index];
@@ -116,7 +121,8 @@ namespace FischlWorks_FogWar
                         return ETileState.Empty;
                     }
                 }
-                set {
+                set
+                {
                     if (index >= 0 && index < levelColumn.Count)
                     {
                         levelColumn[index] = value;
@@ -170,8 +176,10 @@ namespace FischlWorks_FogWar
             public bool _UpdateOnlyOnMove => updateOnlyOnMove;
 
             private Vector2Int currentLevelCoordinates = new Vector2Int();
-            public Vector2Int _CurrentLevelCoordinates {
-                get {
+            public Vector2Int _CurrentLevelCoordinates
+            {
+                get
+                {
                     lastSeenAt = currentLevelCoordinates;
 
                     return currentLevelCoordinates;
@@ -470,9 +478,15 @@ namespace FischlWorks_FogWar
             {
                 fogRevealer.GetCurrentLevelCoordinates(this);
 
+                shadowcaster.currentRevealerIsPirate =
+                fogRevealer._RevealerTransform.CompareTag("Pirate");
+
                 shadowcaster.ProcessLevelData(
                     fogRevealer._CurrentLevelCoordinates,
                     Mathf.RoundToInt(fogRevealer._SightRange / unitScale));
+
+                shadowcaster.currentRevealerIsPirate = false;
+
             }
 
             UpdateFogPlaneTextureTarget();
@@ -496,7 +510,7 @@ namespace FischlWorks_FogWar
             {
                 bufferPixels[i] = Color.Lerp(bufferPixels[i], targetPixels[i], fogLerpSpeed * Time.deltaTime);
             }
-            
+
             fogPlaneTextureLerpBuffer.SetPixels(bufferPixels);
 
             fogPlaneTextureLerpBuffer.Apply();
@@ -675,8 +689,9 @@ namespace FischlWorks_FogWar
 
             if (additionalRadius == 0)
             {
-                return shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] == 
-                    Shadowcaster.LevelColumn.ETileVisibility.Revealed;
+                return shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] == Shadowcaster.LevelColumn.ETileVisibility.Revealed 
+                    
+                    || shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] ==  Shadowcaster.LevelColumn.ETileVisibility.RevealedByPirate;
             }
 
             int scanResult = 0;
@@ -686,7 +701,7 @@ namespace FischlWorks_FogWar
                 for (int yIterator = -1; yIterator < additionalRadius + 1; yIterator++)
                 {
                     if (CheckLevelGridRange(new Vector2Int(
-                        levelCoordinates.x + xIterator, 
+                        levelCoordinates.x + xIterator,
                         levelCoordinates.y + yIterator)) == false)
                     {
                         scanResult = 0;
@@ -695,8 +710,10 @@ namespace FischlWorks_FogWar
                     }
 
                     scanResult += Convert.ToInt32(
-                        shadowcaster.fogField[levelCoordinates.x + xIterator][levelCoordinates.y + yIterator] == 
-                        Shadowcaster.LevelColumn.ETileVisibility.Revealed);
+                        shadowcaster.fogField[levelCoordinates.x + xIterator][levelCoordinates.y + yIterator] ==
+                        Shadowcaster.LevelColumn.ETileVisibility.Revealed ||
+                        shadowcaster.fogField[levelCoordinates.x + xIterator][levelCoordinates.y + yIterator] ==
+                        Shadowcaster.LevelColumn.ETileVisibility.RevealedByPirate);
                 }
             }
 
@@ -726,8 +743,8 @@ namespace FischlWorks_FogWar
         public Vector3 GetWorldVector(Vector2Int worldCoordinates)
         {
             return new Vector3(
-                GetWorldX(worldCoordinates.x + (levelDimensionX / 2)), 
-                0, 
+                GetWorldX(worldCoordinates.x + (levelDimensionX / 2)),
+                0,
                 GetWorldY(worldCoordinates.y + (levelDimensionY / 2)));
         }
 
@@ -804,7 +821,8 @@ namespace FischlWorks_FogWar
                 {
                     if (levelData[xIterator][yIterator] == LevelColumn.ETileState.Obstacle)
                     {
-                        if (shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.Revealed)
+                        if (shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.Revealed ||
+                            shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.RevealedByPirate)
                         {
                             Handles.color = Color.green;
                         }
@@ -835,7 +853,8 @@ namespace FischlWorks_FogWar
                             unitScale / 5.0f);
                     }
 
-                    if (shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.Revealed)
+                    if (shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.Revealed ||
+                        shadowcaster.fogField[xIterator][yIterator] == Shadowcaster.LevelColumn.ETileVisibility.RevealedByPirate)
                     {
                         Gizmos.color = Color.green;
 
@@ -857,7 +876,8 @@ namespace FischlWorks_FogWar
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
     public class ShowIfAttribute : PropertyAttribute
     {
-        public string _BaseCondition {
+        public string _BaseCondition
+        {
             get { return mBaseCondition; }
         }
 
@@ -874,7 +894,8 @@ namespace FischlWorks_FogWar
     [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = true)]
     public class BigHeaderAttribute : PropertyAttribute
     {
-        public string _Text {
+        public string _Text
+        {
             get { return mText; }
         }
 
