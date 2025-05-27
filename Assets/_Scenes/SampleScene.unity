@@ -1056,8 +1056,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.25763613, y: -0.658501, z: 0.2576362, w: 0.6585011}
-  m_LocalPosition: {x: 16.1, y: 16.27, z: -7.43}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.5061247, y: 1.0690217, z: -32.029335}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2665,6 +2665,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rat 1
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 0931c8d2640adfc4192107986bce38d5, type: 3}
+      propertyPath: m_TagString
+      value: Player
+      objectReference: {fileID: 0}
     - target: {fileID: 960894991443124722, guid: 0931c8d2640adfc4192107986bce38d5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 10.684844
@@ -3647,6 +3651,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1150215515}
   - component: {fileID: 1150215516}
+  - component: {fileID: 1150215518}
+  - component: {fileID: 1150215519}
   m_Layer: 0
   m_Name: VCamp_Pirate
   m_TagString: Untagged
@@ -3662,8 +3668,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150215514}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 27.307394, y: -1.259788, z: -25.860334}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -24.583746, y: 5.07839, z: -37.158726}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3676,7 +3682,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1150215514}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9dfa5b682dcd46bda6128250e975f58, type: 3}
   m_Name: 
@@ -3712,6 +3718,49 @@ MonoBehaviour:
       BarrelClipping: 0.25
       Anamorphism: 0
   BlendHint: 0
+--- !u!114 &1150215518
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150215514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886251e9a18ece04ea8e61686c173e1b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CameraDistance: 10
+  DeadZoneDepth: 0
+  Composition:
+    ScreenPosition: {x: 1.5, y: -0.21}
+    DeadZone:
+      Enabled: 1
+      Size: {x: 0.2, y: 0.2}
+    HardLimits:
+      Enabled: 0
+      Size: {x: 0.8, y: 0.8}
+      Offset: {x: 0, y: 0}
+  CenterOnActivate: 1
+  TargetOffset: {x: 0.84, y: 8.34, z: -0.4}
+  Damping: {x: 1, y: 1, z: 1}
+  Lookahead:
+    Enabled: 0
+    Time: 0
+    Smoothing: 0
+    IgnoreY: 0
+--- !u!114 &1150215519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150215514}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e7d23be96729f4a11a6a129c3896e090, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1157612405
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3826,7 +3875,11 @@ MonoBehaviour:
   - {fileID: 520778010}
   waitTimeAtPoint: 4
   animator: {fileID: 1157612410}
+<<<<<<< Updated upstream
   cameraManager: {fileID: 0}
+=======
+  cameraManager: {fileID: 2112228216}
+>>>>>>> Stashed changes
 --- !u!195 &1157612409
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3977,7 +4030,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1260997469
 Transform:
   m_ObjectHideFlags: 0
@@ -4502,7 +4555,7 @@ Transform:
   m_GameObject: {fileID: 1885645529}
   serializedVersion: 2
   m_LocalRotation: {x: 0.39145914, y: -0.41382456, z: 0.20343007, w: 0.79631984}
-  m_LocalPosition: {x: 27.660778, y: 13.491562, z: -35.493065}
+  m_LocalPosition: {x: 27.693375, y: 13.741465, z: -35.446655}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4566,7 +4619,7 @@ MonoBehaviour:
   CameraDistance: 10
   DeadZoneDepth: 0
   Composition:
-    ScreenPosition: {x: 0.015094109, y: -0.21}
+    ScreenPosition: {x: 0.01509411, y: -0.21}
     DeadZone:
       Enabled: 1
       Size: {x: 0.2, y: 0.15918365}
