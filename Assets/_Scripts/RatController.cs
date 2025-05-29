@@ -13,8 +13,9 @@ public class RatController : MonoBehaviour
     Rigidbody rb;
     Transform camTransform;
 
-    [Header("Script attacco")]
-    [SerializeField] private SkillCheck _skillCheck;
+    [Header("Effetti dell' attacco")]
+    public bool biting = false; // Indica se il ratto sta mordendo
+    public SkillCheck skillCheck;
     public EnemyController enemyController;
 
 
@@ -114,13 +115,13 @@ public class RatController : MonoBehaviour
                 {
                     if (Input.GetKeyDown(KeyCode.I))
                     {
-                        _skillCheck.StartSkillCheck();
+                        //skillCheck.StartSkillCheck();
                         Debug.Log("Pirata infettato");
 
                         if (enemyController != null)  // Fixed missing opening parenthesis
                         {
-                            enemyController.isInfected = true;
-                            enemyController.health -= 30;
+                            biting = true;
+                            enemyController.TakeDamage();
                         }
                     }
                 }
