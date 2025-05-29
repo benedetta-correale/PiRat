@@ -2,25 +2,57 @@ using UnityEngine;
 
 public class EnemyController : MonoBehaviour
 {
+
+    [Header("Pirate Settings")]
     [SerializeField] private float _followSpeed = 3f;
-    [SerializeField] private float _viewAngle = 90f; // Angolo del cono visivo
+    [SerializeField] private float _viewAngle = 90f; // Angolo del cono visivox
     [SerializeField] private float _viewDistance = 10f; // Distanza massima di vista
     [SerializeField] private float _rayAttachment = 3f; // distanza del raggio di attaccamento
     [SerializeField] private Material visionConeMaterial; // Aggiungi questo campo
+
+
+    [Header("Follow Settings")]
+    [SerializeField] private float _attachTime = 5f; // Tempo di attesa prima di iniziare a seguire
+    public Animator animator; // Riferimento all'animatore del pirata
     public bool startFollowing; // Fixed incomplete boolean declaration
+    public bool pirateIsWalking = true; // Aggiunto per gestire lo stato di camminata del pirata
+
+
+    [Header("Vita del pirata")]
+    public bool isInfected = false; // Aggiunto per gestire lo stato di infezione del pirata
+    public float health = 100f; // Vita del pirata, puoi modificarla in base alle tue necessità
+
+    public bool isPossessed = false; // Aggiunto per gestire lo stato di possesso del pirata
+
+    
+
+    // Riferimento AI VARI PERSONAGGI 
     private GameObject _mainCharacter;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
-
+    private float _waitingTime = 0f; // Add this as a class field at the top of the class
     void Start()
     {
         _mainCharacter = GameObject.FindGameObjectWithTag("Player");
+
+        //mi colleggo all'animatore del pirata
+
+
+        animator = GetComponent<Animator>();
+
+        //controllo l'esistenza dell'animatore e del personaggio principale
+        if (animator == null)
+        {
+            Debug.LogError("Animator component not found on the pirate!");
+            return;
+        }
         
         if (_mainCharacter == null)
         {
             Debug.LogError("Main character not found!");
             return;
         }
+
 
         // Inizializza il cono di visione
         GameObject visionCone = new GameObject("VisionCone");
@@ -45,7 +77,7 @@ public class EnemyController : MonoBehaviour
 
             if (isInViewCone) 
             {
-                startFollowing = true;   
+                startCoundown();
             }
         }
 
@@ -56,6 +88,23 @@ public class EnemyController : MonoBehaviour
         }
 
         UpdateVisionCone(); // Aggiorna il cono di visione ogni frame
+    }
+
+    private void startCoundown()
+    {
+        pirateIsWalking = false; // Imposto il pirata come non in camminata
+        
+        
+
+        //inizio il countdown per l'attacco 
+        _waitingTime += Time.deltaTime;
+
+        if (_waitingTime >= _attachTime)
+        {
+            startFollowing = true;
+            _waitingTime = 0f; // Reset the timer
+            Debug.Log("Il pirata ha iniziato a seguire il topo!");
+        }
     }
 
    public void StartFollowing()

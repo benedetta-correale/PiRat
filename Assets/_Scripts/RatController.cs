@@ -15,7 +15,9 @@ public class RatController : MonoBehaviour
 
     [Header("Script attacco")]
     [SerializeField] private SkillCheck _skillCheck;
-    [SerializeField] private EnemyController _enemyController;
+    public EnemyController enemyController;
+
+
 
     void Start()
     {
@@ -25,12 +27,6 @@ public class RatController : MonoBehaviour
         rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
         camTransform = Camera.main.transform;
 
-        if (_enemyController == null)
-        {
-            _enemyController = GameObject.FindGameObjectWithTag("Pirate").GetComponent<EnemyController>();
-            if (_enemyController == null)
-                Debug.LogError("EnemyController not found on Pirate!");
-        }
     }
 
     void FixedUpdate()
@@ -112,12 +108,20 @@ public class RatController : MonoBehaviour
         {
             if (hit.CompareTag("Pirate"))
             {
-                if (_enemyController.startFollowing == false)
+                enemyController = hit.GetComponent<EnemyController>();  // Fixed 'get hit' syntax error
+
+                if (enemyController.startFollowing == false)  // Changed _enemyController to enemyController
                 {
                     if (Input.GetKeyDown(KeyCode.I))
                     {
                         _skillCheck.StartSkillCheck();
                         Debug.Log("Pirata infettato");
+
+                        if (enemyController != null)  // Fixed missing opening parenthesis
+                        {
+                            enemyController.isInfected = true;
+                            enemyController.health -= 30;
+                        }
                     }
                 }
                 else
@@ -127,10 +131,5 @@ public class RatController : MonoBehaviour
                 break;
             }
         }
-    }
-
-    private void DrawCircle(float radius)
-    {
-        // (Non più usato perché disegniamo in Update con Debug.DrawLine)
     }
 }

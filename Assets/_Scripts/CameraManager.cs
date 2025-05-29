@@ -8,6 +8,7 @@ public class CameraManager : MonoBehaviour
     [SerializeField] private SeguireCamera seguireCamera;
     private bool isPirateCameraActive = false;
     private Transform pirateTransform;
+    public bool cameraIsSwitched = false;
 
     private void Start()
     {
@@ -56,6 +57,8 @@ public class CameraManager : MonoBehaviour
         }
 
         Debug.Log("Switched to PIRATA camera");
+        cameraIsSwitched = true;
+
     }
 
     public void SwitchToTopo()

@@ -15,6 +15,8 @@ public class PirateController : MonoBehaviour
     private int currentPointIndex = 0;
     private bool waiting = false;
 
+    public EnemyController enemyController; // Riferimento al controller del pirata che gestisce l'attacco
+    
     void Start()
     {
         animator.SetBool("isWalking", true);
@@ -51,6 +53,11 @@ public class PirateController : MonoBehaviour
         {
             StartCoroutine(WaitAndGoToNextPoint());
         }
+
+        if (enemyController != null && !enemyController.pirateIsWalking) // Fixed capitalization
+        {
+            animator.SetBool("isWalking", false);
+        }
     }
 
     System.Collections.IEnumerator WaitAndGoToNextPoint()
@@ -58,6 +65,12 @@ public class PirateController : MonoBehaviour
         waiting = true;
         animator.SetBool("isWalking", false); // Ferma l'animazione
 
+        // Controlla se il countdown è iniziato
+        if (enemyController != null && enemyController.pirateIsWalking)
+        {
+            waiting = false;
+            yield break; // Esce dalla coroutine
+        }
 
         yield return new WaitForSeconds(waitTimeAtPoint);
 
