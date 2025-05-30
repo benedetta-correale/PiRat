@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.AI; // Add this for NavMeshAgent
+using UnityEngine.AI; 
+using System.Collections;
+
 
 public class EnemyController : MonoBehaviour
 {
@@ -89,16 +91,16 @@ public class EnemyController : MonoBehaviour
             cameraManager.SetPirateTransform(transform);
         }
 
-        if (patrolPoints.Length > 0)
+        // Replace the existing patrol points check with this
+        if (patrolPoints == null || patrolPoints.Length == 0)
         {
-            agent.SetDestination(patrolPoints[currentPointIndex].position);
-        }
-        else
-        {
-            Debug.LogWarning("PirateNPCMovement: Nessun punto assegnato!");
+            CreateRandomPatrolPoints(); // Use random points instead of default points
         }
 
-        StartCoroutine(WaitAndGoToNextPoint()); 
+        // Now we can safely set the destination
+        agent.SetDestination(patrolPoints[currentPointIndex].position);
+
+        StartCoroutine(PatrolRoutine()); 
         InitializeVisionCone();
         UpdateVisionCone();
         InitializeHealthBar();
@@ -328,23 +330,68 @@ private void UpdateVisionCone()
         // animator.SetTrigger("Death");
     }
     
-    System.Collections.IEnumerator WaitAndGoToNextPoint()
+    IEnumerator PatrolRoutine()
     {
-        waiting = true;
-        animator.SetBool("isWalking", false);
-
-        if (_pirateIsWalking)
+        while (true)
         {
-            waiting = false;
-            yield break;
+            if (_pirateIsWalking && !_startFollowing && !waiting)
+            {
+                if (!agent.pathPending && agent.remainingDistance < 0.5f)
+                {
+                    waiting = true;
+                    animator.SetBool("isWalking", false);
+
+                    yield return new WaitForSeconds(waitTimeAtPoint);
+
+                    currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
+                    agent.SetDestination(patrolPoints[currentPointIndex].position);
+
+                    animator.SetBool("isWalking", true);
+                    waiting = false;
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private void CreateRandomPatrolPoints()
+    {
+        patrolPoints = new Transform[6]; // Create 6 random patrol points
+        float minRadius = 3f;
+        float maxRadius = 8f;
+        float minY = 0f;
+        float maxY = 0f; // Keep points at ground level
+
+        for (int i = 0; i < patrolPoints.Length; i++)
+        {
+            GameObject point = new GameObject($"RandomPatrolPoint_{i}");
+            
+            // Generate random position within a circle
+            float randomRadius = Random.Range(minRadius, maxRadius);
+            float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
+            
+            Vector3 randomPosition = transform.position + new Vector3(
+                Mathf.Cos(randomAngle) * randomRadius,
+                Random.Range(minY, maxY),
+                Mathf.Sin(randomAngle) * randomRadius
+            );
+
+            // Use NavMesh sampling to ensure the point is on a valid surface
+            NavMeshHit hit;
+            if (NavMesh.SamplePosition(randomPosition, out hit, maxRadius, NavMesh.AllAreas))
+            {
+                point.transform.position = hit.position;
+            }
+            else
+            {
+                point.transform.position = randomPosition;
+                Debug.LogWarning($"Patrol point {i} could not be placed on NavMesh");
+            }
+
+            patrolPoints[i] = point.transform;
         }
 
-        yield return new WaitForSeconds(waitTimeAtPoint);
-
-        currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
-        agent.SetDestination(patrolPoints[currentPointIndex].position);
-
-        waiting = false;
-        animator.SetBool("isWalking", true);
+        Debug.Log("Created random patrol points");
     }
 }
