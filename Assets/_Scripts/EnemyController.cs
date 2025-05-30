@@ -1,8 +1,13 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.AI; // Add this for NavMeshAgent
 
 public class EnemyController : MonoBehaviour
 {
+    [Header("Patrol Settings")]
+    public Transform[] patrolPoints;
+    public Animator animator;
+    public float waitTimeAtPoint = 2f; // Tempo di attesa in secondi al punto di pattuglia
 
     [Header("Pirate Settings")]
     [SerializeField] private float _followSpeed = 3f;
@@ -14,9 +19,9 @@ public class EnemyController : MonoBehaviour
 
     [Header("Follow Settings")]
     [SerializeField] private float _attachTime = 5f; // Tempo di attesa prima di iniziare a seguire
-    public Animator animator; // Riferimento all'animatore del pirata
-    public bool startFollowing; // Fixed incomplete boolean declaration
-    public bool pirateIsWalking = true; // Aggiunto per gestire lo stato di camminata del pirata
+    private bool _startFollowing; // Fixed incomplete boolean declaration
+    private bool _pirateIsWalking = true; // Aggiunto per gestire lo stato di camminata del pirata
+    private bool _hasSpottedRat = false; // Bool che mi aiuta a capire quando ha visto il topo
 
 
     [Header("Vita del pirata")]
@@ -25,9 +30,6 @@ public class EnemyController : MonoBehaviour
     public bool isPossessed = false; // Aggiunto per gestire lo stato di possesso del pirata
     private bool _isDead = false; // Aggiunto per gestire lo stato di morte del pirata
 
-    
-
-    
 
     [Header("UI Settings")]
     [SerializeField] private GameObject healthBarPrefab; // Prefab dell'health bar
@@ -35,6 +37,13 @@ public class EnemyController : MonoBehaviour
     private Slider _healthSlider; // Reference allo slider
     private Canvas _worldSpaceCanvas; // Canvas principale in World Space
 
+
+    [Header("Camera Settings")]
+    [SerializeField] private CameraManager cameraManager;
+
+    private NavMeshAgent agent;
+    private int currentPointIndex = 0;
+    private bool waiting = false;
 
 
     // Riferimento AI VARI PERSONAGGI 
@@ -44,27 +53,9 @@ public class EnemyController : MonoBehaviour
     private RatController ratController; // Riferimento al controller del ratto
     private float _waitingTime = 0f; // Add this as a class field at the top of the class
     void Start()
+
     {
         _mainCharacter = GameObject.FindGameObjectWithTag("Player");
-        ratController = _mainCharacter.GetComponent<RatController>();
-        if (ratController == null)
-        {
-            Debug.LogError("RatController not found on the main character!");
-            return;
-        }
-        
-
-        //mi colleggo all'animatore del pirata
-        animator = GetComponent<Animator>();
-
-
-
-        //controllo l'esistenza dell'animatore e del personaggio principale
-        if (animator == null)
-        {
-            Debug.LogError("Animator component not found on the pirate!");
-            return;
-        }
 
         if (_mainCharacter == null)
         {
@@ -73,21 +64,48 @@ public class EnemyController : MonoBehaviour
         }
 
 
-        // Inizializza il cono di visione
-        GameObject visionCone = new GameObject("VisionCone");
-        visionCone.transform.parent = transform;
-        visionCone.transform.localPosition = Vector3.zero;
+        // Trova il controller del ratto
+        ratController = _mainCharacter.GetComponent<RatController>();
+        if (ratController == null)
+        {
+            Debug.LogError("RatController not found on the main character!");
+            return;
+        }
 
-        meshFilter = visionCone.AddComponent<MeshFilter>();
-        meshRenderer = visionCone.AddComponent<MeshRenderer>();
-        meshRenderer.material = visionConeMaterial;
 
+        //mi colleggo all'animatore del pirata
+        animator = GetComponent<Animator>();
+
+        animator.SetBool("isWalking", true);
+        agent = GetComponent<NavMeshAgent>();
+
+        if (cameraManager == null)
+        {
+            cameraManager = FindObjectOfType<CameraManager>();
+        }
+
+        if (cameraManager != null)
+        {
+            cameraManager.SetPirateTransform(transform);
+        }
+
+        if (patrolPoints.Length > 0)
+        {
+            agent.SetDestination(patrolPoints[currentPointIndex].position);
+        }
+        else
+        {
+            Debug.LogWarning("PirateNPCMovement: Nessun punto assegnato!");
+        }
+
+        StartCoroutine(WaitAndGoToNextPoint()); 
+        InitializeVisionCone();
         UpdateVisionCone();
-
-        // Inizializza l'health bar
         InitializeHealthBar();
+        
     }
 
+    // 3. Update the Update method to handle state changes
     void Update()
     {
         if (_mainCharacter != null)
@@ -97,75 +115,82 @@ public class EnemyController : MonoBehaviour
 
             bool isInViewCone = IsInViewCone(direction, distance);
 
-            if (isInViewCone)
+            if (isInViewCone && !_hasSpottedRat)
             {
-                startCoundown();
+                Debug.Log("Il pirata ha avvistato il topo, comincia il countdown!");
+                _hasSpottedRat = true;
+                _pirateIsWalking = false;
+                _waitingTime = 0f;
+                _startFollowing = false;
+                animator.SetBool("isWalking", false);
+                agent.isStopped = true;  // Stop NavMeshAgent movement
+            }
+
+            if (_hasSpottedRat)
+            {
+                StartCountdown();  // Use corrected method name
             }
         }
 
-        // Fixed if statement syntax
-        if (startFollowing)
+        if (_startFollowing)
         {
             StartFollowing();
         }
 
-        UpdateVisionCone(); // Aggiorna il cono di visione ogni frame
-
-        // Aggiorna la posizione dell'health bar solo se il pirata è infetto
-        /* if (_healthSlider != null && isInfected)
-        {
-            Vector3 screenPos = Camera.main.WorldToScreenPoint(transform.position + healthBarOffset);
-            
-            // Controlla se il pirata è davanti alla camera
-            if (screenPos.z > 0)
-            {
-                screenPos.z = 0;
-                _healthSlider.transform.position = screenPos;
-            }
-        }
-        */
+        UpdateVisionCone();
     }
+    
 
-    private void startCoundown()
+    // inizializzo il cono visivo
+    private void InitializeVisionCone() {
+    // Inizializza il cono di visione
+    GameObject visionCone = new GameObject("VisionCone");
+    visionCone.transform.parent = transform;
+    visionCone.transform.localPosition = Vector3.zero;
+
+    meshFilter = visionCone.AddComponent<MeshFilter>();
+    meshRenderer = visionCone.AddComponent<MeshRenderer>();
+    meshRenderer.material = visionConeMaterial;
+
+}
+
+    // 1. Fix the method name and comparison in startCountdown
+    private void StartCountdown()
+{
+    _waitingTime += Time.deltaTime;
+
+    if (_waitingTime >= _attachTime)  // Changed from == to >=
     {
-        pirateIsWalking = false; // Imposto il pirata come non in camminata
-
-
-
-        //inizio il countdown per l'attacco 
-        _waitingTime += Time.deltaTime;
-
-        if (_waitingTime >= _attachTime)
-        {
-            startFollowing = true;
-            _waitingTime = 0f; // Reset the timer
-            Debug.Log("Il pirata ha iniziato a seguire il topo!");
-        }
+        _startFollowing = true;
+        _pirateIsWalking = true;
+        animator.SetBool("isWalking", true);
+        agent.isStopped = false;
+        Debug.Log("Il pirata ha iniziato a seguire il topo!");
     }
+}
 
+    // 2. Fix the StartFollowing method to use NavMeshAgent
     public void StartFollowing()
+{
+    if (_mainCharacter == null || agent == null) return;
 
+    Vector3 direction = _mainCharacter.transform.position - transform.position;
+    float distance = direction.magnitude;
+
+    if (distance <= _rayAttachment)
     {
-        Vector3 direction = _mainCharacter.transform.position - transform.position;
-        float distance = direction.magnitude;
-
-        if (distance <= _rayAttachment)
-        {
-            Debug.Log("Il pirata ha raggiunto il topo!");
-
-            // LOGICA PER QUANDO IL PIRATA RAGGIUNGE IL TOPO
-            startFollowing = false; //DA MODIFICARE PERCHE' IL TOPO POTREBBE INFETTARE ANCORA IL PIRATA
-            return;
-        }
-
-        //ROTAZIONE GRADUALE
-        Quaternion lookRotation = Quaternion.LookRotation(direction);
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
-
-        // MOVIMENTO IN AVANTI
-        Vector3 moveDirection = direction.normalized;
-        transform.position += moveDirection * _followSpeed * Time.deltaTime;
+        Debug.Log("Il pirata ha raggiunto il topo!");
+        return;
     }
+
+    // Use NavMeshAgent for movement
+    agent.SetDestination(_mainCharacter.transform.position);
+    agent.speed = _followSpeed;
+
+    // Keep rotation logic for smooth turning
+    Quaternion lookRotation = Quaternion.LookRotation(direction);
+    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
+}
 
 
     public bool IsInViewCone(Vector3 directionToTarget, float distance)
@@ -199,39 +224,41 @@ public class EnemyController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _rayAttachment);
     }
+    
+    
 
     //metodo per disegnare il cono visivo
-    private void UpdateVisionCone()
+private void UpdateVisionCone()
+{
+    int segments = 32;
+    Mesh mesh = new Mesh();
+
+    Vector3[] vertices = new Vector3[segments + 2];
+    int[] triangles = new int[segments * 3];
+
+    vertices[0] = Vector3.zero;
+    float angleStep = _viewAngle / segments;
+
+    for (int i = 0; i <= segments; i++)
     {
-        int segments = 32;
-        Mesh mesh = new Mesh();
-
-        Vector3[] vertices = new Vector3[segments + 2];
-        int[] triangles = new int[segments * 3];
-
-        vertices[0] = Vector3.zero;
-        float angleStep = _viewAngle / segments;
-
-        for (int i = 0; i <= segments; i++)
-        {
-            float angle = (-_viewAngle / 2) + (angleStep * i);
-            Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
-            vertices[i + 1] = direction * _viewDistance;
-        }
-
-        for (int i = 0; i < segments; i++)
-        {
-            triangles[i * 3] = 0;
-            triangles[i * 3 + 1] = i + 1;
-            triangles[i * 3 + 2] = i + 2;
-        }
-
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.RecalculateNormals();
-
-        meshFilter.mesh = mesh;
+        float angle = (-_viewAngle / 2) + (angleStep * i);
+        Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+        vertices[i + 1] = direction * _viewDistance;
     }
+
+    for (int i = 0; i < segments; i++)
+    {
+        triangles[i * 3] = 0;
+        triangles[i * 3 + 1] = i + 1;
+        triangles[i * 3 + 2] = i + 2;
+    }
+
+    mesh.vertices = vertices;
+    mesh.triangles = triangles;
+    mesh.RecalculateNormals();
+
+    meshFilter.mesh = mesh;
+}
 
     private void InitializeHealthBar()
 {
@@ -286,18 +313,38 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-    private void HandlePirateDeath()
+        private void HandlePirateDeath()
     {
         _isDead = true;
         Debug.Log("Il pirata è morto!");
-        
+
         // Hide health UI
         if (_healthSlider != null)
         {
             _healthSlider.gameObject.SetActive(false);
         }
-        
+
         // TODO: Trigger death animation here
         // animator.SetTrigger("Death");
+    }
+    
+    System.Collections.IEnumerator WaitAndGoToNextPoint()
+    {
+        waiting = true;
+        animator.SetBool("isWalking", false);
+
+        if (_pirateIsWalking)
+        {
+            waiting = false;
+            yield break;
+        }
+
+        yield return new WaitForSeconds(waitTimeAtPoint);
+
+        currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
+        agent.SetDestination(patrolPoints[currentPointIndex].position);
+
+        waiting = false;
+        animator.SetBool("isWalking", true);
     }
 }

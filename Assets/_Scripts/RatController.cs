@@ -111,19 +111,18 @@ public class RatController : MonoBehaviour
             {
                 enemyController = hit.GetComponent<EnemyController>();  // Fixed 'get hit' syntax error
 
-                if (enemyController.startFollowing == false)  // Changed _enemyController to enemyController
+                
+                if (Input.GetKeyDown(KeyCode.I))
                 {
-                    if (Input.GetKeyDown(KeyCode.I))
-                    {
-                        //skillCheck.StartSkillCheck();
-                        Debug.Log("Pirata infettato");
+                    //skillCheck.StartSkillCheck();
+                    Debug.Log("Pirata infettato");
 
-                        if (enemyController != null)  // Fixed missing opening parenthesis
-                        {
-                            biting = true;
-                            enemyController.TakeDamage();
-                        }
+                    if (enemyController != null)  // Fixed missing opening parenthesis
+                    {
+                        biting = true;
+                        enemyController.TakeDamage();
                     }
+            
                 }
                 else
                 {
