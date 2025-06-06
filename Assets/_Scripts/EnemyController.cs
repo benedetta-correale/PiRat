@@ -7,7 +7,7 @@ using System.Collections;
 public class EnemyController : MonoBehaviour
 {
     [Header("Patrol Settings")]
-    public Transform[] patrolPoints;
+    [SerializeField] private Transform[] patrolPoints;
     public Animator animator;
     public float waitTimeAtPoint = 2f; // Tempo di attesa in secondi al punto di pattuglia
 
@@ -91,10 +91,11 @@ public class EnemyController : MonoBehaviour
             cameraManager.SetPirateTransform(transform);
         }
 
-        // Replace the existing patrol points check with this
+        // Check if patrol points are assigned
         if (patrolPoints == null || patrolPoints.Length == 0)
         {
-            CreateRandomPatrolPoints(); // Use random points instead of default points
+            Debug.LogError("No patrol points assigned! Please set patrol points in the Inspector.");
+            return;
         }
 
         // Now we can safely set the destination
