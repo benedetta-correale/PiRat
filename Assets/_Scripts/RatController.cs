@@ -3,15 +3,11 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class RatController : MonoBehaviour
 {
-    [Header("Parametri di movimento")]
-    public float moveSpeed = 5f;           // Velocità di spostamento orizzontale
-    public float sprintMultiplier = 2f;    // Moltiplicatore velocità quando Shift è premuto
-    public float rotationSpeed = 10f;      // Velocità di rotazione verso la direzione di marcia
-    private Animator _ratAnimator;         // Riferimento all'animatore
+    
     [SerializeField] private float _ratRay = 5f;
 
-    Rigidbody rb;
-    Transform camTransform;
+    //Rigidbody rb;
+    //Transform camTransform;
 
     [Header("Effetti dell' attacco")]
     public bool biting = false; // Indica se il ratto sta mordendo
@@ -22,15 +18,12 @@ public class RatController : MonoBehaviour
 
     void Start()
     {
-        _ratAnimator = GetComponent<Animator>();
-        _ratAnimator.SetBool("isWalking", false);
-        rb = GetComponent<Rigidbody>();
-        rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        camTransform = Camera.main.transform;
-
+        //rb = GetComponent<Rigidbody>();
+        //rb.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        //camTransform = Camera.main.transform;
     }
 
-    void FixedUpdate()
+    /*void FixedUpdate()
     {
         // 1. Determina la velocità corrente (sprint)
         float currentSpeed = moveSpeed;
@@ -67,7 +60,7 @@ public class RatController : MonoBehaviour
             Quaternion newRot = Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime);
             rb.MoveRotation(newRot);
         }
-    }
+    }*/
 
 
     private void Update()
@@ -85,15 +78,6 @@ public class RatController : MonoBehaviour
         }
 
         infectPirate();
-        chekIsWalking();
-    }
-
-    private void chekIsWalking()
-    {
-        if (Input.GetAxis("Vertical") != 0f || Input.GetAxis("Horizontal") != 0f)
-            _ratAnimator.SetBool("isWalking", true);
-        else
-            _ratAnimator.SetBool("isWalking", false);
     }
 
     private void OnDrawGizmos()

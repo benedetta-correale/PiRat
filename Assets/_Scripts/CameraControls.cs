@@ -51,3 +51,4 @@ public class CameraControls : MonoBehaviour
         transform.LookAt(target.position);
     }
 }
+

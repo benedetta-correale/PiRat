@@ -39,10 +39,6 @@ public class EnemyController : MonoBehaviour
     private Slider _healthSlider; // Reference allo slider
     private Canvas _worldSpaceCanvas; // Canvas principale in World Space
 
-
-    [Header("Camera Settings")]
-    [SerializeField] private CameraManager cameraManager;
-
     private NavMeshAgent agent;
     private int currentPointIndex = 0;
     private bool waiting = false;
@@ -81,16 +77,15 @@ public class EnemyController : MonoBehaviour
         animator.SetBool("isWalking", true);
         agent = GetComponent<NavMeshAgent>();
 
-        if (cameraManager == null)
-        {
-            cameraManager = FindObjectOfType<CameraManager>();
-        }
 
+<<<<<<< Updated upstream
         if (cameraManager != null)
         {
             cameraManager.SetPirateTransform(transform);
         }
 
+=======
+>>>>>>> Stashed changes
         // Check if patrol points are assigned
         if (patrolPoints == null || patrolPoints.Length == 0)
         {
@@ -233,6 +228,13 @@ public class EnemyController : MonoBehaviour
     //metodo per disegnare il cono visivo
 private void UpdateVisionCone()
 {
+
+        if (meshFilter == null)
+        { 
+            Debug.LogError("MeshFilter is not assigned! Cannot update vision cone.");
+            return;
+        }
+        ;
     int segments = 32;
     Mesh mesh = new Mesh();
 
