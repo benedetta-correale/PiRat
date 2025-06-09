@@ -78,14 +78,7 @@ public class EnemyController : MonoBehaviour
         agent = GetComponent<NavMeshAgent>();
 
 
-<<<<<<< Updated upstream
-        if (cameraManager != null)
-        {
-            cameraManager.SetPirateTransform(transform);
-        }
-
-=======
->>>>>>> Stashed changes
+        
         // Check if patrol points are assigned
         if (patrolPoints == null || patrolPoints.Length == 0)
         {
@@ -140,16 +133,33 @@ public class EnemyController : MonoBehaviour
     
 
     // inizializzo il cono visivo
-    private void InitializeVisionCone() {
-    // Inizializza il cono di visione
-    GameObject visionCone = new GameObject("VisionCone");
-    visionCone.transform.parent = transform;
-    visionCone.transform.localPosition = Vector3.zero;
+    private void InitializeVisionCone() 
+{
+    // Check if vision cone already exists
+    Transform existingCone = transform.Find("VisionCone");
+    if (existingCone != null)
+    {
+        Destroy(existingCone.gameObject);
+    }
 
+    // Create new vision cone
+    GameObject visionCone = new GameObject("VisionCone");
+    visionCone.transform.SetParent(transform, false);
+    visionCone.transform.localPosition = Vector3.zero;
+    visionCone.transform.localRotation = Quaternion.identity;
+
+    // Add required components
     meshFilter = visionCone.AddComponent<MeshFilter>();
     meshRenderer = visionCone.AddComponent<MeshRenderer>();
-    meshRenderer.material = visionConeMaterial;
 
+    // Check and set material
+    if (visionConeMaterial == null)
+    {
+        Debug.LogWarning("Vision cone material not assigned, creating default");
+        visionConeMaterial = new Material(Shader.Find("Standard"));
+        visionConeMaterial.color = new Color(1f, 1f, 0f, 0.3f);
+    }
+    meshRenderer.material = visionConeMaterial;
 }
 
     // 1. Fix the method name and comparison in startCountdown
@@ -226,44 +236,47 @@ public class EnemyController : MonoBehaviour
     
 
     //metodo per disegnare il cono visivo
-private void UpdateVisionCone()
-{
-
+    private void UpdateVisionCone()
+    {
         if (meshFilter == null)
         { 
-            Debug.LogError("MeshFilter is not assigned! Cannot update vision cone.");
-            return;
+            InitializeVisionCone();
+            if (meshFilter == null)
+            {
+                Debug.LogError($"Failed to initialize MeshFilter on {gameObject.name}");
+                return;
+            }
         }
-        ;
-    int segments = 32;
-    Mesh mesh = new Mesh();
 
-    Vector3[] vertices = new Vector3[segments + 2];
-    int[] triangles = new int[segments * 3];
+        int segments = 32;
+        Mesh mesh = new Mesh();
 
-    vertices[0] = Vector3.zero;
-    float angleStep = _viewAngle / segments;
+        Vector3[] vertices = new Vector3[segments + 2];
+        int[] triangles = new int[segments * 3];
 
-    for (int i = 0; i <= segments; i++)
-    {
-        float angle = (-_viewAngle / 2) + (angleStep * i);
-        Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
-        vertices[i + 1] = direction * _viewDistance;
+        vertices[0] = Vector3.zero;
+        float angleStep = _viewAngle / segments;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = (-_viewAngle / 2) + (angleStep * i);
+            Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            vertices[i + 1] = direction * _viewDistance;
+        }
+
+        for (int i = 0; i < segments; i++)
+        {
+            triangles[i * 3] = 0;
+            triangles[i * 3 + 1] = i + 1;
+            triangles[i * 3 + 2] = i + 2;
+        }
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+
+        meshFilter.mesh = mesh;
     }
-
-    for (int i = 0; i < segments; i++)
-    {
-        triangles[i * 3] = 0;
-        triangles[i * 3 + 1] = i + 1;
-        triangles[i * 3 + 2] = i + 2;
-    }
-
-    mesh.vertices = vertices;
-    mesh.triangles = triangles;
-    mesh.RecalculateNormals();
-
-    meshFilter.mesh = mesh;
-}
 
     private void InitializeHealthBar()
 {
