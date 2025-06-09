@@ -5,7 +5,7 @@ public class SkillCheck : MonoBehaviour
 {
     [SerializeField] private Slider _bar;  // Changed from GameObject to Slider
     [SerializeField] private float oscillationSpeed = 2f;
-    private CameraManager _cameraManager;
+    //private CameraManager _cameraManager;
     private bool isActive = false;
     private float time = 0f;
 
@@ -21,7 +21,7 @@ public class SkillCheck : MonoBehaviour
         {
             Debug.LogError("Bar not found!");
         }
-        _cameraManager = FindObjectOfType<CameraManager>();
+        //_cameraManager = FindObjectOfType<CameraManager>();
     }
 
     void Update()
@@ -77,9 +77,9 @@ public class SkillCheck : MonoBehaviour
         // Trova un pirata vicino (oppure usa già la reference se ce l'hai)
         GameObject pirate = GameObject.FindGameObjectWithTag("Pirate");
 
-        if (_cameraManager != null && pirate != null)
+        /* if (_cameraManager != null && pirate != null)
         {
             _cameraManager.SwitchToPirata(pirate.transform);
-        }
+        } */
     }
 }
