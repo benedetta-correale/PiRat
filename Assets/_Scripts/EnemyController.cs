@@ -10,6 +10,8 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private Transform[] patrolPoints;
     public Animator animator;
     public float waitTimeAtPoint = 2f; // Tempo di attesa in secondi al punto di pattuglia
+    private int _originalAreaMask;
+    
 
     [Header("Pirate Settings")]
     [SerializeField] private float _followSpeed = 3f;
@@ -21,9 +23,13 @@ public class EnemyController : MonoBehaviour
 
     [Header("Follow Settings")]
     [SerializeField] private float _attachTime = 5f; // Tempo di attesa prima di iniziare a seguire
+    [SerializeField] private float _stopAttachTime = 5f;
     private bool _startFollowing; // Fixed incomplete boolean declaration
     private bool _pirateIsWalking = true; // Aggiunto per gestire lo stato di camminata del pirata
     private bool _hasSpottedRat = false; // Bool che mi aiuta a capire quando ha visto il topo
+    private bool _hitRats = false;
+
+    
 
 
     [Header("Vita del pirata")]
@@ -50,6 +56,7 @@ public class EnemyController : MonoBehaviour
     private MeshRenderer meshRenderer;
     private RatController ratController; // Riferimento al controller del ratto
     private float _waitingTime = 0f; // Add this as a class field at the top of the class
+    private float _lostSightTimer = 0f;
     void Start()
 
     {
@@ -76,6 +83,8 @@ public class EnemyController : MonoBehaviour
 
         animator.SetBool("isWalking", true);
         agent = GetComponent<NavMeshAgent>();
+        _originalAreaMask = agent.areaMask;
+        
 
 
         
@@ -109,12 +118,16 @@ public class EnemyController : MonoBehaviour
             if (isInViewCone && !_hasSpottedRat)
             {
                 Debug.Log("Il pirata ha avvistato il topo, comincia il countdown!");
+
                 _hasSpottedRat = true;
                 _pirateIsWalking = false;
                 _waitingTime = 0f;
                 _startFollowing = false;
                 animator.SetBool("isWalking", false);
                 agent.isStopped = true;  // Stop NavMeshAgent movement
+
+                // Aggiungi la rotazione verso il topo
+                StartCoroutine(RotateTowardsTarget(direction));
             }
 
             if (_hasSpottedRat)
@@ -123,14 +136,34 @@ public class EnemyController : MonoBehaviour
             }
         }
 
+        CheckHitRat();
+       
+
         if (_startFollowing)
-        {
+        
+          {  
             StartFollowing();
-        }
+            StopFollowingIfLostSight();
+          }
+
+        
 
         UpdateVisionCone();
-    }
+        
+}
     
+    // metodo per gestire la rotazione
+    private IEnumerator RotateTowardsTarget(Vector3 direction)
+    {
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        float rotationSpeed = 2.0f; // Puoi modificare questa velocità per renderla più veloce o più lenta
+
+        while (Quaternion.Angle(transform.rotation, lookRotation) > 0.1f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, rotationSpeed * Time.deltaTime);
+            yield return null;
+        }
+    }
 
     // inizializzo il cono visivo
     private void InitializeVisionCone() 
@@ -163,19 +196,39 @@ public class EnemyController : MonoBehaviour
 }
 
     // 1. Fix the method name and comparison in startCountdown
-    private void StartCountdown()
-{
-    _waitingTime += Time.deltaTime;
 
-    if (_waitingTime >= _attachTime)  // Changed from == to >=
+    private void StartCountdown()
     {
-        _startFollowing = true;
-        _pirateIsWalking = true;
-        animator.SetBool("isWalking", true);
-        agent.isStopped = false;
-        Debug.Log("Il pirata ha iniziato a seguire il topo!");
+
+        // Avanza il timer
+        _waitingTime += Time.deltaTime;
+
+        // Mantieni la rotazione verso il topo durante il countdown
+        if (_mainCharacter != null)
+        {
+            Vector3 direction = _mainCharacter.transform.position - transform.position;
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
+        }
+
+        
+        if (_waitingTime >= _attachTime)
+        {
+        
+        
+            // Inizia l’inseguimento
+            _startFollowing = true;
+            _pirateIsWalking = true;
+            agent.isStopped = false;
+            animator.SetBool("isWalking", true);
+            agent.areaMask = NavMesh.AllAreas;
+
+            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");}
     }
-}
+    
+
+
+
 
     // 2. Fix the StartFollowing method to use NavMeshAgent
     public void StartFollowing()
@@ -191,14 +244,51 @@ public class EnemyController : MonoBehaviour
         return;
     }
 
-    // Use NavMeshAgent for movement
+    // Imposta la destinazione sul topo e aumenta l'area di movimento
+    agent.isStopped = false;
+    agent.areaMask = NavMesh.AllAreas;
     agent.SetDestination(_mainCharacter.transform.position);
     agent.speed = _followSpeed;
-
-    // Keep rotation logic for smooth turning
+    
+    // Forza la rotazione verso il topo
     Quaternion lookRotation = Quaternion.LookRotation(direction);
     transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
+    
+    _pirateIsWalking = true;
+    animator.SetBool("isWalking", true);
 }
+
+   
+    private void StopFollowingIfLostSight()
+    {
+        
+
+        if (!_hitRats)
+        {
+            Debug.Log(" inizio conteggio perchè ho perso il topo");
+            _lostSightTimer += Time.deltaTime;
+
+            if (_lostSightTimer >= _stopAttachTime)
+            {
+                Debug.Log("Il pirata ha perso il topo per troppo tempo. Torna in pattuglia.");
+
+                 _startFollowing = false;
+                _hasSpottedRat = false;
+                _lostSightTimer = 0f;
+
+                agent.isStopped = false;
+                agent.areaMask = _originalAreaMask;
+                agent.speed = agent.speed / _followSpeed;
+                agent.SetDestination(patrolPoints[currentPointIndex].position);
+                animator.SetBool("isWalking", true);
+                _lostSightTimer = 0f;
+            }
+        }
+        else
+        {
+            _lostSightTimer = 0f;
+        }
+    }
 
 
     public bool IsInViewCone(Vector3 directionToTarget, float distance)
@@ -350,7 +440,14 @@ public class EnemyController : MonoBehaviour
     {
         while (true)
         {
-            if (_pirateIsWalking && !_startFollowing && !waiting)
+            // Aggiungi un controllo per interrompere il pattugliamento quando inizia l'inseguimento
+            if (_startFollowing || _hasSpottedRat)
+            {
+                yield return null;
+                continue;
+            }
+
+            if (_pirateIsWalking && !waiting)
             {
                 if (!agent.pathPending && agent.remainingDistance < 0.5f)
                 {
@@ -409,5 +506,30 @@ public class EnemyController : MonoBehaviour
         }
 
         Debug.Log("Created random patrol points");
+    }
+
+    private void CheckHitRat()
+{
+    if (_mainCharacter == null) return;
+
+    // Calcola la direzione dal pirata verso il giocatore
+    Vector3 directionToTarget = (_mainCharacter.transform.position - transform.position).normalized;
+    float distance = Vector3.Distance(transform.position, _mainCharacter.transform.position);
+
+    // Esegui il raycast per controllare gli ostacoli
+    RaycastHit hit;
+    if (Physics.Raycast(transform.position, directionToTarget, out hit, distance))
+        {
+            // Se colpisce il giocatore, non ci sono ostacoli
+            if (hit.collider.gameObject == _mainCharacter)
+            {
+                _hitRats = true;
+            }
+            else
+            {
+                // Se colpisce qualsiasi altra cosa, c'è un ostacolo
+                _hitRats = false;
+            }
+        }
     }
 }
