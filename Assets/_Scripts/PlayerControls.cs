@@ -9,6 +9,9 @@ public class PlayerControls : MonoBehaviour
     public float walkSpeed = 5f;
     public float sprintMultiplier = 1.5f;
 
+    [Tooltip("Velocità con cui il personaggio ruota verso la direzione di movimento")]
+    public float rotationSpeed = 10f;
+
     Rigidbody rb;
     Vector2 moveInput;
     bool isSprinting;
@@ -43,6 +46,18 @@ public class PlayerControls : MonoBehaviour
         Vector3 desiredMove = forward * moveInput.y + right * moveInput.x;
         float speed = walkSpeed * (isSprinting ? sprintMultiplier : 1f);
 
+        if (desiredMove.sqrMagnitude > 0.001f)
+        {
+            // calcola la rotazione target guardando nella direzione di movimento
+            Quaternion targetRot = Quaternion.LookRotation(desiredMove, Vector3.up);
+            // applica una Slerp per rendere la rotazione fluida
+            transform.rotation = Quaternion.Slerp(
+                transform.rotation,
+                targetRot,
+                rotationSpeed * Time.fixedDeltaTime
+            );
+        }
+
         rb.MovePosition(rb.position + desiredMove * speed * Time.fixedDeltaTime);
 
         chekIsWalking();
@@ -50,10 +65,8 @@ public class PlayerControls : MonoBehaviour
 
     private void chekIsWalking()
     {
-        if (Input.GetAxis("Vertical") != 0f || Input.GetAxis("Horizontal") != 0f)
-            _ratAnimator.SetBool("isWalking", true);
-        else
-            _ratAnimator.SetBool("isWalking", false);
+        bool walking = moveInput.sqrMagnitude > 0.001f;
+        _ratAnimator.SetBool("isWalking", walking);
     }
 
 }
