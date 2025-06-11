@@ -1,4 +1,3 @@
-// PlayerController.cs
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,16 +11,27 @@ public class PlayerControls : MonoBehaviour
     [Tooltip("Velocità con cui il personaggio ruota verso la direzione di movimento")]
     public float rotationSpeed = 10f;
 
+    [Header("Animation")]
+    [Tooltip("Parametro Animator per gestire la velocità dell'animazione")]
+    public string animSpeedParam = "SpeedMultiplier";
+    [Tooltip("Moltiplicatore minimo della velocità dell'animazione quando l'input è minimo")]
+    public float minAnimSpeed = 0.5f;
+    [Tooltip("Moltiplicatore massimo della velocità dell'animazione quando l'input è a intensità massima")]
+    public float maxAnimSpeed = 1.6f;
+
     Rigidbody rb;
-    Vector2 moveInput;
+    public Vector2 moveInput { get; private set; }
     bool isSprinting;
     private Animator _ratAnimator;
 
     void Awake() => rb = GetComponent<Rigidbody>();
+
     private void Start()
     {
         _ratAnimator = GetComponent<Animator>();
         _ratAnimator.SetBool("isWalking", false);
+        // Imposta inizialmente la velocità di animazione al valore minimo
+        _ratAnimator.SetFloat(animSpeedParam, minAnimSpeed);
     }
 
     // Questi metodi vengono invocati dal PlayerInput (Invoke Unity Events)
@@ -60,13 +70,37 @@ public class PlayerControls : MonoBehaviour
 
         rb.MovePosition(rb.position + desiredMove * speed * Time.fixedDeltaTime);
 
-        chekIsWalking();
+        // Aggiorna animazioni
+        UpdateWalkingAnimation(desiredMove.magnitude);
     }
 
-    private void chekIsWalking()
+    /// <summary>
+    /// Aggiorna i parametri Animator per camminata e velocità
+    /// </summary>
+    private void UpdateWalkingAnimation(float inputMagnitude)
     {
-        bool walking = moveInput.sqrMagnitude > 0.001f;
+        // Mantieni il bool di walking
+        bool walking = inputMagnitude > 0.001f;
         _ratAnimator.SetBool("isWalking", walking);
+
+        // Solo se siamo nello stato di camminata, modifichiamo la velocità dell'animazione
+        var state = _ratAnimator.GetCurrentAnimatorStateInfo(0);
+        if (state.IsName("WalkRatAnimation"))
+        {
+            // Calcola velocità tra min e max in base all'intensità dell'input
+            float t = Mathf.Clamp01(inputMagnitude);
+            float animSpeed = Mathf.Lerp(minAnimSpeed, maxAnimSpeed, t);
+            _ratAnimator.SetFloat(animSpeedParam, animSpeed);
+        }
+        else
+        {
+            // Negli altri stati, manteniamo velocità di default
+            _ratAnimator.SetFloat(animSpeedParam, 1f);
+        }
     }
 
+    public Vector2 GetMoveInputRaw()
+    {
+        return moveInput;
+    }
 }
