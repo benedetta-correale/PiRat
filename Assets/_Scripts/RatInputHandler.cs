@@ -3,13 +3,13 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(Rigidbody))]
-public class PlayerControls : MonoBehaviour
+public class RatInputHandler : MonoBehaviour
 {
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float sprintMultiplier = 1.5f;
 
-    [Tooltip("Velocità con cui il personaggio ruota verso la direzione di movimento")]
+    [Tooltip("Velocitï¿½ con cui il personaggio ruota verso la direzione di movimento")]
     public float rotationSpeed = 10f;
 
     Rigidbody rb;
