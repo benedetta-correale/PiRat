@@ -4,14 +4,14 @@ using UnityEngine.AI;
 using System.Collections;
 
 
-public class EnemyController : MonoBehaviour
+public class PirateController : MonoBehaviour
 {
     [Header("Patrol Settings")]
     [SerializeField] private Transform[] patrolPoints;
     public Animator animator;
     public float waitTimeAtPoint = 2f; // Tempo di attesa in secondi al punto di pattuglia
     private int _originalAreaMask;
-    
+
 
     [Header("Pirate Settings")]
     [SerializeField] private float _followSpeed = 3f;
@@ -29,7 +29,7 @@ public class EnemyController : MonoBehaviour
     private bool _hasSpottedRat = false; // Bool che mi aiuta a capire quando ha visto il topo
     private bool _hitRats = false;
 
-    
+
 
 
     [Header("Vita del pirata")]
@@ -37,6 +37,7 @@ public class EnemyController : MonoBehaviour
     public float health = 100f; // Vita del pirata, puoi modificarla in base alle tue necessità
     public bool isPossessed = false; // Aggiunto per gestire lo stato di possesso del pirata
     private bool _isDead = false; // Aggiunto per gestire lo stato di morte del pirata
+    public System.Action<PirateController> OnPirateDeath;
 
 
     [Header("UI Settings")]
@@ -48,13 +49,14 @@ public class EnemyController : MonoBehaviour
     private NavMeshAgent agent;
     private int currentPointIndex = 0;
     private bool waiting = false;
+    private bool isAlive = true;
 
 
     // Riferimento AI VARI PERSONAGGI 
     private GameObject _mainCharacter;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
-    private RatController ratController; // Riferimento al controller del ratto
+    private RatInteractionManager ratController; // Riferimento al controller del ratto
     private float _waitingTime = 0f; // Add this as a class field at the top of the class
     private float _lostSightTimer = 0f;
     void Start()
@@ -70,7 +72,7 @@ public class EnemyController : MonoBehaviour
 
 
         // Trova il controller del ratto
-        ratController = _mainCharacter.GetComponent<RatController>();
+        ratController = _mainCharacter.GetComponent<RatInteractionManager>();
         if (ratController == null)
         {
             Debug.LogError("RatController not found on the main character!");
@@ -84,10 +86,10 @@ public class EnemyController : MonoBehaviour
         animator.SetBool("isWalking", true);
         agent = GetComponent<NavMeshAgent>();
         _originalAreaMask = agent.areaMask;
-        
 
 
-        
+
+
         // Check if patrol points are assigned
         if (patrolPoints == null || patrolPoints.Length == 0)
         {
@@ -98,11 +100,11 @@ public class EnemyController : MonoBehaviour
         // Now we can safely set the destination
         agent.SetDestination(patrolPoints[currentPointIndex].position);
 
-        StartCoroutine(PatrolRoutine()); 
+        StartCoroutine(PatrolRoutine());
         InitializeVisionCone();
         UpdateVisionCone();
         InitializeHealthBar();
-        
+
     }
 
     // 3. Update the Update method to handle state changes
@@ -137,21 +139,21 @@ public class EnemyController : MonoBehaviour
         }
 
         CheckHitRat();
-       
+
 
         if (_startFollowing)
-        
-          {  
+
+        {
             StartFollowing();
             StopFollowingIfLostSight();
-          }
+        }
 
-        
+
 
         UpdateVisionCone();
-        
-}
-    
+
+    }
+
     // metodo per gestire la rotazione
     private IEnumerator RotateTowardsTarget(Vector3 direction)
     {
@@ -166,34 +168,34 @@ public class EnemyController : MonoBehaviour
     }
 
     // inizializzo il cono visivo
-    private void InitializeVisionCone() 
-{
-    // Check if vision cone already exists
-    Transform existingCone = transform.Find("VisionCone");
-    if (existingCone != null)
+    private void InitializeVisionCone()
     {
-        Destroy(existingCone.gameObject);
+        // Check if vision cone already exists
+        Transform existingCone = transform.Find("VisionCone");
+        if (existingCone != null)
+        {
+            Destroy(existingCone.gameObject);
+        }
+
+        // Create new vision cone
+        GameObject visionCone = new GameObject("VisionCone");
+        visionCone.transform.SetParent(transform, false);
+        visionCone.transform.localPosition = Vector3.zero;
+        visionCone.transform.localRotation = Quaternion.identity;
+
+        // Add required components
+        meshFilter = visionCone.AddComponent<MeshFilter>();
+        meshRenderer = visionCone.AddComponent<MeshRenderer>();
+
+        // Check and set material
+        if (visionConeMaterial == null)
+        {
+            Debug.LogWarning("Vision cone material not assigned, creating default");
+            visionConeMaterial = new Material(Shader.Find("Standard"));
+            visionConeMaterial.color = new Color(1f, 1f, 0f, 0.3f);
+        }
+        meshRenderer.material = visionConeMaterial;
     }
-
-    // Create new vision cone
-    GameObject visionCone = new GameObject("VisionCone");
-    visionCone.transform.SetParent(transform, false);
-    visionCone.transform.localPosition = Vector3.zero;
-    visionCone.transform.localRotation = Quaternion.identity;
-
-    // Add required components
-    meshFilter = visionCone.AddComponent<MeshFilter>();
-    meshRenderer = visionCone.AddComponent<MeshRenderer>();
-
-    // Check and set material
-    if (visionConeMaterial == null)
-    {
-        Debug.LogWarning("Vision cone material not assigned, creating default");
-        visionConeMaterial = new Material(Shader.Find("Standard"));
-        visionConeMaterial.color = new Color(1f, 1f, 0f, 0.3f);
-    }
-    meshRenderer.material = visionConeMaterial;
-}
 
     // 1. Fix the method name and comparison in startCountdown
 
@@ -211,11 +213,11 @@ public class EnemyController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
         }
 
-        
+
         if (_waitingTime >= _attachTime)
         {
-        
-        
+
+
             // Inizia l’inseguimento
             _startFollowing = true;
             _pirateIsWalking = true;
@@ -223,46 +225,45 @@ public class EnemyController : MonoBehaviour
             animator.SetBool("isWalking", true);
             agent.areaMask = NavMesh.AllAreas;
 
-            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");}
+            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");
+        }
     }
-    
+
 
 
 
 
     // 2. Fix the StartFollowing method to use NavMeshAgent
     public void StartFollowing()
-{
-    if (_mainCharacter == null || agent == null) return;
-
-    Vector3 direction = _mainCharacter.transform.position - transform.position;
-    float distance = direction.magnitude;
-
-    if (distance <= _rayAttachment)
     {
-        Debug.Log("Il pirata ha raggiunto il topo!");
-        return;
+        if (_mainCharacter == null || agent == null) return;
+
+        Vector3 direction = _mainCharacter.transform.position - transform.position;
+        float distance = direction.magnitude;
+
+        if (distance <= _rayAttachment)
+        {
+            Debug.Log("Il pirata ha raggiunto il topo!");
+            return;
+        }
+
+        // Imposta la destinazione sul topo e aumenta l'area di movimento
+        agent.isStopped = false;
+        agent.areaMask = NavMesh.AllAreas;
+        agent.SetDestination(_mainCharacter.transform.position);
+        agent.speed = _followSpeed;
+
+        // Forza la rotazione verso il topo
+        Quaternion lookRotation = Quaternion.LookRotation(direction);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
+
+        _pirateIsWalking = true;
+        animator.SetBool("isWalking", true);
     }
 
-    // Imposta la destinazione sul topo e aumenta l'area di movimento
-    agent.isStopped = false;
-    agent.areaMask = NavMesh.AllAreas;
-    agent.SetDestination(_mainCharacter.transform.position);
-    agent.speed = _followSpeed;
-    
-    // Forza la rotazione verso il topo
-    Quaternion lookRotation = Quaternion.LookRotation(direction);
-    transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
-    
-    _pirateIsWalking = true;
-    animator.SetBool("isWalking", true);
-}
 
-   
     private void StopFollowingIfLostSight()
     {
-        
-
         if (!_hitRats)
         {
             Debug.Log(" inizio conteggio perchè ho perso il topo");
@@ -272,7 +273,7 @@ public class EnemyController : MonoBehaviour
             {
                 Debug.Log("Il pirata ha perso il topo per troppo tempo. Torna in pattuglia.");
 
-                 _startFollowing = false;
+                _startFollowing = false;
                 _hasSpottedRat = false;
                 _lostSightTimer = 0f;
 
@@ -322,14 +323,14 @@ public class EnemyController : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, _rayAttachment);
     }
-    
-    
+
+
 
     //metodo per disegnare il cono visivo
     private void UpdateVisionCone()
     {
         if (meshFilter == null)
-        { 
+        {
             InitializeVisionCone();
             if (meshFilter == null)
             {
@@ -369,26 +370,26 @@ public class EnemyController : MonoBehaviour
     }
 
     private void InitializeHealthBar()
-{
-    // Istanzia il prefab come figlio del pirata
-    GameObject healthBar = Instantiate(healthBarPrefab, this.transform);
-    healthBar.transform.localPosition = healthBarOffset;
-
-    // Ottieni lo Slider
-    _healthSlider = healthBar.GetComponentInChildren<Slider>();
-    if (_healthSlider == null)
     {
-        Debug.LogError("Slider non trovato nel prefab dell'health bar!");
-        return;
+        // Istanzia il prefab come figlio del pirata
+        GameObject healthBar = Instantiate(healthBarPrefab, this.transform);
+        healthBar.transform.localPosition = healthBarOffset;
+
+        // Ottieni lo Slider
+        _healthSlider = healthBar.GetComponentInChildren<Slider>();
+        if (_healthSlider == null)
+        {
+            Debug.LogError("Slider non trovato nel prefab dell'health bar!");
+            return;
+        }
+
+        // Imposta i valori iniziali
+        _healthSlider.maxValue = health;
+        _healthSlider.value = health;
+
+        // Mostra subito la barra
+        _healthSlider.gameObject.SetActive(true);
     }
-
-    // Imposta i valori iniziali
-    _healthSlider.maxValue = health;
-    _healthSlider.value = health;
-
-    // Mostra subito la barra
-    _healthSlider.gameObject.SetActive(true);
-}
 
 
     public void TakeDamage()
@@ -421,7 +422,7 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-        private void HandlePirateDeath()
+    private void HandlePirateDeath()
     {
         _isDead = true;
         Debug.Log("Il pirata è morto!");
@@ -435,7 +436,7 @@ public class EnemyController : MonoBehaviour
         // TODO: Trigger death animation here
         // animator.SetTrigger("Death");
     }
-    
+
     IEnumerator PatrolRoutine()
     {
         while (true)
@@ -479,11 +480,11 @@ public class EnemyController : MonoBehaviour
         for (int i = 0; i < patrolPoints.Length; i++)
         {
             GameObject point = new GameObject($"RandomPatrolPoint_{i}");
-            
+
             // Generate random position within a circle
             float randomRadius = Random.Range(minRadius, maxRadius);
             float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-            
+
             Vector3 randomPosition = transform.position + new Vector3(
                 Mathf.Cos(randomAngle) * randomRadius,
                 Random.Range(minY, maxY),
@@ -509,16 +510,16 @@ public class EnemyController : MonoBehaviour
     }
 
     private void CheckHitRat()
-{
-    if (_mainCharacter == null) return;
+    {
+        if (_mainCharacter == null) return;
 
-    // Calcola la direzione dal pirata verso il giocatore
-    Vector3 directionToTarget = (_mainCharacter.transform.position - transform.position).normalized;
-    float distance = Vector3.Distance(transform.position, _mainCharacter.transform.position);
+        // Calcola la direzione dal pirata verso il giocatore
+        Vector3 directionToTarget = (_mainCharacter.transform.position - transform.position).normalized;
+        float distance = Vector3.Distance(transform.position, _mainCharacter.transform.position);
 
-    // Esegui il raycast per controllare gli ostacoli
-    RaycastHit hit;
-    if (Physics.Raycast(transform.position, directionToTarget, out hit, distance))
+        // Esegui il raycast per controllare gli ostacoli
+        RaycastHit hit;
+        if (Physics.Raycast(transform.position, directionToTarget, out hit, distance))
         {
             // Se colpisce il giocatore, non ci sono ostacoli
             if (hit.collider.gameObject == _mainCharacter)
@@ -531,5 +532,32 @@ public class EnemyController : MonoBehaviour
                 _hitRats = false;
             }
         }
+    }
+
+    // 👇 Chiamalo quando il pirata deve morire
+    public void Die()
+    {
+        if (!isAlive) return;
+
+        isAlive = false;
+        animator.SetBool("isWalking", false);
+        agent.isStopped = true;
+
+        // 👇 Notifica chi è iscritto alla morte del pirata (es. il topo)
+        OnPirateDeath?.Invoke(this);
+
+        // Disattiva visivamente o distruggi dopo un po'
+        gameObject.SetActive(false); // oppure: Destroy(gameObject, 2f);
+    }
+
+    public void DebugKillAfterSeconds(float seconds)
+    {
+        StartCoroutine(KillRoutine(seconds));
+    }
+
+    private System.Collections.IEnumerator KillRoutine(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
+        Die();
     }
 }

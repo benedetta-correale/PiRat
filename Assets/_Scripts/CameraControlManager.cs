@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class CameraSwitcher : MonoBehaviour
+public class CameraControlManager : MonoBehaviour
 {
     [Header("References (assign in Inspector)")]
-    public PlayerControls ratController;
+    public RatInputHandler ratController;
     public Transform ratTransform;
     public Transform pirateTransform;
 
@@ -38,6 +38,7 @@ public class CameraSwitcher : MonoBehaviour
     void Start()
     {
         camTransform = Camera.main.transform;
+        pirateTransform = null;
         currentTarget = ratTransform;
         //camTransform.rotation = Quaternion.Euler(cameraEulerAngles);
 
@@ -57,7 +58,7 @@ public class CameraSwitcher : MonoBehaviour
         {
             followPirate = !followPirate;
             ratController.enabled = !followPirate;
-            currentTarget = followPirate ? pirateTransform : ratTransform;
+            if (pirateTransform != null) currentTarget = followPirate ? pirateTransform : ratTransform;
         }
     }
 
@@ -69,20 +70,24 @@ public class CameraSwitcher : MonoBehaviour
 
     void LateUpdate()
     {
-        
-           // aggiorna solo yaw (rotazione intorno all'asse Y)
-            yaw += lookInput.x * sensitivity * Time.deltaTime;
+        // aggiorna solo yaw (rotazione intorno all'asse Y)
+        yaw += lookInput.x * sensitivity * Time.deltaTime;
 
-            // costruisci la rotazione orizzontale
-            Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
+        // costruisci la rotazione orizzontale
+        Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
 
-            // posiziona la camera: Target + rotazione * Offset
-            transform.position = currentTarget.position + rot * offset;
+        // posiziona la camera: Target + rotazione * Offset
+        transform.position = currentTarget.position + rot * offset;
 
-            // guarda sempre il target
-            transform.LookAt(currentTarget.position);
-        
+        // guarda sempre il target
+        transform.LookAt(currentTarget.position);
+    }
 
-
+    public void SwitchToPirate(Transform pirate)
+    {
+        pirateTransform = pirate;
+        followPirate = true;
+        ratController.enabled = false;
+        currentTarget = pirateTransform;
     }
 }

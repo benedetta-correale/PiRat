@@ -478,11 +478,11 @@ namespace FischlWorks_FogWar
             {
                 fogRevealer.GetCurrentLevelCoordinates(this);
 
-                // Determino se è un Pirate “posseduto”
+                // Determino se ï¿½ un Pirate ï¿½possedutoï¿½
                 // 1) ha tag Pirate?
                 bool isPirateTag = fogRevealer._RevealerTransform.CompareTag("Pirate");
                 // 2) ha un EnemyController e isPossessed==true?
-                var ec = fogRevealer._RevealerTransform.GetComponent<EnemyController>();
+                var ec = fogRevealer._RevealerTransform.GetComponent<PirateController>();
                 bool isPossessed = (ec != null && ec.isPossessed);
 
                 // Imposto il flag per lo Shadowcaster

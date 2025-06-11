@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;  // Required for Slider
 
-public class SkillCheck : MonoBehaviour
+public class InfectionSkillCheckUI : MonoBehaviour
 {
     [SerializeField] private Slider _bar;  // Changed from GameObject to Slider
     [SerializeField] private float oscillationSpeed = 2f;
@@ -9,7 +9,7 @@ public class SkillCheck : MonoBehaviour
     private bool isActive = false;
     private float time = 0f;
 
-    [SerializeField] private EnemyController _enemyController;  // Added reference to EnemyController
+    [SerializeField] private PirateController _enemyController;  // Added reference to EnemyController
 
     void Start()
     {
