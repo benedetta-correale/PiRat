@@ -22,7 +22,7 @@ public class Trap : MonoBehaviour
 
     private bool isStuck = false;
     private float wiggleAmount = 0f;
-    private PlayerControls stuckPlayer = null;
+    private RatInputHandler stuckPlayer = null;
 
 
     private void OnTriggerEnter(Collider other)
@@ -43,7 +43,7 @@ public class Trap : MonoBehaviour
 
 
             case TrapType.Glue:
-                var pc = other.GetComponent<PlayerControls>();
+                var pc = other.GetComponent<RatInputHandler>();
                 if (pc != null && !isStuck)
                 {
                     stuckPlayer = pc;
@@ -86,7 +86,7 @@ public class Trap : MonoBehaviour
 
 
 
-    private IEnumerator GlueEffect(PlayerControls pc)
+    private IEnumerator GlueEffect(RatInputHandler pc)
     {
         pc.enabled = false;
         yield return new WaitForSeconds(glueDuration);
