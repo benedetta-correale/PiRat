@@ -1,10 +1,15 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+
 
 [RequireComponent(typeof(Rigidbody))]
 public class RatInteractionManager : MonoBehaviour
 {
     [SerializeField] private float _ratRay = 5f;
+    [SerializeField] private float biteCooldown = 1f; // cooldown in secondi
+    private bool canBite = true;
+
 
     [Header("Effetti dell' attacco")]
     public bool biting = false;
@@ -13,7 +18,7 @@ public class RatInteractionManager : MonoBehaviour
 
     private CameraControlManager cameraControlManager;
 
-    // 👇 Nuovo: lista dei pirati infettati
+    //  Nuovo: lista dei pirati infettati
     public List<Transform> infectedPirates = new List<Transform>();
 
 
@@ -24,7 +29,7 @@ public class RatInteractionManager : MonoBehaviour
 
     void Update()
     {
-        // 👇 Mostra cerchio di rilevamento
+        //  Mostra cerchio di rilevamento
         int segments = 32;
         float angleStep = 360f / segments;
         for (int i = 0; i < segments; i++)
@@ -36,9 +41,9 @@ public class RatInteractionManager : MonoBehaviour
             Debug.DrawLine(p1, p2, Color.red);
         }
 
-        infectPirate();
+        
 
-        // 👇 Nuovo: premi 1-9 per entrare nei pirati infettati
+        //  Nuovo: premi 1-9 per entrare nei pirati infettati
         for (int i = 0; i < infectedPirates.Count && i < 9; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
@@ -57,7 +62,15 @@ public class RatInteractionManager : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, _ratRay);
     }
 
-    private void infectPirate()
+    public void OnBite(InputAction.CallbackContext context)
+    {
+        if (context.performed && canBite)
+        {
+            AttemptInfection();
+        }
+    }
+
+    private void AttemptInfection()
     {
         Collider[] hits = Physics.OverlapSphere(transform.position, _ratRay);
         foreach (Collider hit in hits)
@@ -66,27 +79,31 @@ public class RatInteractionManager : MonoBehaviour
             {
                 enemyController = hit.GetComponent<PirateController>();
 
-                if (Input.GetKeyDown(KeyCode.I))
+                if (enemyController != null)
                 {
-                    Debug.Log("Pirata infettato");
+                    biting = true;
+                    enemyController.TakeDamage();
+                    Debug.Log("Morso effettuato sul pirata!");
 
-                    if (enemyController != null)
-                    {
-                        biting = true;
-                        enemyController.TakeDamage();
+                    Infect(enemyController);
 
-                        // 👇 Nuovo: registra il pirata infettato
-                        Infect(enemyController);
-                    }
-                    else
-                    {
-                        Debug.Log("Il pirata NON può essere infettato (sta inseguendo)");
-                    }
+                    canBite = false;
+                    Invoke(nameof(ResetBiteCooldown), biteCooldown);
+                }
+                else
+                {
+                    Debug.Log("Il pirata NON può essere infettato (sta inseguendo)");
                 }
                 break;
             }
         }
     }
+
+    private void ResetBiteCooldown()
+    {
+        canBite = true;
+    }
+
 
     // 👇 Nuovo: registra un pirata nella lista e si sottoscrive alla sua morte
     private void Infect(PirateController pirate)
