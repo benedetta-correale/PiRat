@@ -126,5 +126,5 @@ MonoBehaviour:
   glueDuration: 2
   slideForce: 10
   springCooldown: 2
-  requiredWiggle: 2
+  requiredWiggle: 4
   wiggleDecay: 0.5
