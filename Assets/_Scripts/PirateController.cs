@@ -36,7 +36,7 @@ public class PirateController : MonoBehaviour
     public bool isInfected = false; // Aggiunto per gestire lo stato di infezione del pirata
     public float health = 100f; // Vita del pirata, puoi modificarla in base alle tue necessità
     public bool isPossessed = false; // Aggiunto per gestire lo stato di possesso del pirata
-    private bool _isDead = false; // Aggiunto per gestire lo stato di morte del pirata
+    private bool _isDead; // Aggiunto per gestire lo stato di morte del pirata
     public System.Action<PirateController> OnPirateDeath;
 
 
@@ -62,6 +62,7 @@ public class PirateController : MonoBehaviour
     void Start()
 
     {
+        _isDead = false; // Inizializza lo stato di morte a false
         _mainCharacter = GameObject.FindGameObjectWithTag("Player");
 
         if (_mainCharacter == null)
