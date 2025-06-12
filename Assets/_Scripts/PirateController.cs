@@ -36,7 +36,7 @@ public class PirateController : MonoBehaviour
     public bool isInfected = false; // Aggiunto per gestire lo stato di infezione del pirata
     public float health = 100f; // Vita del pirata, puoi modificarla in base alle tue necessità
     public bool isPossessed = false; // Aggiunto per gestire lo stato di possesso del pirata
-    private bool _isDead = false; // Aggiunto per gestire lo stato di morte del pirata
+    private bool _isDead; // Aggiunto per gestire lo stato di morte del pirata
     public System.Action<PirateController> OnPirateDeath;
 
 
@@ -62,6 +62,7 @@ public class PirateController : MonoBehaviour
     void Start()
 
     {
+        _isDead = false; // Inizializza lo stato di morte a false
         _mainCharacter = GameObject.FindGameObjectWithTag("Player");
 
         if (_mainCharacter == null)
@@ -217,15 +218,28 @@ public class PirateController : MonoBehaviour
         if (_waitingTime >= _attachTime)
         {
 
+            if (!_hitRats) // Se il pirata non ha colpito il topo
+            {
+                Debug.Log("Countdown completato, ma il topo non è visibile: torna in pattuglia");
+                _hasSpottedRat = false;
+                _startFollowing = false;
+                _waitingTime = 0f;
 
-            // Inizia l’inseguimento
+                // Torna al punto di pattuglia
+                agent.isStopped = false;
+                agent.areaMask = _originalAreaMask;
+                agent.SetDestination(patrolPoints[currentPointIndex].position);
+                animator.SetBool("isWalking", true);
+            }
+            else
+           { // Inizia l’inseguimento
             _startFollowing = true;
             _pirateIsWalking = true;
             agent.isStopped = false;
             animator.SetBool("isWalking", true);
             agent.areaMask = NavMesh.AllAreas;
 
-            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");
+            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");}
         }
     }
 

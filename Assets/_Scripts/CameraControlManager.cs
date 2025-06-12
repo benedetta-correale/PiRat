@@ -3,6 +3,8 @@ using UnityEngine.InputSystem;
 
 public class CameraControlManager : MonoBehaviour
 {
+    public static CameraControlManager Instance { get; private set; }
+
     [Header("References (assign in Inspector)")]
     public RatInputHandler ratController;
     public Transform ratTransform;
@@ -33,6 +35,18 @@ public class CameraControlManager : MonoBehaviour
     float yaw;
     Vector2 lookInput;
 
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
 
     void Start()

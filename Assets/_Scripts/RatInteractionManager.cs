@@ -19,7 +19,7 @@ public class RatInteractionManager : MonoBehaviour
 
     void Start()
     {
-        cameraControlManager = FindObjectOfType<CameraControlManager>();
+        //cameraControlManager = FindObjectOfType<CameraControlManager>();
     }
 
     void Update()
