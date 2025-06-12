@@ -9,8 +9,8 @@ public class PossessionManager : MonoBehaviour
     public Transform ratTransform;
 
     [Header("Impostazioni selezione")]
+    public bool isSelecting = false;
     private int selectedIndex = -1;
-    private bool selecting = false;
 
     private List<Transform> InfectedPirates => ratInteraction.infectedPirates;
     private List<LineRenderer> scieAttive = new List<LineRenderer>();
@@ -22,7 +22,7 @@ public class PossessionManager : MonoBehaviour
             EnterSelectionMode();
         }
 
-        if (!selecting || InfectedPirates.Count == 0) return;
+        if (!isSelecting || InfectedPirates.Count == 0) return;
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
@@ -45,14 +45,14 @@ public class PossessionManager : MonoBehaviour
 
     void EnterSelectionMode()
     {
-        selecting = true;
+        isSelecting = true;
         selectedIndex = -1;
         ShowScie();
     }
 
     void ExitSelectionMode()
     {
-        selecting = false;
+        isSelecting = false;
         selectedIndex = -1;
         HideScie();
     }
@@ -93,7 +93,7 @@ public class PossessionManager : MonoBehaviour
 
     void AggiornaScie()
     {
-        if (!selecting) return;
+        if (!isSelecting) return;
 
         var infected = InfectedPirates;
 
@@ -136,3 +136,4 @@ public class PossessionManager : MonoBehaviour
         }
     }
 }
+
