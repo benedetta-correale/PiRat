@@ -217,15 +217,28 @@ public class PirateController : MonoBehaviour
         if (_waitingTime >= _attachTime)
         {
 
+            if (!_hitRats) // Se il pirata non ha colpito il topo
+            {
+                Debug.Log("Countdown completato, ma il topo non è visibile: torna in pattuglia");
+                _hasSpottedRat = false;
+                _startFollowing = false;
+                _waitingTime = 0f;
 
-            // Inizia l’inseguimento
+                // Torna al punto di pattuglia
+                agent.isStopped = false;
+                agent.areaMask = _originalAreaMask;
+                agent.SetDestination(patrolPoints[currentPointIndex].position);
+                animator.SetBool("isWalking", true);
+            }
+            else
+           { // Inizia l’inseguimento
             _startFollowing = true;
             _pirateIsWalking = true;
             agent.isStopped = false;
             animator.SetBool("isWalking", true);
             agent.areaMask = NavMesh.AllAreas;
 
-            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");
+            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");}
         }
     }
 
