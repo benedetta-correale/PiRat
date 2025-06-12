@@ -3033,21 +3033,6 @@ MonoBehaviour:
   m_DefaultActionMap: Player
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!114 &368273439
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 368273430}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7cb27e8cf30954ff39b16db4449e8d4a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ratInteraction: {fileID: 368273434}
-  trailManager: {fileID: 368273440}
-  ratTransform: {fileID: 368273431}
 --- !u!114 &368273440
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3063,6 +3048,7 @@ MonoBehaviour:
   ratInteraction: {fileID: 368273434}
   sciaPrefab: {fileID: 113519915}
   ratTransform: {fileID: 368273431}
+  isSelecting: 0
 --- !u!1 &375525283
 GameObject:
   m_ObjectHideFlags: 0
@@ -16660,9 +16646,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0931c8d2640adfc4192107986bce38d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 368273437}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0931c8d2640adfc4192107986bce38d5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 368273439}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0931c8d2640adfc4192107986bce38d5, type: 3}
       insertIndex: -1
       addedObject: {fileID: 368273440}
