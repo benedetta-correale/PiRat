@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8be4ffe9fbd4b4409af7a26bc12a1ed7
+guid: 8899bf0ab0c7a46f285f899b8a8d042a
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
@@ -7,13 +7,13 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Wood1.005
-    second: {fileID: 2100000, guid: 7cda4e50922cd4a5dbcf5792dbc731ec, type: 2}
+      name: PolygonPirates_Material_01_A
+    second: {fileID: 2100000, guid: 6ff6d6f90839b4a7dacf345b2e02dce4, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Wood2.006
-    second: {fileID: 2100000, guid: 646b389c242d84f3e96e0464ed4a76ec, type: 2}
+      name: Water
+    second: {fileID: 2100000, guid: 5f56aafaeca5541a8ab14467c8229844, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
