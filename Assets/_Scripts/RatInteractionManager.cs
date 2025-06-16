@@ -9,6 +9,8 @@ public class RatInteractionManager : MonoBehaviour
     [SerializeField] private float _ratRay = 5f;
     [SerializeField] private float biteCooldown = 1f; // cooldown in secondi
     private bool canBite = true;
+    [SerializeField] private int Damage = 30;
+    private int bonusDamage = 0;
 
 
     [Header("Effetti dell' attacco")]
@@ -72,19 +74,24 @@ public class RatInteractionManager : MonoBehaviour
 
     private void AttemptInfection()
     {
-        Collider[] hits = Physics.OverlapSphere(transform.position, _ratRay);
-        foreach (Collider hit in hits)
+        RaycastHit hit;
+        Vector3 origin = transform.position + Vector3.up * 0.5f;
+        float biteDistance = 2f;
+        Vector3 direction = transform.forward;
+
+        if (Physics.Raycast(origin, direction, out hit, biteDistance))
         {
-            if (hit.CompareTag("Pirate"))
+            if (hit.collider.CompareTag("Pirate"))
             {
-                enemyController = hit.GetComponent<PirateController>();
+                enemyController = hit.collider.GetComponent<PirateController>();
 
                 if (enemyController != null)
                 {
                     biting = true;
-                    enemyController.TakeDamage();
-                    Debug.Log("Morso effettuato sul pirata!");
+                    enemyController.TakeDamage(Damage + bonusDamage);
+                    Debug.Log("Morso effettuato sul pirata davanti! Danno extra: " + Damage);
 
+                    bonusDamage = 0; // reset dopo il morso, se mi ero potenziato
                     Infect(enemyController);
 
                     canBite = false;
@@ -94,10 +101,27 @@ public class RatInteractionManager : MonoBehaviour
                 {
                     Debug.Log("Il pirata NON può essere infettato (sta inseguendo)");
                 }
-                break;
+            }
+            else if (hit.collider.CompareTag("Cheese"))
+            {
+                CheesePowerUp cheese = hit.collider.GetComponent<CheesePowerUp>();
+                if (cheese != null)
+                {
+                    cheese.ActivatePowerUp(this);
+                }
+            }
+            else
+            {
+                Debug.Log("Oggetto davanti non è un target valido!");
             }
         }
+        else
+        {
+            Debug.Log("Nessun bersaglio davanti al topo!");
+        }
     }
+
+
 
     private void ResetBiteCooldown()
     {
@@ -114,6 +138,12 @@ public class RatInteractionManager : MonoBehaviour
             pirate.OnPirateDeath += RemoveDeadPirate;
         }
     }
+
+    public void ActivateDamageBoost(int bonus)
+    {
+        bonusDamage = bonus;
+    }
+
 
     // 👇 Nuovo: rimuove il pirata morto
     private void RemoveDeadPirate(PirateController deadPirate)

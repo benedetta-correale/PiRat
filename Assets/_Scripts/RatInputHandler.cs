@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 [RequireComponent(typeof(Rigidbody))]
 public class RatInputHandler : MonoBehaviour
@@ -91,6 +92,14 @@ public class RatInputHandler : MonoBehaviour
         {
             _ratAnimator.SetFloat(animSpeedParam, 1f);
         }
+    }
+    // Inseriscilo nello script RatInputHandler.cs
+    public IEnumerator SpeedBoostRoutine(float multiplier, float duration)
+    {
+        float originalSpeed = walkSpeed;
+        walkSpeed *= multiplier;
+        yield return new WaitForSeconds(duration);
+        walkSpeed = originalSpeed;
     }
 
     public Vector2 GetMoveInputRaw() => moveInput;

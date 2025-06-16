@@ -406,13 +406,16 @@ public class PirateController : MonoBehaviour
     }
 
 
-    public void TakeDamage()
+    public void TakeDamage(int Damage)
     {
+        // Se il topo non sta mordendo, non applicare danno
         if (!ratController.biting) return;
 
-        if (health > 30f)
+        
+
+        if (health >Damage)
         {
-            health -= 30f;
+            health -= Damage;
             isInfected = true; // Imposta il pirata come infetto
             if (_healthSlider != null && !_healthSlider.gameObject.activeSelf)
             {
@@ -427,6 +430,7 @@ public class PirateController : MonoBehaviour
             HandlePirateDeath();
         }
     }
+
 
     private void UpdateHealthUI()
     {

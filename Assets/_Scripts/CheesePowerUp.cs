@@ -1,0 +1,43 @@
+using UnityEngine;
+
+public enum CheesePowerUpType { Heal, SpeedBoost, DamageBoost }
+
+public class CheesePowerUp : MonoBehaviour
+{
+    public CheesePowerUpType powerUpType;
+    public int healAmount = 20;
+    public float speedMultiplier = 1.5f;
+    public float speedDuration = 5f;
+    public int extraDamage = 10;
+
+    public void ActivatePowerUp(RatInteractionManager rat)
+    {
+        switch (powerUpType)
+        {
+            case CheesePowerUpType.Heal:
+                BonusMalus bonusMalus = rat.GetComponent<BonusMalus>();
+                if (bonusMalus != null)
+                {
+                    bonusMalus.Heal(healAmount);
+                    Debug.Log("Topo curato di " + healAmount);
+                }
+                break;
+
+            case CheesePowerUpType.SpeedBoost:
+                RatInputHandler ratInputHandler = rat.GetComponent<RatInputHandler>();
+                if (ratInputHandler != null)
+                {
+                    ratInputHandler.StartCoroutine(ratInputHandler.SpeedBoostRoutine(speedMultiplier, speedDuration));
+                    Debug.Log("Velocità aumentata per " + speedDuration + " secondi!");
+                }
+                break;
+
+            case CheesePowerUpType.DamageBoost:
+                rat.ActivateDamageBoost(extraDamage);
+                Debug.Log("Danno del prossimo morso aumentato di " + extraDamage);
+                break;
+        }
+
+        Destroy(gameObject); // distrugge il formaggio dopo il power-up
+    }
+}
