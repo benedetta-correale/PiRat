@@ -2879,6 +2879,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _ratRay: 5
+  biteCooldown: 1
+  Damage: 30
   biting: 0
   skillCheck: {fileID: 0}
   enemyController: {fileID: 0}
@@ -3048,6 +3050,8 @@ MonoBehaviour:
   ratInteraction: {fileID: 368273434}
   sciaPrefab: {fileID: 113519915}
   ratTransform: {fileID: 368273431}
+  ratInput: {fileID: 368273435}
+  cameraManager: {fileID: 628773117}
   isSelecting: 0
 --- !u!1 &375525283
 GameObject:
@@ -5277,9 +5281,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratController: {fileID: 368273435}
   ratTransform: {fileID: 368273431}
-  pirateTransform: {fileID: 0}
-  toggleKey: 112
-  transitionSpeed: 3
+  toggleKey: 27
+  transitionSpeed: 1.16
   offset: {x: 0, y: 13, z: -13}
   sensitivity: 120
 --- !u!114 &628773119

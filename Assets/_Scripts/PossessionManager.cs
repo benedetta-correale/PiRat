@@ -1,3 +1,4 @@
+// PossessionManager.cs (con ritorno al topo premendo ESC e selezione bloccata durante possessione)
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -7,27 +8,44 @@ public class PossessionManager : MonoBehaviour
     public RatInteractionManager ratInteraction;
     public GameObject sciaPrefab;
     public Transform ratTransform;
+    public RatInputHandler ratInput;
+    public CameraControlManager cameraManager;
 
     [Header("Impostazioni selezione")]
     public bool isSelecting = false;
     private int selectedIndex = -1;
+    private bool isPossessingPirate = false;
 
     private List<Transform> InfectedPirates => ratInteraction.infectedPirates;
     private List<LineRenderer> scieAttive = new List<LineRenderer>();
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
+        if (Input.GetKeyDown(KeyCode.Tab) && !isPossessingPirate)
         {
             EnterSelectionMode();
         }
 
-        if (!isSelecting || InfectedPirates.Count == 0) return;
-
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (isSelecting)
         {
-            ExitSelectionMode();
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                ExitSelectionMode();
+            }
+
+            HandleSelectionInput();
         }
+
+        // 🔁 Se siamo dentro un pirata, ESC ci fa tornare al topo
+        if (!isSelecting && !ratInput.enabled && Input.GetKeyDown(KeyCode.Escape))
+        {
+            SwitchToRat();
+        }
+    }
+
+    void HandleSelectionInput()
+    {
+        if (InfectedPirates.Count == 0) return;
 
         if (Input.GetKeyDown(KeyCode.Return))
         {
@@ -47,7 +65,14 @@ public class PossessionManager : MonoBehaviour
     {
         isSelecting = true;
         selectedIndex = -1;
+
+        AggiornaScie();
         ShowScie();
+
+        if (ratInput != null)
+        {
+            ratInput.enabled = false;
+        }
     }
 
     void ExitSelectionMode()
@@ -55,15 +80,29 @@ public class PossessionManager : MonoBehaviour
         isSelecting = false;
         selectedIndex = -1;
         HideScie();
+
+        if (ratInput != null)
+        {
+            ratInput.enabled = true;
+        }
     }
 
     void ConfirmSelection()
     {
         if (selectedIndex >= 0 && selectedIndex < InfectedPirates.Count)
         {
-            CameraControlManager.Instance.SwitchToPirate(InfectedPirates[selectedIndex]);
+            cameraManager.SwitchToPirate(InfectedPirates[selectedIndex]);
+            ratInput.enabled = false;
+            isPossessingPirate = true;
             ExitSelectionMode();
         }
+    }
+
+    void SwitchToRat()
+    {
+        cameraManager.SwitchToRat();
+        ratInput.enabled = true;
+        isPossessingPirate = false;
     }
 
     void SelectClosestInDirection(Vector2 inputDir)
@@ -136,4 +175,3 @@ public class PossessionManager : MonoBehaviour
         }
     }
 }
-

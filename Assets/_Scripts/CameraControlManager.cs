@@ -8,10 +8,9 @@ public class CameraControlManager : MonoBehaviour
     [Header("References (assign in Inspector)")]
     public RatInputHandler ratController;
     public Transform ratTransform;
-    public Transform pirateTransform;
 
     [Header("Settings")]
-    public KeyCode toggleKey = KeyCode.P;
+    public KeyCode toggleKey = KeyCode.Escape;
 
     //[Header("Camera Offset & Rotation")]
     //public Vector3 cameraOffset = new Vector3(0f, 5f, -10f);
@@ -23,6 +22,7 @@ public class CameraControlManager : MonoBehaviour
     private Transform camTransform;
     private bool followPirate = false;
     private Transform currentTarget;
+    private Transform pirateTransform;
 
     [Header("Offset")]
     [Tooltip("Offset locale rispetto al target: X = spostamento laterale, Y = altezza, Z = distanza dietro")]
@@ -47,7 +47,6 @@ public class CameraControlManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
 
     void Start()
     {
@@ -104,4 +103,12 @@ public class CameraControlManager : MonoBehaviour
         ratController.enabled = false;
         currentTarget = pirateTransform;
     }
+
+    public void SwitchToRat()
+    {
+        followPirate = false;
+        currentTarget = ratTransform;
+        ratController.enabled = true;
+    }
+
 }
