@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,11 +13,20 @@ public class RatInteractionManager : MonoBehaviour
     [SerializeField] private int Damage = 30;
     private int bonusDamage = 0;
 
+    private Animator _ratAnimator;
+    private RatInputHandler _ratInputHandler;
+
+    [SerializeField] private QuickTimeUIManager quickTimeUIManager;
+    private bool quickTimeConfirmed = false;
+    private bool isQuickTimeActive = false;
+
+
+
 
     [Header("Effetti dell' attacco")]
     public bool biting = false;
     public InfectionSkillCheckUI skillCheck;
-    public PirateController enemyController;
+    private PirateController enemyController;
 
     private CameraControlManager cameraControlManager;
 
@@ -26,8 +36,10 @@ public class RatInteractionManager : MonoBehaviour
 
     void Start()
     {
-        //cameraControlManager = FindObjectOfType<CameraControlManager>();
+        _ratAnimator = GetComponent<Animator>();
+        _ratInputHandler = GetComponent<RatInputHandler>();
     }
+
 
     void Update()
     {
@@ -69,6 +81,8 @@ public class RatInteractionManager : MonoBehaviour
         if (context.performed && canBite)
         {
             AttemptInfection();
+            Debug.Log("Input morso ricevuto");
+
         }
     }
 
@@ -83,23 +97,13 @@ public class RatInteractionManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("Pirate"))
             {
+                Debug.Log("Colpito: " + hit.collider.name);
                 enemyController = hit.collider.GetComponent<PirateController>();
-
                 if (enemyController != null)
                 {
                     biting = true;
-                    enemyController.TakeDamage(Damage + bonusDamage);
-                    Debug.Log("Morso effettuato sul pirata davanti! Danno extra: " + Damage);
-
-                    bonusDamage = 0; // reset dopo il morso, se mi ero potenziato
-                    Infect(enemyController);
-
-                    canBite = false;
-                    Invoke(nameof(ResetBiteCooldown), biteCooldown);
-                }
-                else
-                {
-                    Debug.Log("Il pirata NON può essere infettato (sta inseguendo)");
+                    _ratAnimator.SetTrigger("Bite"); // Avvia animazione morso
+                    StartCoroutine(StartQuickTimeEvent(enemyController)); // Avvia QTE
                 }
             }
             else if (hit.collider.CompareTag("Cheese"))
@@ -108,18 +112,25 @@ public class RatInteractionManager : MonoBehaviour
                 if (cheese != null)
                 {
                     cheese.ActivatePowerUp(this);
+                    _ratAnimator.SetTrigger("BiteWithJumpBack"); // salto indietro dopo aver preso il formaggio
                 }
             }
             else
             {
                 Debug.Log("Oggetto davanti non è un target valido!");
+                _ratAnimator.SetTrigger("BiteWithJumpBack"); // animazione morso a vuoto
             }
         }
         else
         {
             Debug.Log("Nessun bersaglio davanti al topo!");
+            _ratAnimator.SetTrigger("BiteWithJumpBack"); // morso a vuoto
         }
+
+        canBite = false;
+        Invoke(nameof(ResetBiteCooldown), biteCooldown);
     }
+
 
 
 
@@ -143,6 +154,130 @@ public class RatInteractionManager : MonoBehaviour
     {
         bonusDamage = bonus;
     }
+
+    private IEnumerator StartQuickTimeEvent(PirateController targetPirate)
+    {
+        Debug.Log("QTE INIZIATO");
+        quickTimeConfirmed = false;
+        isQuickTimeActive = true;
+
+        quickTimeUIManager.StartQuickTime();
+        float timer = 0f;
+
+        while (quickTimeUIManager.IsQuickTimeActive)
+        {
+            timer += Time.deltaTime;
+            if (quickTimeConfirmed) break;
+            yield return null;
+        }
+
+        float precision = quickTimeUIManager.Precision;
+        quickTimeUIManager.StopQuickTime();
+        isQuickTimeActive = false;
+
+        HandleQuickTimeResult(precision, quickTimeConfirmed, targetPirate);
+    }
+
+
+
+    private void HandleQuickTimeResult(float precision, bool buttonPressed, PirateController targetPirate)
+    {
+        if (!buttonPressed)
+        {
+            Debug.Log("QuickTime fallito, nessun pulsante premuto.");
+            _ratAnimator.SetTrigger("JumpBack"); // Animazione fallita
+            return;
+        }
+
+        if (precision < 0.3f) // zona rossa
+        {
+            Debug.Log("Perfetto! Zona rossa.");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            Infect(targetPirate);
+            ExecuteBackflip(1.5f);
+        }
+        else if (precision < 0.6f) // zona blu
+        {
+            Debug.Log("Buono! Zona blu.");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            Infect(targetPirate);
+            ExecuteBackflip(1f);
+        }
+        else if (precision < 0.9f) // zona gialla
+        {
+            Debug.Log("Accettabile! Zona gialla.");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            Infect(targetPirate);
+            ExecuteBackflip(0.5f);
+        }
+        else // zona nera
+        {
+            Debug.Log("Pessimo! Zona nera.");
+            _ratAnimator.SetTrigger("JumpBack"); // solo jumpback senza backflip
+        }
+
+        bonusDamage = 0; // reset danno extra
+    }
+
+    private void ExecuteBackflip(float distanceMultiplier)
+    {
+        StartCoroutine(PerformBackflip(distanceMultiplier));
+    }
+
+    private IEnumerator PerformBackflip(float distanceMultiplier)
+    {
+        // Avvia animazione Backflip
+        _ratAnimator.SetTrigger("Backflip");
+
+        yield return new WaitForSeconds(0.1f); // aspetta inizio animazione
+
+        Vector2 inputDir = _ratInputHandler.GetMoveInputRaw();
+        Vector3 backwardDir = -transform.forward;
+
+        if (inputDir.magnitude > 0.1f)
+        {
+            Vector3 desiredDir = new Vector3(inputDir.x, 0, inputDir.y);
+            desiredDir = Camera.main.transform.TransformDirection(desiredDir);
+            desiredDir.y = 0;
+            desiredDir.Normalize();
+
+            float angle = Vector3.Angle(backwardDir, desiredDir);
+            if (angle <= 35f)
+            {
+                backwardDir = desiredDir;
+            }
+            else
+            {
+                backwardDir = Vector3.Slerp(backwardDir, desiredDir, 35f / angle);
+            }
+        }
+
+        float backflipDistance = 2f * distanceMultiplier;
+
+        Vector3 targetPosition = transform.position + backwardDir * backflipDistance;
+
+        float elapsedTime = 0f;
+        float duration = 0.3f;
+        Vector3 startPos = transform.position;
+
+        while (elapsedTime < duration)
+        {
+            transform.position = Vector3.Lerp(startPos, targetPosition, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.position = targetPosition;
+    }
+
+    public void OnQuickTimeConfirm(InputAction.CallbackContext context)
+    {
+        if (context.performed && isQuickTimeActive)
+        {
+            quickTimeConfirmed = true;
+        }
+    }
+
 
 
     // 👇 Nuovo: rimuove il pirata morto
