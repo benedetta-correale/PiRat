@@ -1,4 +1,4 @@
-// PossessionManager.cs (con ritorno al topo premendo ESC e selezione bloccata durante possessione)
+// PossessionManager.cs (aggiornato con listener a OnSwitchedToRat)
 using UnityEngine;
 using System.Collections.Generic;
 
@@ -16,8 +16,30 @@ public class PossessionManager : MonoBehaviour
     private int selectedIndex = -1;
     private bool isPossessingPirate = false;
 
+    [Header("Filtro distanza possessione")]
+    public float maxPossessionDistance = 10f;
+
     private List<Transform> InfectedPirates => ratInteraction.infectedPirates;
+    private List<Transform> InfectedPiratesInRange =>
+        ratInteraction.infectedPirates.FindAll(p =>
+            Vector3.Distance(p.position, ratTransform.position) <= maxPossessionDistance);
     private List<LineRenderer> scieAttive = new List<LineRenderer>();
+
+    void Start()
+    {
+        if (cameraManager != null)
+        {
+            cameraManager.OnSwitchedToRat += HandleReturnToRat;
+        }
+    }
+
+    void OnDestroy()
+    {
+        if (cameraManager != null)
+        {
+            cameraManager.OnSwitchedToRat -= HandleReturnToRat;
+        }
+    }
 
     void Update()
     {
@@ -36,7 +58,6 @@ public class PossessionManager : MonoBehaviour
             HandleSelectionInput();
         }
 
-        // 🔁 Se siamo dentro un pirata, ESC ci fa tornare al topo
         if (!isSelecting && !ratInput.enabled && Input.GetKeyDown(KeyCode.Escape))
         {
             SwitchToRat();
@@ -65,7 +86,6 @@ public class PossessionManager : MonoBehaviour
     {
         isSelecting = true;
         selectedIndex = -1;
-
         AggiornaScie();
         ShowScie();
 
@@ -102,6 +122,11 @@ public class PossessionManager : MonoBehaviour
     {
         cameraManager.SwitchToRat();
         ratInput.enabled = true;
+        isPossessingPirate = false;
+    }
+
+    void HandleReturnToRat()
+    {
         isPossessingPirate = false;
     }
 
