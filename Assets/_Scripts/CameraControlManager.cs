@@ -19,7 +19,7 @@ public class CameraControlManager : MonoBehaviour
     [Header("Transition Settings")]
     [Range(0.1f, 10f)] public float transitionSpeed = 3f;
 
-    private Transform camTransform;
+    //private Transform camTransform;
     private bool followPirate = false;
     private Transform currentTarget;
     private Transform pirateTransform;
@@ -50,7 +50,7 @@ public class CameraControlManager : MonoBehaviour
 
     void Start()
     {
-        camTransform = Camera.main.transform;
+        //camTransform = Camera.main.transform;
         pirateTransform = null;
         currentTarget = ratTransform;
         //camTransform.rotation = Quaternion.Euler(cameraEulerAngles);
@@ -104,11 +104,14 @@ public class CameraControlManager : MonoBehaviour
         currentTarget = pirateTransform;
     }
 
+    public event System.Action OnSwitchedToRat;
+
     public void SwitchToRat()
     {
         followPirate = false;
         currentTarget = ratTransform;
         ratController.enabled = true;
+        OnSwitchedToRat?.Invoke();
     }
 
 }

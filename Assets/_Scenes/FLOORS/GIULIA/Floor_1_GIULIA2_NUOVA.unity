@@ -3053,6 +3053,7 @@ MonoBehaviour:
   ratInput: {fileID: 368273435}
   cameraManager: {fileID: 628773117}
   isSelecting: 0
+  maxPossessionDistance: 30
 --- !u!1 &375525283
 GameObject:
   m_ObjectHideFlags: 0
