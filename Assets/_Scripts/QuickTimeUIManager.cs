@@ -6,6 +6,8 @@ public class QuickTimeUIManager : MonoBehaviour
     public RectTransform shrinkingImage;
     public RectTransform targetImage;
     public float duration = 1.5f;
+    public float CurrentScale => shrinkingImage.localScale.x;
+    public float StartingScale => 2.2f; // oppure [SerializeField]
 
     private float timer = 0f;
     private bool active = false;
@@ -36,20 +38,18 @@ public class QuickTimeUIManager : MonoBehaviour
         timer += Time.deltaTime;
         float t = Mathf.Clamp01(timer / duration);
 
-        if (shrinkingImage != null) {
+        if (shrinkingImage != null)
+        {
             float start = 3f;
             float end = 0.2f;
-
-            float current = Mathf.Lerp(start, end, timer / duration);
+            float current = Mathf.Lerp(start, end, t);
             shrinkingImage.localScale = new Vector3(current, current, current);
-
-
         }
-
 
         if (t >= 1f)
         {
             StopQuickTime();
         }
     }
+
 }

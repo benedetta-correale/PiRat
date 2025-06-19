@@ -189,32 +189,42 @@ public class RatInteractionManager : MonoBehaviour
             return;
         }
 
-        if (precision < 0.3f) // zona rossa
+        float currentScale = quickTimeUIManager.CurrentScale;
+        float startScale = quickTimeUIManager.StartingScale;
+        float scaleRatio = currentScale / startScale;
+
+        Debug.Log("QuickTime scale ratio: " + scaleRatio);
+
+        // Zone mapping
+        if (scaleRatio > 0.89f || scaleRatio < 0.24f) // zone esterna e interna nere
         {
-            Debug.Log("Perfetto! Zona rossa.");
-            targetPirate.TakeDamage(Damage + bonusDamage);
-            Infect(targetPirate);
-            ExecuteBackflip(1.5f);
+            Debug.Log("❌ Fuori bersaglio (fallimento)");
+            _ratAnimator.SetTrigger("JumpBack");
+            return;
         }
-        else if (precision < 0.6f) // zona blu
+        else if ((scaleRatio >= 0.75f && scaleRatio <=0.89f) || (scaleRatio <=0.38f && scaleRatio >=0.24f))
         {
-            Debug.Log("Buono! Zona blu.");
-            targetPirate.TakeDamage(Damage + bonusDamage);
-            Infect(targetPirate);
-            ExecuteBackflip(1f);
-        }
-        else if (precision < 0.9f) // zona gialla
-        {
-            Debug.Log("Accettabile! Zona gialla.");
+            Debug.Log("🟡 Zona gialla");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
             ExecuteBackflip(0.5f);
         }
-        else // zona nera
+        else if ((scaleRatio >= 0.63f && scaleRatio <0.75f) || (scaleRatio <= 0.5 && scaleRatio > 0.38f))
         {
-            Debug.Log("Pessimo! Zona nera.");
-            _ratAnimator.SetTrigger("JumpBack"); // solo jumpback senza backflip
+            Debug.Log("🔵 Zona blu");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            Infect(targetPirate);
+            ExecuteBackflip(1f);
         }
+        else
+        {
+            Debug.Log("🔴 Zona rossa");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            Infect(targetPirate);
+            ExecuteBackflip(1.5f);
+        }
+
+
 
         bonusDamage = 0; // reset danno extra
     }
