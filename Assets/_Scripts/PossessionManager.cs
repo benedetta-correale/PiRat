@@ -16,13 +16,7 @@ public class PossessionManager : MonoBehaviour
     private int selectedIndex = -1;
     private bool isPossessingPirate = false;
 
-    [Header("Filtro distanza possessione")]
-    public float maxPossessionDistance = 10f;
-
     private List<Transform> InfectedPirates => ratInteraction.infectedPirates;
-    private List<Transform> InfectedPiratesInRange =>
-        ratInteraction.infectedPirates.FindAll(p =>
-            Vector3.Distance(p.position, ratTransform.position) <= maxPossessionDistance);
     private List<LineRenderer> scieAttive = new List<LineRenderer>();
 
     void Start()
