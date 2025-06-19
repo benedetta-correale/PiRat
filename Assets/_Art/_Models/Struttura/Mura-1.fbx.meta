@@ -1,9 +1,14 @@
 fileFormatVersion: 2
-guid: d6bb9c45a20224eb6b50d2d9d7c3771c
+guid: 4e82807c059844a62aa8bd8cbb958c94
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PolygonPirates_Material_01_A
+    second: {fileID: 2100000, guid: f7628fe2d3fb04f6ea86f7bf0ae6cf45, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
