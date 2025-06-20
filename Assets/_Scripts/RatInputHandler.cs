@@ -22,6 +22,9 @@ public class RatInputHandler : MonoBehaviour
 
     private Rigidbody rb;
     public Vector2 moveInput { get; private set; }
+    [HideInInspector]
+    public bool movementLocked = false;
+
     private bool isSprinting;
     private Animator _ratAnimator;
 
@@ -53,8 +56,20 @@ public class RatInputHandler : MonoBehaviour
         forward.y = 0; right.y = 0;
         forward.Normalize(); right.Normalize();
 
-        Vector3 desiredMove = forward * moveInput.y + right * moveInput.x;
+
+        Vector3 desiredMove;
+        if (movementLocked)
+        {
+            // se bloccato, nessun movimento
+            desiredMove = Vector3.zero;
+        }
+        else
+        {
+            desiredMove = forward * moveInput.y + right * moveInput.x;
+        }
+
         float currentSpeed = walkSpeed * (isSprinting ? sprintMultiplier : 1f);
+
 
         // Rotazione in loco verso desiredMove
         if (desiredMove.sqrMagnitude > 0.001f)

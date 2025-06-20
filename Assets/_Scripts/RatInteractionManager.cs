@@ -97,13 +97,13 @@ public class RatInteractionManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("Pirate"))
             {
-                Debug.Log("Colpito: " + hit.collider.name);
                 enemyController = hit.collider.GetComponent<PirateController>();
                 if (enemyController != null)
                 {
+                    _ratInputHandler.movementLocked = true; // ⬅️ aggiunto qui
                     biting = true;
-                    _ratAnimator.SetTrigger("Bite"); // Avvia animazione morso
-                    StartCoroutine(StartQuickTimeEvent(enemyController)); // Avvia QTE
+                    _ratAnimator.SetTrigger("Bite");
+                    StartCoroutine(StartQuickTimeEvent(enemyController));
                 }
             }
             else if (hit.collider.CompareTag("Cheese"))
@@ -111,20 +111,29 @@ public class RatInteractionManager : MonoBehaviour
                 CheesePowerUp cheese = hit.collider.GetComponent<CheesePowerUp>();
                 if (cheese != null)
                 {
+                    _ratInputHandler.movementLocked = true; // ⬅️ anche qui
                     cheese.ActivatePowerUp(this);
-                    _ratAnimator.SetTrigger("BiteWithJumpBack"); // salto indietro dopo aver preso il formaggio
+                    _ratAnimator.SetTrigger("BiteWithJumpBack");
+                    StartCoroutine(UnlockAfterAnimationFixed(1.5f)); //  testalo
+
                 }
             }
             else
             {
-                Debug.Log("Oggetto davanti non è un target valido!");
-                _ratAnimator.SetTrigger("BiteWithJumpBack"); // animazione morso a vuoto
+                _ratInputHandler.movementLocked = true; // ⬅️ anche qui
+                _ratAnimator.SetTrigger("BiteWithJumpBack");
+                StartCoroutine(UnlockAfterAnimationFixed(1.5f)); // testalo
+
             }
+
         }
         else
         {
             Debug.Log("Nessun bersaglio davanti al topo!");
+            _ratInputHandler.movementLocked = true;
             _ratAnimator.SetTrigger("BiteWithJumpBack"); // morso a vuoto
+            StartCoroutine(UnlockAfterAnimationFixed(1.8f)); // testalo
+
         }
 
         canBite = false;
@@ -186,6 +195,9 @@ public class RatInteractionManager : MonoBehaviour
         {
             Debug.Log("QuickTime fallito, nessun pulsante premuto.");
             _ratAnimator.SetTrigger("JumpBack"); // Animazione fallita
+            StartCoroutine(UnlockAfterAnimationFixed(1f));
+
+
             return;
         }
 
@@ -278,6 +290,15 @@ public class RatInteractionManager : MonoBehaviour
         }
 
         transform.position = targetPosition;
+        _ratInputHandler.movementLocked = false;
+
+    }
+
+
+    private IEnumerator UnlockAfterAnimationFixed(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        _ratInputHandler.movementLocked = false;
     }
 
     public void OnQuickTimeConfirm(InputAction.CallbackContext context)
