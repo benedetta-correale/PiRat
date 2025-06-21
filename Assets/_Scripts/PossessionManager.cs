@@ -1,6 +1,7 @@
-// PossessionManager.cs (aggiornato con listener a OnSwitchedToRat)
 using UnityEngine;
 using System.Collections.Generic;
+
+public enum PossessionState { Idle, Selecting, Possessing }
 
 public class PossessionManager : MonoBehaviour
 {
@@ -12,126 +13,176 @@ public class PossessionManager : MonoBehaviour
     public CameraControlManager cameraManager;
 
     [Header("Impostazioni selezione")]
-    public bool isSelecting = false;
-    private int selectedIndex = -1;
-    private bool isPossessingPirate = false;
+    public float maxSelectionDistance = 15f;
 
-    private List<Transform> InfectedPirates => ratInteraction.infectedPirates;
+    private PossessionState currentState = PossessionState.Idle;
+    private int selectedIndex = -1;
+    private bool canSwitchBackToRat = true;
+
     private List<LineRenderer> scieAttive = new List<LineRenderer>();
+    private Animator ratAnimator;
 
     void Start()
     {
         if (cameraManager != null)
-        {
             cameraManager.OnSwitchedToRat += HandleReturnToRat;
-        }
+
+        ratAnimator = ratTransform.GetComponent<Animator>();
     }
 
     void OnDestroy()
     {
         if (cameraManager != null)
-        {
             cameraManager.OnSwitchedToRat -= HandleReturnToRat;
-        }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Tab) && !isPossessingPirate)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            EnterSelectionMode();
-        }
-
-        if (isSelecting)
-        {
-            if (Input.GetKeyDown(KeyCode.Escape))
+            if (currentState == PossessionState.Selecting)
             {
                 ExitSelectionMode();
+                return;
             }
-
-            HandleSelectionInput();
+            else if (currentState == PossessionState.Possessing && canSwitchBackToRat)
+            {
+                SwitchToRat();
+                return;
+            }
         }
 
-        if (!isSelecting && !ratInput.enabled && Input.GetKeyDown(KeyCode.Escape))
+        switch (currentState)
         {
-            SwitchToRat();
+            case PossessionState.Idle:
+                if (Input.GetKeyDown(KeyCode.Tab))
+                    EnterSelectionMode();
+                break;
+
+            case PossessionState.Selecting:
+                HandleSelectionInput();
+                break;
         }
-    }
-
-    void HandleSelectionInput()
-    {
-        if (InfectedPirates.Count == 0) return;
-
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            ConfirmSelection();
-        }
-
-        Vector2 inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (inputDir != Vector2.zero)
-        {
-            SelectClosestInDirection(inputDir.normalized);
-        }
-
-        AggiornaScie();
     }
 
     void EnterSelectionMode()
     {
-        isSelecting = true;
-        selectedIndex = -1;
-        AggiornaScie();
+        var piratesInRange = GetPiratesInRange();
+
+        if (piratesInRange.Count == 0)
+        {
+            Debug.Log("Nessun pirata infetto nel raggio di selezione.");
+            return;
+        }
+
+        currentState = PossessionState.Selecting;
+
+        // ✅ Auto-selezione se c’è solo un pirata
+        selectedIndex = (piratesInRange.Count == 1) ? 0 : -1;
+
+        AggiornaScie(piratesInRange);
         ShowScie();
 
         if (ratInput != null)
         {
             ratInput.enabled = false;
+            ratInput.movementLocked = true;
         }
+
+        if (ratAnimator != null)
+            ratAnimator.SetBool("isWalking", false);
+    }
+
+    void HandleSelectionInput()
+    {
+        var piratesInRange = GetPiratesInRange();
+        if (piratesInRange.Count == 0) return;
+
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ConfirmSelection(piratesInRange);
+            return;
+        }
+
+        Vector2 inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
+        if (inputDir != Vector2.zero)
+            SelectClosestInDirection(inputDir.normalized, piratesInRange);
+
+        AggiornaScie(piratesInRange);
+    }
+
+    void ConfirmSelection(List<Transform> piratesInRange)
+    {
+        if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count) return;
+
+        cameraManager.SwitchToPirate(piratesInRange[selectedIndex]);
+
+        if (ratInput != null)
+        {
+            ratInput.enabled = false;
+            ratInput.movementLocked = true;
+        }
+
+        if (ratAnimator != null)
+            ratAnimator.SetBool("isWalking", false);
+
+        ExitSelectionMode();
+        currentState = PossessionState.Possessing;
     }
 
     void ExitSelectionMode()
     {
-        isSelecting = false;
         selectedIndex = -1;
         HideScie();
 
-        if (ratInput != null)
+        if (currentState == PossessionState.Selecting)
         {
-            ratInput.enabled = true;
-        }
-    }
+            currentState = PossessionState.Idle;
 
-    void ConfirmSelection()
-    {
-        if (selectedIndex >= 0 && selectedIndex < InfectedPirates.Count)
-        {
-            cameraManager.SwitchToPirate(InfectedPirates[selectedIndex]);
-            ratInput.enabled = false;
-            isPossessingPirate = true;
-            ExitSelectionMode();
+            if (ratInput != null)
+            {
+                ratInput.enabled = true;
+                ratInput.movementLocked = false;
+            }
+
+            if (ratAnimator != null)
+                ratAnimator.SetBool("isWalking", false);
         }
     }
 
     void SwitchToRat()
     {
         cameraManager.SwitchToRat();
-        ratInput.enabled = true;
-        isPossessingPirate = false;
+
+        if (ratInput != null)
+        {
+            ratInput.enabled = true;
+            ratInput.movementLocked = false;
+        }
+
+        if (ratAnimator != null)
+            ratAnimator.SetBool("isWalking", false);
+
+        currentState = PossessionState.Idle;
+        canSwitchBackToRat = false;
+        Invoke(nameof(EnableSwitchBack), 0.2f);
     }
+
+    void EnableSwitchBack() => canSwitchBackToRat = true;
 
     void HandleReturnToRat()
     {
-        isPossessingPirate = false;
+        currentState = PossessionState.Idle;
     }
 
-    void SelectClosestInDirection(Vector2 inputDir)
+    void SelectClosestInDirection(Vector2 inputDir, List<Transform> piratesInRange)
     {
         float bestDot = -1f;
         int bestIndex = -1;
 
-        for (int i = 0; i < InfectedPirates.Count; i++)
+        for (int i = 0; i < piratesInRange.Count; i++)
         {
-            Vector3 toPirate = InfectedPirates[i].position - ratTransform.position;
+            Vector3 toPirate = piratesInRange[i].position - ratTransform.position;
             Vector2 toPirate2D = new Vector2(toPirate.x, toPirate.z).normalized;
             float dot = Vector2.Dot(inputDir, toPirate2D);
 
@@ -145,52 +196,60 @@ public class PossessionManager : MonoBehaviour
         if (bestIndex != -1)
         {
             selectedIndex = bestIndex;
-            Debug.Log("Pirata selezionato: " + InfectedPirates[selectedIndex].name);
+            Debug.Log("Pirata selezionato: " + piratesInRange[selectedIndex].name);
         }
     }
 
-    void AggiornaScie()
+    void AggiornaScie(List<Transform> piratesInRange)
     {
-        if (!isSelecting) return;
+        if (currentState != PossessionState.Selecting) return;
 
-        var infected = InfectedPirates;
-
-        while (scieAttive.Count < infected.Count)
+        while (scieAttive.Count < piratesInRange.Count)
         {
             var newScia = Instantiate(sciaPrefab).GetComponent<LineRenderer>();
             newScia.gameObject.SetActive(false);
             scieAttive.Add(newScia);
         }
 
-        while (scieAttive.Count > infected.Count)
+        while (scieAttive.Count > piratesInRange.Count)
         {
             Destroy(scieAttive[scieAttive.Count - 1].gameObject);
             scieAttive.RemoveAt(scieAttive.Count - 1);
         }
 
-        for (int i = 0; i < infected.Count; i++)
+        Color selectedColor = Color.green;
+        Color defaultColor = new Color(1f, 1f, 1f, 0.2f); // bianco traslucido
+
+        for (int i = 0; i < piratesInRange.Count; i++)
         {
             var scia = scieAttive[i];
-            var target = infected[i];
+            var target = piratesInRange[i];
 
             scia.SetPosition(0, ratTransform.position);
             scia.SetPosition(1, target.position + Vector3.up * 0.5f);
+
+            if (scia.material != null)
+            {
+                scia.material.color = (i == selectedIndex) ? selectedColor : defaultColor;
+            }
         }
     }
 
     public void ShowScie()
     {
         foreach (var scia in scieAttive)
-        {
             scia.gameObject.SetActive(true);
-        }
     }
 
     public void HideScie()
     {
         foreach (var scia in scieAttive)
-        {
             scia.gameObject.SetActive(false);
-        }
+    }
+
+    private List<Transform> GetPiratesInRange()
+    {
+        return ratInteraction.infectedPirates.FindAll(p =>
+            Vector3.Distance(p.position, ratTransform.position) <= maxSelectionDistance);
     }
 }

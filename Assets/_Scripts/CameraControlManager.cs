@@ -67,12 +67,12 @@ public class CameraControlManager : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(toggleKey))
+        /*if (Input.GetKeyDown(toggleKey))
         {
             followPirate = !followPirate;
             ratController.enabled = !followPirate;
             if (pirateTransform != null) currentTarget = followPirate ? pirateTransform : ratTransform;
-        }
+        }*/
     }
 
     // Invocato dal PlayerInput → Invoke Unity Events sulla action "Look"

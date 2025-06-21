@@ -2905,6 +2905,7 @@ MonoBehaviour:
   animSpeedParam: SpeedMultiplier
   minAnimSpeed: 0.5
   maxAnimSpeed: 1.6
+  movementLocked: 0
 --- !u!114 &368273437
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3056,8 +3057,8 @@ MonoBehaviour:
   ratTransform: {fileID: 368273431}
   ratInput: {fileID: 368273435}
   cameraManager: {fileID: 628773117}
-  ratController: {fileID: 368273435}
   isSelecting: 0
+  maxSelectionDistance: 30
 --- !u!1 &375525283
 GameObject:
   m_ObjectHideFlags: 0
