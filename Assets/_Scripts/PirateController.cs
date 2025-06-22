@@ -152,6 +152,7 @@ public class PirateController : MonoBehaviour
 
 
         UpdateVisionCone();
+        
 
         
 
@@ -267,7 +268,7 @@ public class PirateController : MonoBehaviour
 
         if (distance <= _rayAttachment)
         {
-            Debug.Log("Il pirata ha raggiunto il topo!");
+            //Debug.Log("Il pirata ha raggiunto il topo!");
             return;
         }
 
@@ -555,6 +556,40 @@ public class PirateController : MonoBehaviour
             else
             {
                 _hitRats = false;
+            }
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        OnAttack(other);  // chiama il metodo che hai scritto tu
+    }
+
+
+    
+    //funzione che arreca danno se il topo entra nel raggio di attacco del pirata
+    private void OnAttack(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Vector3 directionToRat = other.transform.position - transform.position;
+            float distanceToRat = directionToRat.magnitude;
+
+            // Check if rat is within vision cone and attack radius
+            if (IsInViewCone(directionToRat, distanceToRat) && distanceToRat <= _rayAttachment)
+            {
+                Debug.Log("Il topo è entrato nel raggio di attacco!");
+
+                BonusMalus bonusMalus = other.GetComponent<BonusMalus>();
+                if (bonusMalus != null)
+                {
+                    bonusMalus.TakeDamage(attackDamage);
+                    Debug.Log($"Il topo è stato colpito per {attackDamage} danni.");
+                }
+                else
+                {
+                    Debug.LogWarning("BonusMalus non trovato sul player!");
+                }
             }
         }
     }

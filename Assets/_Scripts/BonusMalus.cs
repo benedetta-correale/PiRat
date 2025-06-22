@@ -8,25 +8,17 @@ public class BonusMalus : MonoBehaviour
     public int maxHealth = 100; //max vita topo 
     public int currentHealth; // vita corrente top
 
-    [Header ("UI Vita topo")]
-    [SerializeField] private Slider _healthbar;
-
     [Header("Eventi")]
     public UnityEvent<int, int> onHealthChanged; // (current, max)
     public UnityEvent onDeath;
 
     void Awake()
     {
-        if (!_healthbar)
-        {
-            Debug.LogWarning("HealthBar not found");
-            return;
-        }
+
         
-        _healthbar.minValue = 0f;
-        _healthbar.maxValue = 100f;
+        
         currentHealth = maxHealth;
-        _healthbar.value = currentHealth;
+        
         NotifyHealthChange();
     }
 
@@ -52,24 +44,7 @@ public class BonusMalus : MonoBehaviour
         NotifyHealthChange();
     }
 
-    private void OnColliderEnter(Collider other)
-
-
-{
-        Debug.Log("sta per essere colpito");
-    if (other.CompareTag("Pirate"))
-        {
-            PirateController pirate = other.GetComponent<PirateController>();
-            if (pirate != null)
-
-            {
-                int damage = pirate.attackDamage;
-                TakeDamage(damage); // 
-                Debug.Log($"Il topo è stato colpito da {pirate.name} per {damage} danni.");
-            }
-        }
-}
-
+   
 
     private void Die()
     {
@@ -81,9 +56,7 @@ public class BonusMalus : MonoBehaviour
     private void NotifyHealthChange()
     {
         onHealthChanged?.Invoke(currentHealth, maxHealth);
-        if (_healthbar != null)
-        {
-            _healthbar.value = currentHealth;
-        }
+
+        
     }
 }
