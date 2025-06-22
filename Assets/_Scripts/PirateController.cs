@@ -19,7 +19,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float _viewDistance = 10f; // Distanza massima di vista
     [SerializeField] private float _rayAttachment = 3f; // distanza del raggio di attaccamento
     [SerializeField] private Material visionConeMaterial; // Aggiungi questo campo
-
+    public int attackDamage = 20;
 
     [Header("Follow Settings")]
     [SerializeField] private float _attachTime = 5f; // Tempo di attesa prima di iniziare a seguire
@@ -204,7 +204,7 @@ public class PirateController : MonoBehaviour
 
     private void StartCountdown()
     {
-        Debug.Log($"[COUNTDOWN] hasSpottedRat: {_hasSpottedRat}, hitRats: {_hitRats}, waitingTime: {_waitingTime}");
+        
 
 
         // Avanza il timer
