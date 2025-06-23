@@ -562,6 +562,7 @@ public class PirateController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log(animator.GetBool("isAttacking"));
         OnAttack(other);  // chiama il metodo che hai scritto tu
     }
 
@@ -580,11 +581,18 @@ public class PirateController : MonoBehaviour
             {
                 Debug.Log("Il topo è entrato nel raggio di attacco!");
 
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isAttacking", true);
+                StartCoroutine(ResetAttackTrigger());
+
                 BonusMalus bonusMalus = other.GetComponent<BonusMalus>();
                 if (bonusMalus != null)
                 {
                     bonusMalus.TakeDamage(attackDamage);
                     Debug.Log($"Il topo è stato colpito per {attackDamage} danni.");
+                    
+
+                    
                 }
                 else
                 {
@@ -592,6 +600,12 @@ public class PirateController : MonoBehaviour
                 }
             }
         }
+    }
+
+    private IEnumerator ResetAttackTrigger()
+    {
+        yield return new WaitForSeconds(1.2f); // durata animazione
+        animator.SetBool("isAttacking", false);
     }
 
 
