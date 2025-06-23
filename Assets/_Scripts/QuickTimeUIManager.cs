@@ -21,6 +21,8 @@ public class QuickTimeUIManager : MonoBehaviour
         active = true;
         gameObject.SetActive(true);
 
+        Time.timeScale = 0f;
+
         if (shrinkingImage != null)
             shrinkingImage.localScale = Vector3.one * 2.2f;
     }
@@ -29,13 +31,15 @@ public class QuickTimeUIManager : MonoBehaviour
     {
         active = false;
         gameObject.SetActive(false);
+        Time.timeScale = 1f;
     }
 
     void Update()
     {
         if (!active) return;
 
-        timer += Time.deltaTime;
+
+        timer += Time.unscaledDeltaTime;
         float t = Mathf.Clamp01(timer / duration);
 
         if (shrinkingImage != null)

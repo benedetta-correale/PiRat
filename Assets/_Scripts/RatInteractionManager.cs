@@ -208,32 +208,33 @@ public class RatInteractionManager : MonoBehaviour
         Debug.Log("QuickTime scale ratio: " + scaleRatio);
 
         // Zone mapping
-        if (scaleRatio > 0.89f || scaleRatio < 0.24f) // zone esterna e interna nere
+        if (scaleRatio > 0.87f || scaleRatio < 0.24f) // zone esterna e interna nere
         {
             Debug.Log("❌ Fuori bersaglio (fallimento)");
             _ratAnimator.SetTrigger("JumpBack");
+            StartCoroutine(UnlockAfterAnimationFixed(1f));
             return;
         }
-        else if ((scaleRatio >= 0.75f && scaleRatio <=0.89f) || (scaleRatio <=0.38f && scaleRatio >=0.24f))
+        else if ((scaleRatio >= 0.75f && scaleRatio <=0.87f) || (scaleRatio <=0.38f && scaleRatio >=0.24f))
         {
             Debug.Log("🟡 Zona gialla");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
-            ExecuteBackflip(0.5f);
+            ExecuteBackflip(0.5f, 0.4f);
         }
         else if ((scaleRatio >= 0.63f && scaleRatio <0.75f) || (scaleRatio <= 0.5 && scaleRatio > 0.38f))
         {
             Debug.Log("🔵 Zona blu");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
-            ExecuteBackflip(1f);
+            ExecuteBackflip(1f, 0.7f);
         }
         else
         {
             Debug.Log("🔴 Zona rossa");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
-            ExecuteBackflip(1.5f);
+            ExecuteBackflip(1.5f, 1f);
         }
 
 
@@ -241,17 +242,17 @@ public class RatInteractionManager : MonoBehaviour
         bonusDamage = 0; // reset danno extra
     }
 
-    private void ExecuteBackflip(float distanceMultiplier)
+    private void ExecuteBackflip(float distanceMultiplier, float delayBeforeMove = 0.35f)
     {
-        StartCoroutine(PerformBackflip(distanceMultiplier));
+        StartCoroutine(PerformBackflip(distanceMultiplier, delayBeforeMove));
     }
 
-    private IEnumerator PerformBackflip(float distanceMultiplier)
+    private IEnumerator PerformBackflip(float distanceMultiplier, float delayBeforeMove = 0.35f)
     {
         // Avvia animazione Backflip
         _ratAnimator.SetTrigger("Backflip");
 
-        yield return new WaitForSeconds(0.1f); // aspetta inizio animazione
+        yield return new WaitForSeconds(delayBeforeMove); // aspetta inizio animazione
 
         Vector2 inputDir = _ratInputHandler.GetMoveInputRaw();
         Vector3 backwardDir = -transform.forward;
