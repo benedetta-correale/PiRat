@@ -19,7 +19,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float _viewDistance = 10f; // Distanza massima di vista
     [SerializeField] private float _rayAttachment = 3f; // distanza del raggio di attaccamento
     [SerializeField] private Material visionConeMaterial; // Aggiungi questo campo
-
+    public int attackDamage = 20;
 
     [Header("Follow Settings")]
     [SerializeField] private float _attachTime = 5f; // Tempo di attesa prima di iniziare a seguire
@@ -118,7 +118,7 @@ public class PirateController : MonoBehaviour
 
             bool isInViewCone = IsInViewCone(direction, distance);
 
-            if (isInViewCone && !_hasSpottedRat)
+            if (isInViewCone && !_hasSpottedRat && _hitRats)
             {
                 Debug.Log("Il pirata ha avvistato il topo, comincia il countdown!");
 
@@ -152,6 +152,9 @@ public class PirateController : MonoBehaviour
 
 
         UpdateVisionCone();
+        
+
+        
 
     }
 
@@ -202,6 +205,8 @@ public class PirateController : MonoBehaviour
 
     private void StartCountdown()
     {
+        
+
 
         // Avanza il timer
         _waitingTime += Time.deltaTime;
@@ -223,7 +228,6 @@ public class PirateController : MonoBehaviour
                 Debug.Log("Countdown completato, ma il topo non è visibile: torna in pattuglia");
                 _hasSpottedRat = false;
                 _startFollowing = false;
-                _waitingTime = 0f;
 
                 // Torna al punto di pattuglia
                 agent.isStopped = false;
@@ -232,15 +236,22 @@ public class PirateController : MonoBehaviour
                 animator.SetBool("isWalking", true);
             }
             else
-           { // Inizia l’inseguimento
-            _startFollowing = true;
-            _pirateIsWalking = true;
-            agent.isStopped = false;
-            animator.SetBool("isWalking", true);
-            agent.areaMask = NavMesh.AllAreas;
+            { // Inizia l’inseguimento
+                _startFollowing = true;
+                _pirateIsWalking = true;
+                agent.isStopped = false;
+                animator.SetBool("isWalking", true);
+                agent.areaMask = NavMesh.AllAreas;
 
-            Debug.Log("Countdown completato e topo visibile: inizio inseguimento");}
+                Debug.Log("Countdown completato e topo visibile: inizio inseguimento");
+            }
+
+             _waitingTime = 0f;
         }
+
+       
+        
+
     }
 
 
@@ -257,7 +268,7 @@ public class PirateController : MonoBehaviour
 
         if (distance <= _rayAttachment)
         {
-            Debug.Log("Il pirata ha raggiunto il topo!");
+            //Debug.Log("Il pirata ha raggiunto il topo!");
             return;
         }
 
@@ -530,27 +541,60 @@ public class PirateController : MonoBehaviour
     private void CheckHitRat()
     {
         if (_mainCharacter == null) return;
+        RaycastHit hit; // Add this line
+        Vector3 origin = transform.position + Vector3.up * 0.4f;
+        Vector3 targetCenter = _mainCharacter.transform.position + Vector3.up * 0.5f;
+        Vector3 directionToTarget = (targetCenter - origin).normalized;
+        float distance = Vector3.Distance(origin, targetCenter);
 
-        // Calcola la direzione dal pirata verso il giocatore
-        Vector3 directionToTarget = (_mainCharacter.transform.position - transform.position).normalized;
-        float distance = Vector3.Distance(transform.position, _mainCharacter.transform.position);
-
-        // Esegui il raycast per controllare gli ostacoli
-        RaycastHit hit;
-        if (Physics.Raycast(transform.position, directionToTarget, out hit, distance))
+        if (Physics.SphereCast(origin, 0.3f, directionToTarget, out hit, distance))
         {
-            // Se colpisce il giocatore, non ci sono ostacoli
-            if (hit.collider.gameObject == _mainCharacter)
+            if (hit.collider.transform.root.gameObject == _mainCharacter)
             {
                 _hitRats = true;
             }
             else
             {
-                // Se colpisce qualsiasi altra cosa, c'è un ostacolo
                 _hitRats = false;
             }
         }
     }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        OnAttack(other);  // chiama il metodo che hai scritto tu
+    }
+
+
+    
+    //funzione che arreca danno se il topo entra nel raggio di attacco del pirata
+    private void OnAttack(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            Vector3 directionToRat = other.transform.position - transform.position;
+            float distanceToRat = directionToRat.magnitude;
+
+            // Check if rat is within vision cone and attack radius
+            if (IsInViewCone(directionToRat, distanceToRat) && distanceToRat <= _rayAttachment)
+            {
+                Debug.Log("Il topo è entrato nel raggio di attacco!");
+
+                BonusMalus bonusMalus = other.GetComponent<BonusMalus>();
+                if (bonusMalus != null)
+                {
+                    bonusMalus.TakeDamage(attackDamage);
+                    Debug.Log($"Il topo è stato colpito per {attackDamage} danni.");
+                }
+                else
+                {
+                    Debug.LogWarning("BonusMalus non trovato sul player!");
+                }
+            }
+        }
+    }
+
+
 
     // 👇 Chiamalo quando il pirata deve morire
     public void Die()

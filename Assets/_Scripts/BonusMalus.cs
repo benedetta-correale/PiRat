@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 public class BonusMalus : MonoBehaviour
 {
     [Header("Parametri Vita")]
-    public int maxHealth = 100;
-    public int currentHealth;
+    public int maxHealth = 100; //max vita topo 
+    public int currentHealth; // vita corrente top
 
     [Header("Eventi")]
     public UnityEvent<int, int> onHealthChanged; // (current, max)
@@ -13,7 +14,11 @@ public class BonusMalus : MonoBehaviour
 
     void Awake()
     {
+
+        
+        
         currentHealth = maxHealth;
+        
         NotifyHealthChange();
     }
 
@@ -21,6 +26,8 @@ public class BonusMalus : MonoBehaviour
     {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
+
+    
 
         NotifyHealthChange();
 
@@ -37,9 +44,11 @@ public class BonusMalus : MonoBehaviour
         NotifyHealthChange();
     }
 
+   
+
     private void Die()
     {
-        Debug.Log("Il topo è morto!");
+        Debug.Log("Il topo ï¿½ morto!");
         onDeath?.Invoke();
         // Qui puoi disattivare movimento, attivare animazioni, ecc.
     }
@@ -47,5 +56,7 @@ public class BonusMalus : MonoBehaviour
     private void NotifyHealthChange()
     {
         onHealthChanged?.Invoke(currentHealth, maxHealth);
+
+        
     }
 }
