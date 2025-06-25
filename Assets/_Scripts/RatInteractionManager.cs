@@ -20,7 +20,7 @@ public class RatInteractionManager : MonoBehaviour
     private bool quickTimeConfirmed = false;
     private bool isQuickTimeActive = false;
 
-
+    [SerializeField] private QuickTimeVFXManager vfxManager;
 
 
     [Header("Effetti dell' attacco")]
@@ -217,6 +217,7 @@ public class RatInteractionManager : MonoBehaviour
         }
         else if ((scaleRatio >= 0.75f && scaleRatio <=0.87f) || (scaleRatio <=0.38f && scaleRatio >=0.24f))
         {
+            vfxManager.PlayBiteVFX();
             Debug.Log("🟡 Zona gialla");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
@@ -224,6 +225,7 @@ public class RatInteractionManager : MonoBehaviour
         }
         else if ((scaleRatio >= 0.63f && scaleRatio <0.75f) || (scaleRatio <= 0.5 && scaleRatio > 0.38f))
         {
+            vfxManager.PlayBiteVFX();
             Debug.Log("🔵 Zona blu");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
@@ -231,6 +233,7 @@ public class RatInteractionManager : MonoBehaviour
         }
         else
         {
+            vfxManager.PlayBiteVFX();
             Debug.Log("🔴 Zona rossa");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
