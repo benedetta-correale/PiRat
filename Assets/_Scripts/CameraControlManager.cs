@@ -32,6 +32,11 @@ public class CameraControlManager : MonoBehaviour
     [Tooltip("Velocità di rotazione orizzontale")]
     public float sensitivity = 120f;
 
+    [Header("Collisione Camera")]
+    public LayerMask cameraCollisionMask;
+    public float cameraMinDistance = 1f; // distanza minima di sicurezza dal topo
+
+
     float yaw;
     Vector2 lookInput;
 
@@ -89,8 +94,25 @@ public class CameraControlManager : MonoBehaviour
         // costruisci la rotazione orizzontale
         Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
 
-        // posiziona la camera: Target + rotazione * Offset
-        transform.position = currentTarget.position + rot * offset;
+        // calcola la posizione desiderata
+        Vector3 desiredCameraPos = currentTarget.position + rot * offset;
+
+        // calcola direzione e distanza tra target e camera
+        Vector3 direction = desiredCameraPos - currentTarget.position;
+        float distance = direction.magnitude;
+
+        // esegui il raycast per evitare muri tra il target e la camera
+        if (Physics.Raycast(currentTarget.position, direction.normalized, out RaycastHit hit, distance, cameraCollisionMask))
+        {
+            // posiziona la camera appena prima dell’ostacolo, con distanza minima garantita
+            transform.position = currentTarget.position + direction.normalized * Mathf.Max(hit.distance - 0.2f, cameraMinDistance);
+        }
+        else
+        {
+            // nessun ostacolo: posizione normale
+            transform.position = desiredCameraPos;
+        }
+
 
         // guarda sempre il target
         transform.LookAt(currentTarget.position);
