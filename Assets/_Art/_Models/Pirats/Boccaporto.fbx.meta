@@ -3,7 +3,32 @@ guid: ad33810f815bc4ae7b4b5a650b118e70
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PolygonPirates_Characters_Material_01_A.003
+    second: {fileID: 2100000, guid: f7628fe2d3fb04f6ea86f7bf0ae6cf45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PolygonPirates_Characters_Material_01_A.004
+    second: {fileID: 2100000, guid: f7628fe2d3fb04f6ea86f7bf0ae6cf45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PolygonPirates_Characters_Material_01_A.005
+    second: {fileID: 2100000, guid: f7628fe2d3fb04f6ea86f7bf0ae6cf45, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: PolygonPirates_Characters_Material_01_A.009
+    second: {fileID: 2100000, guid: f7628fe2d3fb04f6ea86f7bf0ae6cf45, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Texture_01_A
+    second: {fileID: 2800000, guid: 214a2b4abed67408bad98a8ae01597d3, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
