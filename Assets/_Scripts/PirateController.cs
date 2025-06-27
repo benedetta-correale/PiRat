@@ -1,68 +1,63 @@
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.AI; 
+using UnityEngine.AI;
 using System.Collections;
-
 
 public class PirateController : MonoBehaviour
 {
     [Header("Patrol Settings")]
     [SerializeField] private Transform[] patrolPoints;
     public Animator animator;
-    public float waitTimeAtPoint = 2f; // Tempo di attesa in secondi al punto di pattuglia
+    public float waitTimeAtPoint = 2f;
     private int _originalAreaMask;
-
 
     [Header("Pirate Settings")]
     [SerializeField] private float _followSpeed = 3f;
-    [SerializeField] private float _viewAngle = 90f; // Angolo del cono visivox
-    [SerializeField] private float _viewDistance = 10f; // Distanza massima di vista
-    [SerializeField] private float _rayAttachment = 3f; // distanza del raggio di attaccamento
-    [SerializeField] private Material visionConeMaterial; // Aggiungi questo campo
+    [SerializeField] private float _viewAngle = 90f;
+    [SerializeField] private float _viewDistance = 10f;
+    [SerializeField] private float _rayAttachment = 3f;
+    [SerializeField] private Material visionConeMaterial;
     public int attackDamage = 20;
 
     [Header("Follow Settings")]
-    [SerializeField] private float _attachTime = 5f; // Tempo di attesa prima di iniziare a seguire
+    [SerializeField] private float _attachTime = 5f;
     [SerializeField] private float _stopAttachTime = 5f;
-    private bool _startFollowing; // Fixed incomplete boolean declaration
-    private bool _pirateIsWalking = true; // Aggiunto per gestire lo stato di camminata del pirata
-    private bool _hasSpottedRat = false; // Bool che mi aiuta a capire quando ha visto il topo
+    private bool _startFollowing;
+    private bool _pirateIsWalking = true;
+    private bool _hasSpottedRat = false;
     private bool _hitRats = false;
 
-
-
-
     [Header("Vita del pirata")]
-    public bool isInfected = false; // Aggiunto per gestire lo stato di infezione del pirata
-    public float health = 100f; // Vita del pirata, puoi modificarla in base alle tue necessità
-    public bool isPossessed = false; // Aggiunto per gestire lo stato di possesso del pirata
-    private bool _isDead; // Aggiunto per gestire lo stato di morte del pirata
+    [SerializeField] private float maxHealth = 100f;
+    private float currentHealth;
+    [SerializeField] private float damagePerHit = 20f; // modificabile da Inspector
+    public bool isInfected = false;
+    private bool _isDead;
+    public bool isPossessed = false;
     public System.Action<PirateController> OnPirateDeath;
 
-
     [Header("UI Settings")]
-    [SerializeField] private GameObject healthBarPrefab; // Prefab dell'health bar
-    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 2f, 0); // Offset sopra il pirata
-    private Slider _healthSlider; // Reference allo slider
-    private Canvas _worldSpaceCanvas; // Canvas principale in World Space
+    [SerializeField] private Image healthForegroundImage;
+    [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 2f, 0);
+
+    [SerializeField] private GameObject deathEffect, hitEffect;
 
     private NavMeshAgent agent;
     private int currentPointIndex = 0;
     private bool waiting = false;
     private bool isAlive = true;
 
-
-    // Riferimento AI VARI PERSONAGGI 
     private GameObject _mainCharacter;
     private MeshFilter meshFilter;
     private MeshRenderer meshRenderer;
-    private RatInteractionManager ratController; // Riferimento al controller del ratto
-    private float _waitingTime = 0f; // Add this as a class field at the top of the class
-    private float _lostSightTimer = 0f;
-    void Start()
+    private RatInteractionManager ratController;
 
+    private float _waitingTime = 0f;
+    private float _lostSightTimer = 0f;
+
+    void Start()
     {
-        _isDead = false; // Inizializza lo stato di morte a false
+        _isDead = false;
         _mainCharacter = GameObject.FindGameObjectWithTag("Player");
 
         if (_mainCharacter == null)
@@ -71,8 +66,6 @@ public class PirateController : MonoBehaviour
             return;
         }
 
-
-        // Trova il controller del ratto
         ratController = _mainCharacter.GetComponent<RatInteractionManager>();
         if (ratController == null)
         {
@@ -80,35 +73,30 @@ public class PirateController : MonoBehaviour
             return;
         }
 
-
-        //mi colleggo all'animatore del pirata
         animator = GetComponent<Animator>();
-
         animator.SetBool("isWalking", true);
+
         agent = GetComponent<NavMeshAgent>();
         _originalAreaMask = agent.areaMask;
 
-
-
-
-        // Check if patrol points are assigned
         if (patrolPoints == null || patrolPoints.Length == 0)
         {
             Debug.LogError("No patrol points assigned! Please set patrol points in the Inspector.");
             return;
         }
 
-        // Now we can safely set the destination
         agent.SetDestination(patrolPoints[currentPointIndex].position);
 
         StartCoroutine(PatrolRoutine());
         InitializeVisionCone();
         UpdateVisionCone();
-        InitializeHealthBar();
 
+        currentHealth = maxHealth;
+
+        if (healthForegroundImage != null)
+            healthForegroundImage.fillAmount = 1f; // 100% iniziale
     }
 
-    // 3. Update the Update method to handle state changes
     void Update()
     {
         if (_mainCharacter != null)
@@ -120,49 +108,37 @@ public class PirateController : MonoBehaviour
 
             if (isInViewCone && !_hasSpottedRat && _hitRats)
             {
-                Debug.Log("Il pirata ha avvistato il topo, comincia il countdown!");
-
                 _hasSpottedRat = true;
                 _pirateIsWalking = false;
                 _waitingTime = 0f;
                 _startFollowing = false;
                 animator.SetBool("isWalking", false);
-                agent.isStopped = true;  // Stop NavMeshAgent movement
+                agent.isStopped = true;
 
-                // Aggiungi la rotazione verso il topo
                 StartCoroutine(RotateTowardsTarget(direction));
             }
 
             if (_hasSpottedRat)
             {
-                StartCountdown();  // Use corrected method name
+                StartCountdown();
             }
         }
 
         CheckHitRat();
 
-
         if (_startFollowing)
-
         {
             StartFollowing();
             StopFollowingIfLostSight();
         }
 
-
-
         UpdateVisionCone();
-        
-
-        
-
     }
 
-    // metodo per gestire la rotazione
     private IEnumerator RotateTowardsTarget(Vector3 direction)
     {
         Quaternion lookRotation = Quaternion.LookRotation(direction);
-        float rotationSpeed = 2.0f; // Puoi modificare questa velocità per renderla più veloce o più lenta
+        float rotationSpeed = 2.0f;
 
         while (Quaternion.Angle(transform.rotation, lookRotation) > 0.1f)
         {
@@ -171,47 +147,32 @@ public class PirateController : MonoBehaviour
         }
     }
 
-    // inizializzo il cono visivo
     private void InitializeVisionCone()
     {
-        // Check if vision cone already exists
         Transform existingCone = transform.Find("VisionCone");
         if (existingCone != null)
-        {
             Destroy(existingCone.gameObject);
-        }
 
-        // Create new vision cone
         GameObject visionCone = new GameObject("VisionCone");
         visionCone.transform.SetParent(transform, false);
         visionCone.transform.localPosition = Vector3.zero;
         visionCone.transform.localRotation = Quaternion.identity;
 
-        // Add required components
         meshFilter = visionCone.AddComponent<MeshFilter>();
         meshRenderer = visionCone.AddComponent<MeshRenderer>();
 
-        // Check and set material
         if (visionConeMaterial == null)
         {
-            Debug.LogWarning("Vision cone material not assigned, creating default");
             visionConeMaterial = new Material(Shader.Find("Standard"));
             visionConeMaterial.color = new Color(1f, 1f, 0f, 0.3f);
         }
         meshRenderer.material = visionConeMaterial;
     }
 
-    // 1. Fix the method name and comparison in startCountdown
-
     private void StartCountdown()
     {
-        
-
-
-        // Avanza il timer
         _waitingTime += Time.deltaTime;
 
-        // Mantieni la rotazione verso il topo durante il countdown
         if (_mainCharacter != null)
         {
             Vector3 direction = _mainCharacter.transform.position - transform.position;
@@ -219,46 +180,31 @@ public class PirateController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
         }
 
-
         if (_waitingTime >= _attachTime)
         {
-
-            if (!_hitRats) // Se il pirata non ha colpito il topo
+            if (!_hitRats)
             {
-                Debug.Log("Countdown completato, ma il topo non è visibile: torna in pattuglia");
                 _hasSpottedRat = false;
                 _startFollowing = false;
 
-                // Torna al punto di pattuglia
                 agent.isStopped = false;
                 agent.areaMask = _originalAreaMask;
                 agent.SetDestination(patrolPoints[currentPointIndex].position);
                 animator.SetBool("isWalking", true);
             }
             else
-            { // Inizia l’inseguimento
+            {
                 _startFollowing = true;
                 _pirateIsWalking = true;
                 agent.isStopped = false;
                 animator.SetBool("isWalking", true);
                 agent.areaMask = NavMesh.AllAreas;
-
-                Debug.Log("Countdown completato e topo visibile: inizio inseguimento");
             }
 
-             _waitingTime = 0f;
+            _waitingTime = 0f;
         }
-
-       
-        
-
     }
 
-
-
-
-
-    // 2. Fix the StartFollowing method to use NavMeshAgent
     public void StartFollowing()
     {
         if (_mainCharacter == null || agent == null) return;
@@ -267,18 +213,13 @@ public class PirateController : MonoBehaviour
         float distance = direction.magnitude;
 
         if (distance <= _rayAttachment)
-        {
-            //Debug.Log("Il pirata ha raggiunto il topo!");
             return;
-        }
 
-        // Imposta la destinazione sul topo e aumenta l'area di movimento
         agent.isStopped = false;
         agent.areaMask = NavMesh.AllAreas;
         agent.SetDestination(_mainCharacter.transform.position);
         agent.speed = _followSpeed;
 
-        // Forza la rotazione verso il topo
         Quaternion lookRotation = Quaternion.LookRotation(direction);
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
 
@@ -286,18 +227,14 @@ public class PirateController : MonoBehaviour
         animator.SetBool("isWalking", true);
     }
 
-
     private void StopFollowingIfLostSight()
     {
         if (!_hitRats)
         {
-            Debug.Log(" inizio conteggio perchè ho perso il topo");
             _lostSightTimer += Time.deltaTime;
 
             if (_lostSightTimer >= _stopAttachTime)
             {
-                Debug.Log("Il pirata ha perso il topo per troppo tempo. Torna in pattuglia.");
-
                 _startFollowing = false;
                 _hasSpottedRat = false;
                 _lostSightTimer = 0f;
@@ -307,7 +244,6 @@ public class PirateController : MonoBehaviour
                 agent.speed = agent.speed / _followSpeed;
                 agent.SetDestination(patrolPoints[currentPointIndex].position);
                 animator.SetBool("isWalking", true);
-                _lostSightTimer = 0f;
             }
         }
         else
@@ -316,161 +252,88 @@ public class PirateController : MonoBehaviour
         }
     }
 
-
     public bool IsInViewCone(Vector3 directionToTarget, float distance)
     {
-
         if (distance > _viewDistance) return false;
 
         float angle = Vector3.Angle(transform.forward, directionToTarget);
         return angle <= _viewAngle * 0.5f;
     }
 
-    private void OnDrawGizmos()
+    private void OnTriggerEnter(Collider other)
     {
-        Gizmos.color = Color.yellow;
-        Vector3 leftDirection = Quaternion.Euler(0, -_viewAngle * 0.5f, 0) * transform.forward;
-        Vector3 rightDirection = Quaternion.Euler(0, _viewAngle * 0.5f, 0) * transform.forward;
-
-        Gizmos.DrawRay(transform.position, leftDirection * _viewDistance);
-        Gizmos.DrawRay(transform.position, rightDirection * _viewDistance);
-
-        Gizmos.DrawWireSphere(transform.position, _viewDistance);
-
-        int numLines = 10;
-        for (int i = 0; i < numLines; i++)
-        {
-            float angle = (-_viewAngle * 0.5f) + ((_viewAngle / (numLines - 1)) * i);
-            Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
-            Gizmos.DrawRay(transform.position, direction * _viewDistance);
-        }
-
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, _rayAttachment);
+        OnAttack(other);
     }
 
-
-
-    //metodo per disegnare il cono visivo
-    private void UpdateVisionCone()
+    private void OnAttack(Collider other)
     {
-        if (meshFilter == null)
+        if (other.CompareTag("Player"))
         {
-            InitializeVisionCone();
-            if (meshFilter == null)
+            Vector3 directionToRat = other.transform.position - transform.position;
+            float distanceToRat = directionToRat.magnitude;
+
+            if (IsInViewCone(directionToRat, distanceToRat) && distanceToRat <= _rayAttachment)
             {
-                Debug.LogError($"Failed to initialize MeshFilter on {gameObject.name}");
-                return;
+                animator.SetBool("isWalking", false);
+                animator.SetBool("isAttacking", true);
+                StartCoroutine(ResetAttackTrigger());
+
+                BonusMalus bonusMalus = other.GetComponent<BonusMalus>();
+                if (bonusMalus != null)
+                {
+                    bonusMalus.TakeDamage(attackDamage);
+                }
             }
         }
-
-        int segments = 32;
-        Mesh mesh = new Mesh();
-
-        Vector3[] vertices = new Vector3[segments + 2];
-        int[] triangles = new int[segments * 3];
-
-        vertices[0] = Vector3.zero;
-        float angleStep = _viewAngle / segments;
-
-        for (int i = 0; i <= segments; i++)
-        {
-            float angle = (-_viewAngle / 2) + (angleStep * i);
-            Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
-            vertices[i + 1] = direction * _viewDistance;
-        }
-
-        for (int i = 0; i < segments; i++)
-        {
-            triangles[i * 3] = 0;
-            triangles[i * 3 + 1] = i + 1;
-            triangles[i * 3 + 2] = i + 2;
-        }
-
-        mesh.vertices = vertices;
-        mesh.triangles = triangles;
-        mesh.RecalculateNormals();
-
-        meshFilter.mesh = mesh;
     }
 
-    private void InitializeHealthBar()
+    private IEnumerator ResetAttackTrigger()
     {
-        // Istanzia il prefab come figlio del pirata
-        GameObject healthBar = Instantiate(healthBarPrefab, this.transform);
-        healthBar.transform.localPosition = healthBarOffset;
-
-        // Ottieni lo Slider
-        _healthSlider = healthBar.GetComponentInChildren<Slider>();
-        if (_healthSlider == null)
-        {
-            Debug.LogError("Slider non trovato nel prefab dell'health bar!");
-            return;
-        }
-
-        // Imposta i valori iniziali
-        _healthSlider.maxValue = health;
-        _healthSlider.value = health;
-
-        // Mostra subito la barra
-        _healthSlider.gameObject.SetActive(true);
+        yield return new WaitForSeconds(1.2f);
+        animator.SetBool("isAttacking", false);
     }
 
-
-    public void TakeDamage(int Damage)
+    public void TakeDamage(int damage)
     {
-        // Se il topo non sta mordendo, non applicare danno
-        if (!ratController.biting) return;
+        currentHealth -= damage;
+        currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
-        
+        isInfected = true;
+        UpdateHealthUI();
 
-        if (health >Damage)
+        if (currentHealth <= 0f)
         {
-            health -= Damage;
-            isInfected = true; // Imposta il pirata come infetto
-            if (_healthSlider != null && !_healthSlider.gameObject.activeSelf)
-            {
-                _healthSlider.gameObject.SetActive(true); // Mostra la barra vita al primo morso
-            }
-            UpdateHealthUI();
-        }
-        else
-        {
-            health = 0f;
-            UpdateHealthUI();
             HandlePirateDeath();
         }
     }
 
-
     private void UpdateHealthUI()
     {
-        if (_healthSlider != null)
+        if (healthForegroundImage != null)
         {
-            _healthSlider.value = health;
+            float percent = currentHealth / maxHealth;
+            healthForegroundImage.fillAmount = percent;
         }
     }
 
     private void HandlePirateDeath()
     {
         _isDead = true;
-        Debug.Log("Il pirata è morto!");
+        agent.isStopped = true;
+        animator.SetBool("isWalking", false);
 
-        // Hide health UI
-        if (_healthSlider != null)
-        {
-            _healthSlider.gameObject.SetActive(false);
-        }
+        if (healthForegroundImage != null)
+            healthForegroundImage.fillAmount = 0f;
 
-        // TODO: Trigger death animation here
-        // animator.SetTrigger("Death");
+        OnPirateDeath?.Invoke(this);
+
+        gameObject.SetActive(false);
     }
 
-    IEnumerator PatrolRoutine()
+    private IEnumerator PatrolRoutine()
     {
         while (true)
         {
-            // Aggiungi un controllo per interrompere il pattugliamento quando inizia l'inseguimento
             if (_startFollowing || _hasSpottedRat)
             {
                 yield return null;
@@ -498,50 +361,11 @@ public class PirateController : MonoBehaviour
         }
     }
 
-    private void CreateRandomPatrolPoints()
-    {
-        patrolPoints = new Transform[6]; // Create 6 random patrol points
-        float minRadius = 3f;
-        float maxRadius = 8f;
-        float minY = 0f;
-        float maxY = 0f; // Keep points at ground level
-
-        for (int i = 0; i < patrolPoints.Length; i++)
-        {
-            GameObject point = new GameObject($"RandomPatrolPoint_{i}");
-
-            // Generate random position within a circle
-            float randomRadius = Random.Range(minRadius, maxRadius);
-            float randomAngle = Random.Range(0f, 360f) * Mathf.Deg2Rad;
-
-            Vector3 randomPosition = transform.position + new Vector3(
-                Mathf.Cos(randomAngle) * randomRadius,
-                Random.Range(minY, maxY),
-                Mathf.Sin(randomAngle) * randomRadius
-            );
-
-            // Use NavMesh sampling to ensure the point is on a valid surface
-            NavMeshHit hit;
-            if (NavMesh.SamplePosition(randomPosition, out hit, maxRadius, NavMesh.AllAreas))
-            {
-                point.transform.position = hit.position;
-            }
-            else
-            {
-                point.transform.position = randomPosition;
-                Debug.LogWarning($"Patrol point {i} could not be placed on NavMesh");
-            }
-
-            patrolPoints[i] = point.transform;
-        }
-
-        Debug.Log("Created random patrol points");
-    }
-
     private void CheckHitRat()
     {
         if (_mainCharacter == null) return;
-        RaycastHit hit; // Add this line
+
+        RaycastHit hit;
         Vector3 origin = transform.position + Vector3.up * 0.4f;
         Vector3 targetCenter = _mainCharacter.transform.position + Vector3.up * 0.5f;
         Vector3 directionToTarget = (targetCenter - origin).normalized;
@@ -550,80 +374,31 @@ public class PirateController : MonoBehaviour
         if (Physics.SphereCast(origin, 0.3f, directionToTarget, out hit, distance))
         {
             if (hit.collider.transform.root.gameObject == _mainCharacter)
-            {
                 _hitRats = true;
-            }
             else
-            {
                 _hitRats = false;
-            }
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnDrawGizmos()
     {
-        Debug.Log(animator.GetBool("isAttacking"));
-        OnAttack(other);  // chiama il metodo che hai scritto tu
-    }
+        Gizmos.color = Color.yellow;
+        Vector3 leftDirection = Quaternion.Euler(0, -_viewAngle * 0.5f, 0) * transform.forward;
+        Vector3 rightDirection = Quaternion.Euler(0, _viewAngle * 0.5f, 0) * transform.forward;
+        Gizmos.DrawRay(transform.position, leftDirection * _viewDistance);
+        Gizmos.DrawRay(transform.position, rightDirection * _viewDistance);
+        Gizmos.DrawWireSphere(transform.position, _viewDistance);
 
-
-    
-    //funzione che arreca danno se il topo entra nel raggio di attacco del pirata
-    private void OnAttack(Collider other)
-    {
-        if (other.CompareTag("Player"))
+        int numLines = 10;
+        for (int i = 0; i < numLines; i++)
         {
-            Vector3 directionToRat = other.transform.position - transform.position;
-            float distanceToRat = directionToRat.magnitude;
-
-            // Check if rat is within vision cone and attack radius
-            if (IsInViewCone(directionToRat, distanceToRat) && distanceToRat <= _rayAttachment)
-            {
-                Debug.Log("Il topo è entrato nel raggio di attacco!");
-
-                animator.SetBool("isWalking", false);
-                animator.SetBool("isAttacking", true);
-                StartCoroutine(ResetAttackTrigger());
-
-                BonusMalus bonusMalus = other.GetComponent<BonusMalus>();
-                if (bonusMalus != null)
-                {
-                    bonusMalus.TakeDamage(attackDamage);
-                    Debug.Log($"Il topo è stato colpito per {attackDamage} danni.");
-                    
-
-                    
-                }
-                else
-                {
-                    Debug.LogWarning("BonusMalus non trovato sul player!");
-                }
-            }
+            float angle = (-_viewAngle * 0.5f) + ((_viewAngle / (numLines - 1)) * i);
+            Vector3 direction = Quaternion.Euler(0, angle, 0) * transform.forward;
+            Gizmos.DrawRay(transform.position, direction * _viewDistance);
         }
-    }
 
-    private IEnumerator ResetAttackTrigger()
-    {
-        yield return new WaitForSeconds(1.2f); // durata animazione
-        animator.SetBool("isAttacking", false);
-    }
-
-
-
-    // 👇 Chiamalo quando il pirata deve morire
-    public void Die()
-    {
-        if (!isAlive) return;
-
-        isAlive = false;
-        animator.SetBool("isWalking", false);
-        agent.isStopped = true;
-
-        // 👇 Notifica chi è iscritto alla morte del pirata (es. il topo)
-        OnPirateDeath?.Invoke(this);
-
-        // Disattiva visivamente o distruggi dopo un po'
-        gameObject.SetActive(false); // oppure: Destroy(gameObject, 2f);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, _rayAttachment);
     }
 
     public void DebugKillAfterSeconds(float seconds)
@@ -631,9 +406,51 @@ public class PirateController : MonoBehaviour
         StartCoroutine(KillRoutine(seconds));
     }
 
-    private System.Collections.IEnumerator KillRoutine(float seconds)
+    private IEnumerator KillRoutine(float seconds)
     {
         yield return new WaitForSeconds(seconds);
-        Die();
+        HandlePirateDeath();
     }
+    private void UpdateVisionCone()
+{
+    if (meshFilter == null)
+    {
+        InitializeVisionCone();
+        if (meshFilter == null)
+        {
+            Debug.LogError($"Failed to initialize MeshFilter on {gameObject.name}");
+            return;
+        }
+    }
+
+    int segments = 32;
+    Mesh mesh = new Mesh();
+
+    Vector3[] vertices = new Vector3[segments + 2];
+    int[] triangles = new int[segments * 3];
+
+    vertices[0] = Vector3.zero;
+    float angleStep = _viewAngle / segments;
+
+    for (int i = 0; i <= segments; i++)
+    {
+        float angle = (-_viewAngle / 2) + (angleStep * i);
+        Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+        vertices[i + 1] = direction * _viewDistance;
+    }
+
+    for (int i = 0; i < segments; i++)
+    {
+        triangles[i * 3] = 0;
+        triangles[i * 3 + 1] = i + 1;
+        triangles[i * 3 + 2] = i + 2;
+    }
+
+    mesh.vertices = vertices;
+    mesh.triangles = triangles;
+    mesh.RecalculateNormals();
+
+    meshFilter.mesh = mesh;
+}
+
 }
