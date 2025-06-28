@@ -116,6 +116,10 @@ public class PossessionManager : MonoBehaviour
         if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count) return;
 
         cameraManager.SwitchToPirate(piratesInRange[selectedIndex]);
+        // ✅ Imposta il flag isPossessed sul PirateController
+        PirateController pc = piratesInRange[selectedIndex].GetComponent<PirateController>();
+        if (pc != null) pc.isPossessed = true;
+
 
         if (ratInput != null)
         {
@@ -152,6 +156,13 @@ public class PossessionManager : MonoBehaviour
 
     void SwitchToRat()
     {
+        // ✅ Disattiva il flag isPossessed su tutti i pirati
+        foreach (Transform p in ratInteraction.infectedPirates)
+        {
+            PirateController pc = p.GetComponent<PirateController>();
+            if (pc != null) pc.isPossessed = false;
+        }
+
         cameraManager.SwitchToRat();
 
         if (ratInput != null)

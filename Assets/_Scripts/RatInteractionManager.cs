@@ -97,49 +97,80 @@ public class RatInteractionManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("Pirate"))
             {
-                enemyController = hit.collider.GetComponent<PirateController>();
-                if (enemyController != null)
-                {
-                    _ratInputHandler.movementLocked = true; // ⬅️ aggiunto qui
-                    biting = true;
-                    _ratAnimator.SetTrigger("Bite");
-                    StartCoroutine(StartQuickTimeEvent(enemyController));
-                }
+                TryStartBite(hit.collider.GetComponent<PirateController>());
             }
             else if (hit.collider.CompareTag("Cheese"))
             {
-                CheesePowerUp cheese = hit.collider.GetComponent<CheesePowerUp>();
-                if (cheese != null)
-                {
-                    _ratInputHandler.movementLocked = true; // ⬅️ anche qui
-                    cheese.ActivatePowerUp(this);
-                    _ratAnimator.SetTrigger("BiteWithJumpBack");
-                    StartCoroutine(UnlockAfterAnimationFixed(1.5f)); //  testalo
-
-                }
+                TryCheeseBite(hit.collider.GetComponent<CheesePowerUp>());
             }
             else
             {
-                _ratInputHandler.movementLocked = true; // ⬅️ anche qui
-                _ratAnimator.SetTrigger("BiteWithJumpBack");
-                StartCoroutine(UnlockAfterAnimationFixed(1.5f)); // testalo
-
+                TriggerFailedBite();
             }
-
         }
         else
         {
-            Debug.Log("Nessun bersaglio davanti al topo!");
-            _ratInputHandler.movementLocked = true;
-            _ratAnimator.SetTrigger("BiteWithJumpBack"); // morso a vuoto
-            StartCoroutine(UnlockAfterAnimationFixed(1.8f)); // testalo
+            // 👇 Nuovo: controllo sferico per morsi ravvicinati, con filtro direzionale
+            Collider[] hits = Physics.OverlapSphere(transform.position, 1.5f);
+            PirateController bestTarget = null;
+            float bestDot = -1f;
 
+            foreach (Collider c in hits)
+            {
+                if (c.CompareTag("Pirate"))
+                {
+                    Vector3 toPirate = (c.transform.position - transform.position).normalized;
+                    float dot = Vector3.Dot(transform.forward, toPirate); // 1 = perfettamente davanti
+
+                    if (dot > 0.5f && dot > bestDot) // solo quelli davanti e più allineati
+                    {
+                        bestDot = dot;
+                        bestTarget = c.GetComponent<PirateController>();
+                    }
+                }
+            }
+
+            if (bestTarget != null)
+            {
+                TryStartBite(bestTarget);
+                return;
+            }
+
+            // Nessun pirata rilevato neanche nella sfera
+            TriggerFailedBite();
         }
 
         canBite = false;
         Invoke(nameof(ResetBiteCooldown), biteCooldown);
     }
 
+
+    private void TryStartBite(PirateController controller)
+    {
+        if (controller == null) return;
+        enemyController = controller;
+        _ratInputHandler.movementLocked = true;
+        biting = true;
+        _ratAnimator.SetTrigger("Bite");
+        StartCoroutine(StartQuickTimeEvent(enemyController));
+    }
+
+    private void TryCheeseBite(CheesePowerUp cheese)
+    {
+        if (cheese == null) return;
+        _ratInputHandler.movementLocked = true;
+        cheese.ActivatePowerUp(this);
+        _ratAnimator.SetTrigger("BiteWithJumpBack");
+        StartCoroutine(UnlockAfterAnimationFixed(1.5f));
+    }
+
+    private void TriggerFailedBite()
+    {
+        Debug.Log("Nessun bersaglio trovato!");
+        _ratInputHandler.movementLocked = true;
+        _ratAnimator.SetTrigger("BiteWithJumpBack");
+        StartCoroutine(UnlockAfterAnimationFixed(1.8f));
+    }
 
 
 
