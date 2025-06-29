@@ -217,7 +217,7 @@ namespace FischlWorks_FogWar
         [Range(0, 1)]
         private float fogPlaneAlpha = 1;
         [SerializeField]
-        [Range(1, 5)]
+        [Range(1, 100)]
         private float fogLerpSpeed = 2.5f;
         public bool keepRevealedTiles = false;
         [ShowIf("keepRevealedTiles")]

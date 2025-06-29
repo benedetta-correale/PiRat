@@ -29,8 +29,8 @@ Transform:
   m_GameObject: {fileID: 6879533389167179289}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.74, y: 0.0745, z: 15.02}
-  m_LocalScale: {x: 1, y: 0.063370675, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.1493339, y: 0.009463389, z: 0.1493339}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -42,7 +42,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6879533389167179289}
-  m_Mesh: {fileID: 10206, guid: 0000000000000000e000000000000000, type: 0}
+  m_Mesh: {fileID: -2719439086681959747, guid: 53273875a7bae4c9b88a71c0b3eaf86a, type: 3}
 --- !u!23 &2101990648104164745
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -66,7 +66,9 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: e4446dedffb7049b7bec91d4bf8bd648, type: 2}
+  - {fileID: 2100000, guid: 23340e169f5ad4e0dbbb9c6ca46e061e, type: 2}
+  - {fileID: 2100000, guid: 54729753df8fb414d8a236a408ac856b, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -107,7 +109,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.0000001, y: 2, z: 1.0000002}
+  m_Size: {x: 2.76, y: 2, z: 1.52}
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
 --- !u!114 &7053204479964532986
 MonoBehaviour:
@@ -125,3 +127,8 @@ MonoBehaviour:
   springDamage: 30
   glueDuration: 2
   slideForce: 10
+  springCooldown: 2
+  requiredWiggle: 2
+  wiggleDecay: 0.5
+  wiggleStrength: 0.05
+  wiggleSpeed: 20
