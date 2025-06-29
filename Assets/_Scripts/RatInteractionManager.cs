@@ -33,6 +33,9 @@ public class RatInteractionManager : MonoBehaviour
     //  Nuovo: lista dei pirati infettati
     public List<Transform> infectedPirates = new List<Transform>();
 
+    private GameObject poisonPrefab;
+    private bool canPee = false;
+
 
     void Start()
     {
@@ -92,6 +95,7 @@ public class RatInteractionManager : MonoBehaviour
         Vector3 origin = transform.position + Vector3.up * 0.5f;
         float biteDistance = 2f;
         Vector3 direction = transform.forward;
+        Debug.DrawRay(origin, direction * biteDistance, Color.green, 1f);
 
         if (Physics.Raycast(origin, direction, out hit, biteDistance))
         {
@@ -101,6 +105,8 @@ public class RatInteractionManager : MonoBehaviour
             }
             else if (hit.collider.CompareTag("Cheese"))
             {
+                Debug.Log("Sto per attivare un power-up sul formaggio: " + hit.collider.name);
+
                 TryCheeseBite(hit.collider.GetComponent<CheesePowerUp>());
             }
             else
@@ -111,7 +117,7 @@ public class RatInteractionManager : MonoBehaviour
         else
         {
             // 👇 Nuovo: controllo sferico per morsi ravvicinati, con filtro direzionale
-            Collider[] hits = Physics.OverlapSphere(transform.position, 1.5f);
+            Collider[] hits = Physics.OverlapSphere(transform.position, 0.8f);
             PirateController bestTarget = null;
             float bestDot = -1f;
 
@@ -127,6 +133,13 @@ public class RatInteractionManager : MonoBehaviour
                         bestDot = dot;
                         bestTarget = c.GetComponent<PirateController>();
                     }
+                }
+
+                if (c.CompareTag("Cheese"))
+                {
+                    Debug.Log("Formaggio rilevato nella OverlapSphere: " + c.name);
+                    TryCheeseBite(c.GetComponent<CheesePowerUp>());
+                    return;
                 }
             }
 
@@ -344,7 +357,42 @@ public class RatInteractionManager : MonoBehaviour
         }
     }
 
+    public void EnablePoisonLeak(GameObject puddlePrefab)
+    {
+        canPee = true;
+        poisonPrefab = puddlePrefab;
+    }
 
+    public void OnPiss(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed && canPee && poisonPrefab != null)
+        {
+            StartCoroutine(HandlePeeAction());
+        }
+    }
+
+    private IEnumerator HandlePeeAction()
+    {
+        _ratInputHandler.movementLocked = true;
+
+        GameObject puddle = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
+
+        yield return new WaitForSeconds(0.5f); // Tempo dell'animazione del "piss", regola in base alla durata reale
+
+        _ratInputHandler.movementLocked = false;
+        canPee = false;
+    }
+
+    // 👇 Aggiungi questo metodo alla classe RatInteractionManager
+    public void RegisterInfectedPirate(PirateController pirate)
+    {
+        if (!infectedPirates.Contains(pirate.transform))
+        {
+            infectedPirates.Add(pirate.transform);
+            pirate.OnPirateDeath += RemoveDeadPirate;
+            Debug.Log("Pirata infettato tramite pozza di veleno!");
+        }
+    }
 
     // 👇 Nuovo: rimuove il pirata morto
     private void RemoveDeadPirate(PirateController deadPirate)

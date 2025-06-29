@@ -97,10 +97,16 @@ public class RatInputHandler : MonoBehaviour
         _ratAnimator.SetBool("isWalking", walking);
 
         var state = _ratAnimator.GetCurrentAnimatorStateInfo(0);
+
         if (state.IsName("WalkRatAnimation"))
         {
             float t = Mathf.Clamp01(inputMagnitude);
-            float animSpeed = Mathf.Lerp(minAnimSpeed, maxAnimSpeed, t);
+
+            // Aggiustamento dinamico in base a walkSpeed
+            float baseSpeed = 5f; // valore predefinito normale
+            float speedFactor = walkSpeed / baseSpeed;
+
+            float animSpeed = Mathf.Lerp(minAnimSpeed, maxAnimSpeed, t) * speedFactor;
             _ratAnimator.SetFloat(animSpeedParam, animSpeed);
         }
         else
@@ -108,7 +114,8 @@ public class RatInputHandler : MonoBehaviour
             _ratAnimator.SetFloat(animSpeedParam, 1f);
         }
     }
-    // Inseriscilo nello script RatInputHandler.cs
+
+
     public IEnumerator SpeedBoostRoutine(float multiplier, float duration)
     {
         float originalSpeed = walkSpeed;

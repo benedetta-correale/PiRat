@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 4792306676751659654}
   - component: {fileID: 2488570795774911789}
   m_Layer: 0
-  m_Name: Cheese_Heal
+  m_Name: Cheese_SpeedBoost
   m_TagString: Cheese
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -121,7 +121,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76deeb04bc903b741bf0c02ac4927d27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  powerUpType: 0
+  powerUpType: 1
   healAmount: 20
   speedMultiplier: 1.5
   speedDuration: 5

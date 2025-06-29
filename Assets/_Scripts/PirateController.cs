@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.AI;
 using System.Collections;
@@ -298,6 +298,8 @@ public class PirateController : MonoBehaviour
         currentHealth -= damage;
         currentHealth = Mathf.Clamp(currentHealth, 0f, maxHealth);
 
+        Debug.Log("Pirata ha preso danno! Vita attuale: " + currentHealth); // 👈 nuovo log
+
         isInfected = true;
         UpdateHealthUI();
 
@@ -306,6 +308,7 @@ public class PirateController : MonoBehaviour
             HandlePirateDeath();
         }
     }
+
 
     private void UpdateHealthUI()
     {
