@@ -72,7 +72,7 @@ public class PoisonPuddle : MonoBehaviour
             }
 
              */
-            PirateController pirate = other.GetComponent<PirateController>();
+            PirateController pirate = other.GetComponentInParent<PirateController>();
             if (pirate != null)
             {
                 Debug.Log($"✅ PirateController trovato su {other.name}");

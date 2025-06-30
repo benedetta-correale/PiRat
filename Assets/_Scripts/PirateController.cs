@@ -322,7 +322,13 @@ public class PirateController : MonoBehaviour
     private void HandlePirateDeath()
     {
         _isDead = true;
-        agent.isStopped = true;
+
+        // ✅ Fermare l'agente solo se è valido e su NavMesh
+        if (agent != null && agent.isOnNavMesh)
+        {
+            agent.isStopped = true;
+        }
+
         animator.SetBool("isWalking", false);
 
         if (healthForegroundImage != null)
@@ -332,6 +338,7 @@ public class PirateController : MonoBehaviour
 
         gameObject.SetActive(false);
     }
+
 
     private IEnumerator PatrolRoutine()
     {

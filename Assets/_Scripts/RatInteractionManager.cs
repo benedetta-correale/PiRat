@@ -96,28 +96,30 @@ public class RatInteractionManager : MonoBehaviour
         float biteDistance = 2f;
         Vector3 direction = transform.forward;
 
-        if (Physics.Raycast(origin, direction, out hit, biteDistance))
+        bool successfulBite = false;
+
+        // 1. 🔍 Raggio frontale
+        if (Physics.Raycast(origin, direction, out hit, biteDistance, LayerMask.GetMask("PirateHittable")))
         {
-            // 🔍 Raggio frontale: Pirate o Cheese?
             if (hit.collider.CompareTag("Pirate"))
             {
                 TryStartBite(hit.collider.GetComponent<PirateController>());
+                successfulBite = true;
             }
             else if (hit.collider.CompareTag("Cheese"))
             {
                 TryCheeseBite(hit.collider.GetComponent<CheesePowerUp>());
-            }
-            else
-            {
-                TriggerFailedBite();
+                successfulBite = true;
             }
         }
-        else
+
+        // 2. 🟠 Nessun hit col raggio → tentativo sferico ravvicinato
+        if (!successfulBite)
         {
-            // 🟠 Nessun hit col raggio: tentativo ravvicinato pirata
-            Collider[] hits = Physics.OverlapSphere(transform.position, 0.8f, LayerMask.GetMask("PirateHittable"));
             PirateController bestTarget = null;
             float bestDot = -1f;
+
+            Collider[] hits = Physics.OverlapSphere(transform.position, 0.8f, LayerMask.GetMask("PirateHittable"));
 
             foreach (Collider c in hits)
             {
@@ -132,6 +134,7 @@ public class RatInteractionManager : MonoBehaviour
                         Vector3 dir = (rayTarget - rayOrigin).normalized;
                         float dist = Vector3.Distance(rayOrigin, rayTarget);
 
+                        // Occlusione → ignora se qualcosa blocca
                         if (!Physics.Raycast(rayOrigin, dir, dist, LayerMask.GetMask("Default", "Wall")))
                         {
                             bestDot = dot;
@@ -144,28 +147,34 @@ public class RatInteractionManager : MonoBehaviour
             if (bestTarget != null)
             {
                 TryStartBite(bestTarget);
+                successfulBite = true;
             }
             else
             {
-                // 🔍 Se non c’è pirata, controlliamo se ci sono cheese ravvicinati (optional)
+                // 🧀 Tentativo ravvicinato su Cheese
                 Collider[] cheeseHits = Physics.OverlapSphere(transform.position, 0.8f);
                 foreach (Collider c in cheeseHits)
                 {
                     if (c.CompareTag("Cheese"))
                     {
                         TryCheeseBite(c.GetComponent<CheesePowerUp>());
-                        goto END;
+                        successfulBite = true;
+                        break;
                     }
                 }
-
-                TriggerFailedBite();
             }
-
-        END:
-            canBite = false;
-            Invoke(nameof(ResetBiteCooldown), biteCooldown);
         }
+
+        // 3. ❌ Fallito → comunque trigger l'animazione del morso
+        if (!successfulBite)
+        {
+            TriggerFailedBite();
+        }
+
+        canBite = false;
+        Invoke(nameof(ResetBiteCooldown), biteCooldown);
     }
+
 
 
 
