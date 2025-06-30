@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3045922033963941012}
   - component: {fileID: 4792306676751659654}
   - component: {fileID: 2488570795774911789}
+  - component: {fileID: -8666856389523798711}
   m_Layer: 0
   m_Name: Cheese_SpeedBoost
   m_TagString: Cheese
@@ -124,5 +125,27 @@ MonoBehaviour:
   powerUpType: 1
   healAmount: 20
   speedMultiplier: 1.5
-  speedDuration: 5
+  speedDuration: 20
   extraDamage: 10
+  poisonPuddlePrefab: {fileID: 0}
+--- !u!65 &-8666856389523798711
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690275320204957918}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.34, y: 0.45, z: 0.23}
+  m_Center: {x: 0, y: 0, z: -0.11}

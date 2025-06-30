@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using System.Collections;
+
 public enum CheesePowerUpType { Heal, SpeedBoost, DamageBoost, PoisonLeak }
 
 public class CheesePowerUp : MonoBehaviour
@@ -15,16 +16,20 @@ public class CheesePowerUp : MonoBehaviour
     public void ActivatePowerUp(RatInteractionManager rat)
     {
         Debug.Log("ActivatePowerUp chiamato. Tipo: " + powerUpType);
-
+        var bonusMalus = rat.GetComponent<BonusMalus>();
+        bool consumed = false;
         switch (powerUpType)
         {
             case CheesePowerUpType.Heal:
-                BonusMalus bonusMalus = rat.GetComponent<BonusMalus>();
-                
-                if (bonusMalus != null)
+                if (bonusMalus != null && bonusMalus.currentHealth < bonusMalus.maxHealth)
                 {
                     bonusMalus.Heal(healAmount);
                     Debug.Log("Topo curato di " + healAmount);
+                    consumed = true;
+                }
+                else
+                {
+                    Debug.Log("Topo già alla salute massima. Il formaggio rimane.");
                 }
                 break;
 
@@ -34,21 +39,27 @@ public class CheesePowerUp : MonoBehaviour
                 {
                     ratInputHandler.StartCoroutine(ratInputHandler.SpeedBoostRoutine(speedMultiplier, speedDuration));
                     Debug.Log("Velocità aumentata per " + speedDuration + " secondi!");
+                    consumed = true;
                 }
                 break;
 
             case CheesePowerUpType.DamageBoost:
                 rat.ActivateDamageBoost(extraDamage);
                 Debug.Log("Danno del prossimo morso aumentato di " + extraDamage);
+                consumed = true;
                 break;
 
             case CheesePowerUpType.PoisonLeak:
                 rat.EnablePoisonLeak(poisonPuddlePrefab);
                 Debug.Log("Power-up Puddle abilitato!");
+                consumed = true;
                 break;
         }
 
-        StartCoroutine(DestroyAfterDelay(1f));
+        if (consumed)
+        {
+            StartCoroutine(DestroyAfterDelay(1f));
+        }
 
     }
 
@@ -57,5 +68,16 @@ public class CheesePowerUp : MonoBehaviour
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
     }
+
+#if UNITY_EDITOR
+    void OnDrawGizmos()
+    {
+        UnityEditor.Handles.Label(
+            transform.position + Vector3.up * 1.5f,
+            powerUpType.ToString()
+        );
+    }
+#endif
+
 
 }

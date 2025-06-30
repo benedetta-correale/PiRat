@@ -95,18 +95,16 @@ public class RatInteractionManager : MonoBehaviour
         Vector3 origin = transform.position + Vector3.up * 0.5f;
         float biteDistance = 2f;
         Vector3 direction = transform.forward;
-        Debug.DrawRay(origin, direction * biteDistance, Color.green, 1f);
 
         if (Physics.Raycast(origin, direction, out hit, biteDistance))
         {
+            // 🔍 Raggio frontale: Pirate o Cheese?
             if (hit.collider.CompareTag("Pirate"))
             {
                 TryStartBite(hit.collider.GetComponent<PirateController>());
             }
             else if (hit.collider.CompareTag("Cheese"))
             {
-                Debug.Log("Sto per attivare un power-up sul formaggio: " + hit.collider.name);
-
                 TryCheeseBite(hit.collider.GetComponent<CheesePowerUp>());
             }
             else
@@ -116,8 +114,8 @@ public class RatInteractionManager : MonoBehaviour
         }
         else
         {
-            // 👇 Nuovo: controllo sferico per morsi ravvicinati, con filtro direzionale
-            Collider[] hits = Physics.OverlapSphere(transform.position, 0.8f);
+            // 🟠 Nessun hit col raggio: tentativo ravvicinato pirata
+            Collider[] hits = Physics.OverlapSphere(transform.position, 0.8f, LayerMask.GetMask("PirateHittable"));
             PirateController bestTarget = null;
             float bestDot = -1f;
 
@@ -126,36 +124,49 @@ public class RatInteractionManager : MonoBehaviour
                 if (c.CompareTag("Pirate"))
                 {
                     Vector3 toPirate = (c.transform.position - transform.position).normalized;
-                    float dot = Vector3.Dot(transform.forward, toPirate); // 1 = perfettamente davanti
-
-                    if (dot > 0.5f && dot > bestDot) // solo quelli davanti e più allineati
+                    float dot = Vector3.Dot(transform.forward, toPirate);
+                    if (dot > 0.5f && dot > bestDot)
                     {
-                        bestDot = dot;
-                        bestTarget = c.GetComponent<PirateController>();
-                    }
-                }
+                        Vector3 rayOrigin = origin;
+                        Vector3 rayTarget = c.transform.position + Vector3.up * 0.5f;
+                        Vector3 dir = (rayTarget - rayOrigin).normalized;
+                        float dist = Vector3.Distance(rayOrigin, rayTarget);
 
-                if (c.CompareTag("Cheese"))
-                {
-                    Debug.Log("Formaggio rilevato nella OverlapSphere: " + c.name);
-                    TryCheeseBite(c.GetComponent<CheesePowerUp>());
-                    return;
+                        if (!Physics.Raycast(rayOrigin, dir, dist, LayerMask.GetMask("Default", "Wall")))
+                        {
+                            bestDot = dot;
+                            bestTarget = c.GetComponentInParent<PirateController>();
+                        }
+                    }
                 }
             }
 
             if (bestTarget != null)
             {
                 TryStartBite(bestTarget);
-                return;
+            }
+            else
+            {
+                // 🔍 Se non c’è pirata, controlliamo se ci sono cheese ravvicinati (optional)
+                Collider[] cheeseHits = Physics.OverlapSphere(transform.position, 0.8f);
+                foreach (Collider c in cheeseHits)
+                {
+                    if (c.CompareTag("Cheese"))
+                    {
+                        TryCheeseBite(c.GetComponent<CheesePowerUp>());
+                        goto END;
+                    }
+                }
+
+                TriggerFailedBite();
             }
 
-            // Nessun pirata rilevato neanche nella sfera
-            TriggerFailedBite();
+        END:
+            canBite = false;
+            Invoke(nameof(ResetBiteCooldown), biteCooldown);
         }
-
-        canBite = false;
-        Invoke(nameof(ResetBiteCooldown), biteCooldown);
     }
+
 
 
     private void TryStartBite(PirateController controller)

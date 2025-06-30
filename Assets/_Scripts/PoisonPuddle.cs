@@ -61,7 +61,17 @@ public class PoisonPuddle : MonoBehaviour
         {
             Debug.Log("✅ PIRATA RILEVATO! Inizio infezione...");
             used = true;
+            // se volessi nascondere viisvamente la pozza dopo che il pirata ci entra in contatto
+            /*
+             * /
+            GetComponent<Collider>().enabled = false;
 
+            foreach (var r in GetComponentsInChildren<Renderer>())
+            {
+                r.enabled = false;
+            }
+
+             */
             PirateController pirate = other.GetComponent<PirateController>();
             if (pirate != null)
             {
