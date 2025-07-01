@@ -35,6 +35,7 @@ public class RatInteractionManager : MonoBehaviour
 
     private GameObject poisonPrefab;
     private bool canPee = false;
+    public bool isBackflipping = false;
 
 
     void Start()
@@ -284,6 +285,7 @@ public class RatInteractionManager : MonoBehaviour
         else if ((scaleRatio >= 0.75f && scaleRatio <= 0.87f) || (scaleRatio <= 0.38f && scaleRatio >= 0.24f))
         {
             vfxManager.PlayBiteVFX();
+            isBackflipping = true;
             Debug.Log("🟡 Zona gialla");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
@@ -292,6 +294,7 @@ public class RatInteractionManager : MonoBehaviour
         else if ((scaleRatio >= 0.63f && scaleRatio < 0.75f) || (scaleRatio <= 0.5 && scaleRatio > 0.38f))
         {
             vfxManager.PlayBiteVFX();
+            isBackflipping = true;
             Debug.Log("🔵 Zona blu");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
@@ -300,6 +303,7 @@ public class RatInteractionManager : MonoBehaviour
         else
         {
             vfxManager.PlayBiteVFX();
+            isBackflipping = true;
             Debug.Log("🔴 Zona rossa");
             targetPirate.TakeDamage(Damage + bonusDamage);
             Infect(targetPirate);
@@ -313,11 +317,15 @@ public class RatInteractionManager : MonoBehaviour
 
     private void ExecuteBackflip(float distanceMultiplier, float delayBeforeMove = 0.35f)
     {
+        isBackflipping = true; // ← lo mettiamo subito, non dentro la coroutine
         StartCoroutine(PerformBackflip(distanceMultiplier, delayBeforeMove));
     }
 
+
     private IEnumerator PerformBackflip(float distanceMultiplier, float delayBeforeMove = 0.35f)
     {
+
+        Debug.Log("BACKFLIP INIZIATO - isBackflipping = true");
         // Avvia animazione Backflip
         _ratAnimator.SetTrigger("Backflip");
 
@@ -361,7 +369,8 @@ public class RatInteractionManager : MonoBehaviour
 
         transform.position = targetPosition;
         _ratInputHandler.movementLocked = false;
-
+        isBackflipping = false;
+        Debug.Log("BACKFLIP TERMINATO - isBackflipping = false");
     }
 
 
@@ -415,7 +424,6 @@ public class RatInteractionManager : MonoBehaviour
             Debug.Log("Pirata infettato tramite pozza di veleno!");
         }
     }
-
     // 👇 Nuovo: rimuove il pirata morto
     private void RemoveDeadPirate(PirateController deadPirate)
     {

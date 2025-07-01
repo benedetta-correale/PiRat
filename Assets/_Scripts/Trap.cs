@@ -23,76 +23,116 @@ public class Trap : MonoBehaviour
     private Transform stuckModel; // riferimento al modello visivo del topo
     private Vector3 initialModelLocalPos;
 
-
     private bool isStuck = false;
     private float wiggleAmount = 0f;
     private RatInputHandler stuckPlayer = null;
-
 
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
 
-        switch (trapType)
+        RatInteractionManager rim = other.GetComponent<RatInteractionManager>();
+        if (rim != null)
         {
-            case TrapType.Spring:
-                if (!springReady) break;
+            Debug.Log($"TRAP: RIM trovato, isBackflipping = {rim.isBackflipping}");
 
-                var hp = other.GetComponent<BonusMalus>();
-                if (hp != null) hp.TakeDamage(springDamage);
+            // Controlla anche se l'animatore sta facendo un backflip
+            Animator ratAnimator = other.GetComponent<Animator>();
+            bool isBackflipAnimation = false;
+            if (ratAnimator != null)
+            {
+                AnimatorStateInfo stateInfo = ratAnimator.GetCurrentAnimatorStateInfo(0);
+                isBackflipAnimation = stateInfo.IsName("Backflip") || stateInfo.IsTag("Backflip");
+                Debug.Log($"TRAP: Animazione backflip attiva = {isBackflipAnimation}");
+            }
 
-                springReady = false;
+            if (rim.isBackflipping || isBackflipAnimation)
+            {
+                Debug.Log("Backflip attivo: aspetto che finisca prima di attivare la trappola.");
 
-                MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
-                if (renderer != null) renderer.enabled = false;
-
-                Collider col = GetComponent<Collider>();
-                if (col != null) col.enabled = false;
-
-                StartCoroutine(DestroyAfterDelay(1f));
-
-                break;
-
-
-            case TrapType.Glue:
-                var pc = other.GetComponent<RatInputHandler>();
-                if (pc != null && !isStuck)
+                // Disabilita il trigger completamente per evitare interferenze
+                Collider trapCollider = GetComponent<Collider>();
+                if (trapCollider != null)
                 {
-                    isStuck = true;
-                    stuckPlayer = pc;
-
-                    // Salva riferimento al modello
-                    stuckModel = pc.transform; // <-- metti qui il nome esatto del figlio con la mesh
-                    if (stuckModel != null)
-                        initialModelLocalPos = stuckModel.localPosition;
-
-
-                    // Blocca input
-                    pc.enabled = false;
-
-                    // Blocca animator
-                    Animator anim = pc.GetComponent<Animator>();
-                    if (anim != null) anim.enabled = false;
-
-                    wiggleAmount = 0f;
-
+                    trapCollider.enabled = false;
                 }
-                break;
 
-
-            case TrapType.Slide:
-                var rb = other.GetComponent<Rigidbody>();
-                if (rb != null)
-                {
-                    Vector3 direction = other.transform.forward;
-                    rb.AddForce(direction * slideForce, ForceMode.Impulse);
-                }
-                break;
+                // Usa coroutine con delay invece del controllo nell'Update
+                StartCoroutine(WaitForBackflipEnd(rim));
+                return;
+            }
+            else
+            {
+                Debug.Log("TRAP: isBackflipping è FALSE, procedo normalmente");
+            }
         }
+        else
+        {
+            Debug.Log("TRAP: RIM è NULL!");
+        }
+
+        // Processa normalmente la trappola
+        ProcessTrap(other);
+    }
+
+    private IEnumerator WaitForBackflipEnd(RatInteractionManager rim)
+    {
+        Animator ratAnimator = rim.GetComponent<Animator>();
+
+        // Aspetta che ENTRAMBI isBackflipping sia false E l'animazione sia finita
+        while (rim != null && (rim.isBackflipping || IsBackflipAnimationActive(ratAnimator)))
+        {
+            Debug.Log($"WAITING: isBackflipping = {rim.isBackflipping}, Animation = {IsBackflipAnimationActive(ratAnimator)}");
+            yield return new WaitForFixedUpdate(); // Usa FixedUpdate per physics
+        }
+
+        yield return new WaitForFixedUpdate(); // Un frame extra per sicurezza
+        Debug.Log("BACKFLIP COMPLETAMENTE TERMINATO");
+
+        // Riabilita il collider
+        Collider trapCollider = GetComponent<Collider>();
+        if (trapCollider != null)
+        {
+            trapCollider.enabled = true;
+        }
+
+        // Controlla se il rat è ancora sopra la trappola
+        if (rim != null)
+        {
+            Collider ratCollider = rim.GetComponent<Collider>();
+            if (ratCollider != null && trapCollider.bounds.Intersects(ratCollider.bounds))
+            {
+                Debug.Log("Rat ancora sopra la trappola, attivo l'effetto.");
+                ProcessTrap(ratCollider);
+            }
+            else
+            {
+                Debug.Log("Rat non più sopra la trappola, nessun effetto.");
+            }
+        }
+    }
+
+    private bool IsBackflipAnimationActive(Animator animator)
+    {
+        if (animator == null) return false;
+
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        bool isBackflipAnim = stateInfo.IsName("Backflip") || stateInfo.IsTag("Backflip");
+
+        // Controlla anche se siamo in transizione verso un altro stato
+        if (animator.IsInTransition(0))
+        {
+            AnimatorStateInfo nextState = animator.GetNextAnimatorStateInfo(0);
+            if (nextState.IsName("Backflip") || nextState.IsTag("Backflip"))
+                isBackflipAnim = true;
+        }
+
+        return isBackflipAnim;
     }
 
     private void Update()
     {
+        // Gestione del wiggle per la trappola di colla
         if (isStuck && stuckPlayer != null)
         {
             Vector2 input = stuckPlayer.GetMoveInputRaw();
@@ -118,15 +158,69 @@ public class Trap : MonoBehaviour
 
                 stuckModel = null;
 
-
                 isStuck = false;
                 stuckPlayer = null;
-
             }
         }
     }
 
+    private void ProcessTrap(Collider other)
+    {
+        switch (trapType)
+        {
+            case TrapType.Spring:
+                if (!springReady) break;
 
+                var hp = other.GetComponent<BonusMalus>();
+                if (hp != null) hp.TakeDamage(springDamage);
+
+                springReady = false;
+
+                Collider col = GetComponent<Collider>();
+                if (col != null) col.enabled = false;
+
+                StartCoroutine(HideAndDestroy());
+                break;
+
+            case TrapType.Glue:
+                var pc = other.GetComponent<RatInputHandler>();
+                if (pc != null && !isStuck)
+                {
+                    isStuck = true;
+                    stuckPlayer = pc;
+
+                    // Salva riferimento al modello
+                    stuckModel = pc.transform; // <-- metti qui il nome esatto del figlio con la mesh
+                    if (stuckModel != null)
+                        initialModelLocalPos = stuckModel.localPosition;
+
+                    // Blocca input
+                    pc.enabled = false;
+
+                    // Blocca animator
+                    Animator anim = pc.GetComponent<Animator>();
+                    if (anim != null) anim.enabled = false;
+
+                    wiggleAmount = 0f;
+                }
+                break;
+
+            case TrapType.Slide:
+                var rb = other.GetComponent<Rigidbody>();
+                if (rb != null)
+                {
+                    Vector3 direction = other.transform.forward;
+                    rb.AddForce(direction * slideForce, ForceMode.Impulse);
+                }
+                break;
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        // Non più necessario con la versione coroutine
+        // Il collider viene gestito automaticamente nella WaitForBackflipEnd
+    }
 
     private IEnumerator GlueEffect(RatInputHandler pc)
     {
@@ -140,15 +234,22 @@ public class Trap : MonoBehaviour
         yield return new WaitForSeconds(springCooldown);
         springReady = true;
     }
+
     private IEnumerator DestroyAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         Destroy(gameObject);
     }
 
+    private IEnumerator HideAndDestroy()
+    {
+        yield return new WaitForSeconds(1f); // aspetto prima di nascondere
+        MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
+        if (renderer != null) renderer.enabled = false;
 
-
-
+        yield return new WaitForSeconds(1f); // altro secondo prima di distruggere
+        Destroy(gameObject);
+    }
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
@@ -160,5 +261,4 @@ public class Trap : MonoBehaviour
         );
     }
 #endif
-
 }
