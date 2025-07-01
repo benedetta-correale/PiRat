@@ -14,7 +14,7 @@ public class PirateController : MonoBehaviour
     [Header("Pirate Settings")]
     [SerializeField] private float _followSpeed = 3f;
     [SerializeField] private float _viewAngle = 90f;
-    [SerializeField] private float _viewDistance = 10f;
+    [SerializeField] private float _viewDistance = 4f;
     [SerializeField] private float _rayAttachment = 3f;
     [SerializeField] private Material visionConeMaterial;
     public int attackDamage = 20;
@@ -41,6 +41,12 @@ public class PirateController : MonoBehaviour
     [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 2f, 0);
 
     //[SerializeField] private GameObject deathEffect, hitEffect;
+    [Header("Alert Settings")]
+    [SerializeField] private GameObject alertIndicator;   // l'intero oggetto
+    [SerializeField] private Image alertFillImage;        // foreground (fill)
+    private bool alertFinished = false;
+
+
 
     private NavMeshAgent agent;
     private int currentPointIndex = 0;
@@ -60,6 +66,11 @@ public class PirateController : MonoBehaviour
         _isDead = false;
         _mainCharacter = GameObject.FindGameObjectWithTag("Player");
         
+        if (healthForegroundImage != null)
+            healthForegroundImage.fillAmount = 1f;
+
+        if (healthForegroundImage != null)
+            healthForegroundImage.transform.parent.gameObject.SetActive(false); // nasconde la barra
 
         if (_mainCharacter == null)
         {
@@ -194,6 +205,8 @@ public class PirateController : MonoBehaviour
 
     private void StartCountdown()
     {
+        if (alertFinished) return;  // 👈 blocca se già completato
+
         _waitingTime += Time.deltaTime;
 
         if (_mainCharacter != null)
@@ -203,13 +216,27 @@ public class PirateController : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, 5f * Time.deltaTime);
         }
 
+        // attiva indicator se serve
+        if (alertIndicator != null && !alertIndicator.activeSelf)
+        {
+            alertIndicator.SetActive(true);
+        }
+
+        if (alertFillImage != null)
+        {
+            float fill = Mathf.Clamp01(_waitingTime / _attachTime);
+            alertFillImage.fillAmount = fill;
+        }
+
         if (_waitingTime >= _attachTime)
         {
             if (!_hitRats)
             {
+                // topo sparito
                 _hasSpottedRat = false;
                 _startFollowing = false;
 
+                ResetAlert();
                 agent.isStopped = false;
                 agent.areaMask = _originalAreaMask;
                 agent.SetDestination(patrolPoints[currentPointIndex].position);
@@ -217,15 +244,33 @@ public class PirateController : MonoBehaviour
             }
             else
             {
+                // trovato topo
                 _startFollowing = true;
                 _pirateIsWalking = true;
                 agent.isStopped = false;
                 animator.SetBool("isWalking", true);
                 agent.areaMask = NavMesh.AllAreas;
+
+                // blocca alert fino a nuovo reset
+                alertFinished = true;
+                if (alertIndicator != null)
+                    alertIndicator.SetActive(false);
+                if (alertFillImage != null)
+                    alertFillImage.fillAmount = 0f;
             }
 
             _waitingTime = 0f;
         }
+    }
+
+    private void ResetAlert()
+    {
+        alertFinished = false;
+
+        if (alertIndicator != null)
+            alertIndicator.SetActive(false);
+        if (alertFillImage != null)
+            alertFillImage.fillAmount = 0f;
     }
 
     public void StartFollowing()
@@ -258,9 +303,14 @@ public class PirateController : MonoBehaviour
 
             if (_lostSightTimer >= _stopAttachTime)
             {
+                Debug.Log("Il pirata ha perso il topo per troppo tempo. Torna in pattuglia.");
+
                 _startFollowing = false;
                 _hasSpottedRat = false;
                 _lostSightTimer = 0f;
+
+                // resetta il punto interrogativo
+                ResetAlert();
 
                 agent.isStopped = false;
                 agent.areaMask = _originalAreaMask;
@@ -308,6 +358,15 @@ public class PirateController : MonoBehaviour
                 }
             }
         }
+        if (other.CompareTag("Player"))
+        {
+            BonusMalus bonusMalus = other.GetComponent<BonusMalus>();
+            if (bonusMalus != null)
+            {
+                bonusMalus.TakeDamage(attackDamage);
+            }
+        }
+
     }
 
     private IEnumerator ResetAttackTrigger()
@@ -329,6 +388,11 @@ public class PirateController : MonoBehaviour
         if (currentHealth <= 0f)
         {
             HandlePirateDeath();
+        }
+
+        if (healthForegroundImage != null && !healthForegroundImage.transform.parent.gameObject.activeSelf)
+        {
+            healthForegroundImage.transform.parent.gameObject.SetActive(true);
         }
     }
 

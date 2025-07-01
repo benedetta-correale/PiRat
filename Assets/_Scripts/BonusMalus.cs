@@ -12,11 +12,10 @@ public class BonusMalus : MonoBehaviour
     public UnityEvent<int, int> onHealthChanged; // (current, max)
     public UnityEvent onDeath;
 
+    //[SerializeField] private Animator animator; // Animatore per le animazioni del topo
+
     void Awake()
     {
-
-        
-        
         currentHealth = maxHealth;
         
         NotifyHealthChange();
@@ -26,8 +25,6 @@ public class BonusMalus : MonoBehaviour
     {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
-    
 
         NotifyHealthChange();
 
@@ -44,19 +41,15 @@ public class BonusMalus : MonoBehaviour
         NotifyHealthChange();
     }
 
-   
-
     private void Die()
     {
-        Debug.Log("Il topo � morto!");
+        Debug.Log("Il topo è morto!");
         onDeath?.Invoke();
-        // Qui puoi disattivare movimento, attivare animazioni, ecc.
+        //animator.SetTrigger("Die"); // Attiva l'animazione di morte
     }
 
     private void NotifyHealthChange()
     {
         onHealthChanged?.Invoke(currentHealth, maxHealth);
-
-        
     }
 }
