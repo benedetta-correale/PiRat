@@ -30,7 +30,7 @@ public class PirateController : MonoBehaviour
     [Header("Vita del pirata")]
     [SerializeField] private float maxHealth = 100f;
     private float currentHealth;
-    [SerializeField] private float damagePerHit = 20f; // modificabile da Inspector
+    [SerializeField] private float damagePerHit = 20f;
     public bool isInfected = false;
     private bool _isDead;
     public bool isPossessed = false;
@@ -40,7 +40,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private Image healthForegroundImage;
     [SerializeField] private Vector3 healthBarOffset = new Vector3(0, 2f, 0);
 
-    [SerializeField] private GameObject deathEffect, hitEffect;
+    //[SerializeField] private GameObject deathEffect, hitEffect;
 
     private NavMeshAgent agent;
     private int currentPointIndex = 0;
@@ -95,6 +95,16 @@ public class PirateController : MonoBehaviour
 
         if (healthForegroundImage != null)
             healthForegroundImage.fillAmount = 1f; // 100% iniziale
+
+        if (agent.isOnNavMesh)
+        {
+            agent.SetDestination(patrolPoints[currentPointIndex].position);
+        }
+        else
+        {
+            Debug.LogWarning($"Pirate {name} non è sul NavMesh all’avvio!");
+        }
+
     }
 
     void Update()
@@ -323,28 +333,40 @@ public class PirateController : MonoBehaviour
     {
         _isDead = true;
 
-        // ✅ Fermare l'agente solo se è valido e su NavMesh
         if (agent != null && agent.isOnNavMesh)
         {
             agent.isStopped = true;
+            agent.enabled = false; // blocca in modo definitivo
         }
 
         animator.SetBool("isWalking", false);
+        animator.SetTrigger("Die"); // attiva l'animazione di morte
 
         if (healthForegroundImage != null)
             healthForegroundImage.fillAmount = 0f;
 
         OnPirateDeath?.Invoke(this);
-
-        gameObject.SetActive(false);
+        
     }
-
 
     private IEnumerator PatrolRoutine()
     {
         while (true)
         {
+            // fermati se è morto
+            if (_isDead)
+            {
+                yield break;
+            }
+
             if (_startFollowing || _hasSpottedRat)
+            {
+                yield return null;
+                continue;
+            }
+
+            // aggiungi check di sicurezza
+            if (!agent.enabled || !agent.isOnNavMesh)
             {
                 yield return null;
                 continue;
@@ -370,6 +392,7 @@ public class PirateController : MonoBehaviour
             yield return null;
         }
     }
+
 
     private void CheckHitRat()
     {
@@ -422,45 +445,44 @@ public class PirateController : MonoBehaviour
         HandlePirateDeath();
     }
     private void UpdateVisionCone()
-{
-    if (meshFilter == null)
     {
-        InitializeVisionCone();
         if (meshFilter == null)
         {
-            Debug.LogError($"Failed to initialize MeshFilter on {gameObject.name}");
-            return;
+            InitializeVisionCone();
+            if (meshFilter == null)
+            {
+                Debug.LogError($"Failed to initialize MeshFilter on {gameObject.name}");
+                return;
+            }
         }
+
+        int segments = 32;
+        Mesh mesh = new Mesh();
+
+        Vector3[] vertices = new Vector3[segments + 2];
+        int[] triangles = new int[segments * 3];
+
+        vertices[0] = Vector3.zero;
+        float angleStep = _viewAngle / segments;
+
+        for (int i = 0; i <= segments; i++)
+        {
+            float angle = (-_viewAngle / 2) + (angleStep * i);
+            Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
+            vertices[i + 1] = direction * _viewDistance;
+        }
+
+        for (int i = 0; i < segments; i++)
+        {
+            triangles[i * 3] = 0;
+            triangles[i * 3 + 1] = i + 1;
+            triangles[i * 3 + 2] = i + 2;
+        }
+
+        mesh.vertices = vertices;
+        mesh.triangles = triangles;
+        mesh.RecalculateNormals();
+
+        meshFilter.mesh = mesh;
     }
-
-    int segments = 32;
-    Mesh mesh = new Mesh();
-
-    Vector3[] vertices = new Vector3[segments + 2];
-    int[] triangles = new int[segments * 3];
-
-    vertices[0] = Vector3.zero;
-    float angleStep = _viewAngle / segments;
-
-    for (int i = 0; i <= segments; i++)
-    {
-        float angle = (-_viewAngle / 2) + (angleStep * i);
-        Vector3 direction = Quaternion.Euler(0, angle, 0) * Vector3.forward;
-        vertices[i + 1] = direction * _viewDistance;
-    }
-
-    for (int i = 0; i < segments; i++)
-    {
-        triangles[i * 3] = 0;
-        triangles[i * 3 + 1] = i + 1;
-        triangles[i * 3 + 2] = i + 2;
-    }
-
-    mesh.vertices = vertices;
-    mesh.triangles = triangles;
-    mesh.RecalculateNormals();
-
-    meshFilter.mesh = mesh;
-}
-
 }
