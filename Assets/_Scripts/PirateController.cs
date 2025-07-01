@@ -59,6 +59,7 @@ public class PirateController : MonoBehaviour
     {
         _isDead = false;
         _mainCharacter = GameObject.FindGameObjectWithTag("Player");
+        
 
         if (_mainCharacter == null)
         {
@@ -103,6 +104,18 @@ public class PirateController : MonoBehaviour
         else
         {
             Debug.LogWarning($"Pirate {name} non è sul NavMesh all’avvio!");
+        }
+
+        if (patrolPoints != null)
+        {
+            for (int i = 0; i < patrolPoints.Length; i++)
+            {
+            Debug.Log($"Patrol Point {i}: {patrolPoints[i].position}");
+            }
+        }
+        else
+        {
+            Debug.Log("Patrol Points array is null");
         }
 
     }
@@ -350,48 +363,66 @@ public class PirateController : MonoBehaviour
     }
 
     private IEnumerator PatrolRoutine()
+{
+    Debug.Log("isWalking: " + animator.GetBool("isWalking"));
+
+    float stuckTimer = 0f;
+
+    while (true)
     {
-        while (true)
+        if (_isDead) yield break;
+
+        if (_startFollowing || _hasSpottedRat)
         {
-            // fermati se è morto
-            if (_isDead)
-            {
-                yield break;
-            }
-
-            if (_startFollowing || _hasSpottedRat)
-            {
-                yield return null;
-                continue;
-            }
-
-            // aggiungi check di sicurezza
-            if (!agent.enabled || !agent.isOnNavMesh)
-            {
-                yield return null;
-                continue;
-            }
-
-            if (_pirateIsWalking && !waiting)
-            {
-                if (!agent.pathPending && agent.remainingDistance < 0.5f)
-                {
-                    waiting = true;
-                    animator.SetBool("isWalking", false);
-
-                    yield return new WaitForSeconds(waitTimeAtPoint);
-
-                    currentPointIndex = (currentPointIndex + 1) % patrolPoints.Length;
-                    agent.SetDestination(patrolPoints[currentPointIndex].position);
-
-                    animator.SetBool("isWalking", true);
-                    waiting = false;
-                }
-            }
-
+            stuckTimer = 0f;
             yield return null;
+            continue;
         }
+
+        if (!agent.enabled || !agent.isOnNavMesh)
+        {
+            stuckTimer = 0f;
+            yield return null;
+            continue;
+        }
+
+        if (_pirateIsWalking && !waiting)
+        {
+            Debug.Log("RemainingDistance: " + agent.remainingDistance);
+
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                Debug.Log("Capitano arrivato al punto " + currentPointIndex);
+
+                waiting = true;
+                animator.SetBool("isWalking", false);
+
+                yield return new WaitForSeconds(waitTimeAtPoint);
+
+                // Cambia punto: 0 → 1, 1 → 0
+
+                currentPointIndex = (currentPointIndex == 0) ? 1 : 0;
+                Debug.Log("Prossimo punto: " + currentPointIndex + " → " + patrolPoints[currentPointIndex].position);
+
+                // Ruota verso il nuovo punto (opzionale ma utile)
+                Vector3 dir = patrolPoints[currentPointIndex].position - transform.position;
+                dir.y = 0;
+                if (dir != Vector3.zero)
+                    transform.rotation = Quaternion.LookRotation(dir);
+
+                //vado al nuovo punto 
+                animator.SetBool("isWalking", true);
+                waiting = false;
+                agent.SetDestination(patrolPoints[currentPointIndex].position);
+        
+                stuckTimer = 0f;
+            }
+        }
+
+        yield return null;
     }
+}
+
 
 
     private void CheckHitRat()
