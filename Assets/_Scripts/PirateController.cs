@@ -363,65 +363,85 @@ public class PirateController : MonoBehaviour
     }
 
     private IEnumerator PatrolRoutine()
-{
-    Debug.Log("isWalking: " + animator.GetBool("isWalking"));
-
-    float stuckTimer = 0f;
-
-    while (true)
     {
-        if (_isDead) yield break;
+        Debug.Log("isWalking: " + animator.GetBool("isWalking"));
 
-        if (_startFollowing || _hasSpottedRat)
+        float stuckTimer = 0f;
+
+        while (true)
         {
-            stuckTimer = 0f;
-            yield return null;
-            continue;
-        }
+            if (_isDead) yield break;
 
-        if (!agent.enabled || !agent.isOnNavMesh)
-        {
-            stuckTimer = 0f;
-            yield return null;
-            continue;
-        }
-
-        if (_pirateIsWalking && !waiting)
-        {
-            Debug.Log("RemainingDistance: " + agent.remainingDistance);
-
-            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            if (_startFollowing || _hasSpottedRat)
             {
-                Debug.Log("Capitano arrivato al punto " + currentPointIndex);
-
-                waiting = true;
-                animator.SetBool("isWalking", false);
-
-                yield return new WaitForSeconds(waitTimeAtPoint);
-
-                // Cambia punto: 0 → 1, 1 → 0
-
-                currentPointIndex = (currentPointIndex == 0) ? 1 : 0;
-                Debug.Log("Prossimo punto: " + currentPointIndex + " → " + patrolPoints[currentPointIndex].position);
-
-                // Ruota verso il nuovo punto (opzionale ma utile)
-                Vector3 dir = patrolPoints[currentPointIndex].position - transform.position;
-                dir.y = 0;
-                if (dir != Vector3.zero)
-                    transform.rotation = Quaternion.LookRotation(dir);
-
-                //vado al nuovo punto 
-                animator.SetBool("isWalking", true);
-                waiting = false;
-                agent.SetDestination(patrolPoints[currentPointIndex].position);
-        
                 stuckTimer = 0f;
+                yield return null;
+                continue;
             }
+
+            if (!agent.enabled || !agent.isOnNavMesh)
+            {
+                stuckTimer = 0f;
+                yield return null;
+                continue;
+            }
+
+            if (_pirateIsWalking && !waiting)
+            {
+                Debug.Log("RemainingDistance: " + agent.remainingDistance);
+
+                if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+                {
+                    Debug.Log("Capitano arrivato al punto " + currentPointIndex);
+
+                    waiting = true;
+                    animator.SetBool("isWalking", false);
+
+                    yield return new WaitForSeconds(waitTimeAtPoint);
+
+                    // Cambia punto: 0 → 1, 1 → 0
+
+                    currentPointIndex = (currentPointIndex == 0) ? 1 : 0;
+                    Debug.Log("Prossimo punto: " + currentPointIndex + " → " + patrolPoints[currentPointIndex].position);
+
+                    // Ruota verso il nuovo punto (opzionale ma utile)
+                    yield return StartCoroutine(RotateTowards(patrolPoints[currentPointIndex].position));
+
+
+                    //vado al nuovo punto 
+                    animator.SetBool("isWalking", true);
+                    waiting = false;
+                    agent.SetDestination(patrolPoints[currentPointIndex].position);
+
+                    stuckTimer = 0f;
+                }
+            }
+
+            yield return null;
+        }
+    }
+
+    private IEnumerator RotateTowards(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction.y = 0;
+
+        if (direction == Vector3.zero)
+            yield break;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        float rotationSpeed = 5f; // puoi aumentare o diminuire per più lentezza o velocità
+
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.5f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            yield return null;
         }
 
-        yield return null;
+        // correzione finale precisa
+        transform.rotation = targetRotation;
     }
-}
+
 
 
 
