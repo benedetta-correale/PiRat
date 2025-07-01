@@ -58,7 +58,7 @@ public class RatInteractionManager : MonoBehaviour
             Debug.DrawLine(p1, p2, Color.red);
         }
 
-        
+
 
         //  Nuovo: premi 1-9 per entrare nei pirati infettati
         for (int i = 0; i < infectedPirates.Count && i < 9; i++)
@@ -71,6 +71,8 @@ public class RatInteractionManager : MonoBehaviour
                 }
             }
         }
+
+
     }
 
     private void OnDrawGizmos()
@@ -279,7 +281,7 @@ public class RatInteractionManager : MonoBehaviour
             StartCoroutine(UnlockAfterAnimationFixed(1f));
             return;
         }
-        else if ((scaleRatio >= 0.75f && scaleRatio <=0.87f) || (scaleRatio <=0.38f && scaleRatio >=0.24f))
+        else if ((scaleRatio >= 0.75f && scaleRatio <= 0.87f) || (scaleRatio <= 0.38f && scaleRatio >= 0.24f))
         {
             vfxManager.PlayBiteVFX();
             Debug.Log("🟡 Zona gialla");
@@ -287,7 +289,7 @@ public class RatInteractionManager : MonoBehaviour
             Infect(targetPirate);
             ExecuteBackflip(0.5f, 0.4f);
         }
-        else if ((scaleRatio >= 0.63f && scaleRatio <0.75f) || (scaleRatio <= 0.5 && scaleRatio > 0.38f))
+        else if ((scaleRatio >= 0.63f && scaleRatio < 0.75f) || (scaleRatio <= 0.5 && scaleRatio > 0.38f))
         {
             vfxManager.PlayBiteVFX();
             Debug.Log("🔵 Zona blu");

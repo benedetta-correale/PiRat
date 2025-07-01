@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4792306676751659654}
   - component: {fileID: 2488570795774911789}
   - component: {fileID: -8666856389523798711}
+  - component: {fileID: 474978532135727638}
   m_Layer: 0
   m_Name: Cheese_SpeedBoost
   m_TagString: Cheese
@@ -128,6 +129,9 @@ MonoBehaviour:
   speedDuration: 20
   extraDamage: 10
   poisonPuddlePrefab: {fileID: 0}
+  outlineMaterial: {fileID: 2100000, guid: 9bfc7db9afdfe694c9fac1175e4def98, type: 2}
+  triggerCollider: {fileID: 474978532135727638}
+  playerTag: Player
 --- !u!65 &-8666856389523798711
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,3 +153,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.34, y: 0.45, z: 0.23}
   m_Center: {x: 0, y: 0, z: -0.11}
+--- !u!135 &474978532135727638
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690275320204957918}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 1.6
+  m_Center: {x: -0.00036211312, y: 0.0121643795, z: -0.10568257}

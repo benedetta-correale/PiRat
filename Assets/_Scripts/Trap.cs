@@ -42,7 +42,15 @@ public class Trap : MonoBehaviour
                 if (hp != null) hp.TakeDamage(springDamage);
 
                 springReady = false;
-                StartCoroutine(SpringReset());
+
+                MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
+                if (renderer != null) renderer.enabled = false;
+
+                Collider col = GetComponent<Collider>();
+                if (col != null) col.enabled = false;
+
+                StartCoroutine(DestroyAfterDelay(1f));
+
                 break;
 
 
@@ -132,6 +140,12 @@ public class Trap : MonoBehaviour
         yield return new WaitForSeconds(springCooldown);
         springReady = true;
     }
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(gameObject);
+    }
+
 
 
 

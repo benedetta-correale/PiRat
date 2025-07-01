@@ -1,4 +1,4 @@
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -13,6 +13,57 @@ public class CheesePowerUp : MonoBehaviour
     public int extraDamage = 10;
 
     public GameObject poisonPuddlePrefab;
+    private Renderer _renderer;
+    private Material _defaultMaterial;
+    [SerializeField] private Material outlineMaterial;
+    private bool outlineActive = false;
+
+    [SerializeField] private SphereCollider triggerCollider;
+    [SerializeField] private string playerTag = "Player"; // puoi cambiare se serve
+
+
+    void Awake()
+    {
+        _renderer = GetComponentInChildren<Renderer>();
+        if (_renderer != null)
+        {
+            _defaultMaterial = _renderer.material;
+        }
+        if (triggerCollider != null)
+        {
+            triggerCollider.isTrigger = true;
+            triggerCollider.enabled = false;
+        }
+    }
+
+    public void EnableOutline(bool enable)
+    {
+        if (_renderer == null || outlineMaterial == null || triggerCollider == null) return;
+
+        if (outlineActive == enable) return;
+        outlineActive = enable;
+
+        if (enable)
+        {
+            Material[] newMats = new Material[2];
+            newMats[0] = _renderer.materials[0];
+            newMats[1] = outlineMaterial;
+            _renderer.materials = newMats;
+
+            triggerCollider.enabled = true; // ✅ attiva il collider
+        }
+        else
+        {
+            Material[] newMats = new Material[1];
+            newMats[0] = _renderer.materials[0];
+            _renderer.materials = newMats;
+
+            triggerCollider.enabled = false; // ✅ spegne anche il collider
+        }
+    }
+
+
+
     public void ActivatePowerUp(RatInteractionManager rat)
     {
         Debug.Log("ActivatePowerUp chiamato. Tipo: " + powerUpType);
@@ -29,7 +80,7 @@ public class CheesePowerUp : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log("Topo gi� alla salute massima. Il formaggio rimane.");
+                    Debug.Log("Topo già alla salute massima. Il formaggio rimane.");
                 }
                 break;
 
@@ -38,7 +89,7 @@ public class CheesePowerUp : MonoBehaviour
                 if (ratInputHandler != null)
                 {
                     ratInputHandler.StartCoroutine(ratInputHandler.SpeedBoostRoutine(speedMultiplier, speedDuration));
-                    Debug.Log("Velocit� aumentata per " + speedDuration + " secondi!");
+                    Debug.Log("Velocità aumentata per " + speedDuration + " secondi!");
                     consumed = true;
                 }
                 break;
@@ -58,16 +109,42 @@ public class CheesePowerUp : MonoBehaviour
 
         if (consumed)
         {
-            StartCoroutine(DestroyAfterDelay(1f));
+            StartCoroutine(DestroyAfterDelay(1.7f));
         }
-
     }
 
-    private IEnumerator DestroyAfterDelay(float delay)
+    private IEnumerator DestroyAfterDelay(float totalDelay)
     {
-        yield return new WaitForSeconds(delay);
+        // 1. Attendi prima di far scomparire la mesh (es. 1s)
+        yield return new WaitForSeconds(1f);
+
+        if (_renderer != null)
+            _renderer.enabled = false;
+
+        if (triggerCollider != null)
+            triggerCollider.enabled = false;
+
+        Collider mainCollider = GetComponent<Collider>();
+        if (mainCollider != null)
+            mainCollider.enabled = false;
+
+        // 2. Attendi il resto del tempo prima della distruzione
+        float remainingDelay = Mathf.Max(0f, totalDelay - 1f);
+        yield return new WaitForSeconds(remainingDelay);
+
         Destroy(gameObject);
     }
+
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (outlineActive && other.CompareTag(playerTag))
+        {
+            EnableOutline(false); // ✅ spegne tutto
+        }
+    }
+
+
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
@@ -78,6 +155,4 @@ public class CheesePowerUp : MonoBehaviour
         );
     }
 #endif
-
-
 }

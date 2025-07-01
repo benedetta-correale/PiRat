@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5406506157576625479}
   - component: {fileID: 4590851776502520523}
   - component: {fileID: -9057850541385537542}
+  - component: {fileID: 6947529649687309658}
   m_Layer: 0
   m_Name: Cheese_PoisonLeak
   m_TagString: Cheese
@@ -128,6 +129,9 @@ MonoBehaviour:
   speedDuration: 5
   extraDamage: 10
   poisonPuddlePrefab: {fileID: 5200894667798067015, guid: 417212b39db508340896e07dee29520c, type: 3}
+  outlineMaterial: {fileID: 2100000, guid: 51c87f0b09c90e0458fac2f80e3cd8da, type: 2}
+  triggerCollider: {fileID: 6947529649687309658}
+  playerTag: Player
 --- !u!65 &-9057850541385537542
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -149,3 +153,24 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.34, y: 0.45, z: 0.23}
   m_Center: {x: 0, y: 0, z: -0.11}
+--- !u!135 &6947529649687309658
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2760445471010051211}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 0
+  serializedVersion: 3
+  m_Radius: 1.6
+  m_Center: {x: -0.00036211312, y: 0.0121643795, z: -0.10568257}
