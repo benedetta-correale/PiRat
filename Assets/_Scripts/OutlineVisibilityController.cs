@@ -4,10 +4,9 @@ using System.Collections;
 [RequireComponent(typeof(SkinnedMeshRenderer))]
 public class OutlineVisibilityController : MonoBehaviour
 {
-    [Header("Riferimenti")]
-    public GameObject outlineObject;      // RatMesh_Outline
+    public GameObject outlineObject;
     public Camera cam;
-    public LayerMask occluderMask = ~0;   // i layer di muri/oggetti
+    public LayerMask occluderMask = ~0;
 
     SkinnedMeshRenderer _smr;
     Coroutine _visRoutine;
@@ -15,30 +14,18 @@ public class OutlineVisibilityController : MonoBehaviour
 
     void Start()
     {
-        if (outlineObject == null)
+        if (outlineObject == null || (cam == null && !(cam = Camera.main)))
         {
-            Debug.LogError($"[{name}] Devi assegnare RatMesh_Outline!");
             enabled = false;
             return;
         }
 
-        // ☆ Disattiva subito l’outline
         outlineObject.SetActive(false);
-
-        if (cam == null) cam = Camera.main;
-        if (cam == null)
-        {
-            Debug.LogError($"[{name}] Nessuna Camera.main trovata!");
-            enabled = false;
-            return;
-        }
-
         _smr = GetComponent<SkinnedMeshRenderer>();
-        // rende l’outline sempre “updateable”
+
         var oSMR = outlineObject.GetComponent<SkinnedMeshRenderer>();
         if (oSMR != null) oSMR.updateWhenOffscreen = true;
 
-        // avvia la routine
         _visRoutine = StartCoroutine(VisibilityRoutine());
     }
 
@@ -59,21 +46,22 @@ public class OutlineVisibilityController : MonoBehaviour
 
     void CheckVisibility()
     {
-        // centro del bounding box
         Vector3 target = _smr.bounds.center;
         Vector3 dir = target - cam.transform.position;
         float dist = dir.magnitude;
 
-        if (Physics.Raycast(cam.transform.position, dir.normalized, out var hit, dist, occluderMask))
+        RaycastHit[] hits = Physics.RaycastAll(cam.transform.position, dir.normalized, dist, occluderMask);
+
+        bool occluso = false;
+        foreach (var hit in hits)
         {
-            // se il primo hit non appartiene al topo → è occluso
-            bool occluso = !hit.collider.transform.IsChildOf(transform);
-            outlineObject.SetActive(occluso);
+            if (!hit.collider.transform.IsChildOf(transform))
+            {
+                occluso = true;
+                break;
+            }
         }
-        else
-        {
-            // linea di vista pulita
-            outlineObject.SetActive(false);
-        }
+
+        outlineObject.SetActive(occluso);
     }
 }
