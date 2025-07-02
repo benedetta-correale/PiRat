@@ -30,6 +30,7 @@ public class RatInteractionManager : MonoBehaviour
 
     private CameraControlManager cameraControlManager;
 
+
     //  Nuovo: lista dei pirati infettati
     public List<Transform> infectedPirates = new List<Transform>();
 
@@ -222,6 +223,7 @@ public class RatInteractionManager : MonoBehaviour
         {
             infectedPirates.Add(pirate.transform);
             pirate.OnPirateDeath += RemoveDeadPirate;
+            pirate.infected = true;
         }
     }
 

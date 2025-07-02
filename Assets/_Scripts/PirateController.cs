@@ -48,6 +48,7 @@ public class PirateController : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private Image healthFill;
+    public bool infected = false;
     // ----------------------------------------------------------------
 
     // Stato interno
