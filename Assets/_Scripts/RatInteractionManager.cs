@@ -61,7 +61,7 @@ public class RatInteractionManager : MonoBehaviour
 
 
 
-        //  Nuovo: premi 1-9 per entrare nei pirati infettati
+        // Premi 1-9 per entrare nei pirati infettati
         for (int i = 0; i < infectedPirates.Count && i < 9; i++)
         {
             if (Input.GetKeyDown(KeyCode.Alpha1 + i))
@@ -72,7 +72,6 @@ public class RatInteractionManager : MonoBehaviour
                 }
             }
         }
-
 
     }
 

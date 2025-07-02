@@ -1231,10 +1231,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!4 &131933656 stripped
 Transform:
@@ -2658,10 +2659,11 @@ MonoBehaviour:
   attackDamage: 5
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &353043564
 NavMeshAgent:
@@ -3518,10 +3520,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &401913761
 NavMeshAgent:
@@ -4364,6 +4367,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b1a1a8b34c9d40e984cba1426ab8d0b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 493548892}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 0b1a1a8b34c9d40e984cba1426ab8d0b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 493548893}
   m_SourcePrefab: {fileID: 100100000, guid: 0b1a1a8b34c9d40e984cba1426ab8d0b, type: 3}
 --- !u!4 &493548886 stripped
 Transform:
@@ -4389,7 +4395,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   patrolPoints:
   - {fileID: 2018021102}
-  - {fileID: 1819594219}
   - {fileID: 1892652640}
   animator: {fileID: 493548890}
   waitTimeAtPoint: 2
@@ -4401,10 +4406,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &493548889
 NavMeshAgent:
@@ -4476,6 +4482,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &493548893
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 493548887}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &495866909
 GameObject:
   m_ObjectHideFlags: 0
@@ -4755,7 +4788,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.887
+      value: 33.96
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalRotation.w
@@ -5612,6 +5645,10 @@ MonoBehaviour:
   transitionSpeed: 1.16
   offset: {x: 0, y: 13, z: -13}
   sensitivity: 120
+  cameraCollisionMask:
+    serializedVersion: 2
+    m_Bits: 0
+  cameraMinDistance: 1
 --- !u!114 &628773119
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6844,7 +6881,7 @@ Transform:
   m_GameObject: {fileID: 752700934}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 23.2, y: -1.02, z: -4.8}
+  m_LocalPosition: {x: 23.2, y: -1.02, z: -12.2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -7513,6 +7550,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ad33810f815bc4ae7b4b5a650b118e70, type: 3}
       insertIndex: -1
       addedObject: {fileID: 815895765}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: ad33810f815bc4ae7b4b5a650b118e70, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 815895766}
   m_SourcePrefab: {fileID: 100100000, guid: ad33810f815bc4ae7b4b5a650b118e70, type: 3}
 --- !u!1 &815895759 stripped
 GameObject:
@@ -7549,10 +7589,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!4 &815895762 stripped
 Transform:
@@ -7624,6 +7665,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &815895766
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 815895759}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &818507233
 GameObject:
   m_ObjectHideFlags: 0
@@ -7649,7 +7717,7 @@ Transform:
   m_GameObject: {fileID: 818507233}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.1, y: -1.02, z: -16.8}
+  m_LocalPosition: {x: -17.1, y: -1.02, z: -15.6}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -8606,10 +8674,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &993925577
 NavMeshAgent:
@@ -9693,6 +9762,7 @@ MonoBehaviour:
   biteCooldown: 1
   Damage: 30
   quickTimeUIManager: {fileID: 1099371340}
+  vfxManager: {fileID: 0}
   biting: 0
   skillCheck: {fileID: 0}
   infectedPirates: []
@@ -11708,6 +11778,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1591759041}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1591759042}
   m_SourcePrefab: {fileID: 100100000, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
 --- !u!4 &1270826728 stripped
 Transform:
@@ -12669,7 +12742,7 @@ MonoBehaviour:
   m_OverrideTileSize: 0
   m_TileSize: 256
   m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.1
+  m_VoxelSize: 0.033333335
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: cc82b6dfaa8c54ec98ae9513b828e218, type: 2}
   m_BuildHeightMesh: 0
@@ -13422,10 +13495,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &1591759039
 NavMeshAgent:
@@ -13492,6 +13566,33 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!54 &1591759042
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1591759036}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 1
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &1593580600
 GameObject:
   m_ObjectHideFlags: 0
@@ -15423,10 +15524,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &1835624494
 NavMeshAgent:
@@ -15728,10 +15830,11 @@ MonoBehaviour:
   attackDamage: 20
   _attachTime: 5
   _stopAttachTime: 5
+  maxHealth: 100
+  damagePerHit: 20
   isInfected: 0
-  health: 100
   isPossessed: 0
-  healthBarPrefab: {fileID: 8215620973239070564, guid: e99cfa6fb7f624f27b44f2694c140a30, type: 3}
+  healthForegroundImage: {fileID: 0}
   healthBarOffset: {x: 0, y: 2, z: 0}
 --- !u!195 &1852322129
 NavMeshAgent:

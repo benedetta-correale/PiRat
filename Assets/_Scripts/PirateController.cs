@@ -6,7 +6,7 @@ using System;
 public class PirateController : MonoBehaviour
 {
     // ──────────────────────── ENUM & EVENTS ────────────────────────
-    private enum State { Patrol, Suspicious, Chasing }
+    private enum State { Patrol, Suspicious, Chasing, Attacking }
 
     public event Action<PirateController> OnPirateDeath;
     public bool isPossessed { get; set; }
@@ -23,6 +23,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float viewAngle = 90f;
     [SerializeField] private float eyeHeight = 1.6f;
     [SerializeField] private float viewOriginBackOffset = 0.5f;
+    
 
     [Header("Alert UI")]
     [SerializeField] private GameObject alertIndicator;     // contorno + fill
@@ -34,7 +35,15 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float baseFillSpeed = 1f;      // 1 = tempo lineare
 
     [Header("Chase")]
-    [SerializeField] private float chaseSpeed = 3f;
+    [SerializeField] private float chaseSpeed = 3.0f;
+
+    [Header("Attacking")]
+
+    [SerializeField] private float attackRange = 2.0f;
+    [SerializeField] private float attackCooldown = 2.0f;
+
+    private float lastAttackTime;
+    
 
     [Header("Health")]
     [SerializeField] private float maxHealth = 100f;
@@ -72,9 +81,10 @@ public class PirateController : MonoBehaviour
     {
         switch (state)
         {
-            case State.Patrol:     PatrolUpdate();      break;
-            case State.Suspicious: SuspiciousUpdate();  break;
-            case State.Chasing:    ChasingUpdate();     break;
+            case State.Patrol: PatrolUpdate(); break;
+            case State.Suspicious: SuspiciousUpdate(); break;
+            case State.Chasing: ChasingUpdate(); break;
+            case State.Attacking: UpdateAttacking(); break;
         }
     }
 
@@ -125,7 +135,7 @@ public class PirateController : MonoBehaviour
         suspicionTimer = Mathf.Clamp(suspicionTimer + delta * (seesRat ? proximity : 1f), 0f, attachTime);
         alertFillImage.fillAmount = suspicionTimer / attachTime;
 
-        // 2. raggiunto il 70 % → inizia a muoversi verso ultimo avvistamento
+        // 2. raggiunto il 70 % → inizia a muoversi verso ultimo avvistamento 
         if (!hasStartedInvestigating && suspicionTimer >= attachTime * moveThreshold)
         {
             hasStartedInvestigating = true;
@@ -161,21 +171,81 @@ public class PirateController : MonoBehaviour
         alertIndicator.SetActive(false);
 
         agent.speed = chaseSpeed;
-        animator.SetBool("isWalking", true);
+        agent.isStopped = false;
+
+        animator.SetBool("isWalking", true); // ← AGGIUNGI QUESTO
+        
+        
     }
 
     private void ChasingUpdate()
     {
+
+         float distance = Vector3.Distance(transform.position, ratTransform.position);
+
         if (CanSeeRat())
         {
             agent.isStopped = false;
             agent.SetDestination(ratTransform.position);
+
+            if (distance <= attackRange)
+            {
+                EnterAttacking();
+            }
+
         }
+
         else
         {
             EnterSuspicious(); // torna a suspicious per scalare il timer
         }
     }
+    #endregion
+
+    #region Attacking
+    private void EnterAttacking()
+
+    {
+        state = State.Attacking;
+        agent.isStopped = true;
+
+        animator.SetBool("isWalking", false); 
+        animator.SetTrigger("AttackTrigger");
+
+
+    }
+
+    private void UpdateAttacking()
+    {
+       
+
+        if (ratTransform == null) return;
+
+        float distance = Vector3.Distance(transform.position, ratTransform.position);
+
+        // Se il topo è scappato, smetti di attaccare
+        if (distance > attackRange)
+        {
+            EnterChasing();
+            return;
+        }
+
+        // Gira verso il topo
+        Vector3 dir = (ratTransform.position - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
+        
+
+        // Se è passato abbastanza tempo, attacca di nuovo
+        if (Time.time - lastAttackTime >= attackCooldown)
+        {
+            animator.SetTrigger("AttackTrigger");
+            lastAttackTime = Time.time;
+        }
+    }
+    
+
+
     #endregion
 
     private void EnterPatrol()
@@ -198,11 +268,12 @@ public class PirateController : MonoBehaviour
         suspicionTimer = 0f;
         hasStartedInvestigating = false;
     }
-
+    
+   
     // ──────────────────────── VISION ───────────────────────────────
     private Vector3 GetEyeOrigin()
     {
-        return transform.position 
+        return transform.position
              - transform.forward * viewOriginBackOffset
              + Vector3.up * eyeHeight;
     }
