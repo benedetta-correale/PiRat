@@ -1,5 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.InputSystem;
+
 
 public enum PossessionState { Idle, Selecting, Possessing }
 
@@ -22,13 +24,24 @@ public class PossessionManager : MonoBehaviour
     private List<LineRenderer> scieAttive = new List<LineRenderer>();
     private Animator ratAnimator;
 
+    private PlayerInput playerInput;
+    private InputAction moveAction;
+
+
+
     void Start()
     {
         if (cameraManager != null)
             cameraManager.OnSwitchedToRat += HandleReturnToRat;
 
         ratAnimator = ratTransform.GetComponent<Animator>();
+
+        // Ottieni riferimento al PlayerInput
+        playerInput = GetComponent<PlayerInput>();
+        moveAction = playerInput.actions["Move"];
     }
+
+
 
     void OnDestroy()
     {
@@ -36,34 +49,17 @@ public class PossessionManager : MonoBehaviour
             cameraManager.OnSwitchedToRat -= HandleReturnToRat;
     }
 
+
+
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (currentState == PossessionState.Selecting)
         {
-            if (currentState == PossessionState.Selecting)
-            {
-                ExitSelectionMode();
-                return;
-            }
-            else if (currentState == PossessionState.Possessing && canSwitchBackToRat)
-            {
-                SwitchToRat();
-                return;
-            }
-        }
-
-        switch (currentState)
-        {
-            case PossessionState.Idle:
-                if (Input.GetKeyDown(KeyCode.Tab))
-                    EnterSelectionMode();
-                break;
-
-            case PossessionState.Selecting:
-                HandleSelectionInput();
-                break;
+            HandleSelectionInput();
         }
     }
+
+
 
     void EnterSelectionMode()
     {
@@ -98,18 +94,16 @@ public class PossessionManager : MonoBehaviour
         var piratesInRange = GetPiratesInRange();
         if (piratesInRange.Count == 0) return;
 
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            ConfirmSelection(piratesInRange);
-            return;
-        }
+        // lettura input del movimento dallo stick del nuovo sistema
+        Vector2 inputDir = moveAction.ReadValue<Vector2>();
 
-        Vector2 inputDir = new Vector2(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"));
-        if (inputDir != Vector2.zero)
+        if (inputDir.magnitude > 0.1f)
             SelectClosestInDirection(inputDir.normalized, piratesInRange);
 
         AggiornaScie(piratesInRange);
     }
+
+
 
     void ConfirmSelection(List<Transform> piratesInRange)
     {
@@ -263,4 +257,34 @@ public class PossessionManager : MonoBehaviour
         return ratInteraction.infectedPirates.FindAll(p =>
             Vector3.Distance(p.position, ratTransform.position) <= maxSelectionDistance);
     }
+
+    // Metodo per entrare nella modalità selezione
+    public void EnterSelectionMode_Input(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentState == PossessionState.Idle)
+            EnterSelectionMode();
+    }
+
+    // Metodo per uscire dalla modalità selezione o possessione
+    public void ExitSelectionMode_Input(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+        {
+            if (currentState == PossessionState.Selecting)
+                ExitSelectionMode();
+            else if (currentState == PossessionState.Possessing && canSwitchBackToRat)
+                SwitchToRat();
+        }
+    }
+
+    // Metodo per confermare la selezione del pirata da possedere
+    public void ConfirmPossess_Input(InputAction.CallbackContext context)
+    {
+        if (context.performed && currentState == PossessionState.Selecting)
+        {
+            var piratesInRange = GetPiratesInRange();
+            ConfirmSelection(piratesInRange);
+        }
+    }
+
 }
