@@ -78669,6 +78669,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1832333217}
     m_Modifications:
+    - target: {fileID: 45921863743539446, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 059429e36dd3642f58810d465f6744cc, type: 3}
     - target: {fileID: 782010674966795511, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
       propertyPath: m_IsActive
       value: 1
@@ -78769,6 +78773,10 @@ PrefabInstance:
       propertyPath: m_PresetInfoIsWorld
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5856922415536068011, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: d6af9aeeb44b84acfb773a34087b55d8, type: 3}
     - target: {fileID: 5856922415536068011, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
       propertyPath: m_FillAmount
       value: 1
