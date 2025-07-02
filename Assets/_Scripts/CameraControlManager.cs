@@ -101,17 +101,7 @@ public class CameraControlManager : MonoBehaviour
         Vector3 direction = desiredCameraPos - currentTarget.position;
         float distance = direction.magnitude;
 
-        // esegui il raycast per evitare muri tra il target e la camera
-        if (Physics.Raycast(currentTarget.position, direction.normalized, out RaycastHit hit, distance, cameraCollisionMask))
-        {
-            // posiziona la camera appena prima dell’ostacolo, con distanza minima garantita
-            transform.position = currentTarget.position + direction.normalized * Mathf.Max(hit.distance - 0.2f, cameraMinDistance);
-        }
-        else
-        {
-            // nessun ostacolo: posizione normale
-            transform.position = desiredCameraPos;
-        }
+        transform.position = desiredCameraPos;
 
 
         // guarda sempre il target
