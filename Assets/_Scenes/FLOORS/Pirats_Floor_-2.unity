@@ -2207,27 +2207,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23051eac276c4ac88fd16f5c771bbc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 56587316}
+  agent: {fileID: 0}
   patrolPoints:
   - {fileID: 76836472}
   - {fileID: 483307669}
-  animator: {fileID: 56587316}
-  waitTimeAtPoint: 2
-  _followSpeed: 3
-  _viewAngle: 90
-  _viewDistance: 4
-  _rayAttachment: 3
-  visionConeMaterial: {fileID: 2100000, guid: 6c810d3f20c8f47fc8dfc8ea286ff600, type: 2}
-  attackDamage: 5
-  _attachTime: 5
-  _stopAttachTime: 5
-  maxHealth: 100
-  damagePerHit: 20
-  isInfected: 0
-  isPossessed: 0
-  healthForegroundImage: {fileID: 793911462}
-  healthBarOffset: {x: 0, y: 2, z: 0}
+  ratTransform: {fileID: 614801728}
+  viewDistance: 10
+  viewAngle: 90
+  eyeHeight: 1.5
+  viewOriginBackOffset: 0.5
   alertIndicator: {fileID: 1872720641}
   alertFillImage: {fileID: 1368222693}
+  attachTime: 5
+  moveThreshold: 0.7
+  baseFillSpeed: 1
+  chaseSpeed: 3
+  maxHealth: 100
+  healthFill: {fileID: 793911462}
 --- !u!195 &56587319
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -8453,7 +8450,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9480c1a1a76064912b9232af609d9baa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: b160a4d8ae6b241d49dd368f4b138a4d, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20757,6 +20754,7 @@ MonoBehaviour:
   biting: 0
   skillCheck: {fileID: 0}
   infectedPirates: []
+  isBackflipping: 0
 --- !u!136 &614801734
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -67506,27 +67504,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23051eac276c4ac88fd16f5c771bbc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  animator: {fileID: 1832333219}
+  agent: {fileID: 0}
   patrolPoints:
   - {fileID: 2103112628}
   - {fileID: 1338559461}
-  animator: {fileID: 1832333219}
-  waitTimeAtPoint: 2
-  _followSpeed: 3
-  _viewAngle: 90
-  _viewDistance: 4
-  _rayAttachment: 3
-  visionConeMaterial: {fileID: 2100000, guid: d3ec7e8a946df1740b9912efe242cfe5, type: 2}
-  attackDamage: 20
-  _attachTime: 5
-  _stopAttachTime: 5
-  maxHealth: 200
-  damagePerHit: 20
-  isInfected: 0
-  isPossessed: 0
-  healthForegroundImage: {fileID: 6918262938464841742}
-  healthBarOffset: {x: 0, y: 2, z: 0}
+  ratTransform: {fileID: 614801728}
+  viewDistance: 10
+  viewAngle: 90
+  eyeHeight: 1.5
+  viewOriginBackOffset: 0.5
   alertIndicator: {fileID: 1058514753}
   alertFillImage: {fileID: 1172371499}
+  attachTime: 5
+  moveThreshold: 0.7
+  baseFillSpeed: 5
+  chaseSpeed: 3
+  maxHealth: 200
+  healthFill: {fileID: 6918262938464841742}
 --- !u!195 &1832333223
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -78106,6 +78101,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1832333217}
     m_Modifications:
+    - target: {fileID: 782010674966795511, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 811598945509515436, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 811598945509515436, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_FillOrigin
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1051392785323343844, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -78189,6 +78196,14 @@ PrefabInstance:
     - target: {fileID: 1970419349789008250, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
       propertyPath: m_Name
       value: BarPirate Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 3488974839608654295, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5856922415536068011, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_FillAmount
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
