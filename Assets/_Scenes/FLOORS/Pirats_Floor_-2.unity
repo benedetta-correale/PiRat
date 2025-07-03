@@ -32135,7 +32135,7 @@ Transform:
   m_GameObject: {fileID: 933452670}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.61, y: -0.01, z: 0.95}
+  m_LocalPosition: {x: 0.15, y: -0.01, z: 1.31}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -36813,14 +36813,14 @@ MonoBehaviour:
   saveDataOnScan: 0
   levelNameToSave: Level -2
   levelDimensionX: 128
-  levelDimensionY: 92
+  levelDimensionY: 128
   unitScale: 0.25
   scanSpacingPerUnit: 0.25
   rayStartHeight: 7
   rayMaxDistance: 10
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 65
   ignoreTriggers: 1
   drawGizmos: 1
   LogOutOfRange: 0
