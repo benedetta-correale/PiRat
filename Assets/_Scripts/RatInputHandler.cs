@@ -13,11 +13,11 @@ public class RatInputHandler : MonoBehaviour
     public float rotationSpeed = 360f;
 
     [Header("Animation")]
-    [Tooltip("Parametro Animator per gestire la velocità dell'animazione")]
+    [Tooltip("Parametro Animator per gestire la velocitï¿½ dell'animazione")]
     public string animSpeedParam = "SpeedMultiplier";
-    [Tooltip("Moltiplicatore minimo della velocità dell'animazione quando l'input è minimo")]
+    [Tooltip("Moltiplicatore minimo della velocitï¿½ dell'animazione quando l'input ï¿½ minimo")]
     public float minAnimSpeed = 0.5f;
-    [Tooltip("Moltiplicatore massimo della velocità dell'animazione quando l'input è a intensità massima")]
+    [Tooltip("Moltiplicatore massimo della velocitï¿½ dell'animazione quando l'input ï¿½ a intensitï¿½ massima")]
     public float maxAnimSpeed = 1.6f;
 
     private Rigidbody rb;

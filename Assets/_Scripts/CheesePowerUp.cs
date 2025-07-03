@@ -6,29 +6,27 @@ public enum CheesePowerUpType { Heal, SpeedBoost, DamageBoost, PoisonLeak }
 
 public class CheesePowerUp : MonoBehaviour
 {
+    [Header("Power-up Settings")]
     public CheesePowerUpType powerUpType;
     public int healAmount = 20;
     public float speedMultiplier = 1.5f;
     public float speedDuration = 5f;
     public int extraDamage = 10;
 
+    [Header("Prefabs & VFX")]
     public GameObject poisonPuddlePrefab;
-    private Renderer _renderer;
-    private Material _defaultMaterial;
+    [SerializeField] private GameObject healVFXPrefab;  // Prefab particelle
+
+    [Header("Outline & Trigger")]
     [SerializeField] private Material outlineMaterial;
-    private bool outlineActive = false;
-
     [SerializeField] private SphereCollider triggerCollider;
-    [SerializeField] private string playerTag = "Player"; // puoi cambiare se serve
+    [SerializeField] private string playerTag = "Player";
 
+    private Renderer _renderer;
 
     void Awake()
     {
         _renderer = GetComponentInChildren<Renderer>();
-        if (_renderer != null)
-        {
-            _defaultMaterial = _renderer.material;
-        }
         if (triggerCollider != null)
         {
             triggerCollider.isTrigger = true;
@@ -39,112 +37,104 @@ public class CheesePowerUp : MonoBehaviour
     public void EnableOutline(bool enable)
     {
         if (_renderer == null || outlineMaterial == null || triggerCollider == null) return;
-
-        if (outlineActive == enable) return;
-        outlineActive = enable;
-
         if (enable)
         {
-            Material[] newMats = new Material[2];
-            newMats[0] = _renderer.materials[0];
-            newMats[1] = outlineMaterial;
-            _renderer.materials = newMats;
-
-            triggerCollider.enabled = true; // ✅ attiva il collider
+            _renderer.materials = new Material[] { _renderer.materials[0], outlineMaterial };
+            triggerCollider.enabled = true;
         }
         else
         {
-            Material[] newMats = new Material[1];
-            newMats[0] = _renderer.materials[0];
-            _renderer.materials = newMats;
-
-            triggerCollider.enabled = false; // ✅ spegne anche il collider
+            _renderer.materials = new Material[] { _renderer.materials[0] };
+            triggerCollider.enabled = false;
         }
     }
 
-
-
     public void ActivatePowerUp(RatInteractionManager rat)
     {
-        Debug.Log("ActivatePowerUp chiamato. Tipo: " + powerUpType);
+        Debug.Log($"ActivatePowerUp: {powerUpType}");
         var bonusMalus = rat.GetComponent<BonusMalus>();
         bool consumed = false;
+
         switch (powerUpType)
         {
             case CheesePowerUpType.Heal:
                 if (bonusMalus != null && bonusMalus.currentHealth < bonusMalus.maxHealth)
                 {
                     bonusMalus.Heal(healAmount);
-                    Debug.Log("Topo curato di " + healAmount);
+                    Debug.Log($"Topo curato di {healAmount}");
                     consumed = true;
-                }
-                else
-                {
-                    Debug.Log("Topo già alla salute massima. Il formaggio rimane.");
                 }
                 break;
 
             case CheesePowerUpType.SpeedBoost:
-                RatInputHandler ratInputHandler = rat.GetComponent<RatInputHandler>();
-                if (ratInputHandler != null)
+                var ratInput = rat.GetComponent<RatInputHandler>();
+                if (ratInput != null)
                 {
-                    ratInputHandler.StartCoroutine(ratInputHandler.SpeedBoostRoutine(speedMultiplier, speedDuration));
-                    Debug.Log("Velocità aumentata per " + speedDuration + " secondi!");
+                    ratInput.StartCoroutine(ratInput.SpeedBoostRoutine(speedMultiplier, speedDuration));
+                    Debug.Log($"SpeedBoost: x{speedMultiplier} per {speedDuration}s");
                     consumed = true;
                 }
                 break;
 
             case CheesePowerUpType.DamageBoost:
                 rat.ActivateDamageBoost(extraDamage);
-                Debug.Log("Danno del prossimo morso aumentato di " + extraDamage);
+                Debug.Log($"DamageBoost: +{extraDamage}");
                 consumed = true;
                 break;
 
             case CheesePowerUpType.PoisonLeak:
                 rat.EnablePoisonLeak(poisonPuddlePrefab);
-                Debug.Log("Power-up Puddle abilitato!");
+                Debug.Log("PoisonLeak abilitato");
                 consumed = true;
                 break;
         }
 
         if (consumed)
         {
-            StartCoroutine(DestroyAfterDelay(1.7f));
+            // 1) distruggi il formaggio con delay, e contemporaneamente 
+            //    fai spawn del VFX al momento della distruzione
+            StartCoroutine(DestroyAfterDelay(rat.transform, 1.7f));
         }
     }
 
-    private IEnumerator DestroyAfterDelay(float totalDelay)
+    /// <summary>
+    /// Aspetta totalDelay, nasconde il formaggio, spawna VFX come figlio di ratTransform, quindi distrugge il formaggio.
+    /// </summary>
+    private IEnumerator DestroyAfterDelay(Transform ratTransform, float totalDelay)
     {
-        // 1. Attendi prima di far scomparire la mesh (es. 1s)
+        // parte 1: animazione formaggio (1s)
         yield return new WaitForSeconds(1f);
 
-        if (_renderer != null)
-            _renderer.enabled = false;
+        if (_renderer != null) _renderer.enabled = false;
+        if (triggerCollider != null) triggerCollider.enabled = false;
+        var col = GetComponent<Collider>();
+        if (col != null) col.enabled = false;
 
-        if (triggerCollider != null)
-            triggerCollider.enabled = false;
+        // parte 2: aspetta il resto
+        yield return new WaitForSeconds(totalDelay - 1f);
 
-        Collider mainCollider = GetComponent<Collider>();
-        if (mainCollider != null)
-            mainCollider.enabled = false;
-
-        // 2. Attendi il resto del tempo prima della distruzione
-        float remainingDelay = Mathf.Max(0f, totalDelay - 1f);
-        yield return new WaitForSeconds(remainingDelay);
+        // al momento della distruzione, spawn VFX come figlio del topo
+        if (healVFXPrefab != null && ratTransform != null)
+        {
+            var vfx = Instantiate(
+                healVFXPrefab,
+                ratTransform.position,
+                Quaternion.identity,
+                ratTransform    // <--- parent impostato al ratto
+            );
+            // opzionale: reset locale
+            vfx.transform.localPosition = Vector3.zero;
+            Destroy(vfx, 2f);
+        }
 
         Destroy(gameObject);
     }
 
-
     private void OnTriggerExit(Collider other)
     {
-        if (outlineActive && other.CompareTag(playerTag))
-        {
-            EnableOutline(false); // ✅ spegne tutto
-        }
+        if (outlineMaterial != null && other.CompareTag(playerTag))
+            EnableOutline(false);
     }
-
-
 
 #if UNITY_EDITOR
     void OnDrawGizmos()

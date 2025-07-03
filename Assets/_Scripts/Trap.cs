@@ -16,6 +16,10 @@ public class Trap : MonoBehaviour
     [SerializeField] private float springCooldown = 2f;
     private bool springReady = true;
 
+    [Header("VFX")]
+    [Tooltip("Assegna qui il prefab VFX specifico per questa trappola")]
+    [SerializeField] private GameObject trapVFXPrefab;
+
     [SerializeField] private float requiredWiggle = 2f; // quanta "energia" serve per liberarsi
     [SerializeField] private float wiggleDecay = 0.5f;  // quanto si scarica nel tempo se non ti dimeni
     [SerializeField] private float wiggleStrength = 0.05f;
@@ -63,12 +67,12 @@ public class Trap : MonoBehaviour
             }
             else
             {
-                Debug.Log("TRAP: isBackflipping è FALSE, procedo normalmente");
+                Debug.Log("TRAP: isBackflipping ï¿½ FALSE, procedo normalmente");
             }
         }
         else
         {
-            Debug.Log("TRAP: RIM è NULL!");
+            Debug.Log("TRAP: RIM ï¿½ NULL!");
         }
 
         // Processa normalmente la trappola
@@ -96,7 +100,7 @@ public class Trap : MonoBehaviour
             trapCollider.enabled = true;
         }
 
-        // Controlla se il rat è ancora sopra la trappola
+        // Controlla se il rat ï¿½ ancora sopra la trappola
         if (rim != null)
         {
             Collider ratCollider = rim.GetComponent<Collider>();
@@ -107,7 +111,7 @@ public class Trap : MonoBehaviour
             }
             else
             {
-                Debug.Log("Rat non più sopra la trappola, nessun effetto.");
+                Debug.Log("Rat non piï¿½ sopra la trappola, nessun effetto.");
             }
         }
     }
@@ -166,6 +170,9 @@ public class Trap : MonoBehaviour
 
     private void ProcessTrap(Collider other)
     {
+        if (trapVFXPrefab != null)
+            SpawnVFX(trapVFXPrefab, other.transform);
+
         switch (trapType)
         {
             case TrapType.Spring:
@@ -216,9 +223,16 @@ public class Trap : MonoBehaviour
         }
     }
 
+    private void SpawnVFX(GameObject prefab, Transform parent)
+    {
+        // Istanzia il VFX come figlio del ratto, cosÃ¬ segue sempre la sua posizione
+        var vfx = Instantiate(prefab, parent.position, Quaternion.identity, parent);
+        Destroy(vfx, 2f);
+    }
+
     private void OnTriggerExit(Collider other)
     {
-        // Non più necessario con la versione coroutine
+        // Non piï¿½ necessario con la versione coroutine
         // Il collider viene gestito automaticamente nella WaitForBackflipEnd
     }
 

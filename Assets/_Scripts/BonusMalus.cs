@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class BonusMalus : MonoBehaviour
 {
@@ -50,6 +49,7 @@ public class BonusMalus : MonoBehaviour
 
     private void NotifyHealthChange()
     {
+        Debug.Log($"NotifyHealthChange fired: {currentHealth}/{maxHealth}");
         onHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }

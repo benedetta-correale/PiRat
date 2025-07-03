@@ -107,8 +107,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.24, y: 1.44, z: 0.2}
-  m_Center: {x: 0.000000059604645, y: 0.7, z: -0.00000008940697}
+  m_Size: {x: 0.16654891, y: 1.4399999, z: 0.11988926}
+  m_Center: {x: 0.03672561, y: 0.6999999, z: 0.0006337166}
 --- !u!114 &2688386160740808515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -126,6 +126,7 @@ MonoBehaviour:
   glueDuration: 2
   slideForce: 10
   springCooldown: 2
+  trapVFXPrefab: {fileID: 1594160248338174, guid: 23981215f5bbd55418039f95730dde55, type: 3}
   requiredWiggle: 4
   wiggleDecay: 0.5
   wiggleStrength: 0.05

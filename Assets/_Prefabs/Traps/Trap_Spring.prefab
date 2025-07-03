@@ -128,6 +128,7 @@ MonoBehaviour:
   glueDuration: 2
   slideForce: 10
   springCooldown: 2
+  trapVFXPrefab: {fileID: 1639086506678902, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
   requiredWiggle: 2
   wiggleDecay: 0.5
   wiggleStrength: 0.05

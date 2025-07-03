@@ -3,28 +3,16 @@ using UnityEngine.UI;
 
 public class RatHealthUI : MonoBehaviour
 {
-    [Header("References")]
-    [SerializeField] private BonusMalus ratHealth;
-    [SerializeField] private Image healthBarImage;
+    [Header("UI")]
+    [SerializeField] private Image healthFill;
 
-    private void OnEnable()
+    public void UpdateHealthBar(int current, int max)
     {
-        if (ratHealth != null)
-            ratHealth.onHealthChanged.AddListener(UpdateHealthBar);
-    }
-
-    private void OnDisable()
-    {
-        if (ratHealth != null)
-            ratHealth.onHealthChanged.RemoveListener(UpdateHealthBar);
-    }
-
-    private void UpdateHealthBar(int current, int max)
-    {
-        if (healthBarImage != null)
+        Debug.Log($"UpdateHealthBar called: {current}/{max}");
+        if (healthFill != null)
         {
-            float fill = (float)current / max;
-            healthBarImage.fillAmount = fill;
+            float percent = (float)current / max;
+            healthFill.fillAmount = percent;
         }
     }
 }
