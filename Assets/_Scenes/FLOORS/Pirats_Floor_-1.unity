@@ -5612,6 +5612,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 77fb869575dfe411c98dc3dab3085626, type: 3}
   m_PrefabInstance: {fileID: 174393750}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &175151908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -5049032948309972686, guid: 058de047b01b744bda16fd83386afb05, type: 3}
+  m_PrefabInstance: {fileID: 1212114553}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &179575362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -28731,13 +28736,13 @@ MonoBehaviour:
     sightRange: 2
     updateOnlyOnMove: 0
     lastSeenAt: {x: 0, y: 0}
-  levelMidPoint: {fileID: 0}
+  levelMidPoint: {fileID: 1212114555}
   FogRefreshRate: 18
   fogPlaneHeight: 1
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
   fogPlaneAlpha: 1
-  fogLerpSpeed: 2.5
+  fogLerpSpeed: 10
   keepRevealedTiles: 0
   revealedTileOpacity: 0.5
   fogPlaneTextureLerpTarget: {fileID: 0}
@@ -28747,13 +28752,13 @@ MonoBehaviour:
   levelNameToSave: Default
   levelDimensionX: 128
   levelDimensionY: 128
-  unitScale: 0.5
+  unitScale: 0.25
   scanSpacingPerUnit: 0.25
   rayStartHeight: 5
   rayMaxDistance: 10
   obstacleLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 65
   ignoreTriggers: 1
   drawGizmos: 1
   LogOutOfRange: 0
@@ -33475,12 +33480,41 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 058de047b01b744bda16fd83386afb05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1482363894}
+    - targetCorrespondingSourceObject: {fileID: -5049032948309972686, guid: 058de047b01b744bda16fd83386afb05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1212114558}
   m_SourcePrefab: {fileID: 100100000, guid: 058de047b01b744bda16fd83386afb05, type: 3}
 --- !u!1 &1212114554 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 058de047b01b744bda16fd83386afb05, type: 3}
   m_PrefabInstance: {fileID: 1212114553}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1212114555 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -2712175510624747214, guid: 058de047b01b744bda16fd83386afb05, type: 3}
+  m_PrefabInstance: {fileID: 1212114553}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1212114558
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 175151908}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 51.981064, y: 1.6128944, z: 31.281065}
+  m_Center: {x: -2.6982794, y: 0.39, z: 0.073135376}
 --- !u!1001 &1217748616
 PrefabInstance:
   m_ObjectHideFlags: 0

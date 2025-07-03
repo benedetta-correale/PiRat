@@ -55,10 +55,8 @@ public class CameraControlManager : MonoBehaviour
 
     void Start()
     {
-        //camTransform = Camera.main.transform;
         pirateTransform = null;
         currentTarget = ratTransform;
-        //camTransform.rotation = Quaternion.Euler(cameraEulerAngles);
 
         if (currentTarget == null)
         {
@@ -66,9 +64,16 @@ public class CameraControlManager : MonoBehaviour
             enabled = false;
             return;
         }
-        // inizializza yaw dalla rotazione corrente
-        yaw = transform.eulerAngles.y;
+
+        yaw = currentTarget.eulerAngles.y; // oppure 0f se vuoi partire sempre dietro
+
+
+        // ⬇️ Aggiunta: forza subito la posizione corretta al primo frame
+        Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
+        transform.position = currentTarget.position + rot * offset;
+        transform.LookAt(currentTarget.position);
     }
+
 
     void Update()
     {
