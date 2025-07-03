@@ -2223,8 +2223,11 @@ MonoBehaviour:
   moveThreshold: 0.7
   baseFillSpeed: 1
   chaseSpeed: 3
+  attackRange: 2
+  attackCooldown: 1.5
   maxHealth: 100
   healthFill: {fileID: 793911462}
+  infected: 0
 --- !u!195 &56587319
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -3162,7 +3165,7 @@ Transform:
   m_GameObject: {fileID: 76836471}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.5, y: -0.92, z: -6.3}
+  m_LocalPosition: {x: 56.2, y: -0.92, z: -6.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -16264,7 +16267,7 @@ Transform:
   m_GameObject: {fileID: 483307668}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -17.1, y: -1.02, z: -16.8}
+  m_LocalPosition: {x: 35.2, y: -1.02, z: 6.3}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -27684,6 +27687,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: BarPirate Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 3488974839608654295, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
+      propertyPath: m_PresetInfoIsWorld
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -36750,7 +36757,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1073001924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -67997,8 +68004,11 @@ MonoBehaviour:
   moveThreshold: 0.7
   baseFillSpeed: 5
   chaseSpeed: 3
+  attackRange: 1
+  attackCooldown: 3
   maxHealth: 200
   healthFill: {fileID: 6918262938464841742}
+  infected: 0
 --- !u!195 &1832333223
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -77305,7 +77315,7 @@ Transform:
   m_GameObject: {fileID: 2127343451}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 23.854076, y: 0.4700029, z: 38.53526}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:

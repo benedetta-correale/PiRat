@@ -176,12 +176,11 @@ public class PirateController : MonoBehaviour
 
         animator.SetBool("isWalking", true); // ← AGGIUNGI QUESTO
         
-        
     }
 
     private void ChasingUpdate()
-    {
 
+    {
          float distance = Vector3.Distance(transform.position, ratTransform.position);
 
         if (CanSeeRat())
@@ -217,9 +216,9 @@ public class PirateController : MonoBehaviour
     }
 
     private void UpdateAttacking()
+
     {
        
-
         if (ratTransform == null) return;
 
         float distance = Vector3.Distance(transform.position, ratTransform.position);
@@ -296,6 +295,13 @@ public class PirateController : MonoBehaviour
     // ──────────────────────── HEALTH ───────────────────────────────
     public void TakeDamage(int dmg)
     {
+        // Turn towards the rat immediately
+        if (ratTransform != null)
+        {
+            Vector3 dir = (ratTransform.position - transform.position).normalized;
+            transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
+        }
+        
         currentHealth = Mathf.Max(0f, currentHealth - dmg);
         healthFill.fillAmount = currentHealth / maxHealth;
         if (currentHealth <= 0f) Die();
