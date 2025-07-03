@@ -15,6 +15,8 @@ public class RatInteractionManager : MonoBehaviour
 
     private Animator _ratAnimator;
     private RatInputHandler _ratInputHandler;
+    private Rigidbody rb;
+
 
     [SerializeField] private QuickTimeUIManager quickTimeUIManager;
     private bool quickTimeConfirmed = false;
@@ -43,6 +45,7 @@ public class RatInteractionManager : MonoBehaviour
     {
         _ratAnimator = GetComponent<Animator>();
         _ratInputHandler = GetComponent<RatInputHandler>();
+        rb = GetComponent<Rigidbody>();
     }
 
 
@@ -325,9 +328,7 @@ public class RatInteractionManager : MonoBehaviour
 
     private IEnumerator PerformBackflip(float distanceMultiplier, float delayBeforeMove = 0.35f)
     {
-
         Debug.Log("BACKFLIP INIZIATO - isBackflipping = true");
-        // Avvia animazione Backflip
         _ratAnimator.SetTrigger("Backflip");
 
         yield return new WaitForSeconds(delayBeforeMove); // aspetta inizio animazione
@@ -354,25 +355,36 @@ public class RatInteractionManager : MonoBehaviour
         }
 
         float backflipDistance = 2f * distanceMultiplier;
+        float safetyMargin = 0.05f;
 
-        Vector3 targetPosition = transform.position + backwardDir * backflipDistance;
-
-        float elapsedTime = 0f;
-        float duration = 0.3f;
-        Vector3 startPos = transform.position;
-
-        while (elapsedTime < duration)
+        // 👇 Raycast preventivo per accorciare la distanza
+        if (Physics.Raycast(transform.position, backwardDir, out RaycastHit hit, backflipDistance + 0.1f, LayerMask.GetMask("Default", "Wall")))
         {
-            transform.position = Vector3.Lerp(startPos, targetPosition, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            yield return null;
+            backflipDistance = Mathf.Max(0f, hit.distance - safetyMargin); // non toccare il muro
+            Debug.Log($"Backflip accorciato a {backflipDistance:F2} metri per ostacolo");
         }
 
-        transform.position = targetPosition;
+        Vector3 startPos = rb.position;
+        Vector3 targetPos = startPos + backwardDir * backflipDistance;
+
+        float elapsed = 0f;
+        float duration = 0.3f;
+
+        while (elapsed < duration)
+        {
+            Vector3 nextPos = Vector3.Lerp(startPos, targetPos, elapsed / duration);
+            rb.MovePosition(nextPos);
+            elapsed += Time.fixedDeltaTime;
+            yield return new WaitForFixedUpdate();
+        }
+
+        rb.MovePosition(targetPos);
         _ratInputHandler.movementLocked = false;
         isBackflipping = false;
         Debug.Log("BACKFLIP TERMINATO - isBackflipping = false");
     }
+
+
 
 
     private IEnumerator UnlockAfterAnimationFixed(float delay)

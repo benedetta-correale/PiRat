@@ -2226,6 +2226,7 @@ MonoBehaviour:
   - {fileID: 76836472}
   - {fileID: 483307669}
   ratTransform: {fileID: 614801728}
+  ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
   eyeHeight: 1.5
@@ -2238,8 +2239,12 @@ MonoBehaviour:
   chaseSpeed: 3
   attackRange: 2
   attackCooldown: 2
+  attackDamage: 10
   maxHealth: 100
   healthFill: {fileID: 793911462}
+  biteTickDamage: 0
+  biteTickInterval: 0
+  biteDuration: 0
   infected: 0
 --- !u!195 &56587319
 NavMeshAgent:
@@ -32237,7 +32242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   ratTransform: {fileID: 614801728}
-  cameraTransform: {fileID: 1090140454}
+  mainCamera: {fileID: 0}
   distanceFactor: 0.9
 --- !u!1 &933724868
 GameObject:
@@ -68084,6 +68089,7 @@ MonoBehaviour:
   - {fileID: 2103112628}
   - {fileID: 1338559461}
   ratTransform: {fileID: 614801728}
+  ratHealt: {fileID: 614801737}
   viewDistance: 10
   viewAngle: 90
   eyeHeight: 1.5
@@ -68096,8 +68102,12 @@ MonoBehaviour:
   chaseSpeed: 3
   attackRange: 2
   attackCooldown: 2
+  attackDamage: 10
   maxHealth: 200
   healthFill: {fileID: 6918262938464841742}
+  biteTickDamage: 0
+  biteTickInterval: 0
+  biteDuration: 0
   infected: 0
 --- !u!195 &1832333223
 NavMeshAgent:
