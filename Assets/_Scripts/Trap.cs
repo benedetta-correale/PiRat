@@ -31,6 +31,8 @@ public class Trap : MonoBehaviour
     private float wiggleAmount = 0f;
     private RatInputHandler stuckPlayer = null;
 
+    private GameObject glueVFXInstance;
+
     private void OnTriggerEnter(Collider other)
     {
         if (!other.CompareTag("Player")) return;
@@ -164,19 +166,25 @@ public class Trap : MonoBehaviour
 
                 isStuck = false;
                 stuckPlayer = null;
+
+                if (glueVFXInstance != null)
+                {
+                    Destroy(glueVFXInstance);
+                    glueVFXInstance = null;
+                }
             }
         }
     }
 
     private void ProcessTrap(Collider other)
     {
-        if (trapVFXPrefab != null)
-            SpawnVFX(trapVFXPrefab, other.transform);
-
         switch (trapType)
         {
             case TrapType.Spring:
                 if (!springReady) break;
+
+                if (trapVFXPrefab != null)
+                    SpawnVFX(trapVFXPrefab, other.transform);
 
                 var hp = other.GetComponent<BonusMalus>();
                 if (hp != null) hp.TakeDamage(springDamage);
@@ -209,10 +217,18 @@ public class Trap : MonoBehaviour
                     if (anim != null) anim.enabled = false;
 
                     wiggleAmount = 0f;
+
+                    if (trapVFXPrefab != null)
+                    {
+                        glueVFXInstance = Instantiate(trapVFXPrefab, other.transform.position, Quaternion.identity, other.transform);
+                    }
                 }
                 break;
 
             case TrapType.Slide:
+                if (trapVFXPrefab != null)
+                    SpawnVFX(trapVFXPrefab, other.transform);
+
                 var rb = other.GetComponent<Rigidbody>();
                 if (rb != null)
                 {

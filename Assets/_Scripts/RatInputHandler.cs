@@ -5,6 +5,8 @@ using System.Collections;
 [RequireComponent(typeof(Rigidbody))]
 public class RatInputHandler : MonoBehaviour
 {
+    private GameObject speedVFXInstance;
+
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float sprintMultiplier = 1.5f;
@@ -27,6 +29,7 @@ public class RatInputHandler : MonoBehaviour
 
     private bool isSprinting;
     private Animator _ratAnimator;
+    public bool speedBoostActive { get; private set; } = false;
 
     void Awake() => rb = GetComponent<Rigidbody>();
 
@@ -115,13 +118,28 @@ public class RatInputHandler : MonoBehaviour
         }
     }
 
+    public void SetSpeedVFX(GameObject prefab)
+    {
+        if (prefab == null) return;
+        if (speedVFXInstance != null) Destroy(speedVFXInstance);
+        speedVFXInstance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+        speedVFXInstance.transform.localPosition = Vector3.zero;
+    }
 
     public IEnumerator SpeedBoostRoutine(float multiplier, float duration)
     {
+        speedBoostActive = true;
         float originalSpeed = walkSpeed;
         walkSpeed *= multiplier;
         yield return new WaitForSeconds(duration);
         walkSpeed = originalSpeed;
+        speedBoostActive = false;
+
+        if (speedVFXInstance != null)
+        {
+            Destroy(speedVFXInstance);
+            speedVFXInstance = null;
+        }
     }
 
     public Vector2 GetMoveInputRaw() => moveInput;

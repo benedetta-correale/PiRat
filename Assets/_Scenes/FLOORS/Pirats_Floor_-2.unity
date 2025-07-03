@@ -688,7 +688,7 @@ PrefabInstance:
     - target: {fileID: 2488570795774911789, guid: 8a7f87141849da646bd795cd3f0071a3, type: 3}
       propertyPath: healVFXPrefab
       value: 
-      objectReference: {fileID: 1639086506678902, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
+      objectReference: {fileID: 1084983192572740, guid: 075e5130831f9304f8e5e0e2ccd2dc27, type: 3}
     - target: {fileID: 8690275320204957918, guid: 8a7f87141849da646bd795cd3f0071a3, type: 3}
       propertyPath: m_Name
       value: Cheese_DamageBoost

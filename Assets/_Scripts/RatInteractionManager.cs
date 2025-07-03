@@ -12,6 +12,10 @@ public class RatInteractionManager : MonoBehaviour
     private bool canBite = true;
     [SerializeField] private int Damage = 30;
     private int bonusDamage = 0;
+    public bool IsDamageBoostActive => bonusDamage > 0;
+
+    private GameObject damageVFXInstance;
+    private GameObject peeVFXInstance;
 
     private Animator _ratAnimator;
     private RatInputHandler _ratInputHandler;
@@ -38,6 +42,7 @@ public class RatInteractionManager : MonoBehaviour
 
     private GameObject poisonPrefab;
     private bool canPee = false;
+    public bool CanPee => canPee;
     public bool isBackflipping = false;
 
 
@@ -230,9 +235,16 @@ public class RatInteractionManager : MonoBehaviour
         }
     }
 
-    public void ActivateDamageBoost(int bonus)
+    public void ActivateDamageBoost(int amount, GameObject prefab)
     {
-        bonusDamage = bonus;
+        bonusDamage = amount;
+
+        if (prefab != null)
+        {
+            if (damageVFXInstance != null) Destroy(damageVFXInstance);
+            damageVFXInstance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+            damageVFXInstance.transform.localPosition = Vector3.zero;
+        }
     }
 
     private IEnumerator StartQuickTimeEvent(PirateController targetPirate)
@@ -316,7 +328,12 @@ public class RatInteractionManager : MonoBehaviour
 
 
 
-        bonusDamage = 0; // reset danno extra
+        bonusDamage = 0;
+        if (damageVFXInstance != null)
+        {
+            Destroy(damageVFXInstance);
+            damageVFXInstance = null;
+        }
     }
 
     private void ExecuteBackflip(float distanceMultiplier, float delayBeforeMove = 0.35f)
@@ -401,10 +418,17 @@ public class RatInteractionManager : MonoBehaviour
         }
     }
 
-    public void EnablePoisonLeak(GameObject puddlePrefab)
+    public void EnablePoisonLeak(GameObject puddlePrefab, GameObject prefab)
     {
         canPee = true;
         poisonPrefab = puddlePrefab;
+
+        if (prefab != null)
+        {
+            if (peeVFXInstance != null) Destroy(peeVFXInstance);
+            peeVFXInstance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
+            peeVFXInstance.transform.localPosition = Vector3.zero;
+        }
     }
 
     public void OnPiss(InputAction.CallbackContext ctx)
@@ -425,18 +449,24 @@ public class RatInteractionManager : MonoBehaviour
 
         _ratInputHandler.movementLocked = false;
         canPee = false;
-    }
 
-    // 👇 Aggiungi questo metodo alla classe RatInteractionManager
-    public void RegisterInfectedPirate(PirateController pirate)
-    {
-        if (!infectedPirates.Contains(pirate.transform))
+        if (peeVFXInstance != null)
         {
-            infectedPirates.Add(pirate.transform);
-            pirate.OnPirateDeath += RemoveDeadPirate;
-            Debug.Log("Pirata infettato tramite pozza di veleno!");
+            Destroy(peeVFXInstance);
+            peeVFXInstance = null;
         }
     }
+
+// 👇 Aggiungi questo metodo alla classe RatInteractionManager
+public void RegisterInfectedPirate(PirateController pirate)
+{
+    if (!infectedPirates.Contains(pirate.transform))
+    {
+        infectedPirates.Add(pirate.transform);
+        pirate.OnPirateDeath += RemoveDeadPirate;
+        Debug.Log("Pirata infettato tramite pozza di veleno!");
+    }
+}
     // 👇 Nuovo: rimuove il pirata morto
     private void RemoveDeadPirate(PirateController deadPirate)
     {

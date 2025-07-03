@@ -129,6 +129,7 @@ MonoBehaviour:
   speedDuration: 5
   extraDamage: 10
   poisonPuddlePrefab: {fileID: 0}
+  VFXPrefab: {fileID: 1247282762272248, guid: 9ab168a77239b3d43be281129b95e8b8, type: 3}
   outlineMaterial: {fileID: 2100000, guid: 0ea20aaec9632a24f80e622ff8f27e60, type: 2}
   triggerCollider: {fileID: 2048812923944406869}
   playerTag: Player
