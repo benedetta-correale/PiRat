@@ -20340,6 +20340,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       insertIndex: -1
       addedObject: {fileID: 614801740}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 614801742}
     - targetCorrespondingSourceObject: {fileID: 316737647096085660, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1054263990}
@@ -21231,13 +21234,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxHealth: 100
-  currentHealth: 0
+  currentHealth: 100
   onHealthChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthBarUI, Assembly-CSharp
-        m_MethodName: 
+      - m_Target: {fileID: 614801742}
+        m_TargetAssemblyTypeName: RatHealthUI, Assembly-CSharp
+        m_MethodName: UpdateHealthBar
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -21283,6 +21286,19 @@ MonoBehaviour:
   biteRaycastDistance: 2
   nearSphereRadius: 0.8
   ratTransform: {fileID: 614801728}
+--- !u!114 &614801742
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 614801727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5364291faf2714a70998f4386ab3a735, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthFill: {fileID: 1112104264}
 --- !u!1001 &616545537
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -29944,8 +29960,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5364291faf2714a70998f4386ab3a735, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ratHealth: {fileID: 614801737}
-  healthBarImage: {fileID: 1112104264}
+  healthFill: {fileID: 0}
 --- !u!1 &865602645 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5d9ac5fbf98a547609e51bb1d7f2ba54, type: 3}
@@ -39992,7 +40007,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: da031583f9459401ea55bd493b6a8415, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.2031436
+      value: -1.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da031583f9459401ea55bd493b6a8415, type: 3}
       propertyPath: m_LocalPosition.y
@@ -40000,7 +40015,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da031583f9459401ea55bd493b6a8415, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.13356686
+      value: -0.17
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: da031583f9459401ea55bd493b6a8415, type: 3}
       propertyPath: m_LocalRotation.w
@@ -68006,7 +68021,7 @@ MonoBehaviour:
   ratHealt: {fileID: 614801737}
   viewDistance: 10
   viewAngle: 90
-  eyeHeight: 1.5
+  eyeHeight: 0.8
   viewOriginBackOffset: 0.5
   alertIndicator: {fileID: 1058514753}
   alertFillImage: {fileID: 1172371499}
