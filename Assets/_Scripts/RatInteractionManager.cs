@@ -172,7 +172,7 @@ public class RatInteractionManager : MonoBehaviour
         if (!successfulBite)
         {
             TriggerFailedBite();
-        }
+        } 
 
         canBite = false;
         Invoke(nameof(ResetBiteCooldown), biteCooldown);
@@ -223,7 +223,7 @@ public class RatInteractionManager : MonoBehaviour
         {
             infectedPirates.Add(pirate.transform);
             pirate.OnPirateDeath += RemoveDeadPirate;
-            pirate.infected = true;
+            
         }
     }
 
