@@ -215,7 +215,10 @@ public class PirateController : MonoBehaviour
     #region Attack
 
     private void EnterAttacking()
+
     {
+
+        Debug.Log("STATO DI ATTACCO");
         state = State.Attacking;
         agent.isStopped = true;
         animator.SetBool("isWalking", false);
@@ -277,12 +280,18 @@ public class PirateController : MonoBehaviour
         Vector3 dir = (ratTransform.position + Vector3.up * 0.4f) - origin;
         float dist = dir.magnitude;
 
+        // 💡 Se il ratto è troppo vicino, viene visto automaticamente
+        if (dist < 1.0f)
+            return true;
+
         if (dist > viewDistance) return false;
         if (Vector3.Angle(transform.forward, dir) > viewAngle * 0.5f) return false;
 
+        // Raycast controlla che non ci siano ostacoli tra pirata e topo
         return !Physics.Raycast(origin, dir.normalized, dist, LayerMask.GetMask("Default")) 
             || (Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist) && hit.transform.root == ratTransform.root);
     }
+
 
     // ---- DAMAGE 
 
