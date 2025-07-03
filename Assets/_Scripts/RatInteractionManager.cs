@@ -223,7 +223,7 @@ public class RatInteractionManager : MonoBehaviour
         {
             infectedPirates.Add(pirate.transform);
             pirate.OnPirateDeath += RemoveDeadPirate;
-            pirate.infected = true;
+            
         }
     }
 

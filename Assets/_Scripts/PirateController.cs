@@ -2,6 +2,7 @@
 using UnityEngine.AI;
 using UnityEngine.UI;
 using System;
+using System.Collections;
 
 public class PirateController : MonoBehaviour
 {
@@ -47,8 +48,14 @@ public class PirateController : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private Image healthFill;
+
+    [SerializeField] private int biteTickDamage;
+    [SerializeField] private float biteTickInterval;
+    [SerializeField] private float biteDuration;
     public bool infected = false;
 
+    // STATI INTERNI 
+    private Coroutine infectionCoroutine;
     private State state = State.Patrol;
     private int patrolIdx;
     private float suspicionTimer;
@@ -85,6 +92,21 @@ public class PirateController : MonoBehaviour
         }
     }
 
+    #region Patrol
+
+    private void EnterPatrol()
+    {
+        state = State.Patrol;
+        ResetAlert();
+
+        if (patrolPoints.Length > 0)
+        {
+            agent.isStopped = false;
+            agent.SetDestination(patrolPoints[patrolIdx].position);
+            animator.SetBool("isWalking", true);
+        }
+    }
+
     private void PatrolUpdate()
     {
         if (CanSeeRat())
@@ -99,6 +121,11 @@ public class PirateController : MonoBehaviour
             agent.SetDestination(patrolPoints[patrolIdx].position);
         }
     }
+
+    #endregion
+
+    #region Suspicious
+
 
     private void EnterSuspicious()
     {
@@ -150,6 +177,10 @@ public class PirateController : MonoBehaviour
         }
     }
 
+    #endregion
+    
+
+    #region Chasing
     private void EnterChasing()
     {
         state = State.Chasing;
@@ -178,6 +209,10 @@ public class PirateController : MonoBehaviour
             EnterSuspicious();
         }
     }
+
+    #endregion
+
+    #region Attack
 
     private void EnterAttacking()
     {
@@ -219,18 +254,7 @@ public class PirateController : MonoBehaviour
         EnterChasing(); // forza il ritorno alla camminata
     }
 
-    private void EnterPatrol()
-    {
-        state = State.Patrol;
-        ResetAlert();
-
-        if (patrolPoints.Length > 0)
-        {
-            agent.isStopped = false;
-            agent.SetDestination(patrolPoints[patrolIdx].position);
-            animator.SetBool("isWalking", true);
-        }
-    }
+#endregion
 
     private void ResetAlert()
     {
@@ -239,6 +263,8 @@ public class PirateController : MonoBehaviour
         suspicionTimer = 0f;
         hasStartedInvestigating = false;
     }
+
+    // ------ VISION
 
     private Vector3 GetEyeOrigin()
     {
@@ -258,8 +284,12 @@ public class PirateController : MonoBehaviour
             || (Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist) && hit.transform.root == ratTransform.root);
     }
 
+    // ---- DAMAGE 
+
     public void TakeDamage(int dmg)
+
     {
+
         if (ratTransform != null)
         {
             Vector3 dir = (ratTransform.position - transform.position).normalized;
@@ -268,15 +298,51 @@ public class PirateController : MonoBehaviour
 
         currentHealth = Mathf.Max(0f, currentHealth - dmg);
         healthFill.fillAmount = currentHealth / maxHealth;
+
         if (currentHealth <= 0f) Die();
+
+        // Lancia l'infezione al primo danno, se non è già partita
+        if (!infected)
+        {
+            Debug.Log("infettato");
+            infected = true;
+
+            if (infectionCoroutine != null)
+                StopCoroutine(infectionCoroutine);
+
+            infectionCoroutine = StartCoroutine(
+                InfectionDamageRoutine(biteTickDamage, biteTickInterval, biteDuration)
+            );
+        }
+
+    }
+
+    private IEnumerator InfectionDamageRoutine(int biteTickDamage, float biteTickInterval, float biteDuration)
+    {
+        Debug.Log("Courutine cominciata");
+        float elapsed = 0f;
+
+        while (elapsed < biteDuration)
+        {
+            yield return new WaitForSeconds(biteTickInterval);
+            TakeDamage((int)biteTickDamage);
+            elapsed += biteTickInterval;
+
+            if (currentHealth <= 0f) Die();
+        }
+
+
     }
 
     private void Die()
     {
+        infected = false;
         OnPirateDeath?.Invoke(this);
         agent.isStopped = true;
         animator.SetTrigger("Die");
     }
+
+    // ------ GIZMOS
 
     private void OnDrawGizmosSelected()
     {

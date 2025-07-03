@@ -2213,6 +2213,7 @@ MonoBehaviour:
   - {fileID: 76836472}
   - {fileID: 483307669}
   ratTransform: {fileID: 614801728}
+  ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
   eyeHeight: 1.5
@@ -2225,8 +2226,12 @@ MonoBehaviour:
   chaseSpeed: 3
   attackRange: 2
   attackCooldown: 1.5
+  attackDamage: 10
   maxHealth: 100
   healthFill: {fileID: 793911462}
+  biteTickDamage: 0
+  biteTickInterval: 0
+  biteDuration: 0
   infected: 0
 --- !u!195 &56587319
 NavMeshAgent:
@@ -21091,6 +21096,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: 1873b276-f859-487b-a9b2-e09605a5596f
     m_ActionName: 'Player/QuickTimeConfirm[/Keyboard/space]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: ea2ef9e8-1a67-457d-9af1-f4c68d827786
+    m_ActionName: 'Player/Selection[/Keyboard/tab]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -21108,7 +21117,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2093f5c73482c6f43b326dff88b7d2dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  walkSpeed: 3
+  walkSpeed: 5
   sprintMultiplier: 1.5
   rotationSpeed: 5
   animSpeedParam: SpeedMultiplier
@@ -21228,7 +21237,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: HealthBarUI, Assembly-CSharp
-        m_MethodName: UpdateHealthBar
+        m_MethodName: 
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -46152,7 +46161,7 @@ Transform:
   m_GameObject: {fileID: 1338559460}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 19.4, y: -1.02, z: -29.5}
+  m_LocalPosition: {x: 18.42, y: -1.02, z: -29.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -67994,6 +68003,7 @@ MonoBehaviour:
   - {fileID: 2103112628}
   - {fileID: 1338559461}
   ratTransform: {fileID: 614801728}
+  ratHealt: {fileID: 614801737}
   viewDistance: 10
   viewAngle: 90
   eyeHeight: 1.5
@@ -68006,8 +68016,12 @@ MonoBehaviour:
   chaseSpeed: 3
   attackRange: 1
   attackCooldown: 3
+  attackDamage: 10
   maxHealth: 200
   healthFill: {fileID: 6918262938464841742}
+  biteTickDamage: 10
+  biteTickInterval: 1
+  biteDuration: 10
   infected: 0
 --- !u!195 &1832333223
 NavMeshAgent:
