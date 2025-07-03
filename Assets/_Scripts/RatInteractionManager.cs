@@ -172,7 +172,7 @@ public class RatInteractionManager : MonoBehaviour
         if (!successfulBite)
         {
             TriggerFailedBite();
-        }
+        } 
 
         canBite = false;
         Invoke(nameof(ResetBiteCooldown), biteCooldown);
