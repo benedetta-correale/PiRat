@@ -418,10 +418,9 @@ public class RatInteractionManager : MonoBehaviour
         }
     }
 
-    public void EnablePoisonLeak(GameObject puddlePrefab, GameObject prefab)
+    public GameObject EnablePoisonLeak(GameObject puddlePrefab, GameObject prefab)
     {
-        canPee = true;
-        poisonPrefab = puddlePrefab;
+        GameObject puddle = Instantiate(puddlePrefab, transform.position, Quaternion.identity);
 
         if (prefab != null)
         {
@@ -429,7 +428,10 @@ public class RatInteractionManager : MonoBehaviour
             peeVFXInstance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
             peeVFXInstance.transform.localPosition = Vector3.zero;
         }
+
+        return puddle;
     }
+
 
     public void OnPiss(InputAction.CallbackContext ctx)
     {

@@ -17,6 +17,11 @@ public class CheesePowerUp : MonoBehaviour
     
     [SerializeField] private GameObject VFXPrefab;
 
+    [Header("Trap Spawn Settings (solo per PoisonLeak)")]
+    [SerializeField] private bool enableTrapFromPuddle = false;
+    [SerializeField] private GameObject[] trapPrefabs;
+
+
     [Header("Outline & Trigger")]
     private Material _defaultMaterial;
     private bool outlineActive = false;
@@ -150,8 +155,21 @@ public class CheesePowerUp : MonoBehaviour
     private IEnumerator EnablePeeVFXAfterDestroy(RatInteractionManager rat, float delay)
     {
         yield return new WaitForSeconds(delay);
-        rat.EnablePoisonLeak(poisonPuddlePrefab, VFXPrefab);
+
+        // Instanzia la pozza
+        GameObject puddle = rat.EnablePoisonLeak(poisonPuddlePrefab, VFXPrefab);
+
+        // Se richiesto da inspector, configura la meccanica della trappola
+        if (enableTrapFromPuddle && puddle != null)
+        {
+            PeeAttractor attractor = puddle.GetComponent<PeeAttractor>();
+            if (attractor != null)
+            {
+                attractor.SetTrapMechanic(true, trapPrefabs);
+            }
+        }
     }
+
 
     private IEnumerator EnableHealVFXAfterDestroy(Transform ratTransform, float delay)
     {

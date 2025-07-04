@@ -130,6 +130,10 @@ MonoBehaviour:
   extraDamage: 10
   poisonPuddlePrefab: {fileID: 5200894667798067015, guid: 417212b39db508340896e07dee29520c, type: 3}
   VFXPrefab: {fileID: 8877596331768416466, guid: 23590b8e848e5a644ae05d8b9e003483, type: 3}
+  enableTrapFromPuddle: 0
+  trapPrefabs:
+  - {fileID: 8228117490930797501, guid: fc83b8b861a0c674993b21e385367568, type: 3}
+  - {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
   outlineMaterial: {fileID: 2100000, guid: 51c87f0b09c90e0458fac2f80e3cd8da, type: 2}
   triggerCollider: {fileID: 6947529649687309658}
   playerTag: Player

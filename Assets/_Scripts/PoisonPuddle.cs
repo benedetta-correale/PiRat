@@ -134,6 +134,14 @@ public class PoisonPuddle : MonoBehaviour
 
         // Dopo aver avvelenato completamente il pirata:
         yield return new WaitForSeconds(0.5f); // un minimo buffer
+
+        // Notifica lo script PeeAttractor se presente
+        PeeAttractor attractor = GetComponent<PeeAttractor>();
+        if (attractor != null)
+        {
+            attractor.OnPuddleConsumed(pirate);
+        }
+
         Destroy(gameObject);
     }
 

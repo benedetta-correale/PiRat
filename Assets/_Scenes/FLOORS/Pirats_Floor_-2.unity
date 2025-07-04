@@ -689,10 +689,6 @@ PrefabInstance:
       propertyPath: healVFXPrefab
       value: 
       objectReference: {fileID: 1084983192572740, guid: 075e5130831f9304f8e5e0e2ccd2dc27, type: 3}
-    - target: {fileID: 4792306676751659654, guid: 8a7f87141849da646bd795cd3f0071a3, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8690275320204957918, guid: 8a7f87141849da646bd795cd3f0071a3, type: 3}
       propertyPath: m_Name
       value: Cheese_DamageBoost
@@ -2230,7 +2226,7 @@ MonoBehaviour:
   - {fileID: 76836472}
   - {fileID: 483307669}
   ratTransform: {fileID: 614801728}
-  ratHealt: {fileID: 614801737}
+  ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
   eyeHeight: 1.5
@@ -23167,10 +23163,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1906694937}
     m_Modifications:
-    - target: {fileID: 474978532135727638, guid: f309d15f76bdf224184ba3463f028576, type: 3}
-      propertyPath: m_Radius
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1049628357615131883, guid: f309d15f76bdf224184ba3463f028576, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.85059994
@@ -23219,10 +23211,6 @@ PrefabInstance:
       propertyPath: healVFXPrefab
       value: 
       objectReference: {fileID: 1779864262545202, guid: 5a4ebcda24379dd4dba784b9693ce23f, type: 3}
-    - target: {fileID: 4792306676751659654, guid: f309d15f76bdf224184ba3463f028576, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8690275320204957918, guid: f309d15f76bdf224184ba3463f028576, type: 3}
       propertyPath: m_Name
       value: Cheese_SpeedBoost
@@ -36934,7 +36922,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1073001924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -37904,10 +37892,6 @@ PrefabInstance:
       propertyPath: healVFXPrefab
       value: 
       objectReference: {fileID: 1247282762272248, guid: 9ab168a77239b3d43be281129b95e8b8, type: 3}
-    - target: {fileID: 4792306676751659654, guid: c6dee7d34d123404b8b049dc19c2d36c, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8690275320204957918, guid: c6dee7d34d123404b8b049dc19c2d36c, type: 3}
       propertyPath: m_Name
       value: Cheese_Heal
@@ -48660,7 +48644,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1418990560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78064,7 +78048,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &2138581560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -78917,10 +78901,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1906694937}
     m_Modifications:
-    - target: {fileID: -9057850541385537542, guid: e36db95f2636b104286d474b9608ad69, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1421875710997342898, guid: e36db95f2636b104286d474b9608ad69, type: 3}
       propertyPath: m_LocalScale.z
       value: 0.85059994
@@ -78973,13 +78953,9 @@ PrefabInstance:
       propertyPath: healVFXPrefab
       value: 
       objectReference: {fileID: 8877596331768416466, guid: 23590b8e848e5a644ae05d8b9e003483, type: 3}
-    - target: {fileID: 5406506157576625479, guid: e36db95f2636b104286d474b9608ad69, type: 3}
-      propertyPath: m_IsTrigger
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6947529649687309658, guid: e36db95f2636b104286d474b9608ad69, type: 3}
-      propertyPath: m_Radius
-      value: 0.5
+    - target: {fileID: 4590851776502520523, guid: e36db95f2636b104286d474b9608ad69, type: 3}
+      propertyPath: enableTrapFromPuddle
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
