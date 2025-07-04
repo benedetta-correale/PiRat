@@ -115,6 +115,7 @@ public class CameraControlManager : MonoBehaviour
 
     public void SwitchToPirate(Transform pirate)
     {
+        Debug.Log("Switching to pirate: " + pirate.name);
         pirateTransform = pirate;
         followPirate = true;
         ratController.enabled = false;

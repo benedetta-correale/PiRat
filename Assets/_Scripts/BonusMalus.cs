@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.Events;
+using System.Collections;
 
 public class BonusMalus : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class BonusMalus : MonoBehaviour
     public UnityEvent onDeath;
 
     //[SerializeField] private Animator animator; // Animatore per le animazioni del topo
+    [SerializeField] private GameObject VFXPrefab;
+    public RatInteractionManager rat;
 
     void Awake()
     {
@@ -24,12 +27,23 @@ public class BonusMalus : MonoBehaviour
     {
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
-
+        StartCoroutine(EnableVFXAfterDestroy(rat.transform, 1.7f));
         NotifyHealthChange();
 
         if (currentHealth <= 0)
         {
             Die();
+        }
+    }
+
+    private IEnumerator EnableVFXAfterDestroy(Transform ratTransform, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (VFXPrefab != null)
+        {
+            var vfx = Instantiate(VFXPrefab, ratTransform.position, Quaternion.identity, ratTransform);
+            vfx.transform.localPosition = Vector3.zero;
+            Destroy(vfx, 2f);
         }
     }
 

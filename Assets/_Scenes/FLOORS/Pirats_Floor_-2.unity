@@ -21341,6 +21341,8 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  VFXPrefab: {fileID: 1639086506678902, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
+  rat: {fileID: 614801733}
 --- !u!114 &614801739
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28739,8 +28741,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 0.6133154, y: 0.81685704, z: 0.6133156}
-  m_Center: {x: -0.0019124912, y: 0.40842846, z: -0.00007808215}
+  m_Size: {x: 0.6133154, y: 1.3675317, z: 0.6133156}
+  m_Center: {x: -0.0019124793, y: 0.6837656, z: -0.00007807235}
 --- !u!1 &825684072 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4356877828898064976, guid: 5226b85b489996a43838333773cadd59, type: 3}
@@ -68031,6 +68033,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
       propertyPath: m_TagString
