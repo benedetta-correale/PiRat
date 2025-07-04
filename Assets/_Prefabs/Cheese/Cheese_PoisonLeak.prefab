@@ -128,6 +128,7 @@ MonoBehaviour:
   speedMultiplier: 1.5
   speedDuration: 5
   extraDamage: 10
+  wasNear: 0
   poisonPuddlePrefab: {fileID: 5200894667798067015, guid: 417212b39db508340896e07dee29520c, type: 3}
   VFXPrefab: {fileID: 8877596331768416466, guid: 23590b8e848e5a644ae05d8b9e003483, type: 3}
   enableTrapFromPuddle: 0
@@ -177,5 +178,5 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 0
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Radius: 0.9
   m_Center: {x: -0.00036211312, y: 0.0121643795, z: -0.10568257}

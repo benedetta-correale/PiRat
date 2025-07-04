@@ -12,6 +12,8 @@ public class CheesePowerUp : MonoBehaviour
     public float speedDuration = 5f;
     public int extraDamage = 10;
 
+    [HideInInspector] public bool wasNear = false;
+
     [Header("Prefabs & VFX")]
     public GameObject poisonPuddlePrefab;
     
@@ -68,6 +70,8 @@ public class CheesePowerUp : MonoBehaviour
             _renderer.materials = newMats;
 
             triggerCollider.enabled = false; // ✅ spegne anche il collider
+            wasNear = false; // ← serve per bloccare riattivazioni immediate
+
         }
     }
 
@@ -131,8 +135,8 @@ public class CheesePowerUp : MonoBehaviour
         float remainingDelay = Mathf.Max(0f, totalDelay - 1f);
         yield return new WaitForSeconds(remainingDelay);
 
-        if (triggerCollider != null)
-            triggerCollider.enabled = false; // spegne il trigger definitivamente per sicurezza
+        //if (triggerCollider != null)
+          //  triggerCollider.enabled = false; // spegne il trigger definitivamente per sicurezza
 
         // forza sempre spegnimento dell'outline
         EnableOutline(false);

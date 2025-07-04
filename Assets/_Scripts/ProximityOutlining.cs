@@ -12,10 +12,25 @@ public class ProximityOutlining : MonoBehaviour
     {
         if (ratTransform == null) return;
 
-        foreach (var cheese in FindMordibili())
+        List<CheesePowerUp> found = FindMordibili();
+
+        foreach (var cheese in FindObjectsOfType<CheesePowerUp>())
         {
-            cheese.EnableOutline(true);
+            if (found.Contains(cheese))
+            {
+                if (!cheese.wasNear)
+                {
+                    cheese.EnableOutline(true);
+                    cheese.wasNear = true;
+                }
+            }
+            else
+            {
+                // Se prima era vicino ma ora non lo è più, ci pensa OnTriggerExit a disattivare
+                cheese.wasNear = false;
+            }
         }
+
     }
 
     private List<CheesePowerUp> FindMordibili()
