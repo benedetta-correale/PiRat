@@ -10215,6 +10215,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000002, y: 1.9999999, z: 0.29999998}
   m_Center: {x: -0.0000016697626, y: 0, z: 0.7478979}
+--- !u!1 &280365099
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 280365100}
+  m_Layer: 0
+  m_Name: FogCenter_C
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &280365100
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 280365099}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 32.8, y: 1.41, z: 8.36}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &281494974 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: db576497f8cca844c828cb420613fde1, type: 3}
@@ -24144,6 +24175,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4e5aef63b3ac347b2a8f9b113627692b, type: 3}
+--- !u!1 &678373903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 678373904}
+  m_Layer: 0
+  m_Name: FogCenter_B
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &678373904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 678373903}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -9.17, y: 1.41, z: 11.79}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &680973482
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -36855,12 +36917,12 @@ GameObject:
   - component: {fileID: 1073001925}
   - component: {fileID: 1073001924}
   m_Layer: 0
-  m_Name: Fog-2
+  m_Name: Fog-2 (A)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1073001924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36897,9 +36959,9 @@ MonoBehaviour:
   revealedTileOpacity: 0.5
   fogPlaneTextureLerpTarget: {fileID: 0}
   fogPlaneTextureLerpBuffer: {fileID: 0}
-  LevelDataToLoad: {fileID: 4900000, guid: f792d52b5106c80448c7b923631696b3, type: 3}
+  LevelDataToLoad: {fileID: 4900000, guid: d950adf720a5a64459fb4c1c45419a94, type: 3}
   saveDataOnScan: 0
-  levelNameToSave: Level -2
+  levelNameToSave: Level -2 (A)
   levelDimensionX: 128
   levelDimensionY: 128
   unitScale: 0.25
@@ -37275,7 +37337,7 @@ MonoBehaviour:
   ratTransform: {fileID: 614801728}
   toggleKey: 27
   transitionSpeed: 1.16
-  offset: {x: 0, y: 8, z: 7}
+  offset: {x: 0, y: 11.95, z: 8.62}
   sensitivity: 120
   cameraCollisionMask:
     serializedVersion: 2
@@ -48566,6 +48628,89 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 2.0000005, y: 1.2013435, z: 0.11844675}
   m_Center: {x: -0.000003814631, y: -0.14792813, z: 0.7479016}
+--- !u!1 &1418990559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1418990561}
+  - component: {fileID: 1418990560}
+  m_Layer: 0
+  m_Name: Fog-2 (C)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1418990560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418990559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5de54c084f472845b61ee9a97cb8a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogRevealers:
+  - revealerTransform: {fileID: 933452671}
+    sightRange: 2
+    updateOnlyOnMove: 0
+    lastSeenAt: {x: 0, y: 0}
+  - revealerTransform: {fileID: 1832333217}
+    sightRange: 5
+    updateOnlyOnMove: 0
+    lastSeenAt: {x: 0, y: 0}
+  - revealerTransform: {fileID: 56587314}
+    sightRange: 5
+    updateOnlyOnMove: 0
+    lastSeenAt: {x: 0, y: 0}
+  levelMidPoint: {fileID: 280365100}
+  FogRefreshRate: 16.1
+  fogPlaneHeight: 1
+  fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
+  fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
+  fogPlaneAlpha: 1
+  fogLerpSpeed: 10
+  keepRevealedTiles: 0
+  revealedTileOpacity: 0.5
+  fogPlaneTextureLerpTarget: {fileID: 0}
+  fogPlaneTextureLerpBuffer: {fileID: 0}
+  LevelDataToLoad: {fileID: 4900000, guid: 301c665d4d52e894897cf3554cf383f1, type: 3}
+  saveDataOnScan: 0
+  levelNameToSave: Level -2 (C)
+  levelDimensionX: 40
+  levelDimensionY: 104
+  unitScale: 0.25
+  scanSpacingPerUnit: 0.25
+  rayStartHeight: 7
+  rayMaxDistance: 10
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 65
+  ignoreTriggers: 1
+  drawGizmos: 1
+  LogOutOfRange: 0
+--- !u!4 &1418990561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1418990559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7, y: 6.1679707, z: 13.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1420213355 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 8461f6c10ef6f42c59ee04c0e09cd270, type: 3}
@@ -77887,6 +78032,89 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0138208, y: 0.363413, z: 0.5759933}
   m_Center: {x: -0.0034647167, y: 0.18174873, z: 0.0000037999066}
+--- !u!1 &2138581559
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2138581561}
+  - component: {fileID: 2138581560}
+  m_Layer: 0
+  m_Name: Fog-2 (B)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2138581560
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138581559}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b5de54c084f472845b61ee9a97cb8a48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fogRevealers:
+  - revealerTransform: {fileID: 933452671}
+    sightRange: 2
+    updateOnlyOnMove: 0
+    lastSeenAt: {x: 0, y: 0}
+  - revealerTransform: {fileID: 1832333217}
+    sightRange: 5
+    updateOnlyOnMove: 0
+    lastSeenAt: {x: 0, y: 0}
+  - revealerTransform: {fileID: 56587314}
+    sightRange: 5
+    updateOnlyOnMove: 0
+    lastSeenAt: {x: 0, y: 0}
+  levelMidPoint: {fileID: 678373904}
+  FogRefreshRate: 16.1
+  fogPlaneHeight: 1
+  fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
+  fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
+  fogPlaneAlpha: 1
+  fogLerpSpeed: 10
+  keepRevealedTiles: 0
+  revealedTileOpacity: 0.5
+  fogPlaneTextureLerpTarget: {fileID: 0}
+  fogPlaneTextureLerpBuffer: {fileID: 0}
+  LevelDataToLoad: {fileID: 4900000, guid: 8c7600d511dd84c43861eff9e0998eaa, type: 3}
+  saveDataOnScan: 0
+  levelNameToSave: Level -2 (B)
+  levelDimensionX: 50
+  levelDimensionY: 81
+  unitScale: 0.25
+  scanSpacingPerUnit: 0.25
+  rayStartHeight: 7
+  rayMaxDistance: 10
+  obstacleLayers:
+    serializedVersion: 2
+    m_Bits: 65
+  ignoreTriggers: 1
+  drawGizmos: 1
+  LogOutOfRange: 0
+--- !u!4 &2138581561
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2138581559}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.7, y: 6.1679707, z: 13.9}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2140096010
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78890,6 +79118,8 @@ SceneRoots:
   - {fileID: 905293171}
   - {fileID: 1665809437}
   - {fileID: 1073001925}
+  - {fileID: 2138581561}
+  - {fileID: 1418990561}
   - {fileID: 1532486503}
   - {fileID: 1127632060}
   - {fileID: 272669724}
@@ -78897,3 +79127,5 @@ SceneRoots:
   - {fileID: 1609490080}
   - {fileID: 252690230}
   - {fileID: 1906694937}
+  - {fileID: 678373904}
+  - {fileID: 280365100}
