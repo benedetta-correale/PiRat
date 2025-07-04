@@ -14,9 +14,12 @@ public class CheesePowerUp : MonoBehaviour
 
     [Header("Prefabs & VFX")]
     public GameObject poisonPuddlePrefab;
+    
     [SerializeField] private GameObject VFXPrefab;
 
     [Header("Outline & Trigger")]
+    private Material _defaultMaterial;
+    private bool outlineActive = false;
     [SerializeField] private Material outlineMaterial;
     [SerializeField] private SphereCollider triggerCollider;
     [SerializeField] private string playerTag = "Player";
@@ -26,6 +29,10 @@ public class CheesePowerUp : MonoBehaviour
     void Awake()
     {
         _renderer = GetComponentInChildren<Renderer>();
+        if (_renderer != null)
+        {
+            _defaultMaterial = _renderer.material;
+        }
         if (triggerCollider != null)
         {
             triggerCollider.isTrigger = true;
@@ -36,15 +43,26 @@ public class CheesePowerUp : MonoBehaviour
     public void EnableOutline(bool enable)
     {
         if (_renderer == null || outlineMaterial == null || triggerCollider == null) return;
+
+        if (outlineActive == enable) return;
+        outlineActive = enable;
+
         if (enable)
         {
-            _renderer.materials = new Material[] { _renderer.materials[0], outlineMaterial };
-            triggerCollider.enabled = true;
+            Material[] newMats = new Material[2];
+            newMats[0] = _renderer.materials[0];
+            newMats[1] = outlineMaterial;
+            _renderer.materials = newMats;
+
+            triggerCollider.enabled = true; // ✅ attiva il collider
         }
         else
         {
-            _renderer.materials = new Material[] { _renderer.materials[0] };
-            triggerCollider.enabled = false;
+            Material[] newMats = new Material[1];
+            newMats[0] = _renderer.materials[0];
+            _renderer.materials = newMats;
+
+            triggerCollider.enabled = false; // ✅ spegne anche il collider
         }
     }
 
@@ -87,27 +105,33 @@ public class CheesePowerUp : MonoBehaviour
         }
 
         if (consumed)
-            StartCoroutine(HideAndDestroy(1.7f));
+            StartCoroutine(DestroyAfterDelay(1.7f));
     }
 
-    private void SpawnTemporaryVFX(Transform ratTransform)
-    {
-        if (VFXPrefab == null) return;
-
-        var vfx = Instantiate(VFXPrefab, ratTransform.position, Quaternion.identity, ratTransform);
-        vfx.transform.localPosition = Vector3.zero;
-        Destroy(vfx, 2f);
-    }
-
-    private IEnumerator HideAndDestroy(float delay)
+    private IEnumerator DestroyAfterDelay(float totalDelay)
     {
         yield return new WaitForSeconds(1f);
-        if (_renderer != null) _renderer.enabled = false;
-        if (triggerCollider != null) triggerCollider.enabled = false;
-        var col = GetComponent<Collider>();
-        if (col != null) col.enabled = false;
 
-        yield return new WaitForSeconds(delay - 1f);
+        if (_renderer != null)
+            _renderer.enabled = false;
+
+        // NON disabilitare qui il trigger
+        // if (triggerCollider != null)
+        //     triggerCollider.enabled = false;
+
+        Collider mainCollider = GetComponent<Collider>();
+        if (mainCollider != null)
+            mainCollider.enabled = false;
+
+        float remainingDelay = Mathf.Max(0f, totalDelay - 1f);
+        yield return new WaitForSeconds(remainingDelay);
+
+        if (triggerCollider != null)
+            triggerCollider.enabled = false; // spegne il trigger definitivamente per sicurezza
+
+        // forza sempre spegnimento dell'outline
+        EnableOutline(false);
+
         Destroy(gameObject);
     }
 
@@ -139,11 +163,22 @@ public class CheesePowerUp : MonoBehaviour
             Destroy(vfx, 2f);
         }
     }
+    
+     private void OnTriggerExit(Collider other)
+    {
+        if (outlineActive && other.CompareTag(playerTag))
+        {
+            EnableOutline(false); 
+        }
+    }
 
 #if UNITY_EDITOR
-    private void OnDrawGizmos()
+    void OnDrawGizmos()
     {
-        UnityEditor.Handles.Label(transform.position + Vector3.up * 1.5f, powerUpType.ToString());
+        UnityEditor.Handles.Label(
+            transform.position + Vector3.up * 1.5f,
+            powerUpType.ToString()
+        );
     }
 #endif
 }
