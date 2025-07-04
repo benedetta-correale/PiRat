@@ -62,7 +62,7 @@ public class PirateController : MonoBehaviour
     private Vector3 suspicionTarget;
     private bool hasStartedInvestigating;
 
-    private float currentHealth;
+    public float currentHealth;
 
     private void Awake()
     {
