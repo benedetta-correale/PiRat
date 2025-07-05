@@ -7,6 +7,10 @@ public class RatInputHandler : MonoBehaviour
 {
     private GameObject speedVFXInstance;
 
+
+    private float walkBufferTimer = 0f;
+    private const float walkBufferDuration = 0.15f;
+
     [Header("Movement")]
     public float walkSpeed = 5f;
     public float sprintMultiplier = 1.5f;
@@ -94,21 +98,30 @@ public class RatInputHandler : MonoBehaviour
         UpdateWalkingAnimation(desiredMove.magnitude);
     }
 
+
     private void UpdateWalkingAnimation(float inputMagnitude)
     {
-        bool walking = inputMagnitude > 0.001f;
+        bool isInputActive = moveInput.magnitude > 0.05f;
+
+        if (isInputActive)
+        {
+            walkBufferTimer = walkBufferDuration;
+        }
+        else
+        {
+            walkBufferTimer -= Time.fixedDeltaTime;
+        }
+
+        bool walking = walkBufferTimer > 0f;
         _ratAnimator.SetBool("isWalking", walking);
 
+        // Aggiusta velocità dell'animazione
         var state = _ratAnimator.GetCurrentAnimatorStateInfo(0);
-
         if (state.IsName("WalkRatAnimation"))
         {
             float t = Mathf.Clamp01(inputMagnitude);
-
-            // Aggiustamento dinamico in base a walkSpeed
-            float baseSpeed = 5f; // valore predefinito normale
+            float baseSpeed = 5f;
             float speedFactor = walkSpeed / baseSpeed;
-
             float animSpeed = Mathf.Lerp(minAnimSpeed, maxAnimSpeed, t) * speedFactor;
             _ratAnimator.SetFloat(animSpeedParam, animSpeed);
         }
@@ -117,6 +130,8 @@ public class RatInputHandler : MonoBehaviour
             _ratAnimator.SetFloat(animSpeedParam, 1f);
         }
     }
+
+
 
     public void SetSpeedVFX(GameObject prefab)
     {

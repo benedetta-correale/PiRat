@@ -74,7 +74,8 @@ public class PossessionManager : MonoBehaviour
         currentState = PossessionState.Selecting;
 
         // ✅ Auto-selezione se c’è solo un pirata
-        selectedIndex = (piratesInRange.Count == 1) ? 0 : -1;
+        selectedIndex = 0;
+
 
         AggiornaScie(piratesInRange);
         ShowScie();
@@ -97,7 +98,8 @@ public class PossessionManager : MonoBehaviour
         // lettura input del movimento dallo stick del nuovo sistema
         Vector2 inputDir = moveAction.ReadValue<Vector2>();
 
-        if (inputDir.magnitude > 0.1f)
+        if (inputDir != Vector2.zero)
+
             SelectClosestInDirection(inputDir.normalized, piratesInRange);
 
         AggiornaScie(piratesInRange);
@@ -107,7 +109,13 @@ public class PossessionManager : MonoBehaviour
 
     void ConfirmSelection(List<Transform> piratesInRange)
     {
-        if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count) return;
+        Debug.Log("Tentativo di conferma: selectedIndex=" + selectedIndex + ", piratesCount=" + piratesInRange.Count);
+
+        if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count)
+        {
+            Debug.LogWarning("Conferma fallita: indice selezionato non valido.");
+            return;
+        }
 
         cameraManager.SwitchToPirate(piratesInRange[selectedIndex]);
         // ✅ Imposta il flag isPossessed sul PirateController
@@ -282,9 +290,18 @@ public class PossessionManager : MonoBehaviour
     {
         if (context.performed && currentState == PossessionState.Selecting)
         {
+            Debug.Log("Possess action triggered");
+
             var piratesInRange = GetPiratesInRange();
+            if (selectedIndex == -1 && piratesInRange.Count > 0)
+            {
+                Debug.Log("Nessun selezionato, seleziono il primo di default");
+                selectedIndex = 0;
+            }
+
             ConfirmSelection(piratesInRange);
         }
     }
+
 
 }
