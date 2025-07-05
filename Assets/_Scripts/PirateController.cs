@@ -316,23 +316,33 @@ public class PirateController : MonoBehaviour
         return transform.position - transform.forward * viewOriginBackOffset + Vector3.up * eyeHeight;
     }
 
-    private bool CanSeeRat()
+   private bool CanSeeRat()
     {
         Vector3 origin = GetEyeOrigin();
-        Vector3 dir = (ratTransform.position + Vector3.up * 0.4f) - origin;
+        Vector3 dir = (ratTransform.position + Vector3.up * 0.8f) - origin;
         float dist = dir.magnitude;
 
-        // 💡 Se il ratto è troppo vicino, viene visto automaticamente
-        if (dist < 1.0f)
-            return true;
-
+        // Fuori distanza o fuori angolo di vista
         if (dist > viewDistance) return false;
         if (Vector3.Angle(transform.forward, dir) > viewAngle * 0.5f) return false;
 
-        // Raycast controlla che non ci siano ostacoli tra pirata e topo
-        return !Physics.Raycast(origin, dir.normalized, dist, LayerMask.GetMask("Default")) 
-            || (Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist) && hit.transform.root == ratTransform.root);
+        // Raycast con debug
+        if (Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist, LayerMask.GetMask("Wall")))
+        {
+            Debug.DrawRay(origin, dir.normalized * dist, Color.red, 1f);
+            Debug.Log($"Raycast ha colpito: {hit.collider.name} con tag: {hit.collider.tag}");
+
+            // Se colpisce il ratto, la vista è libera
+            return hit.transform.root == ratTransform.root;
+        }
+        else
+        {
+            Debug.DrawRay(origin, dir.normalized * dist, Color.green, 1f);
+            Debug.Log("Raycast non ha colpito nulla, visuale libera verso il topo");
+            return true;
+        }
     }
+
 
 
     // ---- DAMAGE 

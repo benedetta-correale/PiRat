@@ -9441,7 +9441,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 17.88
+      value: 20.36
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalRotation.w
@@ -32278,7 +32278,7 @@ MonoBehaviour:
   biteTickDamage: 10
   biteTickInterval: 1
   biteDuration: 10
-  infected: 1
+  infected: 0
   currentHealth: 50
   alreadyHealing: 0
   healingEndTime: 3
