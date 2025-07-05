@@ -27,7 +27,11 @@ public class PeeAttractor : MonoBehaviour
         if (!other.CompareTag("Pirate")) return;
 
         PirateController pirate = other.GetComponentInParent<PirateController>();
-        if (pirate != null && !pirate.infected && !attractedPirates.Contains(pirate))
+        if (pirate != null
+            && !pirate.infected
+            && !attractedPirates.Contains(pirate)
+            && (pirate.CurrentState == "Patrol" || pirate.CurrentState == "Suspicious"))
+
         {
             attractedPirates.Add(pirate);
             NavMeshAgent agent = pirate.GetComponent<NavMeshAgent>();
@@ -45,7 +49,11 @@ public class PeeAttractor : MonoBehaviour
 
         firstToReach = consumer;
 
-        if (spawnTrapOnFirstInfection && !trapSpawned && possibleTraps.Length > 0)
+        if (spawnTrapOnFirstInfection
+            && !trapSpawned
+            && possibleTraps.Length > 0
+            && (consumer.CurrentState == "Patrol" || consumer.CurrentState == "Suspicious"))
+
         {
             GameObject selectedTrap = possibleTraps[Random.Range(0, possibleTraps.Length)];
             Instantiate(selectedTrap, transform.position, Quaternion.identity);

@@ -160,19 +160,16 @@ public class CheesePowerUp : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
 
-        // Instanzia la pozza
-        GameObject puddle = rat.EnablePoisonLeak(poisonPuddlePrefab, VFXPrefab);
+        // Solo segnala che può pisciare + VFX
+        rat.PreparePoisonLeak(poisonPuddlePrefab, VFXPrefab);
 
-        // Se richiesto da inspector, configura la meccanica della trappola
-        if (enableTrapFromPuddle && puddle != null)
+        // Salva la configurazione delle trappole da assegnare più tardi
+        if (enableTrapFromPuddle)
         {
-            PeeAttractor attractor = puddle.GetComponent<PeeAttractor>();
-            if (attractor != null)
-            {
-                attractor.SetTrapMechanic(true, trapPrefabs);
-            }
+            rat.ConfigurePuddleTrap(trapPrefabs);
         }
     }
+
 
 
     private IEnumerator EnableHealVFXAfterDestroy(Transform ratTransform, float delay)

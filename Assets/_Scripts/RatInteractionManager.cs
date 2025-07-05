@@ -420,7 +420,20 @@ public class RatInteractionManager : MonoBehaviour
 
     public GameObject EnablePoisonLeak(GameObject puddlePrefab, GameObject prefab)
     {
-        GameObject puddle = Instantiate(puddlePrefab, transform.position, Quaternion.identity);
+        GameObject puddle = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
+
+        // Se abbiamo salvato una configurazione di trappole, la passiamo ora
+        if (trapPrefabsForNextPuddle != null)
+        {
+            PeeAttractor attractor = puddle.GetComponent<PeeAttractor>();
+            if (attractor != null)
+            {
+                attractor.SetTrapMechanic(true, trapPrefabsForNextPuddle);
+            }
+
+            trapPrefabsForNextPuddle = null; // reset
+        }
+
 
         if (prefab != null)
         {
@@ -459,8 +472,32 @@ public class RatInteractionManager : MonoBehaviour
         }
     }
 
-// 👇 Aggiungi questo metodo alla classe RatInteractionManager
-public void RegisterInfectedPirate(PirateController pirate)
+    public void PreparePoisonLeak(GameObject puddlePrefab, GameObject vfxPrefab)
+    {
+        canPee = true;
+        poisonPrefab = puddlePrefab;
+
+        if (peeVFXInstance != null)
+            Destroy(peeVFXInstance);
+
+        if (vfxPrefab != null)
+        {
+            peeVFXInstance = Instantiate(vfxPrefab, transform.position, Quaternion.identity, transform);
+            peeVFXInstance.transform.localPosition = Vector3.zero;
+        }
+    }
+
+    private GameObject[] trapPrefabsForNextPuddle;
+
+    public void ConfigurePuddleTrap(GameObject[] trapPrefabs)
+    {
+        trapPrefabsForNextPuddle = trapPrefabs;
+    }
+
+
+
+    // 👇 Aggiungi questo metodo alla classe RatInteractionManager
+    public void RegisterInfectedPirate(PirateController pirate)
 {
     if (!infectedPirates.Contains(pirate.transform))
     {

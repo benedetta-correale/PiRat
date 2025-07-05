@@ -7,6 +7,8 @@ using System.Collections;
 public class PirateController : MonoBehaviour
 {
     private enum State { Patrol, Suspicious, Chasing, Attacking }
+    public string CurrentState => state.ToString();
+
 
     public event Action<PirateController> OnPirateDeath;
     public bool isPossessed { get; set; }
