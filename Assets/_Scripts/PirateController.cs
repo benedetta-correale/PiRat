@@ -190,6 +190,7 @@ public class PirateController : MonoBehaviour
         agent.speed = chaseSpeed;
         agent.isStopped = false;
         animator.SetBool("isWalking", true);
+        SendMessage("CancelAttractionFromPuddle", this, SendMessageOptions.DontRequireReceiver);
     }
 
     private void ChasingUpdate()
@@ -226,6 +227,7 @@ public class PirateController : MonoBehaviour
         animator.SetBool("isWalking", false);
         animator.SetTrigger("AttackTrigger");
         ratHealt.TakeDamage(attackDamage);
+        SendMessage("CancelAttractionFromPuddle", this, SendMessageOptions.DontRequireReceiver);
     }
 
     private void UpdateAttacking()

@@ -78,5 +78,26 @@ public class PeeAttractor : MonoBehaviour
         spawnTrapOnFirstInfection = enable;
         possibleTraps = traps;
     }
+    // Questo riceve il SendMessage da PirateController
+    private void CancelAttractionFromPuddle(PirateController pirate)
+    {
+        CancelAttraction(pirate);
+    }
+
+    public void CancelAttraction(PirateController pirate)
+    {
+        if (attractedPirates.Contains(pirate))
+        {
+            attractedPirates.Remove(pirate);
+            Debug.Log($"❌ Pirate {pirate.name} ha abbandonato l'attrazione verso la pipì");
+        }
+    }
+
+    public bool IsAttracted(PirateController pirate)
+    {
+        return attractedPirates.Contains(pirate);
+    }
+
+
 }
 

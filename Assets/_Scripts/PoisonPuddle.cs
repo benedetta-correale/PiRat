@@ -59,50 +59,36 @@ public class PoisonPuddle : MonoBehaviour
 
         if (other.CompareTag("Pirate"))
         {
-            Debug.Log("✅ PIRATA RILEVATO! Inizio infezione...");
-            used = true;
-            // se volessi nascondere viisvamente la pozza dopo che il pirata ci entra in contatto
-            /*
-             * /
-            GetComponent<Collider>().enabled = false;
-
-            foreach (var r in GetComponentsInChildren<Renderer>())
+            PirateController pirate = other.GetComponentInParent<PirateController>();
+            if (pirate == null)
             {
-                r.enabled = false;
+                Debug.LogError($"❌ PirateController NON trovato su {other.name}!");
+                return;
             }
 
-             */
-            PirateController pirate = other.GetComponentInParent<PirateController>();
-            if (pirate != null)
+            Debug.Log("✅ PIRATA RILEVATO! Inizio infezione...");
+            used = true;
+
+            // Registra il pirata come infetto
+            RatInteractionManager ratManager = FindFirstObjectByType<RatInteractionManager>();
+            if (ratManager != null)
             {
-                Debug.Log($"✅ PirateController trovato su {other.name}");
-
-                // Registra il pirata come infetto
-                RatInteractionManager ratManager = FindFirstObjectByType<RatInteractionManager>();
-                if (ratManager != null)
-                {
-                    ratManager.RegisterInfectedPirate(pirate);
-                    Debug.Log("✅ Pirata registrato come infetto");
-                }
-                else
-                {
-                    Debug.LogError("❌ RatInteractionManager non trovato!");
-                }
-
-                StartCoroutine(ApplyPoison(pirate));
+                ratManager.RegisterInfectedPirate(pirate);
+                Debug.Log("✅ Pirata registrato come infetto");
             }
             else
             {
-                Debug.LogError($"❌ PirateController NON trovato su {other.name}!");
+                Debug.LogError("❌ RatInteractionManager non trovato!");
             }
 
-            
+            StartCoroutine(ApplyPoison(pirate));
         }
         else
         {
             Debug.Log($"❌ Non è un pirata: {other.name} (Tag: {other.tag})");
         }
     }
+
 
     private void OnTriggerStay(Collider other)
     {
@@ -132,18 +118,18 @@ public class PoisonPuddle : MonoBehaviour
             yield return new WaitForSeconds(1f);
         }
 
-        // Dopo aver avvelenato completamente il pirata:
-        yield return new WaitForSeconds(0.5f); // un minimo buffer
+        yield return new WaitForSeconds(0.5f); // breve pausa
 
-        // Notifica lo script PeeAttractor se presente
+        // ✅ Se il pirata era attratto da questa puddle, notifica per trappola
         PeeAttractor attractor = GetComponent<PeeAttractor>();
-        if (attractor != null)
+        if (attractor != null && attractor.IsAttracted(pirate))
         {
             attractor.OnPuddleConsumed(pirate);
         }
 
         Destroy(gameObject);
     }
+
 
 
 
