@@ -9,6 +9,7 @@ public class DocManager : MonoBehaviour
     [SerializeField] private Animator animator;
     [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
     private GameObject currentTarget;
+    private Animator pirateAnim;
 
     // ------------
 
@@ -24,6 +25,7 @@ public class DocManager : MonoBehaviour
     [SerializeField] private Transform[] healArea;
     [SerializeField] private float healRay = 10.0f;
     [SerializeField] private int recoveryPoints = 40;
+    private bool hasHealed = false; // flag per evitare più cure
 
     // -----------------
 
@@ -61,12 +63,16 @@ public class DocManager : MonoBehaviour
     #region Idle
 
     private void EnterIdle()
+
     {
+        
         currentState = State.Idle;
         currentTarget = null;
 
         agent.isStopped = false;
+        
         animator.SetBool("isWalking", true);
+
         idleTimer = idleWalkDelay; // aspetta prima di iniziare a muoversi
         nextIdlePoint = transform.position; // resta fermo inizialmente
 
@@ -74,12 +80,15 @@ public class DocManager : MonoBehaviour
 
     private void UpdateIdle()
     {
+        
         WanderInIdleArea();
 
         GameObject best = FindBestPirateInHealAreas();
         if (best != null)
         {
+            Debug.Log("Pirata trovato");
             currentTarget = best;
+            
             EnterLookingFor();
         }
         
@@ -102,6 +111,7 @@ public class DocManager : MonoBehaviour
             agent.SetDestination(nextPoint);
             agent.isStopped = false;
             animator.SetBool("isWalking", true);
+            
 
             idleTimer = idleWalkInterval; // reset del timer
         }
@@ -139,23 +149,20 @@ public class DocManager : MonoBehaviour
     private void EnterLookingFor()
     {
         currentState = State.LookingFor;
-        currentTarget = FindBestPirateInHealAreas();
 
         if (currentTarget != null)
         {
             agent.SetDestination(currentTarget.transform.position);
             agent.isStopped = false;
-            animator.SetBool("isWalking", true);
         }
         else
         {
-            EnterIdle(); // nessun bersaglio trovato
+            EnterIdle();
+            Debug.Log("PIRATA PERSO");
         }
-
     }
 
     private void UpdateLookingFor()
-
     {
         if (currentTarget == null)
         {
@@ -163,46 +170,67 @@ public class DocManager : MonoBehaviour
             return;
         }
 
+        // Segui dinamicamente la posizione attuale del pirata
+        agent.SetDestination(currentTarget.transform.position);
+
         float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
+
         if (distance <= 1.5f)
         {
             EnterHealing();
+            
         }
     }
+
 
 
     #endregion LookingFor
 
     #region Healing
 
+
     private void EnterHealing()
     {
         currentState = State.Healing;
-        animator.SetTrigger("Healing");
 
+        // Ferma il medico
+        agent.isStopped = true;
+        
+        animator.SetTrigger("Heal");
+
+        hasHealed = false;
     }
 
     private void UpdateHealing()
     {
-
-        // Ferma animazione del pirata
-        Animator pirateAnim = currentTarget.GetComponent<Animator>();
-        if (pirateAnim != null)
+        if (currentTarget != null)
         {
-            pirateAnim.SetBool("isWalking", false);
+            PirateController pc = currentTarget.GetComponent<PirateController>();
+            if (pc != null)
+            {
+                pc.EnterBeingHealed(transform.position, 2f);
+                pc.Heal(recoveryPoints);
+                Debug.Log("PirataCurato");
+            }
+
+            currentTarget = null;
+
         }
 
-        // Cura il pirata
-        PirateController pc = currentTarget.GetComponent<PirateController>();
-        if (pc != null)
-        {
-            pc.Heal(recoveryPoints);// +40 punti vita
-
-        }
-
-        Invoke(nameof(EnterIdle), 2f); // dopo animazione
+        // Cura fatta → reset trigger, imposta camminata
         
     
+
+        GameObject nextTarget = FindBestPirateInHealAreas();
+        if (nextTarget != null)
+        {
+            currentTarget = nextTarget;
+            EnterLookingFor();
+        }
+        else
+        {
+            EnterIdle();
+        }
     }
 
     #endregion Healing
@@ -212,6 +240,7 @@ public class DocManager : MonoBehaviour
     private GameObject FindBestPirateInHealAreas()
     {
         GameObject best = null;
+
         float lowestHealth = float.MaxValue;
 
         foreach (Transform area in healArea)
@@ -220,10 +249,11 @@ public class DocManager : MonoBehaviour
 
             foreach (Collider col in hits)
             {
+                Debug.Log("sto cercando pirati");
                 if (!col.CompareTag("Pirate")) continue;
 
                 PirateController pc = col.GetComponent<PirateController>();
-                if (pc == null || !pc.infected) continue;
+                if (pc == null || !pc.infected || pc.alreadyHealing) continue;
 
                 if (pc.currentHealth < lowestHealth)
                 {

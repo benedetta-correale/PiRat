@@ -6,7 +6,8 @@ using System.Collections;
 
 public class PirateController : MonoBehaviour
 {
-    private enum State { Patrol, Suspicious, Chasing, Attacking }
+    private enum State { Patrol, Suspicious, Chasing, Attacking, BeingHealed }
+
     public string CurrentState => state.ToString();
 
 
@@ -65,6 +66,9 @@ public class PirateController : MonoBehaviour
     private bool hasStartedInvestigating;
 
     public float currentHealth;
+    public bool alreadyHealing = false;
+    public float healingEndTime = 3.0f;
+
 
     private void Awake()
     {
@@ -91,6 +95,7 @@ public class PirateController : MonoBehaviour
             case State.Suspicious: SuspiciousUpdate(); break;
             case State.Chasing: ChasingUpdate(); break;
             case State.Attacking: UpdateAttacking(); break;
+            case State.BeingHealed: UpdateBeingHealed(); break;
         }
     }
 
@@ -261,7 +266,40 @@ public class PirateController : MonoBehaviour
         EnterChasing(); // forza il ritorno alla camminata
     }
 
-#endregion
+    #endregion
+
+    #region BeingHealed
+
+    public void EnterBeingHealed(Vector3 medicPosition, float duration)
+    {
+        state = State.BeingHealed;
+
+        agent.isStopped = true;
+        animator.SetBool("isWalking", false);
+
+        // Ruota verso il medico
+        Vector3 dir = (medicPosition - transform.position).normalized;
+        Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
+        transform.rotation = lookRotation;
+
+        healingEndTime = Time.time + duration;
+    }
+
+    private void UpdateBeingHealed()
+    {
+        if (Time.time >= healingEndTime)
+        {
+            animator.SetBool("isWalking", true);
+            agent.isStopped = false;
+            EnterPatrol(); // oppure EnterChasing(), in base al contesto
+        }
+    }
+
+    #endregion 
+
+
+
+
 
     private void ResetAlert()
     {
@@ -360,6 +398,7 @@ public class PirateController : MonoBehaviour
         currentHealth = Mathf.Min(currentHealth + recoveryPoints, maxHealth);
 
         healthFill.fillAmount = currentHealth / maxHealth;
+        alreadyHealing = true;
         
     }
 
