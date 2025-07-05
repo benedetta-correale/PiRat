@@ -353,6 +353,14 @@ public class PirateController : MonoBehaviour
         animator.SetTrigger("Die");
     }
 
+    public void Heal(int recoveryPoints)
+    {
+        currentHealth = Mathf.Min(currentHealth + recoveryPoints, maxHealth);
+
+        healthFill.fillAmount = currentHealth / maxHealth;
+        
+    }
+
     // ------ GIZMOS
 
     private void OnDrawGizmosSelected()

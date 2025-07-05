@@ -23,6 +23,7 @@ public class DocManager : MonoBehaviour
 
     [SerializeField] private Transform[] healArea;
     [SerializeField] private float healRay = 10.0f;
+    [SerializeField] private int recoveryPoints = 40;
 
     // -----------------
 
@@ -51,7 +52,7 @@ public class DocManager : MonoBehaviour
         {
             case State.Idle: UpdateIdle(); break;
             case State.LookingFor: UpdateLookingFor(); break;
-            case State.Healing: break;
+            case State.Healing: UpdateHealing(); break;
 
         }
 
@@ -73,24 +74,41 @@ public class DocManager : MonoBehaviour
 
     private void UpdateIdle()
     {
-        if (agent.pathPending) return;
+        WanderInIdleArea();
 
+        GameObject best = FindBestPirateInHealAreas();
+        if (best != null)
+        {
+            currentTarget = best;
+            EnterLookingFor();
+        }
+        
+    }
+
+
+    private void WanderInIdleArea()
+    {
+        // Se sta già andando da qualche parte, aspetta che arrivi
+        if (agent.pathPending || agent.remainingDistance > 0.5f)
+            return;
+
+        // Conta il tempo d’attesa
         idleTimer -= Time.deltaTime;
 
-        if (!agent.hasPath || agent.remainingDistance < 0.5f)
+        // Se ha aspettato abbastanza, scegli un nuovo punto e vai
+        if (idleTimer <= 0f)
         {
-            animator.SetBool("isWalking", false);
-            if (idleTimer <= 0f)
-            {
-                nextIdlePoint = GetRandomPointInIdleArea();
-                agent.SetDestination(nextIdlePoint);
-                animator.SetBool("isWalking", true);
-                idleTimer = idleWalkInterval;
-            }
+            Vector3 nextPoint = GetRandomPointInIdleArea();
+            agent.SetDestination(nextPoint);
+            agent.isStopped = false;
+            animator.SetBool("isWalking", true);
+
+            idleTimer = idleWalkInterval; // reset del timer
         }
     }
 
     private Vector3 GetRandomPointInIdleArea()
+
     {
         if (idleArea == null)
             return transform.position;
@@ -113,10 +131,11 @@ public class DocManager : MonoBehaviour
 
         return transform.position; // se non trova nulla
     }
+
     #endregion Idle
 
-    #region LookingFor
 
+    #region LookingFor
     private void EnterLookingFor()
     {
         currentState = State.LookingFor;
@@ -133,11 +152,10 @@ public class DocManager : MonoBehaviour
             EnterIdle(); // nessun bersaglio trovato
         }
 
-
-
     }
 
     private void UpdateLookingFor()
+
     {
         if (currentTarget == null)
         {
@@ -153,6 +171,44 @@ public class DocManager : MonoBehaviour
     }
 
 
+    #endregion LookingFor
+
+    #region Healing
+
+    private void EnterHealing()
+    {
+        currentState = State.Healing;
+        animator.SetTrigger("Healing");
+
+    }
+
+    private void UpdateHealing()
+    {
+
+        // Ferma animazione del pirata
+        Animator pirateAnim = currentTarget.GetComponent<Animator>();
+        if (pirateAnim != null)
+        {
+            pirateAnim.SetBool("isWalking", false);
+        }
+
+        // Cura il pirata
+        PirateController pc = currentTarget.GetComponent<PirateController>();
+        if (pc != null)
+        {
+            pc.Heal(recoveryPoints);// +40 punti vita
+
+        }
+
+        Invoke(nameof(EnterIdle), 2f); // dopo animazione
+        
+    
+    }
+
+    #endregion Healing
+
+    // FIND PIRATE
+    
     private GameObject FindBestPirateInHealAreas()
     {
         GameObject best = null;
@@ -179,22 +235,6 @@ public class DocManager : MonoBehaviour
 
         return best;
     }
-
-
-    #endregion LookingFor
-
-    #region Healing
-
-    private void EnterHealing()
-    {
-        currentState = State.Healing;
-        animator.SetTrigger("Healing");
-
-    }
-
-    #endregion Healing
-
-
 
 
     // GIZMOS
