@@ -93,7 +93,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 112000000, guid: b600799233cb74302af5b92ee92dd931, type: 2}
+  m_LightingDataAsset: {fileID: 0}
   m_LightingSettings: {fileID: 4890085278179872738, guid: 23f3b9cdf45d04d6fbbd1a2d10c0b291, type: 2}
 --- !u!196 &4
 NavMeshSettings:
@@ -534,6 +534,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0076582506, y: 0.0057129636, z: 0.0029179014}
   m_Center: {x: -0.000000029634359, y: -1.02631584e-10, z: 0.0014589494}
+--- !u!4 &5160737 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+  m_PrefabInstance: {fileID: 1087701140}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &10611332
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -544,7 +549,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.01
+      value: -27.42
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -552,7 +557,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 4.29
+      value: 4.3
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -585,6 +590,14 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (7)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -721,6 +734,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -835,7 +852,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 7.2
+      value: 6.287
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -868,6 +885,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (25)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -2371,7 +2392,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.22
+      value: -1.41
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2379,7 +2400,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.49
+      value: -9.54
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2412,6 +2433,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -4926,7 +4951,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -21.11
+      value: -21.34
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -4934,7 +4959,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -8.79
+      value: -8.54
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4967,6 +4992,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (39)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -5643,6 +5672,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.3986393, y: 0.5573941, z: 0.6143226}
   m_Center: {x: 0, y: 0.0041081607, z: 0.22406599}
+--- !u!4 &145523032 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+  m_PrefabInstance: {fileID: 1198952567}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &146886230
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8599,6 +8633,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -9254,7 +9296,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 15.48
+      value: 15.6
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9262,7 +9304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.97
+      value: 2.69
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -9295,6 +9337,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (20)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -10587,7 +10633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -11.196
+      value: -11.093
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalPosition.y
@@ -10595,7 +10641,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 16.625
+      value: 16.984
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10688,6 +10734,10 @@ PrefabInstance:
     - target: {fileID: -6994082960556836927, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_CastShadows
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -6994082960556836927, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -6994082960556836927, guid: 2950a50f510bf449892b443bb79c4510, type: 3}
       propertyPath: m_Materials.Array.size
@@ -14795,6 +14845,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (31)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -15235,6 +15289,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.010139388, y: 0.020686567, z: 0.008655973}
   m_Center: {x: -0.0000013047519, y: -0.003158328, z: 0.0043279855}
+--- !u!4 &468523256 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+  m_PrefabInstance: {fileID: 1874709399}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &470478325 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: da031583f9459401ea55bd493b6a8415, type: 3}
@@ -15521,7 +15580,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_Name
@@ -15541,15 +15600,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.77
+      value: 23.160374
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.68
+      value: 4.4428654
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9.51
+      value: -0.39597893
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15557,15 +15616,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -15594,7 +15653,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_Name
@@ -15614,15 +15673,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.21
+      value: 32.600372
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.68
+      value: 4.4428654
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 29.05
+      value: 19.14402
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.w
@@ -15630,15 +15689,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -17041,6 +17100,76 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.9971459, y: 2.3117135, z: 1.5476174}
   m_Center: {x: -0.0023846328, y: 1.1283067, z: -0.36969912}
+--- !u!1001 &547277664
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2018322915}
+    m_Modifications:
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 15.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -0.43
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Name
+      value: SotLightCalda (43)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+--- !u!4 &547277665 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+  m_PrefabInstance: {fileID: 547277664}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &548466669
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18138,13 +18267,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 5e4daf9a9f762411a928908f176c6a7d, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e4daf9a9f762411a928908f176c6a7d, type: 3}
       propertyPath: m_Name
       value: Libro azzurro aperto
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 5e4daf9a9f762411a928908f176c6a7d, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -19134,6 +19267,14 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (4)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20152,6 +20293,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (33)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -20916,7 +21061,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 9.27
+      value: 8.556
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -20924,7 +21069,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.19
+      value: -9.936
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -20957,6 +21102,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (32)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -22196,7 +22345,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1052631402}
   m_SourcePrefab: {fileID: 100100000, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
 --- !u!4 &704637515 stripped
 Transform:
@@ -23774,13 +23926,17 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: 869d02f833eb245d99f7244ffd7efff5, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 869d02f833eb245d99f7244ffd7efff5, type: 3}
       propertyPath: m_Name
       value: Libro blu aperto
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 869d02f833eb245d99f7244ffd7efff5, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24232,6 +24388,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 72f9d043e74c741c59adae967edd249c, type: 3}
   m_PrefabInstance: {fileID: 763533456}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &764120762 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: aefa19e7d165049e3bedfe8af648088f, type: 3}
+  m_PrefabInstance: {fileID: 1826732443}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &764571918
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -24242,7 +24403,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.65
+      value: -16.88
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -24250,7 +24411,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -9.08
+      value: -6.43
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -24283,6 +24444,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (36)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -24744,6 +24909,81 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 91d2cd11ed74c42bfa5fe3bb0bc221b9, type: 3}
   m_PrefabInstance: {fileID: 1067698506}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &781020407
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2018322915}
+    m_Modifications:
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 12.437
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 7.047
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Name
+      value: SotLightCalda (42)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+--- !u!4 &781020408 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+  m_PrefabInstance: {fileID: 781020407}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &785495679 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+  m_PrefabInstance: {fileID: 1828681765}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &788033136 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1f46bea0563494be9a40a737fed31b07, type: 3}
@@ -25163,7 +25403,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_Name
@@ -25171,15 +25411,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.51
+      value: 1.880373
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.68
+      value: 4.4428654
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.51
+      value: 14.604021
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25187,15 +25427,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -25519,7 +25759,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -14.55
+      value: -13.56
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -25527,7 +25767,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.8
+      value: 13.08
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25560,6 +25800,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (13)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -25757,7 +26001,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -6.04
+      value: -5.8
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -25790,6 +26034,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (38)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -26157,6 +26405,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (35)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -26826,7 +27078,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.19
+      value: 4.241
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -26834,7 +27086,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 13.68
+      value: 12.547
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -26867,6 +27119,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -27061,6 +27317,76 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: e3c3d805358064eadbe02a378811dba9, type: 3}
   m_PrefabInstance: {fileID: 856447170}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &857736235
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2018322915}
+    m_Modifications:
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4.27
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -5.59
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Name
+      value: SotLightCalda (44)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+--- !u!4 &857736236 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+  m_PrefabInstance: {fileID: 857736235}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &858814813
 PrefabInstance:
@@ -27366,6 +27692,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0075021945, y: 0.006147102, z: 0.003399661}
   m_Center: {x: 0.000018050787, y: -0.00021387926, z: 0.001658694}
+--- !u!4 &866198536 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+  m_PrefabInstance: {fileID: 498101990}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &866453305 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: c98eba08480e747538d127a1366c92ee, type: 3}
@@ -27919,6 +28250,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4fd7c393adbb943578087ea62e351ea3, type: 3}
   m_PrefabInstance: {fileID: 899654873}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &901474704 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+  m_PrefabInstance: {fileID: 1961459745}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &902301427
 PrefabInstance:
@@ -30877,6 +31213,8 @@ MonoBehaviour:
   onDeath:
     m_PersistentCalls:
       m_Calls: []
+  VFXPrefab: {fileID: 0}
+  rat: {fileID: 0}
 --- !u!114 &1033138324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -31597,6 +31935,102 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.0032532264, y: 0.0024327834, z: 0.0030999768}
   m_Center: {x: 0.00007150049, y: -0.000051835574, z: 0.0015299713}
+--- !u!1 &1052631399 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+  m_PrefabInstance: {fileID: 704637514}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1052631402
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1052631399}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6470511, y: 1.115206, z: 0.8797252}
+  m_Center: {x: 0, y: 0.557603, z: 0.000000014901161}
+--- !u!1001 &1055788532
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2018322915}
+    m_Modifications:
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -3.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 14.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Name
+      value: SotLightCalda (46)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+--- !u!4 &1055788533 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+  m_PrefabInstance: {fileID: 1055788532}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1059247765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -31607,7 +32041,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.02
+      value: -1.1
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -31615,7 +32049,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.78
+      value: 11.45
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -31648,6 +32082,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (26)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -32072,7 +32510,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
@@ -32080,15 +32518,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.03
+      value: 14.3603735
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.691
+      value: 4.526
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 22.67
+      value: 12.764021
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -32096,15 +32534,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -33886,7 +34324,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -12.09
+      value: -13.75
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -33894,7 +34332,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 8.6
+      value: 8.47
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -33927,6 +34365,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (27)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -35757,6 +36199,11 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: da031583f9459401ea55bd493b6a8415, type: 3}
   m_PrefabInstance: {fileID: 1440341001}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1180879673 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+  m_PrefabInstance: {fileID: 1963527268}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1180898470
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -35849,7 +36296,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -19.71
+      value: -20.8
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -35857,7 +36304,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.85
+      value: 9.05
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -35890,6 +36337,14 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (10)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -36300,7 +36755,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
@@ -36308,15 +36763,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -3.68
+      value: 18.710373
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.691
+      value: 4.526
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 9
+      value: -0.90597916
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -36643,6 +37098,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -37163,6 +37622,18 @@ PrefabInstance:
     - target: {fileID: -5049032948309972686, guid: 058de047b01b744bda16fd83386afb05, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -3843642594673860349, guid: 058de047b01b744bda16fd83386afb05, type: 3}
+      propertyPath: m_DynamicOccludee
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3843642594673860349, guid: 058de047b01b744bda16fd83386afb05, type: 3}
+      propertyPath: m_LightProbeUsage
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -3843642594673860349, guid: 058de047b01b744bda16fd83386afb05, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: -1881192477996287247, guid: 058de047b01b744bda16fd83386afb05, type: 3}
       propertyPath: m_Layer
@@ -38077,6 +38548,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5785468, y: 0.72141546, z: 0.5927803}
   m_Center: {x: 0.0001884701, y: 0.3780698, z: 0.0062168846}
+--- !u!1 &1241395528 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+  m_PrefabInstance: {fileID: 1834759981}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1241894481
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -38315,13 +38791,17 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 105.312
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: d225f46cbca4244e39302834edbfb622, type: 3}
+      propertyPath: m_CastShadows
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d225f46cbca4244e39302834edbfb622, type: 3}
       propertyPath: m_Name
       value: Libro verde (2)
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: d225f46cbca4244e39302834edbfb622, type: 3}
       propertyPath: m_StaticEditorFlags
-      value: 2147483647
+      value: 126
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -38951,6 +39431,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4ac44ae37042744ec92e8cd5cb4380f8, type: 3}
   m_PrefabInstance: {fileID: 1274238926}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1275852231 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+  m_PrefabInstance: {fileID: 1504377869}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1277566060 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: e3c3d805358064eadbe02a378811dba9, type: 3}
@@ -39572,7 +40057,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 11.62
+      value: 12.53
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -39580,7 +40065,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 2.64
+      value: 1.74
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -39613,6 +40098,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (21)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -39816,6 +40305,76 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4fd7c393adbb943578087ea62e351ea3, type: 3}
   m_PrefabInstance: {fileID: 1307592711}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &1312184920
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2018322915}
+    m_Modifications:
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.2
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -4.961
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Name
+      value: SotLightCalda (41)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+--- !u!4 &1312184921 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+  m_PrefabInstance: {fileID: 1312184920}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1314852115
 PrefabInstance:
@@ -40769,6 +41328,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (30)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -40957,7 +41520,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.26
+      value: -14.14
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -40965,7 +41528,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -10.07
+      value: -10.04
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -40998,6 +41561,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (37)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -41348,6 +41915,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -41613,7 +42184,10 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1790907465}
   m_SourcePrefab: {fileID: 100100000, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
 --- !u!4 &1356841934 stripped
 Transform:
@@ -45027,6 +45601,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.57854676, y: 0.72141546, z: 0.59278023}
   m_Center: {x: 0.00018799305, y: 0.3780699, z: 0.0062173605}
+--- !u!1 &1461743320 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+  m_PrefabInstance: {fileID: 1670842520}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1463453359
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -46963,13 +47542,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1504377873}
   m_SourcePrefab: {fileID: 100100000, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
 --- !u!4 &1504377870 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
   m_PrefabInstance: {fileID: 1504377869}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1504377873
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1275852231}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6470511, y: 1.115206, z: 0.8797252}
+  m_Center: {x: -0.0000019073486, y: 0.557603, z: 0.0000014454126}
 --- !u!1 &1508049642
 GameObject:
   m_ObjectHideFlags: 0
@@ -47692,6 +48295,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -47794,7 +48405,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -20.62
+      value: -20.53
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -47802,7 +48413,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 12.72
+      value: 13.11
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -47835,6 +48446,14 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -49223,6 +49842,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (29)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -49403,7 +50026,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.01
+      value: -27.39
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -49411,7 +50034,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -1.47
+      value: -1.36
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -49444,6 +50067,14 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -50390,7 +51021,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.86
+      value: 15.63
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -50398,7 +51029,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6
+      value: 6.91
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -50431,6 +51062,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (22)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -52081,6 +52716,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -54174,6 +54813,10 @@ PrefabInstance:
     - target: {fileID: -5371729805164014006, guid: 8899bf0ab0c7a46f285f899b8a8d042a, type: 3}
       propertyPath: m_StaticEditorFlags
       value: 2147483647
+      objectReference: {fileID: 0}
+    - target: {fileID: -5361864694994630345, guid: 8899bf0ab0c7a46f285f899b8a8d042a, type: 3}
+      propertyPath: m_RenderingLayerMask
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -5305518545492100160, guid: 8899bf0ab0c7a46f285f899b8a8d042a, type: 3}
       propertyPath: m_StaticEditorFlags
@@ -58672,13 +59315,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1670842524}
   m_SourcePrefab: {fileID: 100100000, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
 --- !u!4 &1670842521 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
   m_PrefabInstance: {fileID: 1670842520}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1670842524
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461743320}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6470511, y: 1.115206, z: 0.8797252}
+  m_Center: {x: 1.5054052e-17, y: 0.557603, z: 0.000000014901161}
 --- !u!1001 &1677273303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -60474,6 +61141,15 @@ Transform:
   - {fileID: 730931595}
   - {fileID: 331436892}
   - {fileID: 773198034}
+  - {fileID: 2146495089}
+  - {fileID: 901474704}
+  - {fileID: 1180879673}
+  - {fileID: 866198536}
+  - {fileID: 2007479497}
+  - {fileID: 468523256}
+  - {fileID: 5160737}
+  - {fileID: 1768269044}
+  - {fileID: 145523032}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1736163224
@@ -61485,6 +62161,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 953ffd36c755647a3964cc7211d94ab8, type: 3}
   m_PrefabInstance: {fileID: 1767252462}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &1768269044 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+  m_PrefabInstance: {fileID: 2121268386}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1768357688 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 1f46bea0563494be9a40a737fed31b07, type: 3}
@@ -62452,6 +63133,32 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.2581432, y: 1.609581, z: 0.99785346}
   m_Center: {x: 0.07073312, y: 0.7570249, z: 0.0007072242}
+--- !u!1 &1790907462 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+  m_PrefabInstance: {fileID: 1356841933}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &1790907465
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1790907462}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6470511, y: 1.115206, z: 0.8797252}
+  m_Center: {x: 0, y: 0.557603, z: 0.000000014901161}
 --- !u!1001 &1793372689
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63146,7 +63853,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -7.38
+      value: -7.25
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -63154,7 +63861,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.66
+      value: -5.96
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -63187,6 +63894,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (34)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -63343,13 +64054,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: aefa19e7d165049e3bedfe8af648088f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1826732447}
   m_SourcePrefab: {fileID: 100100000, guid: aefa19e7d165049e3bedfe8af648088f, type: 3}
 --- !u!4 &1826732444 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: aefa19e7d165049e3bedfe8af648088f, type: 3}
   m_PrefabInstance: {fileID: 1826732443}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1826732447
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 764120762}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.3427715, y: 1.3824861, z: 0.76886535}
+  m_Center: {x: -0.0000019073486, y: 0.69124305, z: 0.0000015795231}
 --- !u!1001 &1828681765
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63409,13 +64144,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1828681769}
   m_SourcePrefab: {fileID: 100100000, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
 --- !u!4 &1828681766 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
   m_PrefabInstance: {fileID: 1828681765}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1828681769
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 785495679}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.647052, y: 1.115206, z: 0.87972575}
+  m_Center: {x: -0.0000000036814924, y: 0.557603, z: 0.000000023733698}
 --- !u!1001 &1834759981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63475,13 +64234,37 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1834759985}
   m_SourcePrefab: {fileID: 100100000, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
 --- !u!4 &1834759982 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 335f996d35e1949fda93b04176d9178d, type: 3}
   m_PrefabInstance: {fileID: 1834759981}
   m_PrefabAsset: {fileID: 0}
+--- !u!65 &1834759985
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1241395528}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1.6470511, y: 1.115206, z: 0.8797252}
+  m_Center: {x: 0, y: 0.557603, z: 0.000000014901161}
 --- !u!1001 &1838701360
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63990,7 +64773,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.94
+      value: -5.11
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -63998,7 +64781,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.6
+      value: 10.53
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -64031,6 +64814,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (14)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -65055,7 +65842,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
@@ -65063,15 +65850,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -6.96
+      value: 15.430373
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.691
+      value: 4.526
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 19.13
+      value: 9.22402
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -65079,15 +65866,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -66748,7 +67535,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_Name
@@ -66768,15 +67555,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -13.13
+      value: 9.260373
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.68
+      value: 4.4428654
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 20.78
+      value: 10.874022
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.w
@@ -66784,15 +67571,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -66821,7 +67608,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_Name
@@ -66841,15 +67628,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -10.95
+      value: 11.440373
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.68
+      value: 4.4428654
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.09
+      value: 1.184021
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.w
@@ -66857,15 +67644,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -67144,7 +67931,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 14.99
+      value: 14.772
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -67152,7 +67939,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -5.34
+      value: -5.138
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -67185,6 +67972,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (19)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -68721,7 +69512,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.02
+      value: 10.2
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -68729,7 +69520,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 11.9
+      value: 11.92
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -68763,6 +69554,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (23)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -68776,6 +69571,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
   m_PrefabInstance: {fileID: 2007136987}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2007479497 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+  m_PrefabInstance: {fileID: 482020159}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2010682835
 PrefabInstance:
@@ -69021,15 +69821,18 @@ Transform:
   - {fileID: 1528621391}
   - {fileID: 1533014619}
   - {fileID: 1181553023}
+  - {fileID: 2067870731}
   - {fileID: 2133312016}
   - {fileID: 13654500}
   - {fileID: 827324725}
   - {fileID: 1846210347}
+  - {fileID: 1055788533}
   - {fileID: 1121430518}
   - {fileID: 2028546279}
   - {fileID: 1544581471}
   - {fileID: 1327263145}
   - {fileID: 457455623}
+  - {fileID: 857736236}
   - {fileID: 635447222}
   - {fileID: 1821372960}
   - {fileID: 836545037}
@@ -69042,18 +69845,20 @@ Transform:
   - {fileID: 1621808199}
   - {fileID: 1346751355}
   - {fileID: 41580624}
+  - {fileID: 1312184921}
   - {fileID: 1203893048}
   - {fileID: 1971890927}
   - {fileID: 286813877}
+  - {fileID: 547277665}
   - {fileID: 1305544174}
   - {fileID: 1587383493}
+  - {fileID: 781020408}
   - {fileID: 2007136988}
   - {fileID: 850249477}
   - {fileID: 15885736}
   - {fileID: 1059247766}
   - {fileID: 2129499286}
   - {fileID: 68897566}
-  - {fileID: 2113651861}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2019972266
@@ -69341,6 +70146,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SotLightCalda (28)
       objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
       value: 2
@@ -69437,6 +70246,55 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 1bdea1c60176f41edad777dffd5e222a, type: 3}
   m_PrefabInstance: {fileID: 2032501768}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2036868750
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2036868752}
+  - component: {fileID: 2036868751}
+  m_Layer: 0
+  m_Name: OculiVolume
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!114 &2036868751
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036868750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 172515602e62fb746b5d573b38a5fe58, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IsGlobal: 1
+  priority: 0
+  blendDistance: 0
+  weight: 1
+  sharedProfile: {fileID: 11400000, guid: 92f0765aa90a947fe81129626dffcae6, type: 2}
+--- !u!4 &2036868752
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2036868750}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -4.840555, y: 0.72162986, z: 23.691593}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2038113874
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69603,7 +70461,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -27.54
+      value: -27.64
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -69611,7 +70469,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -7.01
+      value: -7.16
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -69644,6 +70502,10 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (40)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -71204,6 +72066,80 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 953ffd36c755647a3964cc7211d94ab8, type: 3}
   m_PrefabInstance: {fileID: 2066070428}
   m_PrefabAsset: {fileID: 0}
+--- !u!1001 &2067870730
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 2018322915}
+    m_Modifications:
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -19.52
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 6.331
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 5.35
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Name
+      value: SotLightCalda (45)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Lightmapping
+      value: 2
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+--- !u!4 &2067870731 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+  m_PrefabInstance: {fileID: 2067870730}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2069684704
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -72343,7 +73279,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &2113651861
 Transform:
   m_ObjectHideFlags: 0
@@ -72352,12 +73288,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113651860}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.5628048, y: 0, z: 0, w: 0.8265899}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0.5628048, y: -0, z: -0, w: 0.8265899}
+  m_LocalPosition: {x: 2.2212367, y: -0.6105081, z: 16.474613}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 2018322915}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 68.5, y: 0, z: 0}
 --- !u!114 &2113651862
 MonoBehaviour:
@@ -72375,10 +73311,10 @@ MonoBehaviour:
   m_UsePipelineSettings: 1
   m_AdditionalLightsShadowResolutionTier: 2
   m_LightLayerMask: 1
-  m_RenderingLayers: 1
+  m_RenderingLayers: 4294967295
   m_CustomShadowLayers: 1
   m_ShadowLayerMask: 1
-  m_ShadowRenderingLayers: 1
+  m_ShadowRenderingLayers: 2
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
@@ -72389,11 +73325,11 @@ Light:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2113651860}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 11
   m_Type: 1
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 5.52
+  m_Intensity: 0.1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -72430,8 +73366,8 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1
-  m_RenderingLayerMask: 1
+    m_Bits: 4294967295
+  m_RenderingLayerMask: 2
   m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
@@ -72453,7 +73389,7 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1734975368}
     m_Modifications:
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
@@ -72461,15 +73397,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.79
+      value: 16.600372
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.691
+      value: 4.526
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 14.556
+      value: 4.6500206
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalRotation.w
@@ -73037,6 +73973,14 @@ PrefabInstance:
     - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Name
       value: SotLightCalda (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 6017938235688703180, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9047023860725351949, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_Lightmapping
@@ -73667,6 +74611,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.009678589, y: 0.009678587, z: 0.0051478078}
   m_Center: {x: 0.000000007450581, y: -0.0000000067520887, z: 0.0025739016}
+--- !u!4 &2146495089 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+  m_PrefabInstance: {fileID: 818909040}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &4164940290944731898
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -73746,7 +74695,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.73
+      value: -7.76
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.y
@@ -73754,7 +74703,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0.13
+      value: -0.14
       objectReference: {fileID: 0}
     - target: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -73803,15 +74752,6 @@ SceneRoots:
   - {fileID: 1134689702}
   - {fileID: 1991229720}
   - {fileID: 1734975368}
-  - {fileID: 818909040}
-  - {fileID: 1961459745}
-  - {fileID: 1963527268}
-  - {fileID: 498101990}
-  - {fileID: 482020159}
-  - {fileID: 1874709399}
-  - {fileID: 1087701140}
-  - {fileID: 2121268386}
-  - {fileID: 1198952567}
   - {fileID: 378357424}
   - {fileID: 312012792}
   - {fileID: 843328201}
@@ -73821,4 +74761,6 @@ SceneRoots:
   - {fileID: 2108824124}
   - {fileID: 2018322915}
   - {fileID: 1670615179}
+  - {fileID: 2036868752}
+  - {fileID: 2113651861}
   - {fileID: 721195080}
