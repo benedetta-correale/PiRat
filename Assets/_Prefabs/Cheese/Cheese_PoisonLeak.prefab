@@ -129,7 +129,7 @@ MonoBehaviour:
   speedDuration: 5
   extraDamage: 10
   wasNear: 0
-  poisonPuddlePrefab: {fileID: 5200894667798067015, guid: 417212b39db508340896e07dee29520c, type: 3}
+  poisonPuddlePrefab: {fileID: 3781956439741579610, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
   VFXPrefab: {fileID: 8877596331768416466, guid: 23590b8e848e5a644ae05d8b9e003483, type: 3}
   enableTrapFromPuddle: 0
   trapPrefabs:

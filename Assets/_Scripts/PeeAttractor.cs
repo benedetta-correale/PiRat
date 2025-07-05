@@ -5,21 +5,30 @@ using System.Collections.Generic;
 public class PeeAttractor : MonoBehaviour
 {
     [Header("Attrazione pirati")]
-    [SerializeField] private float attractionRadius = 5f;
+    
 
     [HideInInspector] public bool spawnTrapOnFirstInfection = false;
     [HideInInspector] public GameObject[] possibleTraps;
 
-    private SphereCollider attractionCollider;
+    [SerializeField] private SphereCollider attractionCollider;
+
     private HashSet<PirateController> attractedPirates = new HashSet<PirateController>();
     private PirateController firstToReach = null;
     private bool trapSpawned = false;
 
-    private void Awake()
+    private void Start()
     {
-        attractionCollider = gameObject.AddComponent<SphereCollider>();
-        attractionCollider.isTrigger = true;
-        attractionCollider.radius = attractionRadius;
+        if (attractionCollider == null)
+        {
+            Debug.LogError("❌ SphereCollider non assegnato in PeeAttractor!");
+            return;
+        }
+
+        if (!attractionCollider.isTrigger)
+        {
+            Debug.LogWarning("⚠️ SphereCollider non è trigger, lo forzo via script");
+            attractionCollider.isTrigger = true;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
