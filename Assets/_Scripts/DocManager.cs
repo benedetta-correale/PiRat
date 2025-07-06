@@ -97,6 +97,7 @@ public class DocManager : MonoBehaviour
 
     private void WanderInIdleArea()
     {
+        
         // Se sta già andando da qualche parte, aspetta che arrivi
         if (agent.pathPending || agent.remainingDistance > 0.5f)
             return;
@@ -114,6 +115,8 @@ public class DocManager : MonoBehaviour
             
 
             idleTimer = idleWalkInterval; // reset del timer
+        } else {
+              animator.SetBool("isWalking", false);
         }
     }
 
