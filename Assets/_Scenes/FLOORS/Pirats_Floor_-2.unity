@@ -2247,6 +2247,8 @@ MonoBehaviour:
   biteDuration: 0
   infected: 0
   currentHealth: 0
+  alreadyHealing: 0
+  healingEndTime: 3
 --- !u!195 &56587319
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10627,7 +10629,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &295023936
 Transform:
   m_ObjectHideFlags: 0
@@ -23338,7 +23340,7 @@ Transform:
   m_GameObject: {fileID: 678373903}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -9.17, y: 1.41, z: 11.79}
+  m_LocalPosition: {x: -8.74, y: 1.41, z: 11.79}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -35948,18 +35950,18 @@ MonoBehaviour:
     updateOnlyOnMove: 0
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 767845353}
-  FogRefreshRate: 16.1
+  FogRefreshRate: 5
   fogPlaneHeight: 1.5
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
   fogPlaneAlpha: 1
-  fogLerpSpeed: 10
+  fogLerpSpeed: 5
   keepRevealedTiles: 0
   revealedTileOpacity: 0.5
   fogPlaneTextureLerpTarget: {fileID: 0}
   fogPlaneTextureLerpBuffer: {fileID: 0}
-  LevelDataToLoad: {fileID: 4900000, guid: d950adf720a5a64459fb4c1c45419a94, type: 3}
-  saveDataOnScan: 0
+  LevelDataToLoad: {fileID: 0}
+  saveDataOnScan: 1
   levelNameToSave: Level -2 (A)
   levelDimensionX: 128
   levelDimensionY: 128
@@ -47452,7 +47454,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1418990560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -47480,7 +47482,7 @@ MonoBehaviour:
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 280365100}
   FogRefreshRate: 16.1
-  fogPlaneHeight: 1
+  fogPlaneHeight: 2
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
   fogPlaneAlpha: 1
@@ -67067,6 +67069,8 @@ MonoBehaviour:
   biteDuration: 0
   infected: 0
   currentHealth: 0
+  alreadyHealing: 0
+  healingEndTime: 3
 --- !u!195 &1832333223
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -76861,7 +76865,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &2138581560
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -76889,7 +76893,7 @@ MonoBehaviour:
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 678373904}
   FogRefreshRate: 16.1
-  fogPlaneHeight: 1
+  fogPlaneHeight: 2
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
   fogPlaneAlpha: 1
@@ -76898,8 +76902,8 @@ MonoBehaviour:
   revealedTileOpacity: 0.5
   fogPlaneTextureLerpTarget: {fileID: 0}
   fogPlaneTextureLerpBuffer: {fileID: 0}
-  LevelDataToLoad: {fileID: 4900000, guid: 8c7600d511dd84c43861eff9e0998eaa, type: 3}
-  saveDataOnScan: 0
+  LevelDataToLoad: {fileID: 0}
+  saveDataOnScan: 1
   levelNameToSave: Level -2 (B)
   levelDimensionX: 50
   levelDimensionY: 81
@@ -77853,6 +77857,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Rat
       objectReference: {fileID: 0}
+    - target: {fileID: 9024834148499370942, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: vfxManager
       value: 
@@ -77866,63 +77874,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
---- !u!1001 &6781003669617566916
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3163873660368948521, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3781956439741579610, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
-      propertyPath: m_Name
-      value: Puddle Final
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 04af756e8e94acb4c9ab74c8ef2f4f0e, type: 3}
 --- !u!1001 &6918262938464841740
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -78087,4 +78038,3 @@ SceneRoots:
   - {fileID: 1906694937}
   - {fileID: 678373904}
   - {fileID: 280365100}
-  - {fileID: 6781003669617566916}

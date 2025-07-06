@@ -109,32 +109,26 @@ public class PossessionManager : MonoBehaviour
 
     void ConfirmSelection(List<Transform> piratesInRange)
     {
-        Debug.Log("Tentativo di conferma: selectedIndex=" + selectedIndex + ", piratesCount=" + piratesInRange.Count);
+        Debug.Log($"Tentativo conferma. Index: {selectedIndex}, piratesInRange.Count: {piratesInRange.Count}");
 
         if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count)
         {
-            Debug.LogWarning("Conferma fallita: indice selezionato non valido.");
+            Debug.LogWarning("Conferma fallita: indice fuori range");
             return;
         }
 
-        cameraManager.SwitchToPirate(piratesInRange[selectedIndex]);
-        // ✅ Imposta il flag isPossessed sul PirateController
-        PirateController pc = piratesInRange[selectedIndex].GetComponent<PirateController>();
+        Transform target = piratesInRange[selectedIndex];
+        Debug.Log("✓ Conferma OK. Passo a " + target.name);
+
+        cameraManager.SwitchToPirate(target);
+
+        PirateController pc = target.GetComponent<PirateController>();
         if (pc != null) pc.isPossessed = true;
-
-
-        if (ratInput != null)
-        {
-            ratInput.enabled = false;
-            ratInput.movementLocked = true;
-        }
-
-        if (ratAnimator != null)
-            ratAnimator.SetBool("isWalking", false);
 
         ExitSelectionMode();
         currentState = PossessionState.Possessing;
     }
+
 
     void ExitSelectionMode()
     {
@@ -293,15 +287,26 @@ public class PossessionManager : MonoBehaviour
             Debug.Log("Possess action triggered");
 
             var piratesInRange = GetPiratesInRange();
-            if (selectedIndex == -1 && piratesInRange.Count > 0)
+
+            if (piratesInRange.Count == 0)
             {
-                Debug.Log("Nessun selezionato, seleziono il primo di default");
+                Debug.LogWarning("Nessun pirata nel raggio, impossibile confermare.");
+                return;
+            }
+
+            if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count)
+            {
+                Debug.LogWarning("Indice selezionato invalido, uso fallback primo pirata.");
                 selectedIndex = 0;
             }
 
+            Debug.Log("✓ Confermo selezione su: " + piratesInRange[selectedIndex].name);
             ConfirmSelection(piratesInRange);
         }
     }
+
+
+
 
 
 }

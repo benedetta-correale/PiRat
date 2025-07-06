@@ -437,19 +437,23 @@ namespace FischlWorks_FogWar
             }
 
             if (quadrantPoint.magnitude > sightRange)
-            {
                 return;
-            }
 
+            Debug.Log($"sto rivelando con un range di {sightRange}");
             // se il tile è già segnato da un Pirate e sono un topo, non tocco nulla
             if (!currentRevealerIsPirate
                 && fogField[levelCoordinates.x][levelCoordinates.y] == LevelColumn.ETileVisibility.RevealedByPirate)
             {
                 return;
             }
-            fogField[levelCoordinates.x][levelCoordinates.y] = currentRevealerIsPirate
-                ? LevelColumn.ETileVisibility.RevealedByPirate
-                : LevelColumn.ETileVisibility.Revealed;
+            var state = currentRevealerIsPirate
+                        ? LevelColumn.ETileVisibility.RevealedByPirate
+                        : LevelColumn.ETileVisibility.Revealed;
+
+            fogField[levelCoordinates.x][levelCoordinates.y] = state;
+
+            Debug.Log($"[Reveal] Revealer {(currentRevealerIsPirate ? "PIRATE" : "OTHER")} updated tile ({levelCoordinates.x}, {levelCoordinates.y}) to state {state}");
+
 
         }
 

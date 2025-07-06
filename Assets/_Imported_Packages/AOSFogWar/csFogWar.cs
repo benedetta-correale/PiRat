@@ -294,6 +294,8 @@ namespace FischlWorks_FogWar
             if (LevelDataToLoad == null)
             {
                 ScanLevel();
+                levelData.unitScale = this.unitScale;
+
 
                 if (saveDataOnScan == true)
                 {
@@ -301,6 +303,8 @@ namespace FischlWorks_FogWar
 #if UNITY_EDITOR
                     SaveScanAsLevelData();
 #endif
+                    levelData.unitScale = this.unitScale;
+
                 }
             }
             else
@@ -315,6 +319,24 @@ namespace FischlWorks_FogWar
 
             // This is needed because we do not update the fog when there's no unit-scale movement of each fogRevealer
             ForceUpdateFog();
+            foreach (var revealer in fogRevealers)
+            {
+                if (revealer._RevealerTransform.CompareTag("Pirate"))
+                {
+                    // Pirati = sightRange 8
+                    typeof(csFogWar.FogRevealer)
+                        .GetField("sightRange", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                        ?.SetValue(revealer, 8);
+                }
+                else
+                {
+                    // Altri (topi?) = sightRange 2
+                    typeof(csFogWar.FogRevealer)
+                        .GetField("sightRange", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance)
+                        ?.SetValue(revealer, 2);
+                }
+            }
+
         }
 
 
@@ -477,6 +499,9 @@ namespace FischlWorks_FogWar
             foreach (FogRevealer fogRevealer in fogRevealers)
             {
                 fogRevealer.GetCurrentLevelCoordinates(this);
+                int revealRange = Mathf.RoundToInt(fogRevealer._SightRange / unitScale);
+                Debug.Log($"[FogDebug] Revealer: {fogRevealer._RevealerTransform.name} | sightRange={fogRevealer._SightRange} | unitScale={unitScale} | revealRange={revealRange}");
+
 
                 // 1) ha tag Pirate?
                 bool isPirateTag = fogRevealer._RevealerTransform.CompareTag("Pirate");
@@ -490,7 +515,6 @@ namespace FischlWorks_FogWar
                 
                         // Altrimenti imposta il flag (true solo per Pirate possessed)
                 shadowcaster.currentRevealerIsPirate = isPirateTag && isPossessed;
-
 
                 shadowcaster.ProcessLevelData(
                     fogRevealer._CurrentLevelCoordinates,

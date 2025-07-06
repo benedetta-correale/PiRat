@@ -330,7 +330,7 @@ public class PirateController : MonoBehaviour
         if (Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist, LayerMask.GetMask("Wall")))
         {
             Debug.DrawRay(origin, dir.normalized * dist, Color.red, 1f);
-            Debug.Log($"Raycast ha colpito: {hit.collider.name} con tag: {hit.collider.tag}");
+            //Debug.Log($"Raycast ha colpito: {hit.collider.name} con tag: {hit.collider.tag}");
 
             // Se colpisce il ratto, la vista è libera
             return hit.transform.root == ratTransform.root;
@@ -338,7 +338,7 @@ public class PirateController : MonoBehaviour
         else
         {
             Debug.DrawRay(origin, dir.normalized * dist, Color.green, 1f);
-            Debug.Log("Raycast non ha colpito nulla, visuale libera verso il topo");
+            //Debug.Log("Raycast non ha colpito nulla, visuale libera verso il topo");
             return true;
         }
     }
