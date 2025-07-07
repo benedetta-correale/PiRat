@@ -51,11 +51,18 @@ public class PirateController : MonoBehaviour
     [Header("Health")]
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private Image healthFill;
-
     [SerializeField] private int biteTickDamage;
     [SerializeField] private float biteTickInterval;
     [SerializeField] private float biteDuration;
-    public bool infected = false;
+     public bool infected = false;
+
+    [Header("HEAL STATUS")]
+
+    [SerializeField] private float healingCooldown = 5f; // tempo in secondi dopo la guarigione
+    private float lastHealedTime = -Mathf.Infinity;
+    public bool alreadyHealing = false;
+    public float healingEndTime = 3.0f; // usata per fermare il movimento di camminata del pirata per un certo tempo 
+
 
     // STATI INTERNI 
     private Coroutine infectionCoroutine;
@@ -64,10 +71,8 @@ public class PirateController : MonoBehaviour
     private float suspicionTimer;
     private Vector3 suspicionTarget;
     private bool hasStartedInvestigating;
-
     public float currentHealth;
-    public bool alreadyHealing = false;
-    public float healingEndTime = 3.0f;
+   
 
 
     private void Awake()
@@ -285,7 +290,8 @@ public class PirateController : MonoBehaviour
         healingEndTime = Time.time + duration;
     }
 
-    private void UpdateBeingHealed()
+    private void
+    UpdateBeingHealed()
     {
         if (Time.time >= healingEndTime)
         {
@@ -295,7 +301,8 @@ public class PirateController : MonoBehaviour
         }
     }
 
-    #endregion 
+    #endregion
+    
 
 
 
@@ -403,14 +410,37 @@ public class PirateController : MonoBehaviour
         animator.SetTrigger("Die");
     }
 
+    //GUARIGIONE
+
     public void Heal(int recoveryPoints)
     {
         currentHealth = Mathf.Min(currentHealth + recoveryPoints, maxHealth);
-
         healthFill.fillAmount = currentHealth / maxHealth;
+
         alreadyHealing = true;
-        
+        lastHealedTime = Time.time;
+
+        StartHealingCooldown();
     }
+
+
+    private Coroutine healingCooldownCoroutine;
+
+    private IEnumerator HealingCooldownRoutine()
+    {
+        yield return new WaitForSeconds(healingCooldown);
+        alreadyHealing = false;
+    }
+
+    private void StartHealingCooldown()
+    {
+        if (healingCooldownCoroutine != null)
+            StopCoroutine(healingCooldownCoroutine);
+
+        healingCooldownCoroutine = StartCoroutine(HealingCooldownRoutine());
+    }
+
+
 
     // ------ GIZMOS
 

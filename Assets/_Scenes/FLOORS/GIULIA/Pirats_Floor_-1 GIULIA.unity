@@ -32279,9 +32279,10 @@ MonoBehaviour:
   biteTickInterval: 1
   biteDuration: 10
   infected: 0
-  currentHealth: 50
+  healingCooldown: 5
   alreadyHealing: 0
   healingEndTime: 3
+  currentHealth: 50
 --- !u!195 &1148764099
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -47428,7 +47429,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 23.387
+      value: 28.78
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
       propertyPath: m_LocalRotation.w
