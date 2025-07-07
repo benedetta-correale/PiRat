@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
+using FischlWorks_FogWar;
 
 
 public enum PossessionState { Idle, Selecting, Possessing }
@@ -26,6 +27,10 @@ public class PossessionManager : MonoBehaviour
 
     private PlayerInput playerInput;
     private InputAction moveAction;
+
+    
+    
+
 
 
 
@@ -125,6 +130,8 @@ public class PossessionManager : MonoBehaviour
         PirateController pc = target.GetComponent<PirateController>();
         if (pc != null) pc.isPossessed = true;
 
+        
+
         ExitSelectionMode();
         currentState = PossessionState.Possessing;
     }
@@ -158,6 +165,9 @@ public class PossessionManager : MonoBehaviour
             PirateController pc = p.GetComponent<PirateController>();
             if (pc != null) pc.isPossessed = false;
         }
+
+        
+      
 
         cameraManager.SwitchToRat();
 

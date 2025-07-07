@@ -18591,6 +18591,33 @@ Transform:
   - {fileID: 1386318597}
   m_Father: {fileID: 1629730989}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &601911413 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+  m_PrefabInstance: {fileID: 938365216}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 57a04109279e93a40afd2b0ea34c939d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &601911418 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8145009542352276400, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+  m_PrefabInstance: {fileID: 938365216}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2093f5c73482c6f43b326dff88b7d2dc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &601911421 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+  m_PrefabInstance: {fileID: 938365216}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &604820539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26050,8 +26077,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 606227aab80e33442a265debc77c45dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ratController: {fileID: 0}
-  ratTransform: {fileID: 0}
+  ratController: {fileID: 601911418}
+  ratTransform: {fileID: 601911421}
   toggleKey: 27
   transitionSpeed: 1.16
   offset: {x: 0, y: 8, z: 7}
@@ -28339,6 +28366,10 @@ PrefabInstance:
     - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
+      objectReference: {fileID: 843328196}
+    - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnLook
       objectReference: {fileID: 0}
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -28351,14 +28382,14 @@ PrefabInstance:
     - target: {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: cameraManager
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 843328196}
     - target: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.19
+      value: 2.94
       objectReference: {fileID: 0}
     - target: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.604
+      value: 2.74
       objectReference: {fileID: 0}
     - target: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: m_LocalPosition.z
@@ -33808,8 +33839,8 @@ MonoBehaviour:
   patrolPoints:
   - {fileID: 1041448363}
   - {fileID: 580445262}
-  ratTransform: {fileID: 0}
-  ratHealt: {fileID: 0}
+  ratTransform: {fileID: 601911421}
+  ratHealt: {fileID: 601911413}
   viewDistance: 10
   viewAngle: 90
   eyeHeight: 0.8
@@ -33829,9 +33860,10 @@ MonoBehaviour:
   biteTickInterval: 1
   biteDuration: 10
   infected: 0
-  currentHealth: 50
+  healingCooldown: 5
   alreadyHealing: 0
   healingEndTime: 3
+  currentHealth: 50
 --- !u!195 &1125129242
 NavMeshAgent:
   m_ObjectHideFlags: 0

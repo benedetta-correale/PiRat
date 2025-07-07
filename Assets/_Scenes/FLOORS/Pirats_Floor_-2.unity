@@ -35955,7 +35955,7 @@ MonoBehaviour:
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
   fogPlaneAlpha: 1
-  fogLerpSpeed: 5
+  fogLerpSpeed: 10
   keepRevealedTiles: 0
   revealedTileOpacity: 0.5
   fogPlaneTextureLerpTarget: {fileID: 0}
@@ -35965,7 +35965,7 @@ MonoBehaviour:
   levelNameToSave: Level -2 (A)
   levelDimensionX: 128
   levelDimensionY: 128
-  unitScale: 0.25
+  unitScale: 0.7
   scanSpacingPerUnit: 0.25
   rayStartHeight: 7
   rayMaxDistance: 10
@@ -77813,6 +77813,18 @@ PrefabInstance:
       propertyPath: cameraManager
       value: 
       objectReference: {fileID: 1090140451}
+    - target: {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: pirateUnitScale
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: fogWars.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: 'fogWars.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1073001924}
     - target: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 2.19
