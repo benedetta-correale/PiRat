@@ -2226,6 +2226,7 @@ MonoBehaviour:
   - {fileID: 76836472}
   - {fileID: 483307669}
   ratTransform: {fileID: 543450653137747181}
+  ratManager: {fileID: 0}
   ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
@@ -2246,9 +2247,10 @@ MonoBehaviour:
   biteTickInterval: 0
   biteDuration: 0
   infected: 0
-  currentHealth: 0
+  healingCooldown: 5
   alreadyHealing: 0
   healingEndTime: 3
+  currentHealth: 0
 --- !u!195 &56587319
 NavMeshAgent:
   m_ObjectHideFlags: 0
@@ -10629,7 +10631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &295023936
 Transform:
   m_ObjectHideFlags: 0
@@ -67048,10 +67050,11 @@ MonoBehaviour:
   - {fileID: 2103112628}
   - {fileID: 1338559461}
   ratTransform: {fileID: 543450653137747181}
+  ratManager: {fileID: 0}
   ratHealt: {fileID: 614801737}
   viewDistance: 10
   viewAngle: 90
-  eyeHeight: 1.5
+  eyeHeight: 0.5
   viewOriginBackOffset: 0.5
   alertIndicator: {fileID: 1058514753}
   alertFillImage: {fileID: 1172371499}
@@ -67059,18 +67062,19 @@ MonoBehaviour:
   moveThreshold: 0.7
   baseFillSpeed: 5
   chaseSpeed: 3
-  attackRange: 2
+  attackRange: 1
   attackCooldown: 2
   attackDamage: 10
   maxHealth: 200
   healthFill: {fileID: 6918262938464841742}
-  biteTickDamage: 0
-  biteTickInterval: 0
-  biteDuration: 0
+  biteTickDamage: 10
+  biteTickInterval: 5
+  biteDuration: 3
   infected: 0
-  currentHealth: 0
+  healingCooldown: 5
   alreadyHealing: 0
   healingEndTime: 3
+  currentHealth: 0
 --- !u!195 &1832333223
 NavMeshAgent:
   m_ObjectHideFlags: 0

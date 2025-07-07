@@ -189,6 +189,7 @@ public class RatInteractionManager : MonoBehaviour
 
 
 
+
     private void TryStartBite(PirateController controller)
     {
         if (controller == null) return;
@@ -197,6 +198,23 @@ public class RatInteractionManager : MonoBehaviour
         biting = true;
         _ratAnimator.SetTrigger("Bite");
         StartCoroutine(StartQuickTimeEvent(enemyController));
+
+        // ✅ Avvia un timer per resettare `biting`
+    StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione
+    }
+    private IEnumerator ResetBitingAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        biting = false;
+        Debug.Log("biting = false dopo morso (timer)");
+    }
+
+    
+
+    public void EndBite()
+    {
+        biting = false;
+        Debug.Log("Fine animazione morso → biting = false");
     }
 
     private void TryCheeseBite(CheesePowerUp cheese)

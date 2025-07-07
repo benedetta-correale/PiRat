@@ -2,6 +2,7 @@
 using UnityEngine.AI;
 using UnityEngine.UI;
 using System;
+using System.Linq;
 using System.Collections;
 
 public class PirateController : MonoBehaviour
@@ -19,7 +20,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private NavMeshAgent agent;
     [SerializeField] private Transform[] patrolPoints;
     [SerializeField] private Transform ratTransform;
-
+    [SerializeField] private RatInteractionManager ratManager;
     [SerializeField] private BonusMalus ratHealt;
 
     [Header("Sight")]
@@ -81,6 +82,7 @@ public class PirateController : MonoBehaviour
         currentHealth = maxHealth;
         healthFill.fillAmount = 1f;
         ResetAlert();
+        ratManager = ratTransform.GetComponent<RatInteractionManager>();
     }
 
     private void Start()
@@ -94,6 +96,8 @@ public class PirateController : MonoBehaviour
 
     private void Update()
     {
+
+        
         switch (state)
         {
             case State.Patrol: PatrolUpdate(); break;
@@ -246,7 +250,9 @@ public class PirateController : MonoBehaviour
 
         float distance = Vector3.Distance(transform.position, ratTransform.position);
 
-        if (distance > attackRange)
+        bool ratInRange = Physics.OverlapSphere(transform.position, attackRange, LayerMask.GetMask("Rat")).Any(c => c.transform.root == ratTransform.root);
+
+        if (!ratInRange)
         {
             EnterChasing();
             return;
@@ -256,7 +262,7 @@ public class PirateController : MonoBehaviour
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-        if (canAttack)
+        if (!canAttack && (!ratManager.isBackflipping || !ratManager.biting))
         {
             animator.SetTrigger("AttackTrigger");
             
@@ -323,32 +329,31 @@ public class PirateController : MonoBehaviour
         return transform.position - transform.forward * viewOriginBackOffset + Vector3.up * eyeHeight;
     }
 
-   private bool CanSeeRat()
+    private bool CanSeeRat()
     {
         Vector3 origin = GetEyeOrigin();
-        Vector3 dir = (ratTransform.position + Vector3.up * 0.8f) - origin;
-        float dist = dir.magnitude;
+        float dist = Vector3.Distance(origin, ratTransform.position);
 
-        // Fuori distanza o fuori angolo di vista
-        if (dist > viewDistance) return false;
-        if (Vector3.Angle(transform.forward, dir) > viewAngle * 0.5f) return false;
-
-        // Raycast con debug
-        if (Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist, LayerMask.GetMask("Wall")))
+        // Lanci 5 raggi da punti diversi lungo l’altezza del ratto
+        for (float yOffset = 0f; yOffset <= 1f; yOffset += 0.25f)
         {
-            Debug.DrawRay(origin, dir.normalized * dist, Color.red, 1f);
-            //Debug.Log($"Raycast ha colpito: {hit.collider.name} con tag: {hit.collider.tag}");
+            Vector3 target = ratTransform.position + Vector3.up * yOffset;
+            Vector3 dir = target - origin;
 
-            // Se colpisce il ratto, la vista è libera
-            return hit.transform.root == ratTransform.root;
+            if (!Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist, LayerMask.GetMask("Wall")))
+            {
+                Debug.DrawRay(origin, dir.normalized * dist, Color.green, 1.5f);
+                return true;
+            }
+            else
+            {
+                Debug.DrawRay(origin, dir.normalized * dist, Color.red, 1.5f);
+            }
         }
-        else
-        {
-            Debug.DrawRay(origin, dir.normalized * dist, Color.green, 1f);
-            //Debug.Log("Raycast non ha colpito nulla, visuale libera verso il topo");
-            return true;
-        }
+
+        return false;
     }
+
 
 
 
@@ -393,14 +398,16 @@ public class PirateController : MonoBehaviour
         while (elapsed < biteDuration)
         {
             yield return new WaitForSeconds(biteTickInterval);
+
             TakeDamage((int)biteTickDamage);
+            Debug.Log($"[Infezione] Vita attuale del pirata: {currentHealth}");
+
             elapsed += biteTickInterval;
 
             if (currentHealth <= 0f) Die();
         }
-
-
     }
+
 
     private void Die()
     {
