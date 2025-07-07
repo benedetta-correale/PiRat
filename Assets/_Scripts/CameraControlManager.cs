@@ -28,6 +28,14 @@ public class CameraControlManager : MonoBehaviour
     [Tooltip("Offset locale rispetto al target: X = spostamento laterale, Y = altezza, Z = distanza dietro")]
     public Vector3 offset = new Vector3(0f, 13f, -13f);
 
+    [Header("Selection Zoom")]
+    [Tooltip("Offset della camera in modalità selezione del topo")]
+    public Vector3 selectionOffset = new Vector3(0f, 20f, -20f);
+
+    // campo privato per salvare l’offset di default
+    private Vector3 defaultOffset;
+
+
     [Header("Settings")]
     [Tooltip("Velocità di rotazione orizzontale")]
     public float sensitivity = 120f;
@@ -72,6 +80,8 @@ public class CameraControlManager : MonoBehaviour
         Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
         transform.position = currentTarget.position + rot * offset;
         transform.LookAt(currentTarget.position);
+        defaultOffset = offset;
+
     }
 
 
@@ -131,5 +141,25 @@ public class CameraControlManager : MonoBehaviour
         ratController.enabled = true;
         OnSwitchedToRat?.Invoke();
     }
+
+    /// <summary>
+    /// Zoom out per mostrare tutti gli strands dal topo in modalità selezione
+    /// </summary>
+    public void ApplySelectionZoom()
+    {
+        offset = selectionOffset;
+        Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
+        transform.position = currentTarget.position + rot * offset;
+        transform.LookAt(currentTarget.position);
+    }
+
+    /// <summary>
+    /// Ripristina lo zoom di default (usato quando entri in modalità possessione)
+    /// </summary>
+    public void ResetZoom()
+    {
+        offset = defaultOffset;
+    }
+
 
 }

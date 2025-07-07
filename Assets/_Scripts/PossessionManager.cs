@@ -77,6 +77,8 @@ public class PossessionManager : MonoBehaviour
         }
 
         currentState = PossessionState.Selecting;
+        // zoom out camera per vedere tutti gli strands del topo
+        cameraManager.ApplySelectionZoom();
 
         // ✅ Auto-selezione se c’è solo un pirata
         selectedIndex = 0;
@@ -126,6 +128,9 @@ public class PossessionManager : MonoBehaviour
         Debug.Log("✓ Conferma OK. Passo a " + target.name);
 
         cameraManager.SwitchToPirate(target);
+        // ripristina lo zoom standard ora che possiedo il pirata
+        cameraManager.ResetZoom();
+
 
         PirateController pc = target.GetComponent<PirateController>();
         if (pc != null) pc.isPossessed = true;
@@ -134,6 +139,13 @@ public class PossessionManager : MonoBehaviour
 
         ExitSelectionMode();
         currentState = PossessionState.Possessing;
+        if (ratInput != null)
+        {
+            ratInput.enabled = false;
+            ratInput.movementLocked = true;
+         }
+        if (ratAnimator != null)
+            ratAnimator.SetBool("isWalking", false);
     }
 
 
@@ -141,6 +153,7 @@ public class PossessionManager : MonoBehaviour
     {
         selectedIndex = -1;
         HideScie();
+        cameraManager.ResetZoom();
 
         if (currentState == PossessionState.Selecting)
         {
@@ -191,6 +204,22 @@ public class PossessionManager : MonoBehaviour
     {
         currentState = PossessionState.Idle;
     }
+    // ─────────────────────────────────────────────────────────────────
+    // Chiamato quando il giocatore subisce un attacco:
+    // esce da Selection o da Possession a prescindere dallo stato corrente.
+    public void OnAttacked()
+    {
+        if (currentState == PossessionState.Selecting)
+        {
+            ExitSelectionMode();
+        }
+        else if (currentState == PossessionState.Possessing)
+        {
+            // torna automaticamente al ratto
+            SwitchToRat();
+        }
+    }
+    // ─────────────────────────────────────────────────────────────────
 
     void SelectClosestInDirection(Vector2 inputDir, List<Transform> piratesInRange)
     {

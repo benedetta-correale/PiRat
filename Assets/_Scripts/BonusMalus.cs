@@ -15,7 +15,8 @@ public class BonusMalus : MonoBehaviour
     //[SerializeField] private Animator animator; // Animatore per le animazioni del topo
     [SerializeField] private GameObject VFXPrefab;
     public RatInteractionManager rat;
-
+    [SerializeField]
+    private PossessionManager pm;
     void Awake()
     {
         currentHealth = maxHealth;
@@ -25,6 +26,9 @@ public class BonusMalus : MonoBehaviour
 
     public void TakeDamage(int amount)
     {
+      
+        if (pm != null)
+            pm.OnAttacked();
         currentHealth -= amount;
         currentHealth = Mathf.Clamp(currentHealth, 0, maxHealth);
         StartCoroutine(EnableVFXAfterDestroy(rat.transform, 1.7f));
