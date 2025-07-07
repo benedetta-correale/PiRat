@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 public class CameraControlManager : MonoBehaviour
 {
     public static CameraControlManager Instance { get; private set; }
-
+    private bool rotationLocked = false;
     [Header("References (assign in Inspector)")]
     public RatInputHandler ratController;
     public Transform ratTransform;
@@ -84,7 +84,10 @@ public class CameraControlManager : MonoBehaviour
 
     }
 
-
+    public void LockRotation(bool locked)
+    {
+        rotationLocked = locked;
+    }
     void Update()
     {
         /*if (Input.GetKeyDown(toggleKey))
@@ -103,6 +106,8 @@ public class CameraControlManager : MonoBehaviour
 
     void LateUpdate()
     {
+        if (rotationLocked) return;
+
         // aggiorna solo yaw (rotazione intorno all'asse Y)
         yaw += lookInput.x * sensitivity * Time.deltaTime;
 
@@ -161,5 +166,13 @@ public class CameraControlManager : MonoBehaviour
         offset = defaultOffset;
     }
 
+    /// <summary>
+    /// Fa seguire alla camera un transform arbitrario (es. il TrailRat)
+    /// </summary>
+    public void FollowTrail(Transform trailTransform)
+    {
+        currentTarget = trailTransform;
+        ratController.enabled = false;
+    }
 
 }
