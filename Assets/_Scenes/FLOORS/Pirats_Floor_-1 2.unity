@@ -26724,7 +26724,6 @@ MonoBehaviour:
   toggleKey: 27
   transitionSpeed: 1.16
   offset: {x: 0, y: 8, z: 7}
-  selectionOffset: {x: 0, y: 20, z: -20}
   sensitivity: 120
   cameraCollisionMask:
     serializedVersion: 2
@@ -50129,7 +50128,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6184373675034435112, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.149
+      value: 2.7263517
       objectReference: {fileID: 0}
     - target: {fileID: 6184373675034435112, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -75852,18 +75851,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1753374389982535602, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
-      propertyPath: m_UseGravity
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5069286833604600261, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
-      propertyPath: m_Radius
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 5069286833604600261, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
-      propertyPath: m_IsTrigger
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: ratHealt
       value: 
@@ -76255,7 +76242,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5044366153943031724, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.16
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5044366153943031724, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: m_LocalPosition.z
