@@ -128,6 +128,7 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   ratTransform: {fileID: 0}
+  ratManager: {fileID: 0}
   ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
@@ -144,9 +145,9 @@ MonoBehaviour:
   attackDamage: 20
   maxHealth: 100
   healthFill: {fileID: 9205061585936402054}
-  biteTickDamage: 0
-  biteTickInterval: 0
-  biteDuration: 0
+  biteTickDamage: 5
+  biteTickInterval: 10
+  biteDuration: 60
   infected: 0
   healingCooldown: 5
   alreadyHealing: 0

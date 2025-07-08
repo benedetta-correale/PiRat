@@ -132,6 +132,7 @@ MonoBehaviour:
   agent: {fileID: 1020240956361954909}
   patrolPoints: []
   ratTransform: {fileID: 0}
+  ratManager: {fileID: 0}
   ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
@@ -143,14 +144,14 @@ MonoBehaviour:
   moveThreshold: 0.7
   baseFillSpeed: 1
   chaseSpeed: 3
-  attackRange: 2
+  attackRange: 1
   attackCooldown: 2
   attackDamage: 10
   maxHealth: 100
   healthFill: {fileID: 2195130801754171086}
-  biteTickDamage: 0
-  biteTickInterval: 0
-  biteDuration: 0
+  biteTickDamage: 5
+  biteTickInterval: 10
+  biteDuration: 60
   infected: 0
   healingCooldown: 5
   alreadyHealing: 0

@@ -155,14 +155,14 @@ MonoBehaviour:
   moveThreshold: 0.7
   baseFillSpeed: 1
   chaseSpeed: 3
-  attackRange: 2
+  attackRange: 1
   attackCooldown: 2
   attackDamage: 10
   maxHealth: 100
   healthFill: {fileID: 5873878589246691712}
-  biteTickDamage: 0
-  biteTickInterval: 0
-  biteDuration: 0
+  biteTickDamage: 5
+  biteTickInterval: 10
+  biteDuration: 60
   infected: 0
   healingCooldown: 5
   alreadyHealing: 0

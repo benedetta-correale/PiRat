@@ -67051,7 +67051,7 @@ MonoBehaviour:
   - {fileID: 2103112628}
   - {fileID: 1338559461}
   ratTransform: {fileID: 543450653137747181}
-  ratManager: {fileID: 0}
+  ratManager: {fileID: 543450653137747182}
   ratHealt: {fileID: 614801737}
   viewDistance: 10
   viewAngle: 90
