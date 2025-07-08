@@ -365,9 +365,15 @@ public class PossessionManager : MonoBehaviour
     // Metodo per entrare nella modalità selezione
     public void EnterSelectionMode_Input(InputAction.CallbackContext context)
     {
-        if (context.performed && currentState == PossessionState.Idle)
+        // reagisci soltanto alla fase "performed" dell'azione Selection
+        if (!context.performed)
+            return;
+
+        // da Idle → Selecting
+        if (currentState == PossessionState.Idle)
             EnterSelectionMode();
     }
+
 
     // Metodo per uscire dalla modalità selezione o possessione
     public void ExitSelectionMode_Input(InputAction.CallbackContext context)
@@ -387,28 +393,18 @@ public class PossessionManager : MonoBehaviour
         if (!context.performed)
             return;
 
-        // prendi la lista aggiornata di pirati
+        // conferma solo se sei già in Selecting
+        if (currentState != PossessionState.Selecting)
+            return;
+
+        // conferma il possesso
         var piratesInRange = GetPiratesInRange();
         if (piratesInRange.Count == 0)
             return;
 
-        // se sono in Idle (nessuna selezione attiva) e ho almeno 1 pirata
-        if (currentState == PossessionState.Idle)
-        {
-            // entra in selezione (gestisce già animator, input e zoom)
-            EnterSelectionMode();
-
-            // conferma subito la selezione
-            ConfirmSelection(piratesInRange);
-            return;
-        }
-
-        // se sono già in Selecting, conferma normalmente
-        if (currentState == PossessionState.Selecting)
-        {
-            ConfirmSelection(piratesInRange);
-        }
+        ConfirmSelection(piratesInRange);
     }
+
 
 
 
