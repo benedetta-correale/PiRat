@@ -24133,7 +24133,7 @@ Transform:
   m_GameObject: {fileID: 755638406}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -11.6582, y: 3.8088, z: 29.4229}
+  m_LocalPosition: {x: -11.6582, y: -0.24, z: 29.4229}
   m_LocalScale: {x: 8.369612, y: 3.1976, z: 5.838475}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -29148,9 +29148,29 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911427}
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 378357425}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: UpdateHealthBar
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: RatHealthUI, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: sciaPrefab
       value: 
@@ -50405,6 +50425,10 @@ PrefabInstance:
       propertyPath: ratHealt
       value: 
       objectReference: {fileID: 601911424}
+    - target: {fileID: 8003908507980890069, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8003908507980890069, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
       propertyPath: ratManager
       value: 
@@ -81084,6 +81108,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 2890953755112284516, guid: ceebdcf91c0584714a029e428fa67c6c, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2890953755112284516, guid: ceebdcf91c0584714a029e428fa67c6c, type: 3}
       propertyPath: healthFill
       value: 
       objectReference: {fileID: 1588920824}
@@ -81597,6 +81625,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 9173734075124977637, guid: d90fd801dae7045bb8491f3f5e5745a6, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 9173734075124977637, guid: d90fd801dae7045bb8491f3f5e5745a6, type: 3}
       propertyPath: ratManager
       value: 
       objectReference: {fileID: 601911425}
@@ -81681,6 +81713,10 @@ PrefabInstance:
       propertyPath: ratHealt
       value: 
       objectReference: {fileID: 601911424}
+    - target: {fileID: 2232136981775496600, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 2232136981775496600, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
       propertyPath: ratManager
       value: 
@@ -82284,6 +82320,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 977330201743661951, guid: 2b6ebc9d7ac1740aebbd4faffe0b8883, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 977330201743661951, guid: 2b6ebc9d7ac1740aebbd4faffe0b8883, type: 3}
       propertyPath: healthFill
       value: 
       objectReference: {fileID: 1588920824}
@@ -82600,6 +82640,10 @@ PrefabInstance:
       propertyPath: ratHealt
       value: 
       objectReference: {fileID: 601911424}
+    - target: {fileID: 1178810726659682259, guid: dafa78ddb65c94e738609122f2d4afb7, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1178810726659682259, guid: dafa78ddb65c94e738609122f2d4afb7, type: 3}
       propertyPath: ratManager
       value: 
@@ -83087,6 +83131,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 6244288593384753487, guid: f5f4e6695f6b64bd0b843beb275f6eb3, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6244288593384753487, guid: f5f4e6695f6b64bd0b843beb275f6eb3, type: 3}
       propertyPath: ratManager
       value: 
       objectReference: {fileID: 601911425}
@@ -83351,6 +83399,10 @@ PrefabInstance:
       propertyPath: ratHealt
       value: 
       objectReference: {fileID: 601911424}
+    - target: {fileID: 4846436330218850407, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4846436330218850407, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: ratManager
       value: 
@@ -83640,6 +83692,10 @@ PrefabInstance:
       propertyPath: ratHealt
       value: 
       objectReference: {fileID: 601911424}
+    - target: {fileID: 4075998323411108326, guid: f4191f95277f54a3c80a04bf76268b0b, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 4075998323411108326, guid: f4191f95277f54a3c80a04bf76268b0b, type: 3}
       propertyPath: healthFill
       value: 
@@ -84074,6 +84130,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 8808801420470571699, guid: 8172f90a85fc44c8caddebd4904412f9, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 8808801420470571699, guid: 8172f90a85fc44c8caddebd4904412f9, type: 3}
       propertyPath: healthFill
       value: 
       objectReference: {fileID: 2046472739}
@@ -84440,6 +84500,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 7564415407153698715, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7564415407153698715, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
       propertyPath: ratManager
       value: 
       objectReference: {fileID: 601911425}
@@ -84584,6 +84648,10 @@ PrefabInstance:
       propertyPath: ratHealt
       value: 
       objectReference: {fileID: 601911424}
+    - target: {fileID: 3524463652104910971, guid: 046c0ef28d52141dc8be49bb6453cea1, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 3524463652104910971, guid: 046c0ef28d52141dc8be49bb6453cea1, type: 3}
       propertyPath: ratManager
       value: 
@@ -84853,6 +84921,10 @@ PrefabInstance:
       propertyPath: ratHealt
       value: 
       objectReference: {fileID: 601911424}
+    - target: {fileID: 1795991264967759026, guid: 583df6ca9f7a44f979e0750298b5757e, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1795991264967759026, guid: 583df6ca9f7a44f979e0750298b5757e, type: 3}
       propertyPath: ratManager
       value: 
@@ -85175,6 +85247,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 2018549243054016872, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2018549243054016872, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
       propertyPath: ratManager
       value: 
       objectReference: {fileID: 601911425}
@@ -85399,6 +85475,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1757165714}
     m_Modifications:
+    - target: {fileID: 1776706743948696010, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
+      propertyPath: m_Radius
+      value: 0.25
+      objectReference: {fileID: 0}
     - target: {fileID: 4951535713398908031, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -85446,6 +85526,10 @@ PrefabInstance:
     - target: {fileID: 5763679344689757893, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7092936876287192849, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
+      propertyPath: agent
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 7092936876287192849, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
       propertyPath: idleArea

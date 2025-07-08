@@ -24005,6 +24005,7 @@ MonoBehaviour:
   toggleKey: 27
   transitionSpeed: 1.16
   offset: {x: 0, y: 8, z: 7}
+  selectionOffset: {x: 0, y: 20, z: -20}
   sensitivity: 120
   cameraCollisionMask:
     serializedVersion: 2
@@ -28270,9 +28271,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ratInteraction: {fileID: 1033138324}
   sciaPrefab: {fileID: 0}
+  dynamicRevealerFollower: {fileID: 0}
+  sciaHeightOffset: 1
   ratTransform: {fileID: 1033138331}
   ratInput: {fileID: 1033138328}
   cameraManager: {fileID: 843328196}
+  trailPrefab: {fileID: 0}
+  trailStoppingDistance: 0.5
   maxSelectionDistance: 15
 --- !u!114 &1033138323
 MonoBehaviour:
@@ -28291,8 +28296,8 @@ MonoBehaviour:
   onHealthChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: HealthBarUI, Assembly-CSharp
+      - m_Target: {fileID: 378357425}
+        m_TargetAssemblyTypeName: RatHealthUI, Assembly-CSharp
         m_MethodName: UpdateHealthBar
         m_Mode: 0
         m_Arguments:
@@ -28308,6 +28313,7 @@ MonoBehaviour:
       m_Calls: []
   VFXPrefab: {fileID: 0}
   rat: {fileID: 0}
+  pm: {fileID: 0}
 --- !u!114 &1033138324
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -28323,6 +28329,7 @@ MonoBehaviour:
   _ratRay: 5
   biteCooldown: 1
   Damage: 30
+  invincible: 0
   quickTimeUIManager: {fileID: 0}
   vfxManager: {fileID: 0}
   biting: 0
@@ -32259,6 +32266,7 @@ MonoBehaviour:
   - {fileID: 814354231}
   - {fileID: 502697654}
   ratTransform: {fileID: 1033138331}
+  ratManager: {fileID: 0}
   ratHealt: {fileID: 1033138323}
   viewDistance: 10
   viewAngle: 90
