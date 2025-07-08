@@ -4,6 +4,7 @@ using UnityEngine.InputSystem;
 using FischlWorks_FogWar;
 using UnityEngine.AI;
 using System;
+using UnityEngine.VFX;
 
 
 
@@ -36,7 +37,8 @@ public class PossessionManager : MonoBehaviour
     private int selectedIndex = -1;
     private bool canSwitchBackToRat = true;
 
-    private List<LineRenderer> scieAttive = new List<LineRenderer>();
+    // private List<LineRenderer> scieAttive = new List<LineRenderer>();
+    private List<VisualEffect> scieAttive = new List<VisualEffect>();
     private Animator ratAnimator;
 
     private PlayerInput playerInput;
@@ -282,10 +284,21 @@ public class PossessionManager : MonoBehaviour
 
         while (scieAttive.Count < piratesInRange.Count)
         {
-            var newScia = Instantiate(sciaPrefab).GetComponent<LineRenderer>();
+            var newSciaInstance = Instantiate(sciaPrefab);
+            var newVFX = newSciaInstance.GetComponentInChildren<VisualEffect>();
+            if (newVFX != null)
+            {
+                var renderer = newVFX.GetComponent<Renderer>();
+                if (renderer != null && renderer.sharedMaterial != null)
+                    renderer.sharedMaterial.renderQueue = 4000;
+
+                newSciaInstance.SetActive(false);
+                scieAttive.Add(newVFX);
+            }
+            /* var newScia = Instantiate(sciaPrefab).GetComponent<LineRenderer>();
             newScia.material.renderQueue = 4000;
             newScia.gameObject.SetActive(false);
-            scieAttive.Add(newScia);
+            scieAttive.Add(newScia); */
         }
 
         while (scieAttive.Count > piratesInRange.Count)
@@ -310,15 +323,24 @@ public class PossessionManager : MonoBehaviour
             // calcola il punto di arrivo leggermente più in alto sul pirata
             Vector3 end = target.position + Vector3.up * sciaHeightOffset;
 
-            scia.SetPosition(0, start);
-            scia.SetPosition(1, end);
+            //scia.SetPosition(0, start);
+            //scia.SetPosition(1, end);
+            var startWorld = (dynamicRevealerFollower != null ? dynamicRevealerFollower.transform.position : ratTransform.position) + Vector3.up * sciaHeightOffset;
+            var endWorld = target.position + Vector3.up * sciaHeightOffset;
+
+            var localStart = scia.transform.InverseTransformPoint(startWorld);
+            var localEnd = scia.transform.InverseTransformPoint(endWorld);
+
+            scia.SetVector3("Pos1", localStart);
+            scia.SetVector3("Pos2", localEnd);
 
 
 
-            if (scia.material != null)
+            /* if (scia.material != null)
             {
                 scia.material.color = (i == selectedIndex) ? selectedColor : defaultColor;
-            }
+            } */
+            scia.SetVector4("Color1", (i == selectedIndex) ? selectedColor : defaultColor);
         }
     }
 
