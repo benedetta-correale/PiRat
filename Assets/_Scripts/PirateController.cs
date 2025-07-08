@@ -250,14 +250,24 @@ public class PirateController : MonoBehaviour
     {
         if (ratTransform == null) return;
 
-        if (ratManager != null && (ratManager.biting || ratManager.isBackflipping))
+        bool isAttackingState = animator.GetCurrentAnimatorStateInfo(0).tagHash == Animator.StringToHash("Attack");
+
+        // Dopo aver attaccato → resta fermo per il cooldown
+        if (Time.time < lastAttackTime + attackCooldown)
         {
             agent.isStopped = true;
             animator.SetBool("isWalking", false);
+            return; // NON fare nulla per il tempo del cooldown
+        }
+
+        // Se il cooldown è finito
+        // Valuta se tornare a inseguire o tornare in Patrol
+        if (!CanSeeRat())
+        {
+            EnterPatrol();
             return;
         }
 
-        // Se il topo è troppo lontano → torna a inseguirlo
         float distance = Vector3.Distance(transform.position, ratTransform.position);
         if (distance > attackRange)
         {
@@ -265,17 +275,16 @@ public class PirateController : MonoBehaviour
             return;
         }
 
-        // Rotazione verso il ratto
+        // Ruota verso il topo
         Vector3 dir = (ratTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-        // Controllo stato attuale dell'animator
+        // Stato attuale
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
 
-       if (stateInfo.tagHash == Animator.StringToHash("Attack"))
+        if (stateInfo.tagHash == Animator.StringToHash("Attack"))
         {
-            // Danno solo a metà animazione
             if (!hasDealtDamageThisAttack && stateInfo.normalizedTime >= 0.5f)
             {
                 if (ratHealt != null && distance <= attackRange)
@@ -284,24 +293,27 @@ public class PirateController : MonoBehaviour
                 hasDealtDamageThisAttack = true;
             }
 
-            // Quando l'attacco finisce, reset
             if (stateInfo.normalizedTime >= 1f)
             {
                 hasDealtDamageThisAttack = false;
-                EnterChasing(); // torna a inseguire se necessario
+                // Niente EnterChasing qui! Lo decidi sopra solo dopo cooldown
             }
         }
         else
         {
-            // Se non è già in stato di attacco, avvia attacco se cooldown è scaduto
-            if (Time.time >= lastAttackTime + attackCooldown)
+            if (ratManager != null && ratManager.invincible)
             {
-                animator.SetTrigger("AttackTrigger");
-                lastAttackTime = Time.time;
-                hasDealtDamageThisAttack = false;
+                return;
             }
+
+            // ✅ Ratto non invincibile → attacca normalmente
+            animator.SetTrigger("AttackTrigger");
+            lastAttackTime = Time.time;
+            hasDealtDamageThisAttack = false;
         }
+
     }
+
 
 
     public void OnAttackAnimationEnd()

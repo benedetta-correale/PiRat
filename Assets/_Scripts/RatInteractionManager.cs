@@ -20,6 +20,7 @@ public class RatInteractionManager : MonoBehaviour
     private Animator _ratAnimator;
     private RatInputHandler _ratInputHandler;
     private Rigidbody rb;
+    public bool invincible = false;
 
 
     [SerializeField] private QuickTimeUIManager quickTimeUIManager;
@@ -198,9 +199,10 @@ public class RatInteractionManager : MonoBehaviour
         biting = true;
         _ratAnimator.SetTrigger("Bite");
         StartCoroutine(StartQuickTimeEvent(enemyController));
+        invincible = true;
 
-        // ✅ Avvia un timer per resettare `biting`
-    StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione
+    // ✅ Avvia un timer per resettare `biting`
+        StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione
     }
     private IEnumerator ResetBitingAfterDelay(float delay)
     {
@@ -208,8 +210,6 @@ public class RatInteractionManager : MonoBehaviour
         biting = false;
         Debug.Log("biting = false dopo morso (timer)");
     }
-
-    
 
     public void EndBite()
     {
@@ -417,6 +417,7 @@ public class RatInteractionManager : MonoBehaviour
         _ratInputHandler.movementLocked = false;
         isBackflipping = false;
         Debug.Log("BACKFLIP TERMINATO - isBackflipping = false");
+        invincible = false;
     }
 
 

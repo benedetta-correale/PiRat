@@ -2226,8 +2226,8 @@ MonoBehaviour:
   - {fileID: 76836472}
   - {fileID: 483307669}
   ratTransform: {fileID: 543450653137747181}
-  ratManager: {fileID: 0}
-  ratHealt: {fileID: 0}
+  ratManager: {fileID: 543450653137747182}
+  ratHealt: {fileID: 614801737}
   viewDistance: 10
   viewAngle: 90
   eyeHeight: 1.5
@@ -36265,6 +36265,7 @@ MonoBehaviour:
   toggleKey: 27
   transitionSpeed: 1.16
   offset: {x: 0, y: 11.95, z: 8.62}
+  selectionOffset: {x: 0, y: 20, z: -20}
   sensitivity: 120
   cameraCollisionMask:
     serializedVersion: 2
@@ -67063,7 +67064,7 @@ MonoBehaviour:
   baseFillSpeed: 5
   chaseSpeed: 3
   attackRange: 1
-  attackCooldown: 2
+  attackCooldown: 5
   attackDamage: 10
   maxHealth: 200
   healthFill: {fileID: 6918262938464841742}
@@ -77719,6 +77720,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
   m_PrefabInstance: {fileID: 1799581600365552264}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &543450653137747182 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+  m_PrefabInstance: {fileID: 1799581600365552264}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e32253277c634b8e810ea4c3f36f346, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &926275878232531073
 PrefabInstance:
   m_ObjectHideFlags: 0
