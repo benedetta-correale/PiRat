@@ -2,18 +2,32 @@ using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using FischlWorks_FogWar;
+using UnityEngine.AI;
+using System;
 
 
-public enum PossessionState { Idle, Selecting, Possessing }
+
+public enum PossessionState { Idle, Selecting, FollowingTrail, Possessing }
+
 
 public class PossessionManager : MonoBehaviour
 {
     [Header("Riferimenti")]
     public RatInteractionManager ratInteraction;
     public GameObject sciaPrefab;
+    public DynamicRevealerFollower dynamicRevealerFollower;    // assegna lo script che segue il buco di nebbia
+    public float sciaHeightOffset = 1f;                        // quanto alzare le linee sopra quel punto
+
+
     public Transform ratTransform;
     public RatInputHandler ratInput;
     public CameraControlManager cameraManager;
+
+    public GameObject trailPrefab;                  // prefabricato con NavMeshAgent
+    public float trailStoppingDistance = 0.5f;      // distanza di arrivo del trail
+    private TrailRatController currentTrail;        // componente del trail istanziato
+    private Transform currentTrailTarget;           // pirata da inseguire
+
 
     [Header("Impostazioni selezione")]
     public float maxSelectionDistance = 15f;
@@ -30,10 +44,6 @@ public class PossessionManager : MonoBehaviour
 
     
     
-
-
-
-
     void Start()
     {
         if (cameraManager != null)
@@ -114,39 +124,50 @@ public class PossessionManager : MonoBehaviour
 
 
 
-    void ConfirmSelection(List<Transform> piratesInRange)
+    private void ConfirmSelection(List<Transform> piratesInRange)
     {
-        Debug.Log($"Tentativo conferma. Index: {selectedIndex}, piratesInRange.Count: {piratesInRange.Count}");
+        HideScie();
 
-        if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count)
-        {
-            Debug.LogWarning("Conferma fallita: indice fuori range");
-            return;
-        }
-
-        Transform target = piratesInRange[selectedIndex];
-        Debug.Log("✓ Conferma OK. Passo a " + target.name);
-
-        cameraManager.SwitchToPirate(target);
-        // ripristina lo zoom standard ora che possiedo il pirata
-        cameraManager.ResetZoom();
-
-
-        PirateController pc = target.GetComponent<PirateController>();
-        if (pc != null) pc.isPossessed = true;
-
-        
-
-        ExitSelectionMode();
-        currentState = PossessionState.Possessing;
+        // disabilita input e animator del ratto
         if (ratInput != null)
         {
             ratInput.enabled = false;
             ratInput.movementLocked = true;
-         }
+        }
         if (ratAnimator != null)
             ratAnimator.SetBool("isWalking", false);
+
+        // cattura il target PRIMA di resettare selectedIndex
+        Transform target = piratesInRange[selectedIndex];
+        currentTrailTarget = target;
+
+        // esci dalla selezione (qui si resetta anche selectedIndex a -1)
+        ExitSelectionMode();
+
+        // adesso posso cambiare stato
+        currentState = PossessionState.FollowingTrail;
+
+        Vector3 spawnPos = ratTransform.position;
+        if (NavMesh.SamplePosition(spawnPos, out NavMeshHit hit, 1f, NavMesh.AllAreas))
+            spawnPos = hit.position;
+        GameObject go = Instantiate(trailPrefab, spawnPos, Quaternion.identity);
+        currentTrail = go.GetComponent<TrailRatController>();
+        // <-- nuova patch qui
+        var agent = go.GetComponent<NavMeshAgent>();
+        agent.stoppingDistance = trailStoppingDistance;
+        // <-- fine patch
+        currentTrail.OnArrived += OnTrailArrived;
+        currentTrail.MoveTo(currentTrailTarget);
+
+
+        cameraManager.ResetZoom();
+        cameraManager.FollowTrail(currentTrail.transform);
+        cameraManager.LockRotation(true);
+
     }
+
+
+
 
 
     void ExitSelectionMode()
@@ -213,6 +234,15 @@ public class PossessionManager : MonoBehaviour
         {
             ExitSelectionMode();
         }
+        else if (currentState == PossessionState.FollowingTrail)
+        {
+            InterruptTrail();
+            cameraManager.SwitchToRat();
+            cameraManager.ResetZoom();
+            cameraManager.LockRotation(false);
+            ExitSelectionMode();
+        }
+
         else if (currentState == PossessionState.Possessing)
         {
             // torna automaticamente al ratto
@@ -253,6 +283,7 @@ public class PossessionManager : MonoBehaviour
         while (scieAttive.Count < piratesInRange.Count)
         {
             var newScia = Instantiate(sciaPrefab).GetComponent<LineRenderer>();
+            newScia.material.renderQueue = 4000;
             newScia.gameObject.SetActive(false);
             scieAttive.Add(newScia);
         }
@@ -271,8 +302,18 @@ public class PossessionManager : MonoBehaviour
             var scia = scieAttive[i];
             var target = piratesInRange[i];
 
-            scia.SetPosition(0, ratTransform.position);
-            scia.SetPosition(1, target.position + Vector3.up * 0.5f);
+            // calcola il punto di partenza sopra il buco di nebbia (o fallback sul topo)
+            Vector3 start = ratTransform.position + Vector3.up * sciaHeightOffset;
+            if (dynamicRevealerFollower != null)
+                start = dynamicRevealerFollower.transform.position + Vector3.up * sciaHeightOffset;
+
+            // calcola il punto di arrivo leggermente più in alto sul pirata
+            Vector3 end = target.position + Vector3.up * sciaHeightOffset;
+
+            scia.SetPosition(0, start);
+            scia.SetPosition(1, end);
+
+
 
             if (scia.material != null)
             {
@@ -321,30 +362,62 @@ public class PossessionManager : MonoBehaviour
     // Metodo per confermare la selezione del pirata da possedere
     public void ConfirmPossess_Input(InputAction.CallbackContext context)
     {
-        if (context.performed && currentState == PossessionState.Selecting)
+        if (!context.performed)
+            return;
+
+        // prendi la lista aggiornata di pirati
+        var piratesInRange = GetPiratesInRange();
+        if (piratesInRange.Count == 0)
+            return;
+
+        // se sono in Idle (nessuna selezione attiva) e ho almeno 1 pirata
+        if (currentState == PossessionState.Idle)
         {
-            Debug.Log("Possess action triggered");
+            // entra in selezione (gestisce già animator, input e zoom)
+            EnterSelectionMode();
 
-            var piratesInRange = GetPiratesInRange();
+            // conferma subito la selezione
+            ConfirmSelection(piratesInRange);
+            return;
+        }
 
-            if (piratesInRange.Count == 0)
-            {
-                Debug.LogWarning("Nessun pirata nel raggio, impossibile confermare.");
-                return;
-            }
-
-            if (selectedIndex < 0 || selectedIndex >= piratesInRange.Count)
-            {
-                Debug.LogWarning("Indice selezionato invalido, uso fallback primo pirata.");
-                selectedIndex = 0;
-            }
-
-            Debug.Log("✓ Confermo selezione su: " + piratesInRange[selectedIndex].name);
+        // se sono già in Selecting, conferma normalmente
+        if (currentState == PossessionState.Selecting)
+        {
             ConfirmSelection(piratesInRange);
         }
     }
 
 
+
+    private void OnTrailArrived()
+    {
+        // 1) riattacca camera al pirata
+        cameraManager.SwitchToPirate(currentTrailTarget);
+        cameraManager.ResetZoom();
+        cameraManager.LockRotation(false);
+
+        // 2) distruggi il Trail
+        currentTrail.OnArrived -= OnTrailArrived;
+        Destroy(currentTrail.gameObject);
+        currentTrail = null;
+
+        // 3) completa il possesso
+        currentState = PossessionState.Possessing;
+        PirateController pc = currentTrailTarget.GetComponent<PirateController>();
+        if (pc != null) pc.isPossessed = true;
+        currentTrailTarget = null;
+    }
+
+    private void InterruptTrail()
+    {
+        if (currentTrail != null)
+        {
+            currentTrail.OnArrived -= OnTrailArrived;
+            Destroy(currentTrail.gameObject);
+            currentTrail = null;
+        }
+    }
 
 
 

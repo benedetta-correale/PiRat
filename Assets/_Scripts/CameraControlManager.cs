@@ -34,6 +34,8 @@ public class CameraControlManager : MonoBehaviour
 
     // campo privato per salvare l’offset di default
     private Vector3 defaultOffset;
+    private Vector3 currentOffset;
+    private Vector3 targetOffset;
 
 
     [Header("Settings")]
@@ -81,7 +83,8 @@ public class CameraControlManager : MonoBehaviour
         transform.position = currentTarget.position + rot * offset;
         transform.LookAt(currentTarget.position);
         defaultOffset = offset;
-
+        currentOffset = offset;
+        targetOffset = offset;
     }
 
     public void LockRotation(bool locked)
@@ -106,27 +109,27 @@ public class CameraControlManager : MonoBehaviour
 
     void LateUpdate()
     {
-        if (rotationLocked) return;
+        // anche con rotationLocked=true, aggiorno sempre posizione e look,
+        // soltanto la rotazione (yaw) viene bloccata
+        if (!rotationLocked)
+        {
+            // aggiorna solo yaw (rotazione orizzontale)
+            yaw += lookInput.x * sensitivity * Time.deltaTime;
+        }
 
-        // aggiorna solo yaw (rotazione intorno all'asse Y)
-        yaw += lookInput.x * sensitivity * Time.deltaTime;
-
-        // costruisci la rotazione orizzontale
+        // costruisci la rotazione orizzontale a partire dal yaw
         Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
 
-        // calcola la posizione desiderata
-        Vector3 desiredCameraPos = currentTarget.position + rot * offset;
+        // interpola lo zoom in modo smooth
+        currentOffset = Vector3.Lerp(currentOffset, targetOffset, transitionSpeed * Time.deltaTime);
 
-        // calcola direzione e distanza tra target e camera
-        Vector3 direction = desiredCameraPos - currentTarget.position;
-        float distance = direction.magnitude;
-
+        // posizione e look
+        Vector3 desiredCameraPos = currentTarget.position + rot * currentOffset;
         transform.position = desiredCameraPos;
-
-
-        // guarda sempre il target
         transform.LookAt(currentTarget.position);
+
     }
+
 
     public void SwitchToPirate(Transform pirate)
     {
@@ -152,18 +155,16 @@ public class CameraControlManager : MonoBehaviour
     /// </summary>
     public void ApplySelectionZoom()
     {
-        offset = selectionOffset;
-        Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
-        transform.position = currentTarget.position + rot * offset;
-        transform.LookAt(currentTarget.position);
+        targetOffset = selectionOffset;
     }
+
 
     /// <summary>
     /// Ripristina lo zoom di default (usato quando entri in modalità possessione)
     /// </summary>
     public void ResetZoom()
     {
-        offset = defaultOffset;
+        targetOffset = defaultOffset;
     }
 
     /// <summary>
