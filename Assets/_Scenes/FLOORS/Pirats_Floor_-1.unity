@@ -82159,6 +82159,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911424}
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: eyeHeight
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: ratManager
       value: 
       objectReference: {fileID: 601911425}
