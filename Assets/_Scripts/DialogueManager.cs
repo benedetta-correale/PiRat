@@ -1,44 +1,80 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    [SerializeField] private TextMeshProUGUI speakerNameText;
-    [SerializeField] private TextMeshProUGUI dialogueText;
+    [Header("UI Elements")]
+    [SerializeField] private TextMeshProUGUI leftSpeakerName;
+    [SerializeField] private TextMeshProUGUI leftDialogueText;
+    [SerializeField] private TextMeshProUGUI rightSpeakerName;
+    [SerializeField] private TextMeshProUGUI rightDialogueText;
+
+    [Header("Dialogue")]
+    [SerializeField] private DialogueSequence introDialogue;
 
     private DialogueSequence currentSequence;
     private int currentIndex = 0;
-
-    public void StartDialogue(DialogueSequence sequence)
-    {
-        currentSequence = sequence;
-        currentIndex = 0;
-        ShowNextLine();
-    }
+    private bool isDialogueActive = false;
 
     void Update()
     {
-        if (currentSequence != null && Input.GetKeyDown(KeyCode.Return))
+        if (!isDialogueActive && Input.GetKeyDown(KeyCode.P))
+        {
+            StartDialogue(introDialogue);
+        }
+
+        if (isDialogueActive && Input.GetKeyDown(KeyCode.Return))
         {
             ShowNextLine();
         }
     }
 
+    public void StartDialogue(DialogueSequence sequence)
+    {
+        currentSequence = sequence;
+        currentIndex = 0;
+        isDialogueActive = true;
+        ShowNextLine();
+    }
+
     public void ShowNextLine()
     {
         if (currentSequence == null) return;
+
         if (currentIndex >= currentSequence.lines.Count)
         {
-            currentSequence = null;
+            EndDialogue();
             return;
         }
 
         DialogueLine line = currentSequence.lines[currentIndex];
-        speakerNameText.text = line.speakerName;
-        dialogueText.text = line.text;
-
+        ShowLineInCorrectBox(line);
         currentIndex++;
     }
-}
 
+    private void ShowLineInCorrectBox(DialogueLine line)
+    {
+
+        if (line.speakerName == "Capitano")
+        {
+            leftSpeakerName.text = line.speakerName;
+            leftDialogueText.text = line.text;
+        }
+        else
+        {
+            rightSpeakerName.text = line.speakerName;
+            rightDialogueText.text = line.text;
+        }
+    }
+
+    private void EndDialogue()
+    {
+        currentSequence = null;
+        isDialogueActive = false;
+    }
+
+    public bool IsDialogueActive()
+    {
+        return isDialogueActive;
+    }
+}
