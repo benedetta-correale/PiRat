@@ -72,6 +72,8 @@ public class PirateController : MonoBehaviour
     private float suspicionTimer;
     private Vector3 suspicionTarget;
     private bool hasStartedInvestigating;
+    private bool hasDealtDamageThisAttack = false;
+    
     public float currentHealth;
    
 
@@ -248,27 +250,59 @@ public class PirateController : MonoBehaviour
     {
         if (ratTransform == null) return;
 
+        if (ratManager != null && (ratManager.biting || ratManager.isBackflipping))
+        {
+            agent.isStopped = true;
+            animator.SetBool("isWalking", false);
+            return;
+        }
+
+        // Se il topo è troppo lontano → torna a inseguirlo
         float distance = Vector3.Distance(transform.position, ratTransform.position);
-
-        bool ratInRange = Physics.OverlapSphere(transform.position, attackRange, LayerMask.GetMask("Rat")).Any(c => c.transform.root == ratTransform.root);
-
-        if (!ratInRange)
+        if (distance > attackRange)
         {
             EnterChasing();
             return;
         }
 
+        // Rotazione verso il ratto
         Vector3 dir = (ratTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-        if (!canAttack && (!ratManager.isBackflipping || !ratManager.biting))
+        // Controllo stato attuale dell'animator
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+
+       if (stateInfo.tagHash == Animator.StringToHash("Attack"))
         {
-            animator.SetTrigger("AttackTrigger");
-            
-            canAttack = false;
+            // Danno solo a metà animazione
+            if (!hasDealtDamageThisAttack && stateInfo.normalizedTime >= 0.5f)
+            {
+                if (ratHealt != null && distance <= attackRange)
+                    ratHealt.TakeDamage(attackDamage);
+
+                hasDealtDamageThisAttack = true;
+            }
+
+            // Quando l'attacco finisce, reset
+            if (stateInfo.normalizedTime >= 1f)
+            {
+                hasDealtDamageThisAttack = false;
+                EnterChasing(); // torna a inseguire se necessario
+            }
+        }
+        else
+        {
+            // Se non è già in stato di attacco, avvia attacco se cooldown è scaduto
+            if (Time.time >= lastAttackTime + attackCooldown)
+            {
+                animator.SetTrigger("AttackTrigger");
+                lastAttackTime = Time.time;
+                hasDealtDamageThisAttack = false;
+            }
         }
     }
+
 
     public void OnAttackAnimationEnd()
     {
@@ -332,27 +366,33 @@ public class PirateController : MonoBehaviour
     private bool CanSeeRat()
     {
         Vector3 origin = GetEyeOrigin();
-        float dist = Vector3.Distance(origin, ratTransform.position);
+        Vector3 directionToRat = (ratTransform.position - origin).normalized;
+        float distance = Vector3.Distance(origin, ratTransform.position);
 
-        // Lanci 5 raggi da punti diversi lungo l’altezza del ratto
+        // ✅ Controlla se il topo è davanti
+        float angle = Vector3.Angle(transform.forward, directionToRat);
+        if (angle > viewAngle * 0.5f) return false;
+
+        // ✅ Raycast per occlusione
         for (float yOffset = 0f; yOffset <= 1f; yOffset += 0.25f)
         {
             Vector3 target = ratTransform.position + Vector3.up * yOffset;
             Vector3 dir = target - origin;
 
-            if (!Physics.Raycast(origin, dir.normalized, out RaycastHit hit, dist, LayerMask.GetMask("Wall")))
+            if (!Physics.Raycast(origin, dir.normalized, out RaycastHit hit, distance, LayerMask.GetMask("Wall")))
             {
-                Debug.DrawRay(origin, dir.normalized * dist, Color.green, 1.5f);
+                Debug.DrawRay(origin, dir.normalized * distance, Color.green, 1.5f);
                 return true;
             }
             else
             {
-                Debug.DrawRay(origin, dir.normalized * dist, Color.red, 1.5f);
+                Debug.DrawRay(origin, dir.normalized * distance, Color.red, 1.5f);
             }
         }
 
         return false;
     }
+
 
 
 
