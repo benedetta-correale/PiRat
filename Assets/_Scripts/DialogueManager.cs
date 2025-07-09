@@ -70,7 +70,7 @@ public class DialogueManager : MonoBehaviour
     {
         if (currentIndex >= currentSequence.lines.Count)
         {
-            Invoke(nameof(EndDialogue), 1.5f);  // aspetta 1.5s prima di chiudere
+            EndDialogue();  
             return;
         }
 
