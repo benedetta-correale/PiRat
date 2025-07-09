@@ -3,13 +3,16 @@ using UnityEngine;
 
 public class DialogueManager : MonoBehaviour
 {
-    [Header("UI Elements")]
-    [SerializeField] private TextMeshProUGUI leftSpeakerName;
-    [SerializeField] private TextMeshProUGUI leftDialogueText;
-    [SerializeField] private TextMeshProUGUI rightSpeakerName;
-    [SerializeField] private TextMeshProUGUI rightDialogueText;
+    [Header("UI References")]
+    [SerializeField] private TextMeshProUGUI captainSpeakerText;
+    [SerializeField] private TextMeshProUGUI captainDialogueText;
+    [SerializeField] private GameObject captainDialogueBox;
 
-    [Header("Dialogue")]
+    [SerializeField] private TextMeshProUGUI pirateSpeakerText;
+    [SerializeField] private TextMeshProUGUI pirateDialogueText;
+    [SerializeField] private GameObject pirateDialogueBox;
+
+    [Header("Dialogue Data")]
     [SerializeField] private DialogueSequence introDialogue;
 
     private DialogueSequence currentSequence;
@@ -34,14 +37,16 @@ public class DialogueManager : MonoBehaviour
         currentSequence = sequence;
         currentIndex = 0;
         isDialogueActive = true;
+
+        captainDialogueBox.SetActive(false);
+        pirateDialogueBox.SetActive(false);
+
         ShowNextLine();
     }
 
-    public void ShowNextLine()
+    private void ShowNextLine()
     {
-        if (currentSequence == null) return;
-
-        if (currentIndex >= currentSequence.lines.Count)
+        if (currentSequence == null || currentIndex >= currentSequence.lines.Count)
         {
             EndDialogue();
             return;
@@ -54,16 +59,20 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowLineInCorrectBox(DialogueLine line)
     {
+        bool isCaptain = line.speakerName.ToLower().Contains("captain");
 
-        if (line.speakerName == "Capitano")
+        captainDialogueBox.SetActive(isCaptain);
+        pirateDialogueBox.SetActive(!isCaptain);
+
+        if (isCaptain)
         {
-            leftSpeakerName.text = line.speakerName;
-            leftDialogueText.text = line.text;
+            captainSpeakerText.text = line.speakerName;
+            captainDialogueText.text = line.text;
         }
         else
         {
-            rightSpeakerName.text = line.speakerName;
-            rightDialogueText.text = line.text;
+            pirateSpeakerText.text = line.speakerName;
+            pirateDialogueText.text = line.text;
         }
     }
 
@@ -71,6 +80,9 @@ public class DialogueManager : MonoBehaviour
     {
         currentSequence = null;
         isDialogueActive = false;
+
+        captainDialogueBox.SetActive(false);
+        pirateDialogueBox.SetActive(false);
     }
 
     public bool IsDialogueActive()

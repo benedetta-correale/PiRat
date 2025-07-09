@@ -10631,7 +10631,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &295023936
 Transform:
   m_ObjectHideFlags: 0
@@ -12642,7 +12642,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &362664470
 RectTransform:
   m_ObjectHideFlags: 0
@@ -21174,7 +21174,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &627391372
 RectTransform:
   m_ObjectHideFlags: 0
@@ -45301,6 +45301,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: LightTrail
       objectReference: {fileID: 0}
+    - target: {fileID: 3916050343537090944, guid: fd0cda2a3e94744348084d8dd6e579ca, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6468008082434680209, guid: fd0cda2a3e94744348084d8dd6e579ca, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -52282,10 +52286,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fc7d9bad2d4b44f739f0fda3d5d70238, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftSpeakerName: {fileID: 163148582}
-  leftDialogueText: {fileID: 43720725}
-  rightSpeakerName: {fileID: 1989901616}
-  rightDialogueText: {fileID: 693780062}
+  captainSpeakerText: {fileID: 1989901616}
+  captainDialogueText: {fileID: 693780062}
+  captainDialogueBox: {fileID: 627391371}
+  pirateSpeakerText: {fileID: 163148582}
+  pirateDialogueText: {fileID: 43720725}
+  pirateDialogueBox: {fileID: 362664469}
   introDialogue: {fileID: 11400000, guid: 7e6405e80d94e4f74815b18623db4593, type: 2}
 --- !u!1001 &1561452890
 PrefabInstance:

@@ -13,8 +13,10 @@ MonoBehaviour:
   m_Name: IntroDialogue
   m_EditorClassIdentifier: 
   lines:
-  - speakerName: Captain
+  - speakerName: ???
     text: IT WAS ABOUT TIME WE PUT AND AN END TO THIS STORY
-  - speakerName: Pirate
+  - speakerName: ???
     text: YOU DON'T THINK YOU'RE GOING TO FIX EVERYTHING BY LEAVING ME IN HERE, DO
       YOU? YOU DON'T HAVE THE GUTS FOR THIS JOB
+  - speakerName: ???
+    text: "WE\u2019LL SEE. UNTIL WE REACH THE PORT, GET USED TO STAYING IN HERE"
