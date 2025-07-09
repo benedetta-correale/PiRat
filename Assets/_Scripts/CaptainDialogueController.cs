@@ -21,32 +21,24 @@ public class CaptainDialogueController : MonoBehaviour
         animator = GetComponent<Animator>();
         agent.isStopped = true;
         SetWalking(false);
+
+        // Collegamento alla fine del dialogo
+        dialogueManager.OnDialogueEnded += HandleDialogueEnded;
     }
 
-    void Update()
+    void OnDestroy()
     {
-        if (!hasStartedDialogue && Input.GetKeyDown(KeyCode.D))
-        {
-            hasStartedDialogue = true;
-            agent.isStopped = true;
-            SetWalking(false);
-            dialogueManager.StartDialogue(fullDialogueSequence);
-        }
+        dialogueManager.OnDialogueEnded -= HandleDialogueEnded;
+    }
 
-        if (hasStartedDialogue && !dialogueManager.IsDialogueActive() && !hasWalkedAway)
+    void HandleDialogueEnded()
+    {
+        if (!hasWalkedAway)
         {
             WalkAway();
         }
-
-        if (hasWalkedAway && agent.remainingDistance <= agent.stoppingDistance)
-        {
-            SetWalking(false);
-
-            if (prisonerTrigger != null)
-                prisonerTrigger.TriggerPrisonerDialogue();
-        }
-
     }
+
 
     void WalkAway()
     {

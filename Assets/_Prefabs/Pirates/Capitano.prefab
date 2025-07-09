@@ -301,6 +301,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
       insertIndex: -1
       addedObject: {fileID: -7110785012338452216}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2980841914667365307}
   m_SourcePrefab: {fileID: 100100000, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}
 --- !u!95 &1805368063788687504 stripped
 Animator:
@@ -460,8 +463,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dialogueManager: {fileID: 0}
-  captainDialogue: {fileID: 0}
+  fullDialogueSequence: {fileID: 0}
   exitPoint: {fileID: 0}
+  prisonerTrigger: {fileID: 0}
+--- !u!114 &2980841914667365307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4946650897095073872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d7ad4fe154049b9bbfdda38d1afa70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &5759497426101107434 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f82261ff774ce4fc3bf9bd2b52c88c6d, type: 3}

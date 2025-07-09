@@ -8,7 +8,7 @@ public class RatHealthUI : MonoBehaviour
 
     public void UpdateHealthBar(int current, int max)
     {
-        Debug.Log($"UpdateHealthBar called: {current}/{max}");
+        // Debug.Log($"UpdateHealthBar called: {current}/{max}");
         if (healthFill != null)
         {
             float percent = (float)current / max;

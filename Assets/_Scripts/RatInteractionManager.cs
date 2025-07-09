@@ -96,7 +96,7 @@ public class RatInteractionManager : MonoBehaviour
         if (context.performed && canBite)
         {
             AttemptInfection();
-            Debug.Log("Input morso ricevuto");
+            //Debug.Log("Input morso ricevuto");
 
         }
     }
@@ -241,7 +241,7 @@ public class RatInteractionManager : MonoBehaviour
 
     private void TriggerFailedBite()
     {
-        Debug.Log("Nessun bersaglio trovato!");
+        // Debug.Log("Nessun bersaglio trovato!");
         _ratInputHandler.movementLocked = true;
         _ratAnimator.SetTrigger("BiteWithJumpBack");
         invincible = false;

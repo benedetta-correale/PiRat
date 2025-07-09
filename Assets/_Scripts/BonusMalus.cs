@@ -67,7 +67,7 @@ public class BonusMalus : MonoBehaviour
 
     private void NotifyHealthChange()
     {
-        Debug.Log($"NotifyHealthChange fired: {currentHealth}/{maxHealth}");
+        //Debug.Log($"NotifyHealthChange fired: {currentHealth}/{maxHealth}");
         onHealthChanged?.Invoke(currentHealth, maxHealth);
     }
 }

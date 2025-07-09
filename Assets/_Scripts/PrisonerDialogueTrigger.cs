@@ -13,6 +13,7 @@ public class PrisonerDialogueTrigger : MonoBehaviour
         if (!hasStarted)
         {
             hasStarted = true;
+            Debug.Log("Secondo dialogo (ratto ⇄ prigioniero) avviato");
             dialogueManager.StartDialogue(prisonerDialogue);
         }
     }

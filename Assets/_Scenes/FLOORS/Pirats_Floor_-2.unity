@@ -1762,8 +1762,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: DialogueText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
+  m_sharedMaterial: {fileID: -222939247329738747, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -6090,8 +6090,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SpeakerNameText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
+  m_sharedMaterial: {fileID: -222939247329738747, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -10632,7 +10632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &295023936
 Transform:
   m_ObjectHideFlags: 0
@@ -24034,8 +24034,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: DialogueText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
+  m_sharedMaterial: {fileID: -222939247329738747, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -30567,6 +30567,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 906858460}
+  - component: {fileID: 906858461}
   m_Layer: 0
   m_Name: ExitPointCapitano
   m_TagString: Untagged
@@ -30589,6 +30590,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &906858461
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906858459}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &908976248 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5226b85b489996a43838333773cadd59, type: 3}
@@ -49747,7 +49769,7 @@ PrefabInstance:
       objectReference: {fileID: 906858460}
     - target: {fileID: -7110785012338452216, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: -7110785012338452216, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
       propertyPath: captainDialogue
@@ -49765,6 +49787,10 @@ PrefabInstance:
       propertyPath: fullDialogueSequence
       value: 
       objectReference: {fileID: 11400000, guid: 7e6405e80d94e4f74815b18623db4593, type: 2}
+    - target: {fileID: 2980841914667365307, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
+      propertyPath: prisonerTrigger
+      value: 
+      objectReference: {fileID: 928454576}
     - target: {fileID: 4946650897095073872, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
       propertyPath: m_Name
       value: Capitano
@@ -72622,8 +72648,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: SpeakerNameText
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 2e498d1c8094910479dc3e1b768306a4, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
+  m_sharedMaterial: {fileID: -222939247329738747, guid: 592637fde7cb6df43855c281b3d9d2b5, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []

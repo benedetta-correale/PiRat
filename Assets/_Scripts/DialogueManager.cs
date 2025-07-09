@@ -26,6 +26,7 @@ public class DialogueManager : MonoBehaviour
     public Transform mainCamera;
     public RatInputHandler ratMovementScript;
     public CameraControlManager cameraScript;
+    public System.Action OnDialogueEnded;
 
 
     void Start()
@@ -67,9 +68,9 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowNextLine()
     {
-        if (currentSequence == null || currentIndex >= currentSequence.lines.Count)
+        if (currentIndex >= currentSequence.lines.Count)
         {
-            EndDialogue();
+            Invoke(nameof(EndDialogue), 1.5f);  // aspetta 1.5s prima di chiudere
             return;
         }
 
@@ -106,6 +107,8 @@ public class DialogueManager : MonoBehaviour
         cameraScript.enabled = true;
         mainCamera.position = cameraInitialPosition;
         mainCamera.rotation = Quaternion.Euler(cameraInitialRotation);
+
+        OnDialogueEnded?.Invoke();  
     }
 
     public bool IsDialogueActive()
