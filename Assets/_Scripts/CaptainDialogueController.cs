@@ -13,6 +13,7 @@ public class CaptainDialogueController : MonoBehaviour
 
     private bool hasStartedDialogue = false;
     private bool hasWalkedAway = false;
+    [SerializeField] private PrisonerDialogueTrigger prisonerTrigger;
 
     void Start()
     {
@@ -40,7 +41,11 @@ public class CaptainDialogueController : MonoBehaviour
         if (hasWalkedAway && agent.remainingDistance <= agent.stoppingDistance)
         {
             SetWalking(false);
+
+            if (prisonerTrigger != null)
+                prisonerTrigger.TriggerPrisonerDialogue();
         }
+
     }
 
     void WalkAway()

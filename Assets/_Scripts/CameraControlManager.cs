@@ -37,6 +37,9 @@ public class CameraControlManager : MonoBehaviour
     private Vector3 currentOffset;
     private Vector3 targetOffset;
 
+    public Vector3 cameraInitialPosition;
+    public Vector3 cameraInitialRotation;
+
 
     [Header("Settings")]
     [Tooltip("Velocità di rotazione orizzontale")]
@@ -85,6 +88,8 @@ public class CameraControlManager : MonoBehaviour
         defaultOffset = offset;
         currentOffset = offset;
         targetOffset = offset;
+        transform.position = cameraInitialPosition;
+        transform.rotation = Quaternion.Euler(cameraInitialRotation);
     }
 
     public void LockRotation(bool locked)
