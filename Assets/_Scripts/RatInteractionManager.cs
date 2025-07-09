@@ -199,7 +199,7 @@ public class RatInteractionManager : MonoBehaviour
         biting = true;
         _ratAnimator.SetTrigger("Bite");
         StartCoroutine(StartQuickTimeEvent(enemyController));
-        invincible = true;
+        SetInvincibleForSeconds(10.0f);
 
         // ✅ Avvia un timer per resettare `biting`
         StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione
@@ -209,6 +209,19 @@ public class RatInteractionManager : MonoBehaviour
         yield return new WaitForSeconds(delay);
         biting = false;
         Debug.Log("biting = false dopo morso (timer)");
+    }
+
+    public void SetInvincibleForSeconds(float duration)
+    {
+        invincible = true;
+        StartCoroutine(DisableInvincibilityAfterDelay(duration));
+    }
+
+    private IEnumerator DisableInvincibilityAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        invincible = false;
+        Debug.Log("🐭 Il ratto non è più invincibile");
     }
 
     public void EndBite()
@@ -231,6 +244,7 @@ public class RatInteractionManager : MonoBehaviour
         Debug.Log("Nessun bersaglio trovato!");
         _ratInputHandler.movementLocked = true;
         _ratAnimator.SetTrigger("BiteWithJumpBack");
+        invincible = false;
         StartCoroutine(UnlockAfterAnimationFixed(1.8f));
     }
 
@@ -417,7 +431,7 @@ public class RatInteractionManager : MonoBehaviour
         _ratInputHandler.movementLocked = false;
         isBackflipping = false;
         Debug.Log("BACKFLIP TERMINATO - isBackflipping = false");
-        invincible = false;
+      
     }
 
 

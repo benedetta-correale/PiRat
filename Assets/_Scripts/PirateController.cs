@@ -73,7 +73,10 @@ public class PirateController : MonoBehaviour
     private Vector3 suspicionTarget;
     private bool hasStartedInvestigating;
     private bool hasDealtDamageThisAttack = false;
-    
+
+    private bool ratWasRecentlyInvincible = false;
+    private float retryAttackTime = 0f;
+
     public float currentHealth;
    
 
@@ -132,6 +135,14 @@ public class PirateController : MonoBehaviour
             EnterSuspicious();
             return;
         }
+
+        if (!agent.isOnNavMesh)
+        {
+            Debug.LogWarning($"{name} NON è su una NavMesh! (posizione: {transform.position})");
+            return;
+        }
+
+        
 
         if (!agent.pathPending && agent.remainingDistance < 0.3f && patrolPoints.Length > 0)
         {
@@ -234,21 +245,38 @@ public class PirateController : MonoBehaviour
     #region Attack
 
     private void EnterAttacking()
-
     {
+        if (Time.time < retryAttackTime)
+        {
+            //Debug.Log("⏳ Attesa prima di riprovare l’attacco");
+            return;
+        }
 
-        Debug.Log("STATO DI ATTACCO");
+        if (ratManager != null && ratManager.invincible)
+        {
+            //Debug.Log("🚫 Ratto invincibile → stop attacco per 10s");
+            ratWasRecentlyInvincible = true;
+            retryAttackTime = Time.time + 10f; // Blocca per 10s, anche se invincibilità finisce prima
+            EnterChasing(); // torna a inseguire
+            return;
+        }
+
+        //Debug.Log("⚔️ STATO DI ATTACCO (ratto vulnerabile)");
         state = State.Attacking;
-        agent.isStopped = true;
-        animator.SetBool("isWalking", false);
-        animator.SetTrigger("AttackTrigger");
-        ratHealt.TakeDamage(attackDamage);
-        SendMessage("CancelAttractionFromPuddle", this, SendMessageOptions.DontRequireReceiver);
     }
+
+
 
     private void UpdateAttacking()
     {
         if (ratTransform == null) return;
+
+        if (ratWasRecentlyInvincible && !ratManager.invincible)
+        {
+            ratWasRecentlyInvincible = false;
+            Debug.Log("✅ Il ratto non è più invincibile");
+        }
+
 
         bool isAttackingState = animator.GetCurrentAnimatorStateInfo(0).tagHash == Animator.StringToHash("Attack");
 
@@ -288,7 +316,8 @@ public class PirateController : MonoBehaviour
             if (!hasDealtDamageThisAttack && stateInfo.normalizedTime >= 0.5f)
             {
                 if (ratHealt != null && distance <= attackRange)
-                    ratHealt.TakeDamage(attackDamage);
+                   { ratHealt.TakeDamage(attackDamage);
+                    Debug.Log("ratto danneggiato");}
 
                 hasDealtDamageThisAttack = true;
             }
