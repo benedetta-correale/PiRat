@@ -147,13 +147,13 @@ MonoBehaviour:
   ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
-  eyeHeight: 1.6
+  eyeHeight: 0.5
   viewOriginBackOffset: 0.5
   alertIndicator: {fileID: 5772795675130129883}
   alertFillImage: {fileID: 828840880305843335}
   attachTime: 5
   moveThreshold: 0.7
-  baseFillSpeed: 1
+  baseFillSpeed: 4
   chaseSpeed: 3
   attackRange: 1
   attackCooldown: 2

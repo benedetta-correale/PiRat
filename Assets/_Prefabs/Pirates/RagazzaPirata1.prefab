@@ -75,10 +75,10 @@ PrefabInstance:
       addedObject: {fileID: 2018549243054016872}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: de93da622bde8416cb32a03fb85590a0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3388352872419988706}
+      addedObject: {fileID: 3521784217895272044}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: de93da622bde8416cb32a03fb85590a0, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 3521784217895272044}
+      addedObject: {fileID: 3388352872419988706}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: de93da622bde8416cb32a03fb85590a0, type: 3}
       insertIndex: -1
       addedObject: {fileID: 4790295977846895590}
@@ -132,13 +132,13 @@ MonoBehaviour:
   ratHealt: {fileID: 0}
   viewDistance: 10
   viewAngle: 90
-  eyeHeight: 1.6
+  eyeHeight: 0.5
   viewOriginBackOffset: 0.5
   alertIndicator: {fileID: 9090464024663814877}
   alertFillImage: {fileID: 2718597109739991937}
   attachTime: 5
   moveThreshold: 0.7
-  baseFillSpeed: 1
+  baseFillSpeed: 4
   chaseSpeed: 3
   attackRange: 2
   attackCooldown: 2
@@ -153,27 +153,6 @@ MonoBehaviour:
   alreadyHealing: 0
   healingEndTime: 3
   currentHealth: 0
---- !u!135 &3388352872419988706
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696685139947100814}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!64 &3521784217895272044
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -196,6 +175,27 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 0}
+--- !u!135 &3388352872419988706
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1696685139947100814}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.5
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &4790295977846895590
 Rigidbody:
   m_ObjectHideFlags: 0

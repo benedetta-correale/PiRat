@@ -88,6 +88,11 @@ public class PirateController : MonoBehaviour
         healthFill.fillAmount = 1f;
         ResetAlert();
         ratManager = ratTransform.GetComponent<RatInteractionManager>();
+
+        ratHealt = ratTransform.GetComponent<BonusMalus>();
+
+        if (ratHealt == null)
+            Debug.LogError($"{name} → ratHealt è NULL");
     }
 
     private void Start()
@@ -313,14 +318,18 @@ public class PirateController : MonoBehaviour
 
         if (stateInfo.tagHash == Animator.StringToHash("Attack"))
         {
-            if (!hasDealtDamageThisAttack && stateInfo.normalizedTime >= 0.5f)
+            Debug.Log($"Animazione ATTACK in corso. NormalizedTime = {stateInfo.normalizedTime}");
+            if (!hasDealtDamageThisAttack)
             {
                 if (ratHealt != null && distance <= attackRange)
-                   { ratHealt.TakeDamage(attackDamage);
-                    Debug.Log("ratto danneggiato");}
+                {
+                    ratHealt.TakeDamage(attackDamage);
+                    Debug.Log("ratto danneggiato");
+                }
 
                 hasDealtDamageThisAttack = true;
             }
+
 
             if (stateInfo.normalizedTime >= 1f)
             {
@@ -332,14 +341,16 @@ public class PirateController : MonoBehaviour
         {
             if (ratManager != null && ratManager.invincible)
             {
+                Debug.Log("❌ ATTACCO NON PARTITO: ratto invincibile");
                 return;
             }
 
-            // ✅ Ratto non invincibile → attacca normalmente
+            Debug.Log("🎯 ATTEMPT ATTACK: Trigger attacco chiamato");
             animator.SetTrigger("AttackTrigger");
             lastAttackTime = Time.time;
             hasDealtDamageThisAttack = false;
         }
+
 
     }
 
