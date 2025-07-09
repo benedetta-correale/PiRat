@@ -7,7 +7,7 @@ using System.Collections;
 
 public class PirateController : MonoBehaviour
 {
-    private enum State { Patrol, Suspicious, Chasing, Attacking, BeingHealed }
+    private enum State { Patrol, Suspicious, Chasing, Attacking, BeingHealed, Dead}
 
     public string CurrentState => state.ToString();
 
@@ -106,6 +106,8 @@ public class PirateController : MonoBehaviour
 
     private void Update()
     {
+
+        if (state == State.Dead) return;
 
         
         switch (state)
@@ -500,13 +502,15 @@ public class PirateController : MonoBehaviour
         }
     }
 
-
     private void Die()
     {
+        if (state == State.Dead) return; // prevenzione doppia morte
+
         infected = false;
         OnPirateDeath?.Invoke(this);
         agent.isStopped = true;
         animator.SetTrigger("Die");
+        state = State.Dead;
     }
 
     //GUARIGIONE
