@@ -10632,7 +10632,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &295023936
 Transform:
   m_ObjectHideFlags: 0
@@ -10693,7 +10693,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -126840133
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -27225,11 +27225,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1051392785323343844, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 0
+      value: 0.21
       objectReference: {fileID: 0}
     - target: {fileID: 1051392785323343844, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: 1.927
       objectReference: {fileID: 0}
     - target: {fileID: 1051392785323343844, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -30610,8 +30610,8 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 2.6916442, y: 1, z: 3.2427025}
-  m_Center: {x: 0.39404368, y: 0, z: 0.31085873}
+  m_Size: {x: 1.8058424, y: 1, z: 1.649025}
+  m_Center: {x: 0.29123354, y: 0, z: 0.266407}
 --- !u!114 &906858462
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -36303,12 +36303,12 @@ MonoBehaviour:
     updateOnlyOnMove: 0
     lastSeenAt: {x: 0, y: 0}
   levelMidPoint: {fileID: 767845353}
-  FogRefreshRate: 5
+  FogRefreshRate: 11
   fogPlaneHeight: 1.5
   fogPlaneMaterial: {fileID: 2100000, guid: 36b93ac6fcf129c449491654e397fe4a, type: 2}
   fogColor: {r: 0.019607844, g: 0.05882353, b: 0.09803922, a: 1}
   fogPlaneAlpha: 1
-  fogLerpSpeed: 10
+  fogLerpSpeed: 20
   keepRevealedTiles: 0
   revealedTileOpacity: 0.5
   fogPlaneTextureLerpTarget: {fileID: 0}
@@ -36385,7 +36385,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -126840133
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 10
   m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -49851,7 +49851,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5759497426101107434, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 24.3
+      value: 25.51
       objectReference: {fileID: 0}
     - target: {fileID: 5759497426101107434, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -49859,7 +49859,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5759497426101107434, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6.5
+      value: 6.75
       objectReference: {fileID: 0}
     - target: {fileID: 5759497426101107434, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
       propertyPath: m_LocalRotation.w
