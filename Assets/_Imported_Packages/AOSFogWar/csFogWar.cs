@@ -14,7 +14,10 @@ using System.IO;                    // Directory
 using System.Linq;                  // Enumerable
 using System.Collections.Generic;   // List
 using UnityEngine;                  // Monobehaviour
+#if UNITY_EDITOR
 using UnityEditor;                  // Handles
+#endif
+
 
 
 
@@ -505,15 +508,15 @@ namespace FischlWorks_FogWar
 
                 // 1) ha tag Pirate?
                 bool isPirateTag = fogRevealer._RevealerTransform.CompareTag("Pirate");
-                        // 2) è possessed?
+                // 2) è possessed?
                 var ec = fogRevealer._RevealerTransform.GetComponent<PirateController>();
                 bool isPossessed = (ec != null && ec.isPossessed);
-                
-                        // Se è un Pirate NON-possessed, non rivela proprio nulla
-                        if (isPirateTag && !isPossessed)
-                                continue;
-                
-                        // Altrimenti imposta il flag (true solo per Pirate possessed)
+
+                // Se è un Pirate NON-possessed, non rivela proprio nulla
+                if (isPirateTag && !isPossessed)
+                    continue;
+
+                // Altrimenti imposta il flag (true solo per Pirate possessed)
                 shadowcaster.currentRevealerIsPirate = isPirateTag && isPossessed;
 
                 shadowcaster.ProcessLevelData(
@@ -724,9 +727,9 @@ namespace FischlWorks_FogWar
 
             if (additionalRadius == 0)
             {
-                return shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] == Shadowcaster.LevelColumn.ETileVisibility.Revealed 
-                    
-                    || shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] ==  Shadowcaster.LevelColumn.ETileVisibility.RevealedByPirate;
+                return shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] == Shadowcaster.LevelColumn.ETileVisibility.Revealed
+
+                    || shadowcaster.fogField[levelCoordinates.x][levelCoordinates.y] == Shadowcaster.LevelColumn.ETileVisibility.RevealedByPirate;
             }
 
             int scanResult = 0;
@@ -904,6 +907,56 @@ namespace FischlWorks_FogWar
             }
         }
 #endif
+        /// <summary>
+        /// Restituisce le coordinate di livello (x,y) di tutte le tile attualmente rivelate
+        /// (inclusi fogliate da pirata o precedentemente rivelate).
+        /// </summary>
+        public List<Vector2Int> GetRevealedTiles()
+        {
+            var tiles = new List<Vector2Int>();
+            // scorri tutta la griglia
+            for (int x = 0; x < levelData.levelDimensionX; x++)
+            {
+                for (int y = 0; y < levelData.levelDimensionY; y++)
+                {
+                    var vis = shadowcaster.fogField[x][y];
+                    if (vis == Shadowcaster.LevelColumn.ETileVisibility.Revealed
+                     || vis == Shadowcaster.LevelColumn.ETileVisibility.RevealedByPirate
+                     || vis == Shadowcaster.LevelColumn.ETileVisibility.PreviouslyRevealed)
+                    {
+                        tiles.Add(new Vector2Int(x, y));
+                    }
+                }
+            }
+            return tiles;
+        }
+
+        /// <summary>
+        /// Applica alla fog-of-war la lista di coordinate di livello passata,
+        /// marcandole come “PreviouslyRevealed” e aggiornando immediatamente il texture buffer.
+        /// </summary>
+        public void SetRevealedTiles(List<Vector2Int> tiles)
+        {
+            // Resetta visibilità (nasconde tutto tranne keepRevealedTiles)
+            shadowcaster.ResetTileVisibility();
+
+            // Marca come rivelate le coordinate salvate
+            foreach (var coord in tiles)
+            {
+                if (coord.x >= 0 && coord.x < levelData.levelDimensionX
+                 && coord.y >= 0 && coord.y < levelData.levelDimensionY)
+                {
+                    shadowcaster.fogField[coord.x][coord.y] =
+                        Shadowcaster.LevelColumn.ETileVisibility.PreviouslyRevealed;
+                }
+            }
+
+            // Aggiorna subito la texture della nebbia
+            UpdateFogPlaneTextureTarget();
+            UpdateFogPlaneTextureBuffer();
+        }
+
+
     }
 
 

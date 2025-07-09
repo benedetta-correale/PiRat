@@ -34,6 +34,9 @@ public class RatInputHandler : MonoBehaviour
     private bool isSprinting;
     private Animator _ratAnimator;
     public bool speedBoostActive { get; private set; } = false;
+    // — Tracciamento SpeedBoost —
+    public float currentSpeedBoostMultiplier { get; private set; }
+    public float speedBoostRemainingTime { get; private set; }
 
     void Awake() => rb = GetComponent<Rigidbody>();
 
@@ -143,10 +146,20 @@ public class RatInputHandler : MonoBehaviour
 
     public IEnumerator SpeedBoostRoutine(float multiplier, float duration)
     {
+        currentSpeedBoostMultiplier = multiplier;
+        speedBoostRemainingTime = duration;
         speedBoostActive = true;
+
         float originalSpeed = walkSpeed;
-        walkSpeed *= multiplier;
-        yield return new WaitForSeconds(duration);
+        walkSpeed = walkSpeed * multiplier;
+
+        // Gestione manuale del countdown
+        while (speedBoostRemainingTime > 0f)
+        {
+            speedBoostRemainingTime -= Time.deltaTime;
+            yield return null;
+        }
+
         walkSpeed = originalSpeed;
         speedBoostActive = false;
 
@@ -156,6 +169,7 @@ public class RatInputHandler : MonoBehaviour
             speedVFXInstance = null;
         }
     }
+
 
     public Vector2 GetMoveInputRaw() => moveInput;
 }

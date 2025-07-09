@@ -181,7 +181,7 @@ public class RatInteractionManager : MonoBehaviour
         if (!successfulBite)
         {
             TriggerFailedBite();
-        } 
+        }
 
         canBite = false;
         Invoke(nameof(ResetBiteCooldown), biteCooldown);
@@ -201,7 +201,7 @@ public class RatInteractionManager : MonoBehaviour
         StartCoroutine(StartQuickTimeEvent(enemyController));
         invincible = true;
 
-    // ✅ Avvia un timer per resettare `biting`
+        // ✅ Avvia un timer per resettare `biting`
         StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione
     }
     private IEnumerator ResetBitingAfterDelay(float delay)
@@ -249,7 +249,7 @@ public class RatInteractionManager : MonoBehaviour
         {
             infectedPirates.Add(pirate.transform);
             pirate.OnPirateDeath += RemoveDeadPirate;
-            
+
         }
     }
 
@@ -517,14 +517,14 @@ public class RatInteractionManager : MonoBehaviour
 
     // 👇 Aggiungi questo metodo alla classe RatInteractionManager
     public void RegisterInfectedPirate(PirateController pirate)
-{
-    if (!infectedPirates.Contains(pirate.transform))
     {
-        infectedPirates.Add(pirate.transform);
-        pirate.OnPirateDeath += RemoveDeadPirate;
-        Debug.Log("Pirata infettato tramite pozza di veleno!");
+        if (!infectedPirates.Contains(pirate.transform))
+        {
+            infectedPirates.Add(pirate.transform);
+            pirate.OnPirateDeath += RemoveDeadPirate;
+            Debug.Log("Pirata infettato tramite pozza di veleno!");
+        }
     }
-}
     // 👇 Nuovo: rimuove il pirata morto
     private void RemoveDeadPirate(PirateController deadPirate)
     {
@@ -533,4 +533,90 @@ public class RatInteractionManager : MonoBehaviour
             infectedPirates.Remove(deadPirate.transform);
         }
     }
+
+    // Amount di extra damage ancora da consumare
+    public int GetCurrentDamageBoostAmount()
+    {
+        return bonusDamage;
+    }
+
+    // Se ho preparato la pozza, ne recupero qui le trappole
+    public GameObject[] GetTrapPrefabsForNextPuddle()
+    {
+        return trapPrefabsForNextPuddle;
+    }
+
+
+    // — Metodi per salvare e ripristinare i power-up attivi —
+    public List<CheesePowerUpType> GetActivePowerUps()
+    {
+        var list = new List<CheesePowerUpType>();
+        if (_ratInputHandler.speedBoostActive)
+            list.Add(CheesePowerUpType.SpeedBoost);
+        if (IsDamageBoostActive)
+            list.Add(CheesePowerUpType.DamageBoost);
+        if (CanPee)
+            list.Add(CheesePowerUpType.PoisonLeak);
+        return list;
+    }
+
+    public List<float> GetPowerUpRemainingDurations()
+    {
+        var durations = new List<float>();
+        if (_ratInputHandler.speedBoostActive)
+            durations.Add(_ratInputHandler.speedBoostRemainingTime);
+        if (IsDamageBoostActive)
+            durations.Add(GetCurrentDamageBoostAmount());
+        if (CanPee)
+            durations.Add(0f);   // flag, la puddle non ha durata
+        return durations;
+    }
+
+    public List<GameObject[]> GetPuddleTrapPrefabs()
+    {
+        var list = new List<GameObject[]>();
+        if (_ratInputHandler.speedBoostActive)
+            list.Add(null);
+        if (IsDamageBoostActive)
+            list.Add(null);
+        if (CanPee)
+            list.Add(GetTrapPrefabsForNextPuddle());
+        return list;
+    }
+
+
+    public void ApplyPowerUps(
+    List<CheesePowerUpType> types,
+    List<float> durations,
+    List<GameObject[]> puddleTraps
+)
+    {
+        for (int i = 0; i < types.Count && i < durations.Count; i++)
+        {
+            switch (types[i])
+            {
+                case CheesePowerUpType.SpeedBoost:
+                    // ri-lancio la coroutine con moltiplicatore salvato
+                    StartCoroutine(
+                        _ratInputHandler.SpeedBoostRoutine(
+                            _ratInputHandler.currentSpeedBoostMultiplier,
+                            durations[i]
+                        )
+                    );
+                    break;
+
+                case CheesePowerUpType.DamageBoost:
+                    // i durations[i] contiene l'amount di bonus
+                    ActivateDamageBoost((int)durations[i], null);
+                    break;
+
+                case CheesePowerUpType.PoisonLeak:
+                    PreparePoisonLeak(poisonPrefab, null);
+                    ConfigurePuddleTrap(puddleTraps[i]);
+                    break;
+            }
+        }
+    }
+
+
 }

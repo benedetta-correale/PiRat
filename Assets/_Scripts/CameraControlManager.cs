@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
+
 
 public class CameraControlManager : MonoBehaviour
 {
@@ -114,6 +116,15 @@ public class CameraControlManager : MonoBehaviour
 
     void LateUpdate()
     {
+
+        if (currentTarget == null)
+        {
+            var player = GameObject.FindGameObjectWithTag("Player");
+            if (player != null)
+                currentTarget = player.transform;
+            else
+                return;
+        }
         // anche con rotationLocked=true, aggiorno sempre posizione e look,
         // soltanto la rotazione (yaw) viene bloccata
         if (!rotationLocked)
@@ -180,5 +191,24 @@ public class CameraControlManager : MonoBehaviour
         currentTarget = trailTransform;
         ratController.enabled = false;
     }
+
+    private void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        // Ricompatta il target al nuovo Player in scena
+        var player = GameObject.FindGameObjectWithTag("Player");
+        if (player != null)
+            currentTarget = player.transform;
+    }
+
 
 }
