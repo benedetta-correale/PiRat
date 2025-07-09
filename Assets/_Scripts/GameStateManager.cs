@@ -54,14 +54,13 @@ public class GameStateManager : MonoBehaviour
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // La prima volta (all’avvio) vogliamo solo inizializzare, non sovrascrivere
         if (skipInitialLoad)
         {
             skipInitialLoad = false;
             return;
         }
 
-        // → 1) Recupera la nuova istanza del Topo in scena
+        // 1) Recupera il nuovo Topo
         var ratGO = GameObject.FindGameObjectWithTag("Player");
         if (ratGO != null)
         {
@@ -69,12 +68,9 @@ public class GameStateManager : MonoBehaviour
             ratInputHandler = ratGO.GetComponent<RatInputHandler>();
             ratInteraction = ratGO.GetComponent<RatInteractionManager>();
         }
-        else
-        {
-            Debug.LogWarning("GameStateManager: non ho trovato il Player in scena.");
-        }
+        else Debug.LogWarning("GameStateManager: non ho trovato il Player in scena.");
 
-        // → 2) Posiziona il Topo sullo SpawnPoint
+        // 2) Posiziona il Topo
         var spawn = GameObject.FindWithTag(spawnPointTag);
         if (spawn != null && bonusMalus != null)
         {
@@ -83,8 +79,13 @@ public class GameStateManager : MonoBehaviour
             rt.rotation = spawn.transform.rotation;
         }
 
-        // → 3) Ripristina vita e power-up sul nuovo Topo
+        // 3) Ripristina vita e power-up
         LoadRatData();
+
+        // 4) Forza l'aggiornamento della UI salute
+        var healthUI = GameObject.FindObjectOfType<RatHealthUI>();
+        if (healthUI != null)
+            healthUI.UpdateHealthBar(ratData.health, bonusMalus.maxHealth);
     }
 
 
