@@ -30568,6 +30568,7 @@ GameObject:
   m_Component:
   - component: {fileID: 906858460}
   - component: {fileID: 906858461}
+  - component: {fileID: 906858462}
   m_Layer: 0
   m_Name: ExitPointCapitano
   m_TagString: Untagged
@@ -30584,7 +30585,7 @@ Transform:
   m_GameObject: {fileID: 906858459}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 6.32, y: -1.3785859, z: 11.4}
+  m_LocalPosition: {x: 6.32, y: 2.07, z: 11.4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -30609,8 +30610,21 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 2.6916442, y: 1, z: 3.2427025}
+  m_Center: {x: 0.39404368, y: 0, z: 0.31085873}
+--- !u!114 &906858462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 906858459}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94d7ad4fe154049b9bbfdda38d1afa70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  prisonerTrigger: {fileID: 928454576}
 --- !u!1 &908976248 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 5226b85b489996a43838333773cadd59, type: 3}
@@ -49901,6 +49915,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 7111032574064190109, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
+    - {fileID: 2980841914667365307, guid: cd3eff4a19b484dfdabfa0a818d7ada3, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
