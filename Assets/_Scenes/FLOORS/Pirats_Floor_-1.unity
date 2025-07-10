@@ -79096,6 +79096,11 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1.0873947, y: 0.89346164, z: 2.4530602}
   m_Center: {x: -0.0000004768553, y: 0.45438823, z: -0.024742503}
+--- !u!1 &2054129082 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5038154291004188562, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
+  m_PrefabInstance: {fileID: 4748531861467975799}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2056162491
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -84070,7 +84075,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4909936647502881152, guid: dafa78ddb65c94e738609122f2d4afb7, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4909936647502881152, guid: dafa78ddb65c94e738609122f2d4afb7, type: 3}
       propertyPath: m_TagString
@@ -84740,6 +84745,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 601911421}
     - target: {fileID: 4846436330218850407, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
+      propertyPath: alertIndicator
+      value: 
+      objectReference: {fileID: 2054129082}
+    - target: {fileID: 4846436330218850407, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: patrolPoints.Array.size
       value: 2
       objectReference: {fileID: 0}
@@ -84809,7 +84818,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5569511171544270102, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5569511171544270102, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: m_TagString
@@ -86572,7 +86581,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1696685139947100814, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1942274350676103731, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
       propertyPath: m_Layer

@@ -226,8 +226,8 @@ public class PirateController : MonoBehaviour
         state = State.Chasing;
         alertIndicator.SetActive(false);
         agent.speed = chaseSpeed;
-        //agent.updatePosition = true;
-        //agent.updateRotation = true;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
         agent.isStopped = false;
         animator.SetBool("isWalking", true);
         SendMessage("CancelAttractionFromPuddle", this, SendMessageOptions.DontRequireReceiver);
@@ -284,9 +284,9 @@ public class PirateController : MonoBehaviour
         state = State.Attacking;
 
         agent.isStopped = true;
-        //agent.velocity = Vector3.zero;
-        //agent.updatePosition = false;
-        //agent.updateRotation = false;
+        agent.velocity = Vector3.zero;
+        agent.updatePosition = false;
+        agent.updateRotation = false;
         hasDealtDamageThisAttack = false;
 
         animator.SetBool("isWalking", false);
