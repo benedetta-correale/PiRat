@@ -95,7 +95,7 @@ public class DialogueManager : MonoBehaviour
             {
                 case 0:
                     // PRIMA battuta del prigioniero
-                    promptUIManager.ShowPrompt(InputKeyType.RightStick, "Rotate camera with right stick or mouse", true);
+                    promptUIManager.ShowPrompt(InputKeyType.RightStick, "Rotate camera with right stick or mouse movement", true);
                     cameraScript.enabled = true;
                     break;
                 case 1:
@@ -104,10 +104,10 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case 5:
                     // UI morso
-                    promptUIManager.ShowPrompt(InputKeyType.RightTrigger, "Bite with right trigger or enter", true);
+                    promptUIManager.ShowPrompt(InputKeyType.RightTrigger, "Bite with right trigger or mouse click", true);
                     break;
                 case 6:
-                    promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Hit red target with this button or spacebar for maximum boost", true);
+                    promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Hit red target for maximum boost with this button or SPACEBAR", true);
                     bersaglio.gameObject.SetActive(true);
                     quickTimeUIManager.tutorialMode = true;
                     break;
@@ -125,18 +125,24 @@ public class DialogueManager : MonoBehaviour
             switch (index)
             {
                 case 0:
-                    // PRIMA battuta del prigioniero
-                    promptUIManager.ShowPrompt(InputKeyType.RightStick, "Rotate camera with right stick or mouse", true);
+                    promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
+                    /* if (!possessionManager.inSelectionMode && !possessionManager.inPossessionMode)
+                    {
+                        promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
+                    }
+                    else if (possessionManager.inSelectionMode)
+                    {
+                        promptUIManager.ShowPrompt(InputKeyType.LeftStick, "Select pirate with left stick or WASD", true);
+                    }
+                    else if (possessionManager.inPossessionMode)
+                    {
+                        promptUIManager.ShowPrompt(InputKeyType.ButtonSouth, "Possess pirate with this button or ESCAPE", true);
+                    } */
                     break;
                 case 1:
-                    // Nascondi prompt se vuoi
                     promptUIManager.HidePrompt();
                     break;
             }
-
-            // left trigger -> tab
-            // button east -> enter
-            // button south -> esc 
         }
     }
 

@@ -52635,6 +52635,10 @@ MonoBehaviour:
   forceRightBoxOnly: 0
   promptUIManager: {fileID: 0}
   pirateAutoMove: {fileID: 0}
+  bersaglio: {fileID: 0}
+  quickTimeUIManager: {fileID: 0}
+  empowermentDialogue: {fileID: 0}
+  possessionManager: {fileID: 0}
 --- !u!1001 &1561452890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -63428,6 +63432,7 @@ MonoBehaviour:
   shrinkingImage: {fileID: 2142370858}
   targetImage: {fileID: 1838796162}
   duration: 1.7
+  tutorialMode: 0
 --- !u!224 &1706496221
 RectTransform:
   m_ObjectHideFlags: 0
@@ -70683,6 +70688,7 @@ MonoBehaviour:
   buttonWest: {fileID: 1812907033}
   buttonSouth: {fileID: 237480847}
   buttonNorth: {fileID: 403381306}
+  bersaglio: {fileID: 0}
 --- !u!1001 &1903788341
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -79109,7 +79115,7 @@ PrefabInstance:
       objectReference: {fileID: 1706496220}
     - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: infectedPirates.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: 'infectedPirates.Array.data[0]'

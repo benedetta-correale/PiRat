@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f0e614db1e0d4010b97ca7da740d6f6, type: 3}
   m_Name: DialoguePossession
   m_EditorClassIdentifier: 
-  sequenceID: 
+  sequenceID: possession
   lines:
   - speakerName: PRISONER
     text: WELL DONE, LITTLE ONE. NOW YOU CAN SEE THROUGH HIS EYES, IF YOU TRUST A

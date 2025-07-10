@@ -97,8 +97,7 @@ public class PromptUIManager : MonoBehaviour
                 break;
 
             case InputKeyType.ButtonSouth:
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || 
-                    Input.GetKeyDown(KeyCode.JoystickButton0)) // A / Cross
+                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton0)) // A / Cross
                 {
                     ConfirmPromptInput();
                 }
@@ -113,7 +112,7 @@ public class PromptUIManager : MonoBehaviour
                 break;
 
             case InputKeyType.LeftTrigger:
-                if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton6)) // LT
+                if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton6) || Input.GetKeyDown(KeyCode.Tab)) // LT
                 {
                     ConfirmPromptInput();
                 }

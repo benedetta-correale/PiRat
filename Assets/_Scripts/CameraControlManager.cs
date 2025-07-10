@@ -223,7 +223,7 @@ public class CameraControlManager : MonoBehaviour
         UnsubscribeLook();
 
         // Trova il PlayerInput (assume tu lo usi per il tuo ratto)
-        var pi = FindObjectOfType<PlayerInput>();
+        var pi = FindFirstObjectByType<PlayerInput>();
         if (pi == null) return;
 
         // Ottengo l'azione "Look" da quella action map
