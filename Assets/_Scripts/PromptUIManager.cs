@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Microsoft.Unity.VisualStudio.Editor;
 
 public enum InputKeyType
 {
@@ -45,6 +46,7 @@ public class PromptUIManager : MonoBehaviour
 
     private InputKeyType _expectedKey;
     private bool _waitingForInput = false;
+    public UnityEngine.UI.Image bersaglio;
 
     private void Awake()
     {
@@ -103,8 +105,9 @@ public class PromptUIManager : MonoBehaviour
                 break;
 
             case InputKeyType.ButtonEast:
-                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) // B / Circle
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton1)) // B / Circle
                 {
+                    bersaglio.gameObject.SetActive(false);
                     ConfirmPromptInput();
                 }
                 break;

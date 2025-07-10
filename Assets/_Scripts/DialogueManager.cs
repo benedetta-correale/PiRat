@@ -1,6 +1,8 @@
+using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -32,6 +34,8 @@ public class DialogueManager : MonoBehaviour
     private bool waitingForEndConfirmation = false;
     public PromptUIManager promptUIManager;
     public PirateAutoMove pirateAutoMove;
+    public UnityEngine.UI.Image bersaglio;
+    public QuickTimeUIManager quickTimeUIManager;
 
 
     public void ForceRightBoxOnly(bool value)
@@ -50,6 +54,7 @@ public class DialogueManager : MonoBehaviour
 
         ratMovementScript.enabled = false;
         cameraScript.enabled = false;
+        bersaglio.gameObject.SetActive(false);
 
         StartDialogue(introDialogue); // ← avvia subito il primo dialogo
     }
@@ -100,9 +105,14 @@ public class DialogueManager : MonoBehaviour
                     // UI morso
                     promptUIManager.ShowPrompt(InputKeyType.RightTrigger, "Bite with right trigger or enter", true);
                     break;
-
                 case 6:
+                    promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Hit red target with this button or spacebar for maximum boost", true);
+                    bersaglio.gameObject.SetActive(true);
+                    quickTimeUIManager.tutorialMode = true;
+                    break;
+                case 7:
                     // Nascondi prompt se vuoi
+                    bersaglio.gameObject.SetActive(false);
                     promptUIManager.HidePrompt();
                     pirateAutoMove?.MoveToTarget();
                     break;
@@ -154,6 +164,7 @@ public class DialogueManager : MonoBehaviour
         rightDialogueBox.SetActive(false);
 
         OnDialogueEnded?.Invoke();
+        quickTimeUIManager.tutorialMode = false;
     }
 
     public bool IsDialogueActive()

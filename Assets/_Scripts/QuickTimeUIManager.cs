@@ -14,12 +14,16 @@ public class QuickTimeUIManager : MonoBehaviour
 
     public bool IsQuickTimeActive => active;
     public float Precision => Mathf.Clamp01(timer / duration);
+    public bool tutorialMode = false;
+
 
     public void StartQuickTime()
     {
         timer = 0f;
         active = true;
         gameObject.SetActive(true);
+
+        duration = tutorialMode ? 3.5f : 1.5f;
 
         Time.timeScale = 0f;
 

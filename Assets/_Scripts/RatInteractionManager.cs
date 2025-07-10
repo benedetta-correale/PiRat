@@ -335,7 +335,7 @@ public class RatInteractionManager : MonoBehaviour
         // Zone mapping
         if (scaleRatio > 0.87f || scaleRatio < 0.24f) // zone esterna e interna nere
         {
-            Debug.Log("❌ Fuori bersaglio (fallimento)");
+            //Debug.Log("❌ Fuori bersaglio (fallimento)");
             _ratAnimator.SetTrigger("JumpBack");
             StartCoroutine(UnlockAfterAnimationFixed(1f));
             return;
