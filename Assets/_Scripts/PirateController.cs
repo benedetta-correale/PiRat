@@ -28,6 +28,9 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float viewAngle = 90f;
     [SerializeField] private float eyeHeight = 1.6f;
     [SerializeField] private float viewOriginBackOffset = 0.5f;
+    private float lostSightTimer = 0f;
+    [SerializeField] private float lostSightGracePeriod = 2.0f; // tempo in secondi prima di smettere di inseguire
+
 
     [Header("Alert UI")]
     [SerializeField] private GameObject alertIndicator;
@@ -37,6 +40,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float attachTime = 5f;
     [SerializeField, Range(0f,1f)] private float moveThreshold = 0.7f;
     [SerializeField] private float baseFillSpeed = 1f;
+    
 
     [Header("Chase")]
     [SerializeField] private float chaseSpeed = 3.0f;
@@ -233,6 +237,7 @@ public class PirateController : MonoBehaviour
 
         if (CanSeeRat())
         {
+            lostSightTimer = 0f; // Reset timer quando lo vedi
             agent.isStopped = false;
             agent.SetDestination(ratTransform.position);
 
@@ -243,9 +248,19 @@ public class PirateController : MonoBehaviour
         }
         else
         {
-            EnterSuspicious();
+            lostSightTimer += Time.deltaTime;
+
+            if (lostSightTimer >= lostSightGracePeriod)
+            {
+                EnterSuspicious(); // solo dopo il grace period
+            }
+            else
+            {
+                agent.SetDestination(ratTransform.position); // continua a inseguire alla cieca
+            }
         }
     }
+
 
     #endregion
 
@@ -274,24 +289,22 @@ public class PirateController : MonoBehaviour
 
     public void InflictDamageEvent()
     {
-        if (state == State.Dead) return; // non infliggere se morto
+        Debug.Log("📢 Animation Event ricevuto correttamente da " + gameObject.name);
 
-        if (ratHealt != null && ratTransform != null)
+        if (ratTransform == null || ratHealt == null || ratManager == null) return;
+
+        float distance = Vector3.Distance(transform.position, ratTransform.position);
+        if (distance <= attackRange && !ratManager.invincible)
         {
-            float distance = Vector3.Distance(transform.position, ratTransform.position);
-            if (distance <= attackRange && !ratManager.invincible)
-            {
-                ratHealt.TakeDamage(attackDamage);
-                Debug.Log("💥 Danno inflitto tramite Animation Event");
-            }
-            else
-            {
-                Debug.Log("😶 Troppo lontano o ratto invincibile. Nessun danno.");
-            }
+            ratHealt.TakeDamage(attackDamage);
+            Debug.Log("💥 Danno inflitto al ratto (via AnimationEvent)");
         }
-
-        hasDealtDamageThisAttack = true;
+        else
+        {
+            Debug.Log("❌ Danno NON inflitto: distanza o invincibilità");
+        }
     }
+
 
 
 
