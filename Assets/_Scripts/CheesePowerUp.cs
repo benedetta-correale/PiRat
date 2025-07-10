@@ -19,9 +19,7 @@ public class CheesePowerUp : MonoBehaviour
     
     [SerializeField] private GameObject VFXPrefab;
 
-    [Header("Trap Spawn Settings (solo per PoisonLeak)")]
-    [SerializeField] private bool enableTrapFromPuddle = false;
-    [SerializeField] private GameObject[] trapPrefabs;
+    
 
 
     [Header("Outline & Trigger")]
@@ -163,12 +161,14 @@ public class CheesePowerUp : MonoBehaviour
         // Solo segnala che può pisciare + VFX
         rat.PreparePoisonLeak(poisonPuddlePrefab, VFXPrefab);
 
-        // Salva la configurazione delle trappole da assegnare più tardi
-        if (enableTrapFromPuddle)
+        // Se il formaggio ha un TrapConfig, passa le sue trappole
+        var trapConfig = GetComponent<TrapConfig>();
+        if (trapConfig != null && trapConfig.enableTrapFromPuddle)
         {
-            rat.ConfigurePuddleTrap(trapPrefabs);
+            rat.ConfigurePuddleTrap(trapConfig.trapPrefabs);
         }
     }
+
 
 
 
