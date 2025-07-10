@@ -313,11 +313,20 @@ public class PirateController : MonoBehaviour
     {
         if (ratTransform == null) return;
 
-        if (!CanSeeRat())
+        if (CanSeeRat())
         {
-            EnterPatrol();
-            return;
+            lostSightTimer = 0f; // Reset timer se lo vedi
         }
+        else
+        {
+            lostSightTimer += Time.deltaTime;
+            if (lostSightTimer >= lostSightGracePeriod)
+            {
+                EnterSuspicious(); // solo dopo il tempo di grazia
+                return;
+            }
+        }
+
 
         float distance = Vector3.Distance(transform.position, ratTransform.position);
         if (distance > attackRange)
@@ -420,11 +429,15 @@ public class PirateController : MonoBehaviour
         Vector3 directionToRat = (ratTransform.position - origin).normalized;
         float distance = Vector3.Distance(origin, ratTransform.position);
 
-        // ✅ Controlla se il topo è davanti
+        // ✅ Controlla se il topo è nel cono visivo
         float angle = Vector3.Angle(transform.forward, directionToRat);
-        if (angle > viewAngle * 0.5f) return false;
+        if (angle > viewAngle * 0.5f)
+        {
+            Debug.DrawRay(origin, directionToRat * distance, Color.gray, 1.5f); // 🟪 Cono visivo fallito
+            return false;
+        }
 
-        // ✅ Raycast per occlusione
+        // ✅ Raycast per occlusione (esegui più tentativi verticali)
         for (float yOffset = 0f; yOffset <= 1f; yOffset += 0.25f)
         {
             Vector3 target = ratTransform.position + Vector3.up * yOffset;
@@ -432,21 +445,19 @@ public class PirateController : MonoBehaviour
 
             if (!Physics.Raycast(origin, dir.normalized, out RaycastHit hit, distance, LayerMask.GetMask("Wall")))
             {
-                Debug.DrawRay(origin, dir.normalized * distance, Color.green, 1.5f);
+                // ✅ Nessun muro → visione libera
+                Debug.DrawRay(origin, dir.normalized * distance, Color.green, 1.5f); // 🟩 Raggio valido
                 return true;
             }
             else
             {
-                Debug.DrawRay(origin, dir.normalized * distance, Color.red, 1.5f);
+                // ❌ C'è un ostacolo davanti → visione bloccata
+                Debug.DrawRay(origin, dir.normalized * distance, Color.red, 1.5f); // 🟥 Colpito muro o ostacolo
             }
         }
 
         return false;
     }
-
-
-
-
 
     // ---- DAMAGE 
 
