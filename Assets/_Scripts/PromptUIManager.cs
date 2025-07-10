@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using Microsoft.Unity.VisualStudio.Editor;
+using UnityEngine.InputSystem;
 
 public enum InputKeyType
 {
@@ -40,6 +41,7 @@ public class PromptUIManager : MonoBehaviour
     public GameObject buttonSouth;
     public GameObject buttonNorth;
 
+
     private Dictionary<InputKeyType, GameObject> _iconMap;
     private bool _isFrozen = false;
     private float _prevTimeScale = 1f;
@@ -47,6 +49,11 @@ public class PromptUIManager : MonoBehaviour
     private InputKeyType _expectedKey;
     private bool _waitingForInput = false;
     public UnityEngine.UI.Image bersaglio;
+
+    private InputAction continueDialogue;
+    private InputAction rotateCamera;
+    private InputAction exitSelectionMode;
+    [SerializeField] private PlayerInput playerInput;
 
     private void Awake()
     {
@@ -71,6 +78,10 @@ public class PromptUIManager : MonoBehaviour
         inputContainer.SetActive(false);
         foreach (var go in _iconMap.Values)
             if (go != null) go.SetActive(false);
+
+        continueDialogue = playerInput.actions["ContinueDialogue"];
+        rotateCamera = playerInput.actions["Look"];
+        exitSelectionMode = playerInput.actions["Exit Selection"];
     }
 
     void Update()
@@ -92,19 +103,23 @@ public class PromptUIManager : MonoBehaviour
 
             case InputKeyType.RightStick:
                 // Solo movimento del mouse (valido per tastiera/mouse)
-                if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+                if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0 || rotateCamera.triggered)
                     ConfirmPromptInput();
                 break;
 
             case InputKeyType.ButtonSouth:
-                if (Input.GetKeyDown(KeyCode.Escape) || Input.GetKeyDown(KeyCode.JoystickButton0)) // A / Cross
+                if (Input.GetKeyDown(KeyCode.Escape) || exitSelectionMode.triggered) // A / Cross
                 {
                     ConfirmPromptInput();
                 }
                 break;
 
             case InputKeyType.ButtonEast:
-                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton1)) // B / Circle
+                if (
+                    Input.GetKeyDown(KeyCode.Space) || 
+                    Input.GetKeyDown(KeyCode.Return) || 
+                    (continueDialogue != null && continueDialogue.triggered)
+                )
                 {
                     bersaglio.gameObject.SetActive(false);
                     ConfirmPromptInput();

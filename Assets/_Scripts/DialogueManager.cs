@@ -37,6 +37,9 @@ public class DialogueManager : MonoBehaviour
     public UnityEngine.UI.Image bersaglio;
     public QuickTimeUIManager quickTimeUIManager;
     [SerializeField] private DialogueSequence empowermentDialogue;
+    private InputAction continueDialogue;
+    [SerializeField] private PlayerInput playerInput;
+    public GameObject muriInvisibili;
 
 
     public void ForceRightBoxOnly(bool value)
@@ -56,13 +59,14 @@ public class DialogueManager : MonoBehaviour
         ratMovementScript.enabled = false;
         cameraScript.enabled = false;
         bersaglio.gameObject.SetActive(false);
+        continueDialogue = playerInput.actions["ContinueDialogue"];
 
         StartDialogue(introDialogue); // ← avvia subito il primo dialogo
     }
 
     void Update()
     {
-        if (isDialogueActive && Input.GetKeyDown(KeyCode.Return))
+        if (isDialogueActive && continueDialogue != null && continueDialogue.triggered)
         {
             ShowNextLine();
         }
@@ -138,6 +142,20 @@ public class DialogueManager : MonoBehaviour
                     {
                         promptUIManager.ShowPrompt(InputKeyType.ButtonSouth, "Possess pirate with this button or ESCAPE", true);
                     } */
+                    break;
+                case 1:
+                    promptUIManager.HidePrompt();
+                    muriInvisibili.SetActive(false);
+                    break;
+            }
+        }
+
+        if (currentSequence.sequenceID == "intro")
+        {
+            switch (index)
+            {
+                case 0:
+                    promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Continue with this botton or ENTER", true);
                     break;
                 case 1:
                     promptUIManager.HidePrompt();
