@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.AI;
 
 public enum TrapType { Spring, Glue, Slide }
 
@@ -24,6 +25,12 @@ public class Trap : MonoBehaviour
     [SerializeField] private float wiggleDecay = 0.5f;  // quanto si scarica nel tempo se non ti dimeni
     [SerializeField] private float wiggleStrength = 0.05f;
     [SerializeField] private float wiggleSpeed = 20f;
+    [Header("Replaceable Spring")]
+    [SerializeField] private bool isReplaceable = false;
+    [SerializeField] private MeshRenderer originalRenderer;
+    [SerializeField] private MeshRenderer usedRenderer;
+    private bool trapUsed = false;
+
     private Transform stuckModel; // riferimento al modello visivo del topo
     private Vector3 initialModelLocalPos;
 
@@ -35,6 +42,24 @@ public class Trap : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        // Reset della trappola spring da parte di un pirata
+        if (isReplaceable && trapUsed && other.CompareTag("Pirate"))
+        {
+            PirateController pc = other.GetComponent<PirateController>();
+            if (pc != null)
+            {
+                string state = pc.CurrentState;
+                if (state != "Chasing" && state != "Attacking")
+                {
+                    NavMeshAgent pirateAgent = other.GetComponent<NavMeshAgent>();
+                    StartCoroutine(ResetTrap(pirateAgent));
+                }
+            }
+            return;
+        }
+
+
+
         if (!other.CompareTag("Player")) return;
 
         RatInteractionManager rim = other.GetComponent<RatInteractionManager>();
@@ -81,6 +106,15 @@ public class Trap : MonoBehaviour
         ProcessTrap(other);
     }
 
+    private void Awake()
+    {
+        // se non assegnati in inspector, cerchiamo automaticamente
+        if (originalRenderer == null)
+            originalRenderer = GetComponentInChildren<MeshRenderer>();
+        if (usedRenderer != null)
+            usedRenderer.enabled = false;
+
+    }
     private IEnumerator WaitForBackflipEnd(RatInteractionManager rim)
     {
         Animator ratAnimator = rim.GetComponent<Animator>();
@@ -190,11 +224,21 @@ public class Trap : MonoBehaviour
                 if (hp != null) hp.TakeDamage(springDamage);
 
                 springReady = false;
-
                 Collider col = GetComponent<Collider>();
                 if (col != null) col.enabled = false;
 
-                StartCoroutine(HideAndDestroy());
+                if (isReplaceable)
+                {
+                    // mostro il modello usato, nascondo quello originale
+                    if (originalRenderer != null) originalRenderer.enabled = false;
+                    if (usedRenderer != null) usedRenderer.enabled = true;
+                    trapUsed = true;
+                }
+                else
+                {
+                    StartCoroutine(HideAndDestroy());
+                }
+
                 break;
 
             case TrapType.Glue:
@@ -280,6 +324,24 @@ public class Trap : MonoBehaviour
         yield return new WaitForSeconds(1f); // altro secondo prima di distruggere
         Destroy(gameObject);
     }
+
+    private IEnumerator ResetTrap(NavMeshAgent pirateAgent)
+    {
+        // il pirata si ferma per 1 secondo
+        if (pirateAgent != null) pirateAgent.isStopped = true;
+        yield return new WaitForSeconds(1f);
+        if (pirateAgent != null) pirateAgent.isStopped = false;
+
+        // ripristino mesh e collider
+        if (originalRenderer != null) originalRenderer.enabled = true;
+        if (usedRenderer != null) usedRenderer.enabled = false;
+        Collider col = GetComponent<Collider>();
+        if (col != null) col.enabled = true;
+
+        springReady = true;
+        trapUsed = false;
+    }
+
 
 #if UNITY_EDITOR
     void OnDrawGizmos()
