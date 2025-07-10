@@ -4,9 +4,6 @@ using UnityEngine.InputSystem;
 using FischlWorks_FogWar;
 using UnityEngine.AI;
 using System;
-using UnityEngine.VFX;
-
-
 
 public enum PossessionState { Idle, Selecting, FollowingTrail, Possessing }
 
@@ -37,15 +34,12 @@ public class PossessionManager : MonoBehaviour
     private int selectedIndex = -1;
     private bool canSwitchBackToRat = true;
 
-    // private List<LineRenderer> scieAttive = new List<LineRenderer>();
-    private List<VisualEffect> scieAttive = new List<VisualEffect>();
+    private List<LineRenderer> scieAttive = new List<LineRenderer>();
     private Animator ratAnimator;
 
     private PlayerInput playerInput;
     private InputAction moveAction;
 
-    
-    
     void Start()
     {
         if (cameraManager != null)
@@ -58,15 +52,11 @@ public class PossessionManager : MonoBehaviour
         moveAction = playerInput.actions["Move"];
     }
 
-
-
     void OnDestroy()
     {
         if (cameraManager != null)
             cameraManager.OnSwitchedToRat -= HandleReturnToRat;
     }
-
-
 
     void Update()
     {
@@ -75,8 +65,6 @@ public class PossessionManager : MonoBehaviour
             HandleSelectionInput();
         }
     }
-
-
 
     void EnterSelectionMode()
     {
@@ -124,8 +112,6 @@ public class PossessionManager : MonoBehaviour
         AggiornaScie(piratesInRange);
     }
 
-
-
     private void ConfirmSelection(List<Transform> piratesInRange)
     {
         HideScie();
@@ -167,10 +153,6 @@ public class PossessionManager : MonoBehaviour
         cameraManager.LockRotation(true);
 
     }
-
-
-
-
 
     void ExitSelectionMode()
     {
@@ -284,21 +266,10 @@ public class PossessionManager : MonoBehaviour
 
         while (scieAttive.Count < piratesInRange.Count)
         {
-            var newSciaInstance = Instantiate(sciaPrefab);
-            var newVFX = newSciaInstance.GetComponentInChildren<VisualEffect>();
-            if (newVFX != null)
-            {
-                var renderer = newVFX.GetComponent<Renderer>();
-                if (renderer != null && renderer.sharedMaterial != null)
-                    renderer.sharedMaterial.renderQueue = 4000;
-
-                newSciaInstance.SetActive(false);
-                scieAttive.Add(newVFX);
-            }
-            /* var newScia = Instantiate(sciaPrefab).GetComponent<LineRenderer>();
+            var newScia = Instantiate(sciaPrefab).GetComponent<LineRenderer>();
             newScia.material.renderQueue = 4000;
             newScia.gameObject.SetActive(false);
-            scieAttive.Add(newScia); */
+            scieAttive.Add(newScia);
         }
 
         while (scieAttive.Count > piratesInRange.Count)
@@ -323,24 +294,15 @@ public class PossessionManager : MonoBehaviour
             // calcola il punto di arrivo leggermente più in alto sul pirata
             Vector3 end = target.position + Vector3.up * sciaHeightOffset;
 
-            //scia.SetPosition(0, start);
-            //scia.SetPosition(1, end);
-            var startWorld = (dynamicRevealerFollower != null ? dynamicRevealerFollower.transform.position : ratTransform.position) + Vector3.up * sciaHeightOffset;
-            var endWorld = target.position + Vector3.up * sciaHeightOffset;
-
-            var localStart = scia.transform.InverseTransformPoint(startWorld);
-            var localEnd = scia.transform.InverseTransformPoint(endWorld);
-
-            scia.SetVector3("Pos1", localStart);
-            scia.SetVector3("Pos2", localEnd);
+            scia.SetPosition(0, start);
+            scia.SetPosition(1, end);
 
 
 
-            /* if (scia.material != null)
+            if (scia.material != null)
             {
                 scia.material.color = (i == selectedIndex) ? selectedColor : defaultColor;
-            } */
-            scia.SetVector4("Color1", (i == selectedIndex) ? selectedColor : defaultColor);
+            }
         }
     }
 
@@ -365,15 +327,9 @@ public class PossessionManager : MonoBehaviour
     // Metodo per entrare nella modalità selezione
     public void EnterSelectionMode_Input(InputAction.CallbackContext context)
     {
-        // reagisci soltanto alla fase "performed" dell'azione Selection
-        if (!context.performed)
-            return;
-
-        // da Idle → Selecting
-        if (currentState == PossessionState.Idle)
+        if (context.performed && currentState == PossessionState.Idle)
             EnterSelectionMode();
     }
-
 
     // Metodo per uscire dalla modalità selezione o possessione
     public void ExitSelectionMode_Input(InputAction.CallbackContext context)
@@ -393,18 +349,28 @@ public class PossessionManager : MonoBehaviour
         if (!context.performed)
             return;
 
-        // conferma solo se sei già in Selecting
-        if (currentState != PossessionState.Selecting)
-            return;
-
-        // conferma il possesso
+        // prendi la lista aggiornata di pirati
         var piratesInRange = GetPiratesInRange();
         if (piratesInRange.Count == 0)
             return;
 
-        ConfirmSelection(piratesInRange);
-    }
+        // se sono in Idle (nessuna selezione attiva) e ho almeno 1 pirata
+        if (currentState == PossessionState.Idle)
+        {
+            // entra in selezione (gestisce già animator, input e zoom)
+            EnterSelectionMode();
 
+            // conferma subito la selezione
+            ConfirmSelection(piratesInRange);
+            return;
+        }
+
+        // se sono già in Selecting, conferma normalmente
+        if (currentState == PossessionState.Selecting)
+        {
+            ConfirmSelection(piratesInRange);
+        }
+    }
 
 
 
@@ -436,7 +402,4 @@ public class PossessionManager : MonoBehaviour
             currentTrail = null;
         }
     }
-
-
-
 }

@@ -3669,8 +3669,8 @@ GameObject:
   - component: {fileID: 9118247910905347265}
   - component: {fileID: 9122812352272184940}
   - component: {fileID: 4840180647165213175}
-  - component: {fileID: 5790083952298383132}
   - component: {fileID: 8209141591351060995}
+  - component: {fileID: 4434297207494486838}
   m_Layer: 8
   m_Name: Rat
   m_TagString: Player
@@ -3842,7 +3842,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Attack[/XInputControllerWindows/buttonWest,/Mouse/leftButton,/Keyboard/enter]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5790083952298383132}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PossessionManager, Assembly-CSharp
         m_MethodName: ConfirmPossess_Input
         m_Mode: 0
@@ -3882,7 +3882,7 @@ MonoBehaviour:
     m_ActionName: 'Player/Previous[/Keyboard/1,/XInputControllerWindows/dpad/left]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5790083952298383132}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PossessionManager, Assembly-CSharp
         m_MethodName: ExitSelectionMode_Input
         m_Mode: 0
@@ -3958,7 +3958,7 @@ MonoBehaviour:
     m_ActionName: 'Player/QuickTimeConfirm[/Keyboard/space]'
   - m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 5790083952298383132}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: PossessionManager, Assembly-CSharp
         m_MethodName: EnterSelectionMode_Input
         m_Mode: 0
@@ -4038,10 +4038,11 @@ MonoBehaviour:
   _ratRay: 5
   biteCooldown: 1
   Damage: 30
+  invincible: 0
+  powerUpConfig: {fileID: 0}
   quickTimeUIManager: {fileID: 0}
   vfxManager: {fileID: 0}
   biting: 0
-  skillCheck: {fileID: 0}
   infectedPirates: []
   isBackflipping: 0
 --- !u!114 &4840180647165213175
@@ -4078,24 +4079,7 @@ MonoBehaviour:
       m_Calls: []
   VFXPrefab: {fileID: 1639086506678902, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
   rat: {fileID: 9122812352272184940}
---- !u!114 &5790083952298383132
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8452103283487795676}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b71ddfb32ac54faca4825041e79c850, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ratInteraction: {fileID: 9122812352272184940}
-  sciaPrefab: {fileID: 0}
-  ratTransform: {fileID: 7653371694649661613}
-  ratInput: {fileID: 8145009542352276400}
-  cameraManager: {fileID: 0}
-  maxSelectionDistance: 15
+  pm: {fileID: 0}
 --- !u!114 &8209141591351060995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4111,6 +4095,28 @@ MonoBehaviour:
   biteRaycastDistance: 2
   nearSphereRadius: 0.8
   ratTransform: {fileID: 7653371694649661613}
+--- !u!114 &4434297207494486838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452103283487795676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b71ddfb32ac54faca4825041e79c850, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ratInteraction: {fileID: 9122812352272184940}
+  sciaPrefab: {fileID: 3916050343537090944, guid: fd0cda2a3e94744348084d8dd6e579ca, type: 3}
+  dynamicRevealerFollower: {fileID: 9024834148499370942}
+  sciaHeightOffset: 1
+  ratTransform: {fileID: 7653371694649661613}
+  ratInput: {fileID: 8145009542352276400}
+  cameraManager: {fileID: 0}
+  trailPrefab: {fileID: 1723944384526231354, guid: 751e2ad0e184a654e9eff552f95ee16a, type: 3}
+  trailStoppingDistance: 1
+  maxSelectionDistance: 15
 --- !u!1 &8717209134903833235
 GameObject:
   m_ObjectHideFlags: 0

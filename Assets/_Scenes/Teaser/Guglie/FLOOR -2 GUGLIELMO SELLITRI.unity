@@ -2232,6 +2232,7 @@ MonoBehaviour:
   viewAngle: 90
   eyeHeight: 1.5
   viewOriginBackOffset: 0.5
+  lostSightGracePeriod: 2
   alertIndicator: {fileID: 1872720641}
   alertFillImage: {fileID: 1368222693}
   attachTime: 5
@@ -52632,6 +52633,8 @@ MonoBehaviour:
   ratMovementScript: {fileID: 0}
   cameraScript: {fileID: 0}
   forceRightBoxOnly: 0
+  promptUIManager: {fileID: 0}
+  pirateAutoMove: {fileID: 0}
 --- !u!1001 &1561452890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67885,7 +67888,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 1832333219}
-  agent: {fileID: 0}
+  agent: {fileID: 1832333223}
   patrolPoints:
   - {fileID: 2103112628}
   - {fileID: 1338559461}
@@ -67896,6 +67899,7 @@ MonoBehaviour:
   viewAngle: 90
   eyeHeight: 0.5
   viewOriginBackOffset: 0.5
+  lostSightGracePeriod: 2
   alertIndicator: {fileID: 1058514753}
   alertFillImage: {fileID: 1172371499}
   attachTime: 5
@@ -78858,9 +78862,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e32253277c634b8e810ea4c3f36f346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &543450653137747184 stripped
+--- !u!114 &543450653137747189 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+  m_CorrespondingSourceObject: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
   m_PrefabInstance: {fileID: 1799581600365552264}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
@@ -78955,10 +78959,62 @@ PrefabInstance:
       propertyPath: m_ActionEvents.Array.data[1].m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1090140451}
+    - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 543450653137747189}
+    - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 543450653137747189}
+    - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[20].m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 543450653137747189}
+    - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[3].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ConfirmPossess_Input
+      objectReference: {fileID: 0}
+    - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[7].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: ExitSelectionMode_Input
+      objectReference: {fileID: 0}
+    - target: {fileID: 424945752872594393, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: m_ActionEvents.Array.data[20].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: EnterSelectionMode_Input
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: ratInput
+      value: 
+      objectReference: {fileID: 614801730}
+    - target: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: sciaPrefab
+      value: 
+      objectReference: {fileID: 1337301736}
+    - target: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: trailPrefab
+      value: 
+      objectReference: {fileID: 1723944384526231354, guid: 751e2ad0e184a654e9eff552f95ee16a, type: 3}
+    - target: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: ratTransform
+      value: 
+      objectReference: {fileID: 543450653137747181}
+    - target: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: cameraManager
+      value: 
+      objectReference: {fileID: 1090140451}
+    - target: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: trailStoppingDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4434297207494486838, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: dynamicRevealerFollower
+      value: 
+      objectReference: {fileID: 1604790049}
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: pm
       value: 
-      objectReference: {fileID: 543450653137747184}
+      objectReference: {fileID: 0}
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -79051,7 +79107,16 @@ PrefabInstance:
       propertyPath: quickTimeUIManager
       value: 
       objectReference: {fileID: 1706496220}
-    m_RemovedComponents: []
+    - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: infectedPirates.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: 'infectedPirates.Array.data[0]'
+      value: 
+      objectReference: {fileID: 1832333217}
+    m_RemovedComponents:
+    - {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
