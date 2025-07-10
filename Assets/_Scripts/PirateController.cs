@@ -50,7 +50,7 @@ public class PirateController : MonoBehaviour
     private bool canAttack = true;
 
     [Header("Health")]
-    [SerializeField] private float maxHealth = 100f;
+    public float maxHealth = 100f;
     [SerializeField] private Image healthFill;
     [SerializeField] private int biteTickDamage;
     [SerializeField] private float biteTickInterval;
@@ -272,31 +272,34 @@ public class PirateController : MonoBehaviour
         state = State.Attacking;
     }
 
+    public void InflictDamageEvent()
+    {
+        if (state == State.Dead) return; // non infliggere se morto
+
+        if (ratHealt != null && ratTransform != null)
+        {
+            float distance = Vector3.Distance(transform.position, ratTransform.position);
+            if (distance <= attackRange && !ratManager.invincible)
+            {
+                ratHealt.TakeDamage(attackDamage);
+                Debug.Log("💥 Danno inflitto tramite Animation Event");
+            }
+            else
+            {
+                Debug.Log("😶 Troppo lontano o ratto invincibile. Nessun danno.");
+            }
+        }
+
+        hasDealtDamageThisAttack = true;
+    }
 
 
-    private void UpdateAttacking()
+
+
+   private void UpdateAttacking()
     {
         if (ratTransform == null) return;
 
-        if (ratWasRecentlyInvincible && !ratManager.invincible)
-        {
-            ratWasRecentlyInvincible = false;
-            Debug.Log("✅ Il ratto non è più invincibile");
-        }
-
-
-        bool isAttackingState = animator.GetCurrentAnimatorStateInfo(0).tagHash == Animator.StringToHash("Attack");
-
-        // Dopo aver attaccato → resta fermo per il cooldown
-        if (Time.time < lastAttackTime + attackCooldown)
-        {
-            agent.isStopped = true;
-            animator.SetBool("isWalking", false);
-            return; // NON fare nulla per il tempo del cooldown
-        }
-
-        // Se il cooldown è finito
-        // Valuta se tornare a inseguire o tornare in Patrol
         if (!CanSeeRat())
         {
             EnterPatrol();
@@ -310,51 +313,32 @@ public class PirateController : MonoBehaviour
             return;
         }
 
-        // Ruota verso il topo
+        // Cooldown: aspetta prima di attaccare di nuovo
+        if (Time.time < lastAttackTime + attackCooldown)
+        {
+            agent.isStopped = true;
+            animator.SetBool("isWalking", false);
+            return;
+        }
+
+        // Non attaccare se il ratto è invincibile
+        if (ratManager != null && ratManager.invincible)
+        {
+            Debug.Log("❌ ATTACCO NON PARTITO: ratto invincibile");
+            return;
+        }
+
+        // Ruota verso il ratto
         Vector3 dir = (ratTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-        // Stato attuale
-        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
-
-        if (stateInfo.tagHash == Animator.StringToHash("Attack"))
-        {
-            Debug.Log($"Animazione ATTACK in corso. NormalizedTime = {stateInfo.normalizedTime}");
-            if (!hasDealtDamageThisAttack)
-            {
-                if (ratHealt != null && distance <= attackRange)
-                {
-                    ratHealt.TakeDamage(attackDamage);
-                    Debug.Log("ratto danneggiato");
-                }
-
-                hasDealtDamageThisAttack = true;
-            }
-
-
-            if (stateInfo.normalizedTime >= 1f)
-            {
-                hasDealtDamageThisAttack = false;
-                // Niente EnterChasing qui! Lo decidi sopra solo dopo cooldown
-            }
-        }
-        else
-        {
-            if (ratManager != null && ratManager.invincible)
-            {
-                Debug.Log("❌ ATTACCO NON PARTITO: ratto invincibile");
-                return;
-            }
-
-            Debug.Log("🎯 ATTEMPT ATTACK: Trigger attacco chiamato");
-            animator.SetTrigger("AttackTrigger");
-            lastAttackTime = Time.time;
-            hasDealtDamageThisAttack = false;
-        }
-
-
+        // Attiva animazione
+        Debug.Log("🎯 ATTEMPT ATTACK: Trigger attacco chiamato");
+        animator.SetTrigger("AttackTrigger");
+        lastAttackTime = Time.time;
     }
+
 
 
 

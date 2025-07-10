@@ -256,7 +256,7 @@ public class DocManager : MonoBehaviour
                 if (!col.CompareTag("Pirate")) continue;
 
                 PirateController pc = col.GetComponent<PirateController>();
-                if (pc == null || !pc.infected || pc.alreadyHealing) continue;
+                if (pc == null || !pc.infected || pc.alreadyHealing || pc.currentHealth > pc.maxHealth * 0.5f) continue;
 
                 if (pc.currentHealth < lowestHealth)
                 {
