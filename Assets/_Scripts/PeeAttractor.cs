@@ -52,35 +52,64 @@ public class PeeAttractor : MonoBehaviour
         }
     }
 
+    public bool WasLegitForTrap(PirateController pirate)
+    {
+        return pirate != null
+            && (pirate.CurrentState == "Patrol" || pirate.CurrentState == "Suspicious")
+            && spawnTrapOnFirstInfection
+            && possibleTraps != null
+            && possibleTraps.Length > 0;
+    }
+
+
     public void OnPuddleConsumed(PirateController consumer)
     {
-        if (firstToReach != null) return; // già gestito
+        Debug.Log($"🔵 OnPuddleConsumed chiamato da: {consumer.name}");
+
+        if (firstToReach != null && firstToReach != consumer)
+        {
+            Debug.Log("⛔ Trappola già gestita da un altro pirata");
+            return;
+        }
 
         firstToReach = consumer;
 
-        if (spawnTrapOnFirstInfection
-            && !trapSpawned
-            && possibleTraps.Length > 0
-            && (consumer.CurrentState == "Patrol" || consumer.CurrentState == "Suspicious"))
+        Debug.Log($"👉 Stato pirata: {consumer.CurrentState}");
+        Debug.Log($"👉 spawnTrapOnFirstInfection: {spawnTrapOnFirstInfection}");
+        Debug.Log($"👉 trapSpawned: {trapSpawned}");
+        Debug.Log($"👉 possibleTraps.Length: {possibleTraps?.Length}");
 
+        if (!spawnTrapOnFirstInfection)
         {
-            GameObject selectedTrap = possibleTraps[Random.Range(0, possibleTraps.Length)];
-            Instantiate(selectedTrap, transform.position, Quaternion.identity);
-            trapSpawned = true;
-            Debug.Log("🪤 Trappola istanziata casualmente!");
+            Debug.Log("⛔ spawnTrapOnFirstInfection è disattivo");
+            return;
         }
 
-        foreach (var pirate in attractedPirates)
+        if (trapSpawned)
         {
-            if (pirate != null && pirate != consumer && !pirate.infected)
-            {
-                pirate.SendMessage("EnterPatrol", SendMessageOptions.DontRequireReceiver);
-                Debug.Log($"🔙 Pirate {pirate.name} torna in patrol");
-            }
+            Debug.Log("⛔ Una trappola è già stata instanziata");
+            return;
         }
 
-        attractedPirates.Clear();
+        if (possibleTraps == null || possibleTraps.Length == 0)
+        {
+            Debug.Log("⛔ Nessuna trappola assegnata");
+            return;
+        }
+
+        if (consumer.CurrentState != "Patrol" && consumer.CurrentState != "Suspicious")
+        {
+            Debug.Log("⛔ Il pirata non è in uno stato valido per piazzare trappole");
+            return;
+        }
+
+        int index = Random.Range(0, possibleTraps.Length);
+        GameObject trap = Instantiate(possibleTraps[index], transform.position, Quaternion.identity);
+        trapSpawned = true;
+
+        Debug.Log($"✅ Trappola instanziata: {trap.name}");
     }
+
 
     public void SetTrapMechanic(bool enable, GameObject[] traps)
     {

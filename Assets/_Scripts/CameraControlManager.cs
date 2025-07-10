@@ -51,6 +51,7 @@ public class CameraControlManager : MonoBehaviour
     public LayerMask cameraCollisionMask;
     public float cameraMinDistance = 1f; // distanza minima di sicurezza dal topo
 
+    private InputAction _lookAction;
 
     float yaw;
     Vector2 lookInput;
@@ -192,23 +193,61 @@ public class CameraControlManager : MonoBehaviour
         ratController.enabled = false;
     }
 
-    private void OnEnable()
+    void OnEnable()
     {
+        // 1) Ogni volta che carica una scena, ricollego il Look
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+        // 2) Se la scena è già aperta (al primo avvio), collega subito
+        TrySubscribeLook();
     }
 
-    private void OnDisable()
+    void OnDisable()
     {
         SceneManager.sceneLoaded -= OnSceneLoaded;
+        UnsubscribeLook();
     }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        // Ricompatta il target al nuovo Player in scena
-        var player = GameObject.FindGameObjectWithTag("Player");
-        if (player != null)
-            currentTarget = player.transform;
+        // Ricollego l'azione Look del nuovo PlayerInput
+        TrySubscribeLook();
     }
+
+    /// <summary>
+    /// Cerca in scena il PlayerInput, estrae l'azione "Look" e si iscrive al suo evento.
+    /// </summary>
+    private void TrySubscribeLook()
+    {
+        // Prima pulisco l'eventuale subscription precedente
+        UnsubscribeLook();
+
+        // Trova il PlayerInput (assume tu lo usi per il tuo ratto)
+        var pi = FindObjectOfType<PlayerInput>();
+        if (pi == null) return;
+
+        // Ottengo l'azione "Look" da quella action map
+        _lookAction = pi.actions["Look"];
+        if (_lookAction == null) return;
+
+        // Iscrivo il tuo metodo OnLook (già presente nella classe)
+        _lookAction.performed += OnLook;
+        _lookAction.Enable();
+    }
+
+    /// <summary>
+    /// Rimuove la subscription alla Look action se esiste.
+    /// </summary>
+    private void UnsubscribeLook()
+    {
+        if (_lookAction != null)
+        {
+            _lookAction.performed -= OnLook;
+            _lookAction.Disable();
+            _lookAction = null;
+        }
+    }
+
 
 
 }

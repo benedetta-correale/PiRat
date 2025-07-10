@@ -81,7 +81,20 @@ public class PoisonPuddle : MonoBehaviour
                 Debug.LogError("❌ RatInteractionManager non trovato!");
             }
 
-            StartCoroutine(ApplyPoison(pirate));
+            // 🚨 IMMEDIATA GESTIONE TRAPPOLA E SCOMPARSA
+            PeeAttractor attractor = GetComponentInChildren<PeeAttractor>();
+            if (attractor != null && attractor.WasLegitForTrap(pirate))
+            {
+                // Istanzia la trappola PRIMA che la puddle scompaia
+                attractor.OnPuddleConsumed(pirate);
+                Debug.Log("🪤 Trappola istanziata immediatamente!");
+            }
+
+            // Nascondi immediatamente la puddle visivamente
+            HidePuddleVisually();
+
+            // Avvia il danno over time in background
+            StartCoroutine(ApplyPoisonInBackground(pirate));
         }
         else
         {
@@ -89,6 +102,50 @@ public class PoisonPuddle : MonoBehaviour
         }
     }
 
+    private void HidePuddleVisually()
+    {
+        // Nascondi tutti i renderer
+        Renderer[] renderers = GetComponentsInChildren<Renderer>();
+        foreach (Renderer renderer in renderers)
+        {
+            renderer.enabled = false;
+        }
+
+        // Disabilita il collider per evitare ulteriori trigger
+        Collider col = GetComponent<Collider>();
+        if (col != null)
+        {
+            col.enabled = false;
+        }
+
+        Debug.Log("💥 Puddle nascosta visivamente");
+    }
+
+    private IEnumerator ApplyPoisonInBackground(PirateController pirate)
+    {
+        // Applica il danno over time
+        int totalDamage = 30;
+        int ticks = 30;
+        for (int i = 0; i < ticks; i++)
+        {
+            if (pirate == null) break;
+            pirate.TakeDamage(1);
+            yield return new WaitForSeconds(1f);
+        }
+
+        // Aspetta un po' prima di distruggere completamente
+        yield return new WaitForSeconds(0.5f);
+        PeeAttractor attractor = GetComponentInChildren<PeeAttractor>();
+        if (attractor != null)
+        {
+            attractor.OnPuddleConsumed(pirate);
+
+        }
+
+        // Distruggi completamente l'oggetto
+        Debug.Log("💥 Distruggo PoisonPuddle completamente");
+        Destroy(transform.root.gameObject);
+    }
 
     private void OnTriggerStay(Collider other)
     {
@@ -105,38 +162,5 @@ public class PoisonPuddle : MonoBehaviour
         {
             Debug.Log($"🚪 Pirata {other.name} uscito dal trigger");
         }
-    }
-
-    IEnumerator ApplyPoison(PirateController pirate)
-    {
-        int totalDamage = 30;
-        int ticks = 30;
-        for (int i = 0; i < ticks; i++)
-        {
-            if (pirate == null) break;
-            pirate.TakeDamage(1);
-            yield return new WaitForSeconds(1f);
-        }
-
-        yield return new WaitForSeconds(0.5f); // breve pausa
-
-        // ✅ Se il pirata era attratto da questa puddle, notifica per trappola
-        PeeAttractor attractor = GetComponent<PeeAttractor>();
-        if (attractor != null && attractor.IsAttracted(pirate))
-        {
-            attractor.OnPuddleConsumed(pirate);
-        }
-
-        Destroy(gameObject);
-    }
-
-
-
-
-    IEnumerator DestroyAfterDelay(float seconds)
-    {
-        yield return new WaitForSeconds(seconds);
-        Debug.Log("💥 Distruggo PoisonPuddle");
-        Destroy(gameObject);
     }
 }

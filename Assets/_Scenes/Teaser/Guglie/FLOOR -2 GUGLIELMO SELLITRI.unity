@@ -23667,6 +23667,7 @@ MonoBehaviour:
   bonusMalus: {fileID: 614801737}
   ratInputHandler: {fileID: 614801730}
   ratInteraction: {fileID: 543450653137747182}
+  powerUpConfig: {fileID: 11400000, guid: aaa846010519583418564d6b2641ed7d, type: 2}
   spawnPointTag: SpawnPoint
 --- !u!1 &670951990 stripped
 GameObject:

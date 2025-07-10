@@ -12,7 +12,6 @@ public class RatInteractionManager : MonoBehaviour
     private bool canBite = true;
     [SerializeField] private int Damage = 30;
     private int bonusDamage = 0;
-    public bool IsDamageBoostActive => bonusDamage > 0;
 
     private GameObject damageVFXInstance;
     private GameObject peeVFXInstance;
@@ -21,6 +20,20 @@ public class RatInteractionManager : MonoBehaviour
     private RatInputHandler _ratInputHandler;
     private Rigidbody rb;
     public bool invincible = false;
+
+    [Header("Config ScriptableObject")]
+    public PowerUpConfig powerUpConfig;
+    // speed
+    public bool speedBoostActive { get; private set; }
+    public float currentSpeedBoostMultiplier { get; private set; }
+    public float speedBoostRemainingTime { get; private set; }
+
+    // damage
+    public bool IsDamageBoostActive => bonusDamage > 0;
+    public int GetCurrentDamageBoostAmount() => bonusDamage;
+
+    // poison
+    public bool CanPee { get; private set; }
 
 
     [SerializeField] private QuickTimeUIManager quickTimeUIManager;
@@ -32,7 +45,6 @@ public class RatInteractionManager : MonoBehaviour
 
     [Header("Effetti dell' attacco")]
     public bool biting = false;
-    public InfectionSkillCheckUI skillCheck;
     private PirateController enemyController;
 
     private CameraControlManager cameraControlManager;
@@ -42,8 +54,6 @@ public class RatInteractionManager : MonoBehaviour
     public List<Transform> infectedPirates = new List<Transform>();
 
     private GameObject poisonPrefab;
-    private bool canPee = false;
-    public bool CanPee => canPee;
     public bool isBackflipping = false;
 
 
@@ -458,7 +468,7 @@ public class RatInteractionManager : MonoBehaviour
         // Se abbiamo salvato una configurazione di trappole, la passiamo ora
         if (trapPrefabsForNextPuddle != null)
         {
-            PeeAttractor attractor = puddle.GetComponent<PeeAttractor>();
+            PeeAttractor attractor = puddle.GetComponentInChildren<PeeAttractor>();
             if (attractor != null)
             {
                 attractor.SetTrapMechanic(true, trapPrefabsForNextPuddle);
@@ -481,7 +491,7 @@ public class RatInteractionManager : MonoBehaviour
 
     public void OnPiss(InputAction.CallbackContext ctx)
     {
-        if (ctx.performed && canPee && poisonPrefab != null)
+        if (ctx.performed && CanPee && poisonPrefab != null)
         {
             StartCoroutine(HandlePeeAction());
         }
@@ -496,7 +506,7 @@ public class RatInteractionManager : MonoBehaviour
         yield return new WaitForSeconds(0.5f); // Tempo dell'animazione del "piss", regola in base alla durata reale
 
         _ratInputHandler.movementLocked = false;
-        canPee = false;
+        CanPee = false;
 
         if (peeVFXInstance != null)
         {
@@ -507,7 +517,7 @@ public class RatInteractionManager : MonoBehaviour
 
     public void PreparePoisonLeak(GameObject puddlePrefab, GameObject vfxPrefab)
     {
-        canPee = true;
+        CanPee = true;
         poisonPrefab = puddlePrefab;
 
         if (peeVFXInstance != null)
@@ -548,11 +558,6 @@ public class RatInteractionManager : MonoBehaviour
         }
     }
 
-    // Amount di extra damage ancora da consumare
-    public int GetCurrentDamageBoostAmount()
-    {
-        return bonusDamage;
-    }
 
     // Se ho preparato la pozza, ne recupero qui le trappole
     public GameObject[] GetTrapPrefabsForNextPuddle()
@@ -599,38 +604,35 @@ public class RatInteractionManager : MonoBehaviour
     }
 
 
+    /// <summary>
+    /// Ripristina i power-up dal GameStateManager usando solo flag + config.
+    /// </summary>
     public void ApplyPowerUps(
-    List<CheesePowerUpType> types,
-    List<float> durations,
-    List<GameObject[]> puddleTraps
-)
+        bool speedActive, float speedMul, float speedTime,
+        bool damageActive, int damageAmt,
+        bool poisonReady
+    )
     {
-        for (int i = 0; i < types.Count && i < durations.Count; i++)
+        if (powerUpConfig == null) return;
+
+        if (speedActive)
+            StartCoroutine(
+                _ratInputHandler.SpeedBoostRoutine(speedMul, speedTime)
+            );
+
+        if (damageActive)
+            ActivateDamageBoost(damageAmt, powerUpConfig.damageVFXPrefab);
+
+        if (poisonReady)
         {
-            switch (types[i])
-            {
-                case CheesePowerUpType.SpeedBoost:
-                    // ri-lancio la coroutine con moltiplicatore salvato
-                    StartCoroutine(
-                        _ratInputHandler.SpeedBoostRoutine(
-                            _ratInputHandler.currentSpeedBoostMultiplier,
-                            durations[i]
-                        )
-                    );
-                    break;
-
-                case CheesePowerUpType.DamageBoost:
-                    // i durations[i] contiene l'amount di bonus
-                    ActivateDamageBoost((int)durations[i], null);
-                    break;
-
-                case CheesePowerUpType.PoisonLeak:
-                    PreparePoisonLeak(poisonPrefab, null);
-                    ConfigurePuddleTrap(puddleTraps[i]);
-                    break;
-            }
+            PreparePoisonLeak(
+                powerUpConfig.poisonPuddlePrefab,
+                powerUpConfig.poisonVFXPrefab
+            );
+            ConfigurePuddleTrap(powerUpConfig.poisonTrapPrefabs);
         }
     }
+
 
 
 }

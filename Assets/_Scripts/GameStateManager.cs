@@ -11,6 +11,10 @@ public class GameStateManager : MonoBehaviour
     public RatInputHandler ratInputHandler;         // tuo handler dei movimenti e boost
     public RatInteractionManager ratInteraction;    // gestisce damage boost, poison leak, ecc.
 
+    [Header("PowerUp Configuration")]
+    public PowerUpConfig powerUpConfig;
+
+
     [Header("Tag del punto di spawn in ogni scena")]
     public string spawnPointTag = "SpawnPoint";
 
@@ -18,13 +22,18 @@ public class GameStateManager : MonoBehaviour
     private class RatData
     {
         public int health;
-        public List<CheesePowerUpType> activePowerUps = new List<CheesePowerUpType>();
-        public List<float> powerUpDurations = new List<float>();
-        public List<GameObject[]> puddleTrapPrefabs = new List<GameObject[]>();
+
+        public bool speedActive;
+        public float speedMultiplier;
+        public float speedTimeLeft;
+
+        public bool damageActive;
+        public int damageAmount;
+
+        public bool poisonReady;
     }
-
-
     private RatData ratData = new RatData();
+
     // serve per non applicare il LoadRatData() sulla prima scena all'avvio
     private bool skipInitialLoad = true;
 
@@ -46,11 +55,17 @@ public class GameStateManager : MonoBehaviour
     public void SaveRatData()
     {
         ratData.health = bonusMalus.currentHealth;
-        ratData.activePowerUps = ratInteraction.GetActivePowerUps();
-        ratData.powerUpDurations = ratInteraction.GetPowerUpRemainingDurations();
-        ratData.puddleTrapPrefabs = ratInteraction.GetPuddleTrapPrefabs();
 
+        ratData.speedActive = ratInputHandler.speedBoostActive;
+        ratData.speedMultiplier = ratInputHandler.currentSpeedBoostMultiplier;
+        ratData.speedTimeLeft = ratInputHandler.speedBoostRemainingTime;
+
+        ratData.damageActive = ratInteraction.IsDamageBoostActive;
+        ratData.damageAmount = ratInteraction.GetCurrentDamageBoostAmount();
+
+        ratData.poisonReady = ratInteraction.CanPee;
     }
+
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -86,20 +101,62 @@ public class GameStateManager : MonoBehaviour
         var healthUI = GameObject.FindObjectOfType<RatHealthUI>();
         if (healthUI != null)
             healthUI.UpdateHealthBar(ratData.health, bonusMalus.maxHealth);
+        
+        // 5) Ripristino power-up via flags + config
+        if (powerUpConfig != null)
+        {
+            if (ratData.speedActive)
+            {
+                // 1) Ripristina il VFX di speed boost
+                ratInputHandler.SetSpeedVFX(powerUpConfig.speedVFXPrefab);
+
+                // 2) Riparte la coroutine con il tempo rimanente
+                StartCoroutine(ratInputHandler.SpeedBoostRoutine(
+                    ratData.speedMultiplier,
+                    ratData.speedTimeLeft
+                ));
+            }
+
+
+            if (ratData.damageActive)
+                ratInteraction.ActivateDamageBoost(
+                    ratData.damageAmount,
+                    powerUpConfig.damageVFXPrefab
+                );
+
+            if (ratData.poisonReady)
+            {
+                ratInteraction.PreparePoisonLeak(
+                    powerUpConfig.poisonPuddlePrefab,
+                    powerUpConfig.poisonVFXPrefab
+                );
+                ratInteraction.ConfigurePuddleTrap(
+                    powerUpConfig.poisonTrapPrefabs
+                );
+            }
+        }
+
     }
 
 
 
     private void LoadRatData()
     {
+        // 1) Ripristina la vita
         bonusMalus.currentHealth = ratData.health;
         bonusMalus.onHealthChanged?.Invoke(ratData.health, bonusMalus.maxHealth);
 
+        // 2) Ripristino power-up via flags + config
         ratInteraction.ApplyPowerUps(
-            ratData.activePowerUps,
-            ratData.powerUpDurations,
-            ratData.puddleTrapPrefabs
-        );
+            ratData.speedActive,      // flag speed
+            ratData.speedMultiplier,  // moltiplicatore
+            ratData.speedTimeLeft,    // tempo rimanente
 
+            ratData.damageActive,     // flag damage
+            ratData.damageAmount,     // quantità danno
+
+            ratData.poisonReady       // flag pipì
+        );
     }
+
 }
