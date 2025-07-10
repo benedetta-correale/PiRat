@@ -43,6 +43,9 @@ public class PromptUIManager : MonoBehaviour
     private bool _isFrozen = false;
     private float _prevTimeScale = 1f;
 
+    private InputKeyType _expectedKey;
+    private bool _waitingForInput = false;
+
     private void Awake()
     {
         // build the map
@@ -68,12 +71,82 @@ public class PromptUIManager : MonoBehaviour
             if (go != null) go.SetActive(false);
     }
 
+    void Update()
+    {
+        if (!_waitingForInput) return;
+
+        switch (_expectedKey)
+        {
+            case InputKeyType.LeftStick:
+                float x = Input.GetAxisRaw("Horizontal");
+                float y = Input.GetAxisRaw("Vertical");
+                if (x != 0 || y != 0 || 
+                    Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
+                    Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
+                {
+                    ConfirmPromptInput();
+                }
+                break;
+
+            case InputKeyType.RightStick:
+                // Solo movimento del mouse (valido per tastiera/mouse)
+                if (Input.GetAxis("Mouse X") != 0 || Input.GetAxis("Mouse Y") != 0)
+                    ConfirmPromptInput();
+                break;
+
+            case InputKeyType.ButtonSouth:
+                if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.Return) || 
+                    Input.GetKeyDown(KeyCode.JoystickButton0)) // A / Cross
+                {
+                    ConfirmPromptInput();
+                }
+                break;
+
+            case InputKeyType.ButtonEast:
+                if (Input.GetKeyDown(KeyCode.E) || Input.GetKeyDown(KeyCode.JoystickButton1)) // B / Circle
+                {
+                    ConfirmPromptInput();
+                }
+                break;
+
+            case InputKeyType.LeftTrigger:
+                if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton6)) // LT
+                {
+                    ConfirmPromptInput();
+                }
+                break;
+
+            case InputKeyType.RightTrigger:
+                if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.JoystickButton7))
+                {
+                    ConfirmPromptInput();
+                }
+                break;
+
+
+            // Aggiungi altri case se servono
+
+            default:
+                Debug.LogWarning($"Input non gestito per {_expectedKey}");
+                break;
+        }
+    }
+
+    private void ConfirmPromptInput()
+    {
+        _waitingForInput = false;
+        HidePrompt(); // questo già ripristina timeScale
+    }
+
     /// <summary>
-    /// Mostra la UI prompt con il testo e l�icon selezionato.
+    /// Mostra la UI prompt con il testo e l�icon selezionato.
     /// Se freezeTime=true, blocca Time.timeScale.
     /// </summary>
     public void ShowPrompt(InputKeyType key, string message, bool freezeTime = false)
     {
+        _expectedKey = key;
+        _waitingForInput = freezeTime;  // ci interessa solo se è bloccato
+
         // freeze time?
         if (freezeTime && !_isFrozen)
         {

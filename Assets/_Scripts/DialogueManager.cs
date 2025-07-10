@@ -15,6 +15,7 @@ public class DialogueManager : MonoBehaviour
 
     [Header("Dialogue Data")]
     [SerializeField] private DialogueSequence introDialogue;
+    private bool waitingForRatTrigger = false;
 
     private DialogueSequence currentSequence;
     private int currentIndex = 0;
@@ -27,38 +28,51 @@ public class DialogueManager : MonoBehaviour
     public RatInputHandler ratMovementScript;
     public CameraControlManager cameraScript;
     public System.Action OnDialogueEnded;
+    [SerializeField] private bool forceRightBoxOnly = false;
+    private bool waitingForEndConfirmation = false;
+    public PromptUIManager promptUIManager;
+    public PirateAutoMove pirateAutoMove;
 
+
+    public void ForceRightBoxOnly(bool value)
+    {
+        forceRightBoxOnly = value;
+    }
 
     void Start()
     {
         leftDialogueBox.SetActive(false);
         rightDialogueBox.SetActive(false);
+
         rat.position = ratInitialPosition;
         mainCamera.position = cameraInitialPosition;
         mainCamera.rotation = Quaternion.Euler(cameraInitialRotation);
+
         ratMovementScript.enabled = false;
         cameraScript.enabled = false;
-    }
 
+        StartDialogue(introDialogue); // ← avvia subito il primo dialogo
+    }
 
     void Update()
     {
-        if (!isDialogueActive && Input.GetKeyDown(KeyCode.P))
-        {
-            StartDialogue(introDialogue);
-        }
-
         if (isDialogueActive && Input.GetKeyDown(KeyCode.Return))
         {
             ShowNextLine();
         }
     }
 
+
     public void StartDialogue(DialogueSequence sequence)
     {
+        promptUIManager.HidePrompt(); // ← reset UI a inizio dialogo
+
         currentSequence = sequence;
         currentIndex = 0;
         isDialogueActive = true;
+        waitingForEndConfirmation = false;
+
+        if (sequence.sequenceID == "prisoner") waitingForRatTrigger = true;
 
         leftDialogueBox.SetActive(false);
         rightDialogueBox.SetActive(false);
@@ -66,18 +80,51 @@ public class DialogueManager : MonoBehaviour
         ShowNextLine();
     }
 
+
+    private void HandleLineEvents(int index)
+    {
+        if (currentSequence.sequenceID == "prisoner")
+        {
+            switch (index)
+            {
+                case 0:
+                    // PRIMA battuta del prigioniero
+                    promptUIManager.ShowPrompt(InputKeyType.RightStick, "Rotate camera with right stick or mouse", true);
+                    cameraScript.enabled = true;
+                    break;
+                case 1:
+                    promptUIManager.ShowPrompt(InputKeyType.LeftStick, "Move with left stick or WASD", true);
+                    ratMovementScript.enabled = true;
+                    break;
+                case 5:
+                    // UI morso
+                    promptUIManager.ShowPrompt(InputKeyType.RightTrigger, "Bite with right trigger or enter", true);
+                    break;
+
+                case 6:
+                    // Nascondi prompt se vuoi
+                    promptUIManager.HidePrompt();
+                    pirateAutoMove?.MoveToTarget();
+                    break;
+            }
+        }
+    }
+
+
     private void ShowNextLine()
     {
         if (currentIndex >= currentSequence.lines.Count)
         {
-            EndDialogue();  
+            EndDialogue(); // subito, senza attesa doppia
             return;
         }
 
+        if (currentSequence.sequenceID == "prisoner" && currentIndex == 2 && waitingForRatTrigger)
+            return;
+
         DialogueLine line = currentSequence.lines[currentIndex];
 
-        // Alternanza sinistra/destra
-        bool showLeft = currentIndex % 2 == 0;
+        bool showLeft = !forceRightBoxOnly && currentIndex % 2 == 0;
 
         leftDialogueBox.SetActive(showLeft);
         rightDialogueBox.SetActive(!showLeft);
@@ -93,6 +140,8 @@ public class DialogueManager : MonoBehaviour
             rightDialogueText.text = line.text;
         }
 
+        HandleLineEvents(currentIndex);
+
         currentIndex++;
     }
 
@@ -103,16 +152,21 @@ public class DialogueManager : MonoBehaviour
 
         leftDialogueBox.SetActive(false);
         rightDialogueBox.SetActive(false);
-        ratMovementScript.enabled = true;
-        cameraScript.enabled = true;
-        mainCamera.position = cameraInitialPosition;
-        mainCamera.rotation = Quaternion.Euler(cameraInitialRotation);
 
-        OnDialogueEnded?.Invoke();  
+        OnDialogueEnded?.Invoke();
     }
 
     public bool IsDialogueActive()
     {
         return isDialogueActive;
+    }
+    
+    public void ContinuePrisonerDialogue()
+    {
+        if (waitingForRatTrigger)
+        {
+            waitingForRatTrigger = false;
+            ShowNextLine(); // riprende il dialogo da dove si era bloccato
+        }
     }
 }

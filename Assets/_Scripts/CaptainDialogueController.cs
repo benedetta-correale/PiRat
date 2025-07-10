@@ -5,15 +5,13 @@ public class CaptainDialogueController : MonoBehaviour
 {
     [Header("Dipendenze")]
     [SerializeField] private DialogueManager dialogueManager;
-    [SerializeField] private DialogueSequence fullDialogueSequence; // combinata
     [SerializeField] private Transform exitPoint;
+    [SerializeField] private PrisonerDialogueTrigger prisonerTrigger;
 
     private NavMeshAgent agent;
     private Animator animator;
-
-    private bool hasStartedDialogue = false;
     private bool hasWalkedAway = false;
-    [SerializeField] private PrisonerDialogueTrigger prisonerTrigger;
+    private bool hasTriggeredPrisonerDialogue = false;
 
     void Start()
     {
@@ -22,7 +20,6 @@ public class CaptainDialogueController : MonoBehaviour
         agent.isStopped = true;
         SetWalking(false);
 
-        // Collegamento alla fine del dialogo
         dialogueManager.OnDialogueEnded += HandleDialogueEnded;
     }
 
@@ -39,6 +36,22 @@ public class CaptainDialogueController : MonoBehaviour
         }
     }
 
+    void Update()
+    {
+        if (hasWalkedAway && !hasTriggeredPrisonerDialogue)
+        {
+            if (!agent.pathPending && agent.remainingDistance <= agent.stoppingDistance)
+            {
+                SetWalking(false);
+                hasTriggeredPrisonerDialogue = true;
+
+                if (prisonerTrigger != null)
+                {
+                    prisonerTrigger.TriggerPrisonerDialogue();
+                }
+            }
+        }
+    }
 
     void WalkAway()
     {

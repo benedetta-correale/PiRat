@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using UnityEngine.Events;
 
 [System.Serializable]
 public class DialogueLine
@@ -9,9 +10,9 @@ public class DialogueLine
     public string text;
 }
 
-[CreateAssetMenu(fileName = "NewDialogueSequence", menuName = "Dialogue/Sequence")]
+[CreateAssetMenu(menuName = "Dialogue/Sequence")]
 public class DialogueSequence : ScriptableObject
 {
+    public string sequenceID;  // ← AGGIUNGI QUESTO CAMPO
     public List<DialogueLine> lines;
 }
-
