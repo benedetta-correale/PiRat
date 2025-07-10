@@ -19457,17 +19457,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e32253277c634b8e810ea4c3f36f346, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &601911427 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5790083952298383132, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
-  m_PrefabInstance: {fileID: 938365216}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b71ddfb32ac54faca4825041e79c850, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1001 &604820539
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -30112,7 +30101,7 @@ PrefabInstance:
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: pm
       value: 
-      objectReference: {fileID: 601911427}
+      objectReference: {fileID: 0}
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -30159,7 +30148,7 @@ PrefabInstance:
       objectReference: {fileID: 902902356}
     - target: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -18.24
+      value: 3.6
       objectReference: {fileID: 0}
     - target: {fileID: 7653371694649661613, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -50307,6 +50296,7 @@ MonoBehaviour:
   shrinkingImage: {fileID: 462830153}
   targetImage: {fileID: 941918705}
   duration: 1.7
+  tutorialMode: 0
 --- !u!1001 &1536644247
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -51679,7 +51669,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6816373664754435218, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7000493470609828619, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
       propertyPath: m_Layer
@@ -82856,7 +82846,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8241637697642682117, guid: d90fd801dae7045bb8491f3f5e5745a6, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8241637697642682117, guid: d90fd801dae7045bb8491f3f5e5745a6, type: 3}
       propertyPath: m_TagString
@@ -83523,6 +83513,10 @@ PrefabInstance:
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: eyeHeight
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: chaseSpeed
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: ratManager
@@ -85727,7 +85721,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3967884796369387256, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3967884796369387256, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
       propertyPath: m_TagString
@@ -86578,7 +86572,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1696685139947100814, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1942274350676103731, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
       propertyPath: m_Layer

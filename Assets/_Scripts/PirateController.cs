@@ -226,6 +226,8 @@ public class PirateController : MonoBehaviour
         state = State.Chasing;
         alertIndicator.SetActive(false);
         agent.speed = chaseSpeed;
+        //agent.updatePosition = true;
+        //agent.updateRotation = true;
         agent.isStopped = false;
         animator.SetBool("isWalking", true);
         SendMessage("CancelAttractionFromPuddle", this, SendMessageOptions.DontRequireReceiver);
@@ -269,23 +271,27 @@ public class PirateController : MonoBehaviour
     private void EnterAttacking()
     {
         if (Time.time < retryAttackTime)
-        {
-            //Debug.Log("⏳ Attesa prima di riprovare l’attacco");
             return;
-        }
 
         if (ratManager != null && ratManager.invincible)
         {
-            //Debug.Log("🚫 Ratto invincibile → stop attacco per 10s");
             ratWasRecentlyInvincible = true;
-            retryAttackTime = Time.time + 10f; // Blocca per 10s, anche se invincibilità finisce prima
-            EnterChasing(); // torna a inseguire
+            retryAttackTime = Time.time + 10f;
+            EnterChasing();
             return;
         }
 
-        //Debug.Log("⚔️ STATO DI ATTACCO (ratto vulnerabile)");
         state = State.Attacking;
+
+        agent.isStopped = true;
+        //agent.velocity = Vector3.zero;
+        //agent.updatePosition = false;
+        //agent.updateRotation = false;
+        hasDealtDamageThisAttack = false;
+
+        animator.SetBool("isWalking", false);
     }
+
 
     public void InflictDamageEvent()
     {
@@ -297,6 +303,7 @@ public class PirateController : MonoBehaviour
         if (distance <= attackRange && !ratManager.invincible)
         {
             ratHealt.TakeDamage(attackDamage);
+            hasDealtDamageThisAttack = true;
             Debug.Log("💥 Danno inflitto al ratto (via AnimationEvent)");
         }
         else
@@ -328,12 +335,29 @@ public class PirateController : MonoBehaviour
         }
 
 
-        float distance = Vector3.Distance(transform.position, ratTransform.position);
-        if (distance > attackRange)
+        if (!hasDealtDamageThisAttack) // stai ancora attaccando
         {
-            EnterChasing();
-            return;
+            float distance = Vector3.Distance(transform.position, ratTransform.position);
+            if (distance > attackRange)
+            {
+                // non tornare a inseguire subito!
+                return; // aspetta che finisca l'attacco
+            }
         }
+        else
+        {
+            if (!CanSeeRat())
+            {
+                EnterPatrol();
+                return;
+            }
+            else
+            {
+                EnterChasing(); // se è finito l'attacco e il topo è lontano
+                return;
+            }
+        }
+
 
         // Cooldown: aspetta prima di attaccare di nuovo
         if (Time.time < lastAttackTime + attackCooldown)
@@ -519,6 +543,8 @@ public class PirateController : MonoBehaviour
         agent.isStopped = true;
         animator.SetTrigger("Die");
         state = State.Dead;
+        agent.updateRotation = false;
+
     }
 
     //GUARIGIONE
