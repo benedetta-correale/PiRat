@@ -59,5 +59,4 @@ public class QuickTimeUIManager : MonoBehaviour
             StopQuickTime();
         }
     }
-
 }

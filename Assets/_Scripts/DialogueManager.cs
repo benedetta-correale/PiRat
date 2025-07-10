@@ -36,6 +36,7 @@ public class DialogueManager : MonoBehaviour
     public PirateAutoMove pirateAutoMove;
     public UnityEngine.UI.Image bersaglio;
     public QuickTimeUIManager quickTimeUIManager;
+    [SerializeField] private DialogueSequence empowermentDialogue;
 
 
     public void ForceRightBoxOnly(bool value)
@@ -117,6 +118,25 @@ public class DialogueManager : MonoBehaviour
                     pirateAutoMove?.MoveToTarget();
                     break;
             }
+        }
+
+        if (currentSequence.sequenceID == "possession")
+        {
+            switch (index)
+            {
+                case 0:
+                    // PRIMA battuta del prigioniero
+                    promptUIManager.ShowPrompt(InputKeyType.RightStick, "Rotate camera with right stick or mouse", true);
+                    break;
+                case 1:
+                    // Nascondi prompt se vuoi
+                    promptUIManager.HidePrompt();
+                    break;
+            }
+
+            // left trigger -> tab
+            // button east -> enter
+            // button south -> esc 
         }
     }
 

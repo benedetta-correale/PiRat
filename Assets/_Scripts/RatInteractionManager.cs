@@ -34,6 +34,7 @@ public class RatInteractionManager : MonoBehaviour
 
     // poison
     public bool CanPee { get; private set; }
+    public static bool HasCompletedFirstQuickTime { get; private set; } = false;
 
 
     [SerializeField] private QuickTimeUIManager quickTimeUIManager;
@@ -312,8 +313,6 @@ public class RatInteractionManager : MonoBehaviour
         HandleQuickTimeResult(precision, quickTimeConfirmed, targetPirate);
     }
 
-
-
     private void HandleQuickTimeResult(float precision, bool buttonPressed, PirateController targetPirate)
     {
         if (!buttonPressed)
@@ -324,6 +323,11 @@ public class RatInteractionManager : MonoBehaviour
 
 
             return;
+        }
+
+        if (!HasCompletedFirstQuickTime && precision >= 0.5f && buttonPressed)
+        {
+            HasCompletedFirstQuickTime = true;
         }
 
         float currentScale = quickTimeUIManager.CurrentScale;
