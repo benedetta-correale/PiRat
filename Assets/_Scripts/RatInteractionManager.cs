@@ -505,9 +505,15 @@ public class RatInteractionManager : MonoBehaviour
     {
         _ratInputHandler.movementLocked = true;
 
-        GameObject puddle = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
+        // ❌ RIMUOVI questa riga:
+        // GameObject puddle = Instantiate(poisonPrefab, transform.position, Quaternion.identity);
 
-        yield return new WaitForSeconds(0.5f); // Tempo dell'animazione del "piss", regola in base alla durata reale
+        // ✅ US A questo metodo in modo che:
+        //   1. venga instanziata la puddle
+        //   2. venga passato automaticamente il trapPrefabsForNextPuddle al PeeAttractor
+        GameObject puddle = EnablePoisonLeak(poisonPrefab, null);
+
+        yield return new WaitForSeconds(0.5f);
 
         _ratInputHandler.movementLocked = false;
         CanPee = false;
@@ -518,6 +524,7 @@ public class RatInteractionManager : MonoBehaviour
             peeVFXInstance = null;
         }
     }
+
 
     public void PreparePoisonLeak(GameObject puddlePrefab, GameObject vfxPrefab)
     {
