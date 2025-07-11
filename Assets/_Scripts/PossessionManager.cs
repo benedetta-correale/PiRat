@@ -45,8 +45,6 @@ public class PossessionManager : MonoBehaviour
     private InputAction moveAction;
 
     public PossessionState CurrentState => currentState;
-    public GameObject globalVolume;
-    public GameObject oculiVolume;
 
     void Start()
     {
@@ -74,6 +72,25 @@ public class PossessionManager : MonoBehaviour
         }
     }
 
+    public void EnablePossessionInput(bool enable)
+    {
+        var selection = playerInput.actions["Selection"];
+        var confirm = playerInput.actions["Possess"];
+        var exit = playerInput.actions["Exit Selection"];
+
+        if (enable)
+        {
+            selection.performed += EnterSelectionMode_Input;
+            confirm.performed += ConfirmPossess_Input;
+            exit.performed += ExitSelectionMode_Input;
+        }
+        else
+        {
+            selection.performed -= EnterSelectionMode_Input;
+            confirm.performed -= ConfirmPossess_Input;
+            exit.performed -= ExitSelectionMode_Input;
+        }
+    }
     void EnterSelectionMode()
     {
         var piratesInRange = GetPiratesInRange();
@@ -162,8 +179,6 @@ public class PossessionManager : MonoBehaviour
         cameraManager.FollowTrail(currentTrail.transform);
         cameraManager.LockRotation(true);
 
-        globalVolume.SetActive(false);
-        oculiVolume.SetActive(true);
     }
 
     void ExitSelectionMode()
@@ -206,9 +221,6 @@ public class PossessionManager : MonoBehaviour
 
         if (ratAnimator != null)
             ratAnimator.SetBool("isWalking", false);
-
-        oculiVolume.SetActive(false);
-        globalVolume.SetActive(true);
 
         currentState = PossessionState.Idle;
         canSwitchBackToRat = false;

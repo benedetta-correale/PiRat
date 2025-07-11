@@ -62,6 +62,7 @@ public class DialogueManager : MonoBehaviour
         ratMovementScript.enabled = false;
         cameraScript.enabled = false;
         ratInteractionManager.allowBite = false;
+        possessionManager.EnablePossessionInput(false); // blocca tutto
         bersaglio.gameObject.SetActive(false);
         continueDialogue = playerInput.actions["ContinueDialogue"];
 
@@ -132,7 +133,7 @@ public class DialogueManager : MonoBehaviour
             switch (index)
             {
                 case 0:
-                    if (RatInteractionManager.HasCompletedFirstQuickTime) pirateFinalMove?.MoveToFinalTarget();
+                    possessionManager.EnablePossessionInput(true); 
                     promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
                     StartCoroutine(WaitForSelectionMode());
                     break;
@@ -157,13 +158,14 @@ public class DialogueManager : MonoBehaviour
 
         promptUIManager.HidePrompt();
         promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Possess pirate with this button or ENTER", true);
-        muriInvisibili.SetActive(false);
 
         // aspetta che confermi la selezione
         yield return new WaitUntil(() =>
             possessionManager.CurrentState == PossessionState.FollowingTrail ||
             possessionManager.CurrentState == PossessionState.Possessing
         );
+
+        pirateFinalMove?.MoveToFinalTarget();
 
         promptUIManager.HidePrompt();
         ShowNextLine();  // solo adesso va avanti con il dialogo
