@@ -136,6 +136,8 @@ public class PirateController : MonoBehaviour
             agent.isStopped = false;
             agent.SetDestination(patrolPoints[patrolIdx].position);
             animator.SetBool("isWalking", true);
+            agent.updatePosition = true;
+            agent.updateRotation = true;
         }
     }
 
@@ -224,7 +226,7 @@ public class PirateController : MonoBehaviour
     private void EnterChasing()
     {
         state = State.Chasing;
-        alertIndicator.SetActive(false);
+        //alertIndicator.SetActive(false);
         agent.speed = chaseSpeed;
         agent.updatePosition = true;
         agent.updateRotation = true;
@@ -309,7 +311,9 @@ public class PirateController : MonoBehaviour
         else
         {
             Debug.Log("❌ Danno NON inflitto: distanza o invincibilità");
+        
         }
+
     }
 
 
@@ -320,80 +324,84 @@ public class PirateController : MonoBehaviour
     {
         if (ratTransform == null) return;
 
+        // 🔒 Se l'attacco è in corso, non rilanciare il trigger
+        if (!canAttack) return;
+
+        // Controllo vista
         if (CanSeeRat())
         {
-            lostSightTimer = 0f; // Reset timer se lo vedi
+            lostSightTimer = 0f;
         }
         else
         {
             lostSightTimer += Time.deltaTime;
             if (lostSightTimer >= lostSightGracePeriod)
             {
-                EnterSuspicious(); // solo dopo il tempo di grazia
+                EnterPatrol(); // smette di inseguire
                 return;
             }
         }
 
+        float distance = Vector3.Distance(transform.position, ratTransform.position);
 
-        if (!hasDealtDamageThisAttack) // stai ancora attaccando
+        // Attendi che l'animazione finisca prima di fare qualcos'altro
+        if (!hasDealtDamageThisAttack && distance > attackRange)
         {
-            float distance = Vector3.Distance(transform.position, ratTransform.position);
-            if (distance > attackRange)
-            {
-                // non tornare a inseguire subito!
-                return; // aspetta che finisca l'attacco
-            }
-        }
-        else
-        {
-            if (!CanSeeRat())
-            {
-                EnterPatrol();
-                return;
-            }
-            else
-            {
-                EnterChasing(); // se è finito l'attacco e il topo è lontano
-                return;
-            }
+            return; // resta fermo in attesa di finire l'attacco
         }
 
-
-        // Cooldown: aspetta prima di attaccare di nuovo
+        // Cooldown: evita che attacchi troppo in fretta
         if (Time.time < lastAttackTime + attackCooldown)
         {
-            agent.isStopped = true;
-            animator.SetBool("isWalking", false);
             return;
         }
 
-        // Non attaccare se il ratto è invincibile
+        // Se il topo è invincibile, non attaccare
         if (ratManager != null && ratManager.invincible)
         {
             Debug.Log("❌ ATTACCO NON PARTITO: ratto invincibile");
             return;
         }
 
+        // ✅ Rilancia l'attacco (una sola volta)
+        canAttack = false; // 🔒 blocca altri attacchi finché l’animazione non finisce
+        hasDealtDamageThisAttack = false;
+
         // Ruota verso il ratto
         Vector3 dir = (ratTransform.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-        // Attiva animazione
-        Debug.Log("🎯 ATTEMPT ATTACK: Trigger attacco chiamato");
+        // Avvia l’animazione
         animator.SetTrigger("AttackTrigger");
         lastAttackTime = Time.time;
+
+        Debug.Log("🎯 ATTACK TRIGGERED");
     }
 
 
 
 
-    public void OnAttackAnimationEnd()
+
+
+   public void OnAttackAnimationEnd()
     {
-        lastAttackTime = Time.time;
-        canAttack = true;
-        EnterChasing(); // forza il ritorno alla camminata
+        Debug.Log("✅ ATTACK ENDED");
+
+        canAttack = true; // ✅ Ora si può attaccare di nuovo
+
+        agent.isStopped = false;
+        agent.updatePosition = true;
+        agent.updateRotation = true;
+
+        if (CanSeeRat())
+            EnterChasing();
+        else
+            EnterSuspicious(); // o EnterPatrol()
     }
+
+
+
 
     #endregion
 
