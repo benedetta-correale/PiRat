@@ -56,6 +56,7 @@ public class RatInteractionManager : MonoBehaviour
 
     private GameObject poisonPrefab;
     public bool isBackflipping = false;
+    public bool allowBite = true;
 
 
     void Start()
@@ -104,6 +105,8 @@ public class RatInteractionManager : MonoBehaviour
 
     public void OnBite(InputAction.CallbackContext context)
     {
+        if (!allowBite) return;
+        
         if (context.performed && canBite)
         {
             AttemptInfection();

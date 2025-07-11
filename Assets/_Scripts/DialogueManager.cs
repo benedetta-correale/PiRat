@@ -3,6 +3,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
+using System.Collections;
 
 public class DialogueManager : MonoBehaviour
 {
@@ -34,13 +35,15 @@ public class DialogueManager : MonoBehaviour
     private bool waitingForEndConfirmation = false;
     public PromptUIManager promptUIManager;
     public PirateAutoMove pirateAutoMove;
+    public PirateFinalMove pirateFinalMove;
     public UnityEngine.UI.Image bersaglio;
     public QuickTimeUIManager quickTimeUIManager;
     [SerializeField] private DialogueSequence empowermentDialogue;
     private InputAction continueDialogue;
     [SerializeField] private PlayerInput playerInput;
     public GameObject muriInvisibili;
-
+    public PossessionManager possessionManager;
+    public RatInteractionManager ratInteractionManager;
 
     public void ForceRightBoxOnly(bool value)
     {
@@ -58,6 +61,8 @@ public class DialogueManager : MonoBehaviour
 
         ratMovementScript.enabled = false;
         cameraScript.enabled = false;
+        ratInteractionManager.allowBite = false;
+        possessionManager.EnablePossessionInput(false); // blocca tutto
         bersaglio.gameObject.SetActive(false);
         continueDialogue = playerInput.actions["ContinueDialogue"];
 
@@ -71,7 +76,6 @@ public class DialogueManager : MonoBehaviour
             ShowNextLine();
         }
     }
-
 
     public void StartDialogue(DialogueSequence sequence)
     {
@@ -90,7 +94,6 @@ public class DialogueManager : MonoBehaviour
         ShowNextLine();
     }
 
-
     private void HandleLineEvents(int index)
     {
         if (currentSequence.sequenceID == "prisoner")
@@ -108,6 +111,7 @@ public class DialogueManager : MonoBehaviour
                     break;
                 case 5:
                     // UI morso
+                    ratInteractionManager.allowBite = true;
                     promptUIManager.ShowPrompt(InputKeyType.RightTrigger, "Bite with right trigger or mouse click", true);
                     break;
                 case 6:
@@ -129,23 +133,9 @@ public class DialogueManager : MonoBehaviour
             switch (index)
             {
                 case 0:
+                    possessionManager.EnablePossessionInput(true); 
                     promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
-                    /* if (!possessionManager.inSelectionMode && !possessionManager.inPossessionMode)
-                    {
-                        promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
-                    }
-                    else if (possessionManager.inSelectionMode)
-                    {
-                        promptUIManager.ShowPrompt(InputKeyType.LeftStick, "Select pirate with left stick or WASD", true);
-                    }
-                    else if (possessionManager.inPossessionMode)
-                    {
-                        promptUIManager.ShowPrompt(InputKeyType.ButtonSouth, "Possess pirate with this button or ESCAPE", true);
-                    } */
-                    break;
-                case 1:
-                    promptUIManager.HidePrompt();
-                    muriInvisibili.SetActive(false);
+                    StartCoroutine(WaitForSelectionMode());
                     break;
             }
         }
@@ -157,16 +147,33 @@ public class DialogueManager : MonoBehaviour
                 case 0:
                     promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Continue with this botton or ENTER", true);
                     break;
-                case 1:
-                    promptUIManager.HidePrompt();
-                    break;
             }
         }
     }
 
+    private IEnumerator WaitForSelectionMode()
+    {
+        // aspetta che il player entri in modalità selezione
+        yield return new WaitUntil(() => possessionManager.CurrentState == PossessionState.Selecting);
+
+        promptUIManager.HidePrompt();
+        promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Possess pirate with this button or ENTER", true);
+
+        // aspetta che confermi la selezione
+        yield return new WaitUntil(() =>
+            possessionManager.CurrentState == PossessionState.FollowingTrail ||
+            possessionManager.CurrentState == PossessionState.Possessing
+        );
+
+        pirateFinalMove?.MoveToFinalTarget();
+
+        promptUIManager.HidePrompt();
+        ShowNextLine();  // solo adesso va avanti con il dialogo
+    }
 
     private void ShowNextLine()
     {
+        if (currentSequence == null) return;
         if (currentIndex >= currentSequence.lines.Count)
         {
             EndDialogue(); // subito, senza attesa doppia
@@ -178,7 +185,15 @@ public class DialogueManager : MonoBehaviour
 
         DialogueLine line = currentSequence.lines[currentIndex];
 
-        bool showLeft = !forceRightBoxOnly && currentIndex % 2 == 0;
+        bool showLeft = true;
+        if (currentSequence.sequenceID == "intro")
+        {
+            showLeft = currentIndex % 2 == 0;
+        }
+        else if (forceRightBoxOnly)
+        {
+            showLeft = false;
+        }
 
         leftDialogueBox.SetActive(showLeft);
         rightDialogueBox.SetActive(!showLeft);

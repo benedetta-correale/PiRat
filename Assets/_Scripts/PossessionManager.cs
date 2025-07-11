@@ -41,11 +41,11 @@ public class PossessionManager : MonoBehaviour
     private List<VisualEffect> scieAttive = new List<VisualEffect>();
     private Animator ratAnimator;
 
-    private PlayerInput playerInput;
+    public PlayerInput playerInput;
     private InputAction moveAction;
 
-    
-    
+    public PossessionState CurrentState => currentState;
+
     void Start()
     {
         if (cameraManager != null)
@@ -58,15 +58,11 @@ public class PossessionManager : MonoBehaviour
         moveAction = playerInput.actions["Move"];
     }
 
-
-
     void OnDestroy()
     {
         if (cameraManager != null)
             cameraManager.OnSwitchedToRat -= HandleReturnToRat;
     }
-
-
 
     void Update()
     {
@@ -76,8 +72,25 @@ public class PossessionManager : MonoBehaviour
         }
     }
 
+    public void EnablePossessionInput(bool enable)
+    {
+        var selection = playerInput.actions["Selection"];
+        var confirm = playerInput.actions["Possess"];
+        var exit = playerInput.actions["Exit Selection"];
 
-
+        if (enable)
+        {
+            selection.performed += EnterSelectionMode_Input;
+            confirm.performed += ConfirmPossess_Input;
+            exit.performed += ExitSelectionMode_Input;
+        }
+        else
+        {
+            selection.performed -= EnterSelectionMode_Input;
+            confirm.performed -= ConfirmPossess_Input;
+            exit.performed -= ExitSelectionMode_Input;
+        }
+    }
     void EnterSelectionMode()
     {
         var piratesInRange = GetPiratesInRange();
@@ -168,10 +181,6 @@ public class PossessionManager : MonoBehaviour
 
     }
 
-
-
-
-
     void ExitSelectionMode()
     {
         selectedIndex = -1;
@@ -201,9 +210,6 @@ public class PossessionManager : MonoBehaviour
             PirateController pc = p.GetComponent<PirateController>();
             if (pc != null) pc.isPossessed = false;
         }
-
-        
-      
 
         cameraManager.SwitchToRat();
 
@@ -295,6 +301,12 @@ public class PossessionManager : MonoBehaviour
                 newSciaInstance.SetActive(true);
                 scieAttive.Add(newVFX);
             }
+            else // <-- AGGIUNGI QUESTO BLOCCO ELSE
+            {
+                //Debug.LogError("Il prefab 'sciaPrefab' non contiene un componente VisualEffect! Impossibile creare la scia. Interrompo il ciclo per evitare un crash.");
+                Destroy(newSciaInstance); // Distruggi l'istanza inutile appena creata
+                break; // <-- Esci forzatamente dal ciclo
+            }
             /* var newScia = Instantiate(sciaPrefab).GetComponent<LineRenderer>();
             newScia.material.renderQueue = 4000;
             newScia.gameObject.SetActive(false);
@@ -334,8 +346,6 @@ public class PossessionManager : MonoBehaviour
             scia.SetVector3("Pos1", localStart);
             scia.SetVector3("Pos2", localEnd);
 
-
-
             /* if (scia.material != null)
             {
                 scia.material.color = (i == selectedIndex) ? selectedColor : defaultColor;
@@ -358,8 +368,11 @@ public class PossessionManager : MonoBehaviour
 
     private List<Transform> GetPiratesInRange()
     {
+        if (ratInteraction == null || ratInteraction.infectedPirates == null)
+            return new List<Transform>();
+
         return ratInteraction.infectedPirates.FindAll(p =>
-            Vector3.Distance(p.position, ratTransform.position) <= maxSelectionDistance);
+        Vector3.Distance(p.position, ratTransform.position) <= maxSelectionDistance);
     }
 
     // Metodo per entrare nella modalità selezione
@@ -373,7 +386,6 @@ public class PossessionManager : MonoBehaviour
         if (currentState == PossessionState.Idle)
             EnterSelectionMode();
     }
-
 
     // Metodo per uscire dalla modalità selezione o possessione
     public void ExitSelectionMode_Input(InputAction.CallbackContext context)
@@ -405,9 +417,6 @@ public class PossessionManager : MonoBehaviour
         ConfirmSelection(piratesInRange);
     }
 
-
-
-
     private void OnTrailArrived()
     {
         // 1) riattacca camera al pirata
@@ -436,7 +445,4 @@ public class PossessionManager : MonoBehaviour
             currentTrail = null;
         }
     }
-
-
-
 }

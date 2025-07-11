@@ -84,7 +84,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: vfx_ElectricArc
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8502474832150633727, guid: 5b7febfe5feb54d8db49c185fee836dd, type: 3}
+      propertyPath: m_Bindings.Array.size
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 2003155099475273341, guid: 5b7febfe5feb54d8db49c185fee836dd, type: 3}
+    - {fileID: 2556777448318525581, guid: 5b7febfe5feb54d8db49c185fee836dd, type: 3}
+    - {fileID: 8502474832150633727, guid: 5b7febfe5feb54d8db49c185fee836dd, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

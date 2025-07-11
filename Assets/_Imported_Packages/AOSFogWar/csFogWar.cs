@@ -434,7 +434,7 @@ namespace FischlWorks_FogWar
             // Imposta Sorting Layer e Order
             var renderer = fogPlane.GetComponent<MeshRenderer>();
             renderer.sortingLayerName = "Fog";      // 🔁 Assicurati che il layer "Fog" esista nelle Sorting Layers
-            renderer.sortingOrder = 10;             // 🥇 Più alto = disegnato sopra
+            renderer.sortingOrder = 0;             // 🥇 Più alto = disegnato sopra
 
             fogPlane.GetComponent<MeshCollider>().enabled = false;
         }
