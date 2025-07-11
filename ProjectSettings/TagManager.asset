@@ -8,6 +8,7 @@ TagManager:
   - LifeBar
   - Cheese
   - Captain
+  - PirateTutorial
   layers:
   - Default
   - TransparentFX

@@ -133,7 +133,7 @@ public class DialogueManager : MonoBehaviour
             switch (index)
             {
                 case 0:
-                    possessionManager.EnablePossessionInput(true); 
+                    possessionManager.EnablePossessionInput(true);
                     promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
                     StartCoroutine(WaitForSelectionMode());
                     break;
@@ -166,6 +166,8 @@ public class DialogueManager : MonoBehaviour
         );
 
         pirateFinalMove?.MoveToFinalTarget();
+
+        muriInvisibili.SetActive(false);
 
         promptUIManager.HidePrompt();
         ShowNextLine();  // solo adesso va avanti con il dialogo
@@ -230,7 +232,7 @@ public class DialogueManager : MonoBehaviour
     {
         return isDialogueActive;
     }
-    
+
     public void ContinuePrisonerDialogue()
     {
         if (waitingForRatTrigger)
@@ -238,5 +240,10 @@ public class DialogueManager : MonoBehaviour
             waitingForRatTrigger = false;
             ShowNextLine(); // riprende il dialogo da dove si era bloccato
         }
+    }
+
+    public void PromptUIExitPossession()
+    {
+        promptUIManager?.ShowPrompt(InputKeyType.ButtonSouth, "Return to rat with this button or RETURN");
     }
 }
