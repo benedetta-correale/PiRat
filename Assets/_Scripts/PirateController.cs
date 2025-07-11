@@ -7,7 +7,7 @@ using System.Collections;
 
 public class PirateController : MonoBehaviour
 {
-    private enum State { Patrol, Suspicious, Chasing, Attacking, BeingHealed, Dead}
+    public enum State { Patrol, Suspicious, Chasing, Attacking, BeingHealed, Dead }
 
     public string CurrentState => state.ToString();
 
@@ -38,9 +38,9 @@ public class PirateController : MonoBehaviour
 
     [Header("Alert Timings")]
     [SerializeField] private float attachTime = 5f;
-    [SerializeField, Range(0f,1f)] private float moveThreshold = 0.7f;
+    [SerializeField, Range(0f, 1f)] private float moveThreshold = 0.7f;
     [SerializeField] private float baseFillSpeed = 1f;
-    
+
 
     [Header("Chase")]
     [SerializeField] private float chaseSpeed = 3.0f;
@@ -60,7 +60,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private int biteTickDamage;
     [SerializeField] private float biteTickInterval;
     [SerializeField] private float biteDuration;
-     public bool infected = false;
+    public bool infected = false;
 
     [Header("HEAL STATUS")]
 
@@ -83,7 +83,7 @@ public class PirateController : MonoBehaviour
     private float retryAttackTime = 0f;
 
     public float currentHealth;
-   
+
 
 
     private void Awake()
@@ -114,7 +114,7 @@ public class PirateController : MonoBehaviour
 
         if (state == State.Dead) return;
 
-        
+
         switch (state)
         {
             case State.Patrol: PatrolUpdate(); break;
@@ -156,7 +156,7 @@ public class PirateController : MonoBehaviour
             return;
         }
 
-        
+
 
         if (!agent.pathPending && agent.remainingDistance < 0.3f && patrolPoints.Length > 0)
         {
@@ -221,7 +221,7 @@ public class PirateController : MonoBehaviour
     }
 
     #endregion
-    
+
 
     #region Chasing
     private void EnterChasing()
@@ -312,7 +312,7 @@ public class PirateController : MonoBehaviour
         else
         {
             Debug.Log("❌ Danno NON inflitto: distanza o invincibilità");
-        
+
         }
 
     }
@@ -321,7 +321,7 @@ public class PirateController : MonoBehaviour
 
 
 
-   private void UpdateAttacking()
+    private void UpdateAttacking()
     {
         if (ratTransform == null) return;
 
@@ -385,7 +385,7 @@ public class PirateController : MonoBehaviour
 
 
 
-   public void OnAttackAnimationEnd()
+    public void OnAttackAnimationEnd()
     {
         Debug.Log("✅ ATTACK ENDED");
 
@@ -435,7 +435,7 @@ public class PirateController : MonoBehaviour
     }
 
     #endregion
-    
+
 
 
 
@@ -638,5 +638,12 @@ public class PirateController : MonoBehaviour
                 Gizmos.matrix = Matrix4x4.identity;
             }
         }
+    }
+
+    // ------ GET CURRENT STATE
+    
+    public State GetCurrentState()
+    {
+        return state;
     }
 }
