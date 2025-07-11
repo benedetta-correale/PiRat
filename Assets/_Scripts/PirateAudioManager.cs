@@ -13,10 +13,17 @@ public class PirateAudioManager : MonoBehaviour
 
     [Header("Audio Clips per Stato")]
     public AudioClip idleClip;
-    public AudioClip walikingClip;
+    //public AudioClip walikingClip;
     public AudioClip attackClip;
     public AudioClip beingHealedClip;
     public AudioClip deadClip;
+
+    [Header("Audio Clips per WALKING")]
+    public AudioClip[] walkingClips; // Array di 50 suoni di passi
+    //Private AudioClip lastClipPlayed;
+    [SerializeField] private float walkingClipCooldown = 0.5f; // Tempo fra un passo e l'altro
+    [SerializeField] private float nextWalkingClipTime = 0f; // Quando riprodurre il prossimo suono di passi
+
 
 
     void Awake()
@@ -41,18 +48,18 @@ public class PirateAudioManager : MonoBehaviour
         switch (currentState)
         {
             case State.Patrol:
-                PlayClip(walikingClip, true);
+                PlayWalkingSound();
                 break;
             case State.Suspicious:
                 PlayClip(idleClip, true); // suono sospetto
                 break;
             case State.Chasing:
                 // suono inseguimento
-                PlayClip(walikingClip, true);
+                PlayWalkingSound();
                 break;
-            /*{case State.Attacking:
-                PlayClip(attackClip, false); // suono attacco
-                break;*/
+            case State.Attacking:
+                //PlayClip(attackClip, false); 
+                break;
             case State.BeingHealed:
                 PlayClip(beingHealedClip, false); // suono di guarigione
                 break;
@@ -75,6 +82,31 @@ public class PirateAudioManager : MonoBehaviour
         audioSource.Play(); //riproduce l'audio 
 
         lastClipPlayed = clip;
+    }
+
+    private void PlayWalkingSound()
+
+    {
+        if (Time.time < nextWalkingClipTime)
+            return; // Non riprodurre il suono finché non è passato abbastanza tempo
+
+        // Scegli un clip casuale da walkingClips
+        AudioClip randomClip = walkingClips[Random.Range(0, walkingClips.Length)];
+
+        // Se il clip è lo stesso dell'ultimo, ne scegliamo un altro
+        if (randomClip == lastClipPlayed)
+            randomClip = walkingClips[Random.Range(0, walkingClips.Length)];
+
+        // Riproduci il suono
+        audioSource.Stop();
+        audioSource.clip = randomClip;
+        audioSource.loop = false;
+        audioSource.Play();
+
+        lastClipPlayed = randomClip;
+
+        // Imposta il prossimo momento in cui un altro suono può essere riprodotto
+        nextWalkingClipTime = Time.time + walkingClipCooldown;
     }
     
     public void PlayAttackSound()
