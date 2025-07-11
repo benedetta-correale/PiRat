@@ -29,7 +29,13 @@ public class Trap : MonoBehaviour
     [SerializeField] private bool isReplaceable = false;
     [SerializeField] private MeshRenderer originalRenderer;
     [SerializeField] private MeshRenderer usedRenderer;
+    [SerializeField] private Collider usedTrapCollider; // Il BoxCollider sulla mesh usata
+    [SerializeField] private Collider attractionCollider; // Lo SphereCollider per attrarre il pirata
     private bool trapUsed = false;
+
+    [Header("Pirate Reset Behavior")]
+    [SerializeField] private float pirateResetStopDuration = 0.5f; // Tempo che il pirata si ferma sopra la trappola
+    private bool isPirateBeingAttracted = false; // Flag per permettere l'attrazione di un solo pirata alla volta
 
     private Transform stuckModel; // riferimento al modello visivo del topo
     private Vector3 initialModelLocalPos;
@@ -42,26 +48,15 @@ public class Trap : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        // Reset della trappola spring da parte di un pirata
-        if (isReplaceable && trapUsed && other.CompareTag("Pirate"))
-        {
-            PirateController pc = other.GetComponent<PirateController>();
-            if (pc != null)
-            {
-                string state = pc.CurrentState;
-                if (state != "Chasing" && state != "Attacking")
-                {
-                    NavMeshAgent pirateAgent = other.GetComponent<NavMeshAgent>();
-                    StartCoroutine(ResetTrap(pirateAgent));
-                }
-            }
-            return;
-        }
+        // === LOGICA PER IL RATTO (ATTIVAZIONE DELLA TRAPPOLA) ===
 
+        // Condizioni per l'attivazione della trappola da parte del ratto:
+        // 1. La trappola deve essere "pronta" (springReady = true).
+        // 2. L'oggetto che entra nel trigger deve avere il tag "Player".
+        if (!springReady) return; // Se la molla non è pronta, il ratto non attiva
+        if (!other.CompareTag("Player")) return; // Solo il player attiva la trappola per scattare
 
-
-        if (!other.CompareTag("Player")) return;
-
+        // Abbiamo un ratto che è entrato nel collider principale della trappola e la trappola è pronta.
         RatInteractionManager rim = other.GetComponent<RatInteractionManager>();
         if (rim != null)
         {
@@ -81,39 +76,46 @@ public class Trap : MonoBehaviour
             {
                 Debug.Log("Backflip attivo: aspetto che finisca prima di attivare la trappola.");
 
-                // Disabilita il trigger completamente per evitare interferenze
-                Collider trapCollider = GetComponent<Collider>();
-                if (trapCollider != null)
+                // Disabilita il collider principale della trappola per evitare attivazioni multiple durante il backflip
+                Collider mainTrapCollider = GetComponent<Collider>(); // Questo è il collider principale della trappola
+                if (mainTrapCollider != null)
                 {
-                    trapCollider.enabled = false;
+                    mainTrapCollider.enabled = false;
                 }
 
-                // Usa coroutine con delay invece del controllo nell'Update
                 StartCoroutine(WaitForBackflipEnd(rim));
-                return;
+                return; // Esci, la trappola verrà processata dopo il backflip
             }
             else
             {
-                Debug.Log("TRAP: isBackflipping � FALSE, procedo normalmente");
+                Debug.Log("TRAP: isBackflipping è FALSE, procedo normalmente");
             }
         }
         else
         {
-            Debug.Log("TRAP: RIM � NULL!");
+            Debug.Log("TRAP: RIM è NULL!");
         }
 
-        // Processa normalmente la trappola
+        // Processa normalmente la trappola per il ratto (danno, swap mesh, ecc.)
         ProcessTrap(other);
     }
 
     private void Awake()
     {
-        // se non assegnati in inspector, cerchiamo automaticamente
+        // se non assegnati in inspector, cerchiamo automaticamente i renderer nel caso non siano figli diretti
         if (originalRenderer == null)
-            originalRenderer = GetComponentInChildren<MeshRenderer>();
+            originalRenderer = GetComponentInChildren<MeshRenderer>(); // Trova il primo MeshRenderer figlio
+
+        // Assicurati che la mesh "usata" sia disabilitata all'inizio (trappola pronta)
         if (usedRenderer != null)
             usedRenderer.enabled = false;
 
+        // Assicurati che i collider per l'interazione con il pirata siano disabilitati all'inizio
+        // La trappola parte come "pronta", non "usata" e non "in attrazione"
+        if (usedTrapCollider != null)
+            usedTrapCollider.enabled = false;
+        if (attractionCollider != null)
+            attractionCollider.enabled = false;
     }
     private IEnumerator WaitForBackflipEnd(RatInteractionManager rim)
     {
@@ -210,36 +212,105 @@ public class Trap : MonoBehaviour
         }
     }
 
+    // Questo metodo è pubblico e viene chiamato dal TrapAttractionTrigger.cs
+    public void OnPirateEnterAttractionTrigger(Collider pirateCollider)
+    {
+        // === LOGICA PER IL PIRATA (ATTRAZIONE E RESET DELLA TRAPPOLA USATA) ===
+
+        // Condizioni per l'attrazione e il reset da parte del pirata:
+        // 1. La trappola deve essere "ricaricabile" (isReplaceable = true).
+        // 2. La trappola deve essere "usata" (trapUsed = true).
+        // 3. Nessun altro pirata deve essere già in fase di attrazione/reset per questa trappola (isPirateBeingAttracted = false).
+        // 4. Il collider che ha triggerato deve essere un pirata.
+        // 5. Il pirata deve avere un NavMeshAgent.
+        // 6. Il pirata deve essere in stato "Patrol" o "Suspicious" (non in combattimento o morto).
+        // 7. Aggiunto controllo per 'alreadyHealing' se presente nel PirateController.
+
+        if (isReplaceable && trapUsed && !isPirateBeingAttracted && pirateCollider.CompareTag("Pirate"))
+        {
+            PirateController pc = pirateCollider.GetComponent<PirateController>();
+            if (pc != null)
+            {
+                string state = pc.CurrentState;
+                // Controlla anche se il pirata è già in uno stato di "cura" (healing)
+                // Assicurati che 'alreadyHealing' esista nel tuo PirateController
+                if ((state == "Patrol" || state == "Suspicious") && !pc.alreadyHealing)
+                {
+                    NavMeshAgent pirateAgent = pirateCollider.GetComponent<NavMeshAgent>();
+                    if (pirateAgent != null)
+                    {
+                        Debug.Log($"PIRATE: Pirata {pc.name} in stato '{state}' ha rilevato trappola usata e ricaricabile. Avvio attrazione e reset.");
+                        isPirateBeingAttracted = true; // Imposta il flag per bloccare altri pirati
+
+                        // Disabilita immediatamente il collider di attrazione per evitare altri trigger
+                        if (attractionCollider != null)
+                        {
+                            attractionCollider.enabled = false;
+                            Debug.Log("TRAP: Attraction Collider disabilitato.");
+                        }
+
+                        // Avvia la coroutine che gestirà il movimento del pirata e il reset
+                        StartCoroutine(AttractAndResetTrapRoutine(pirateAgent));
+                    }
+                }
+            }
+        }
+    }
     private void ProcessTrap(Collider other)
     {
         switch (trapType)
+
         {
             case TrapType.Spring:
-                if (!springReady) break;
+                if (!springReady)
+                    break; // La trappola non è pronta, non fare nulla
 
+                // 1) Effetti VFX e danno al ratto
                 if (trapVFXPrefab != null)
                     SpawnVFX(trapVFXPrefab, other.transform);
 
                 var hp = other.GetComponent<BonusMalus>();
-                if (hp != null) hp.TakeDamage(springDamage);
+                if (hp != null)
+                    hp.TakeDamage(springDamage);
 
-                springReady = false;
-                Collider col = GetComponent<Collider>();
-                if (col != null) col.enabled = false;
+                // 2) Disabilito il collider principale della trappola (per il ratto)
+                // Questo impedisce al ratto di subire ulteriori danni dalla stessa trappola usata.
+                springReady = false; // La trappola non è più pronta
+                Collider mainTrapCol = GetComponent<Collider>(); // Ottieni il collider principale su questo GameObject
+                if (mainTrapCol != null)
+                {
+                    mainTrapCol.enabled = false;
+                    Debug.Log("TRAP: Collider principale (per ratto) disabilitato.");
+                }
 
+                // 3) SWAP della mesh: mostra il modello "usato"
+                if (originalRenderer != null) originalRenderer.enabled = false;
+                if (usedRenderer != null) usedRenderer.enabled = true;
+                Debug.Log("TRAP: Mesh scambiata in 'usata'.");
+
+                // 4) Se la trappola è ricaricabile, la marchiamo come "usata"
+                // e abilitiamo i collider per il pirata.
                 if (isReplaceable)
                 {
-                    // mostro il modello usato, nascondo quello originale
-                    if (originalRenderer != null) originalRenderer.enabled = false;
-                    if (usedRenderer != null) usedRenderer.enabled = true;
-                    trapUsed = true;
-                }
-                else
-                {
-                    StartCoroutine(HideAndDestroy());
-                }
+                    trapUsed = true; // La trappola è ora in stato "usata" e attende il reset
 
+                    // NEW: Abilita il collider sulla mesh "usata" (il BoxCollider per il pirata)
+                    if (usedTrapCollider != null)
+                    {
+                        usedTrapCollider.enabled = true;
+                        Debug.Log("TRAP: Collider 'usato' (per il pirata) abilitato.");
+                    }
+                    // NEW: Abilita lo SphereCollider di attrazione
+                    if (attractionCollider != null)
+                    {
+                        attractionCollider.enabled = true;
+                        // Resetta il flag per permettere a un nuovo pirata di essere attratto
+                        isPirateBeingAttracted = false;
+                        Debug.Log("TRAP: Attraction Collider abilitato.");
+                    }
+                }
                 break;
+
 
             case TrapType.Glue:
                 var pc = other.GetComponent<RatInputHandler>();
@@ -303,54 +374,130 @@ public class Trap : MonoBehaviour
         pc.enabled = true;
     }
 
-    private IEnumerator SpringReset()
+    /// <summary>
+    /// Muove il pirata verso la trappola usata, lo fa “lavorare” per un breve
+    /// periodo, quindi ripristina la trappola e libera il pirata.
+    /// </summary>
+    private IEnumerator AttractAndResetTrapRoutine(NavMeshAgent pirateAgent)
     {
-        yield return new WaitForSeconds(springCooldown);
-        springReady = true;
-    }
+        Transform pirateTransform = pirateAgent.transform;
+        PirateController pc = pirateAgent.GetComponent<PirateController>();
 
-    private IEnumerator DestroyAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        Destroy(gameObject);
-    }
+        // Se il pirata è già in fase di cura, annulla subito.
+        if (pc != null && pc.alreadyHealing)
+        {
+            isPirateBeingAttracted = false;
+            if (isReplaceable && trapUsed && attractionCollider != null)
+                attractionCollider.enabled = true;
+            yield break;
+        }
 
-    private IEnumerator HideAndDestroy()
-    {
-        yield return new WaitForSeconds(1f); // aspetto prima di nascondere
-        MeshRenderer renderer = GetComponentInChildren<MeshRenderer>();
-        if (renderer != null) renderer.enabled = false;
+        /* -----------------------------------------------------------
+         * 1. Calcola il punto di destinazione valido su NavMesh
+         * --------------------------------------------------------- */
+        Vector3 rawTarget = usedTrapCollider.bounds.center; // centro della mesh "usata"
+        Vector3 targetPosition;
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(rawTarget, out hit, 1.0f, NavMesh.AllAreas))
+            targetPosition = hit.position;      // punto proiettato sulla NavMesh
+        else
+            targetPosition = transform.position; // fallback: posizione del GO trap
 
-        yield return new WaitForSeconds(1f); // altro secondo prima di distruggere
-        Destroy(gameObject);
-    }
+        pirateAgent.isStopped = false;
+        pirateAgent.SetDestination(targetPosition);
+        pirateTransform.GetComponent<Animator>()?.SetBool("isWalking", true);
+        Debug.DrawLine(pirateTransform.position, targetPosition, Color.blue, 5f);
+        Debug.Log($"TRAP: {pirateAgent.name} si dirige verso la trappola → {targetPosition}");
 
-    private IEnumerator ResetTrap(NavMeshAgent pirateAgent)
-    {
-        // il pirata si ferma per 1 secondo
-        if (pirateAgent != null) pirateAgent.isStopped = true;
-        yield return new WaitForSeconds(1f);
-        if (pirateAgent != null) pirateAgent.isStopped = false;
+        /* -----------------------------------------------------------
+         * 2. Attendi arrivo o cambio di stato
+         * --------------------------------------------------------- */
+        
 
-        // ripristino mesh e collider
-        if (originalRenderer != null) originalRenderer.enabled = true;
-        if (usedRenderer != null) usedRenderer.enabled = false;
-        Collider col = GetComponent<Collider>();
-        if (col != null) col.enabled = true;
+        float arriveDistance = Mathf.Max(pirateAgent.stoppingDistance, 0.3f); // minimo 30 cm
 
-        springReady = true;
-        trapUsed = false;
-    }
+        while (true)
+        {
+            // se il pirata cambia stato → abort
+            if (pc != null &&
+                (pc.CurrentState == "Chasing" || pc.CurrentState == "Attacking" || pc.CurrentState == "Dead"))
+            {
+                Debug.Log($"TRAP: {pirateAgent.name} ha cambiato stato → {pc.CurrentState}. Abort.");
+                isPirateBeingAttracted = false;
+                if (isReplaceable && trapUsed && attractionCollider != null)
+                    attractionCollider.enabled = true;
+                yield break;
+            }
+
+            // attendi che il path sia calcolato
+            if (pirateAgent.pathPending)
+            {
+                yield return null;
+                continue;
+            }
+
+            // usa remainingDistance (2D sul NavMesh) invece di distanza 3D
+            if (pirateAgent.remainingDistance <= arriveDistance)
+                break;          // arrivato!
+
+            // se il path diventa invalido o stalla, termina
+            if (pirateAgent.pathStatus == NavMeshPathStatus.PathInvalid ||
+                pirateAgent.pathStatus == NavMeshPathStatus.PathPartial)
+            {
+                Debug.Log("TRAP: percorso invalido, abort attrazione.");
+                isPirateBeingAttracted = false;
+                if (isReplaceable && trapUsed && attractionCollider != null)
+                    attractionCollider.enabled = true;
+                yield break;
+            }
+
+            yield return null;  // aspetta prossimo frame
+
+            /* -----------------------------------------------------------
+             * 3. Simula il “lavoro” di reset
+             * --------------------------------------------------------- */
+            pirateAgent.isStopped = true;
+            pirateTransform.GetComponent<Animator>()?.SetBool("isWalking", false);
+            Debug.Log($"TRAP: {pirateAgent.name} resetta la trappola per {pirateResetStopDuration} s");
+            yield return new WaitForSeconds(pirateResetStopDuration);
+
+            /* -----------------------------------------------------------
+             * 4. Ripristino effettivo della trappola
+             * --------------------------------------------------------- */
+            if (originalRenderer != null) originalRenderer.enabled = true;
+            if (usedRenderer != null) usedRenderer.enabled = false;
+
+            if (usedTrapCollider != null) usedTrapCollider.enabled = false;
+            if (attractionCollider != null) attractionCollider.enabled = false;   // disattiva il trigger finché la trappola non viene ri-usata
+
+            Collider mainCol = GetComponent<Collider>();
+            if (mainCol != null) mainCol.enabled = true;
+
+            springReady = true;
+            trapUsed = false;
+            Debug.Log("TRAP: reset completato con successo.");
+
+            /* -----------------------------------------------------------
+             * 5. Libera il pirata
+             * --------------------------------------------------------- */
+            pirateAgent.isStopped = false;
+            pirateTransform.GetComponent<Animator>()?.SetBool("isWalking", true);
+            isPirateBeingAttracted = false;
+            pirateAgent.ResetPath(); // Reset del path per evitare problemi futuri
+            Debug.Log("TRAP: il pirata torna al suo pattugliamento.");
+        }
+
 
 
 #if UNITY_EDITOR
-    void OnDrawGizmos()
-    {
-        UnityEditor.Handles.color = Color.yellow;
-        UnityEditor.Handles.Label(
-            transform.position + Vector3.up * 1.5f,
-            trapType.ToString()
-        );
-    }
+        void OnDrawGizmos()
+        {
+            UnityEditor.Handles.color = Color.yellow;
+            UnityEditor.Handles.Label(
+                transform.position + Vector3.up * 1.5f,
+                trapType.ToString()
+            );
+        }
 #endif
+    }
 }
