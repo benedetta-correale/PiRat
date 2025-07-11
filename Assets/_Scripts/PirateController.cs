@@ -323,6 +323,7 @@ public class PirateController : MonoBehaviour
 
     private void UpdateAttacking()
     {
+        Debug.Log(canAttack);
         if (ratTransform == null) return;
 
         // 🔒 Se l'attacco è in corso, non rilanciare il trigger
