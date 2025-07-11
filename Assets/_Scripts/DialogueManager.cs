@@ -132,6 +132,7 @@ public class DialogueManager : MonoBehaviour
             switch (index)
             {
                 case 0:
+                    if (RatInteractionManager.HasCompletedFirstQuickTime) pirateFinalMove?.MoveToFinalTarget();
                     promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
                     StartCoroutine(WaitForSelectionMode());
                     break;
@@ -163,8 +164,6 @@ public class DialogueManager : MonoBehaviour
             possessionManager.CurrentState == PossessionState.FollowingTrail ||
             possessionManager.CurrentState == PossessionState.Possessing
         );
-
-        pirateFinalMove?.MoveToFinalTarget();
 
         promptUIManager.HidePrompt();
         ShowNextLine();  // solo adesso va avanti con il dialogo

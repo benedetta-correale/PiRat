@@ -156,7 +156,9 @@ MonoBehaviour:
   toggleKey: 27
   transitionSpeed: 1.16
   offset: {x: 0, y: 11.95, z: 8.62}
-  selectionOffset: {x: 0, y: 20, z: -20}
+  selectionOffset: {x: 0, y: 17, z: 20}
+  cameraInitialPosition: {x: 0, y: 0, z: 0}
+  cameraInitialRotation: {x: 0, y: 0, z: 0}
   sensitivity: 120
   cameraCollisionMask:
     serializedVersion: 2
