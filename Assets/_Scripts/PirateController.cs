@@ -49,6 +49,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float attackRange = 2.0f;
     [SerializeField] private float attackCooldown = 2.0f;
     [SerializeField] private int attackDamage = 10;
+    [SerializeField] private float damageRange = 1.5f; // distanza massima per infliggere danni
 
     private float lastAttackTime;
     private bool canAttack = true;
@@ -302,7 +303,7 @@ public class PirateController : MonoBehaviour
         if (ratTransform == null || ratHealt == null || ratManager == null) return;
 
         float distance = Vector3.Distance(transform.position, ratTransform.position);
-        if (distance <= attackRange && !ratManager.invincible)
+        if (distance <= damageRange && !ratManager.invincible)
         {
             ratHealt.TakeDamage(attackDamage);
             hasDealtDamageThisAttack = true;
