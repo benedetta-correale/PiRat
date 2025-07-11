@@ -1,29 +1,83 @@
 using UnityEngine;
 
-public class FootstepAudioByAnimator : MonoBehaviour
+public class RatAudioControllerByAnimator : MonoBehaviour
 {
-    public AudioSource footstepAudio;   // L'audio dei passi (loop, volume basso)
-    public string walkingStateName = "WalkRatAnimation"; // Nome dello stato di camminata
+    [Header("Audio Clips")]
+    public AudioClip footstepClip;
+    [Range(0f, 1f)] public float footstepVolume = 0.7f;
+
+    public AudioClip biteClip;
+    [Range(0f, 1f)] public float biteVolume = 0.8f;
+
+    [Header("Animator States")]
+    public string walkingStateName = "WalkRatAnimation";
+    public string biteStateName1 = "Bite";
+    public string biteStateName2 = "BiteWithJumpBack";
+
     private Animator animator;
+    private AudioSource audioSource;
+
+    private bool isWalking = false;
+    private bool bitePlayed = false;
 
     void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+        {
+            Debug.LogWarning("AudioSource mancante su " + gameObject.name);
+        }
+        else
+        {
+            audioSource.loop = false;
+            audioSource.playOnAwake = false;
+        }
     }
 
     void Update()
     {
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        string currentState = stateInfo.IsName(walkingStateName) ? walkingStateName :
+                              stateInfo.IsName(biteStateName1) ? biteStateName1 :
+                              stateInfo.IsName(biteStateName2) ? biteStateName2 : "";
 
-        if (stateInfo.IsName(walkingStateName))
+        // --- Passi ---
+        if (currentState == walkingStateName)
         {
-            if (!footstepAudio.isPlaying)
-                footstepAudio.Play();
+            if (!isWalking && footstepClip != null)
+            {
+                audioSource.clip = footstepClip;
+                audioSource.volume = footstepVolume;
+                audioSource.loop = true;
+                audioSource.Play();
+                isWalking = true;
+            }
         }
         else
         {
-            if (footstepAudio.isPlaying)
-                footstepAudio.Stop();
+            if (isWalking)
+            {
+                audioSource.Stop();
+                isWalking = false;
+            }
+        }
+
+        // --- Morso (in uno dei due stati previsti) ---
+        bool isInBiteState = stateInfo.IsName(biteStateName1) || stateInfo.IsName(biteStateName2);
+        if (isInBiteState)
+        {
+            if (!bitePlayed && biteClip != null)
+            {
+                audioSource.loop = false;
+                audioSource.PlayOneShot(biteClip, biteVolume);
+                bitePlayed = true;
+            }
+        }
+        else
+        {
+            bitePlayed = false;
         }
     }
 }
