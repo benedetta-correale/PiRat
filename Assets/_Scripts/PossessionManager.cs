@@ -72,25 +72,6 @@ public class PossessionManager : MonoBehaviour
         }
     }
 
-    public void EnablePossessionInput(bool enable)
-    {
-        var selection = playerInput.actions["Selection"];
-        var confirm = playerInput.actions["Possess"];
-        var exit = playerInput.actions["Exit Selection"];
-
-        if (enable)
-        {
-            selection.performed += EnterSelectionMode_Input;
-            confirm.performed += ConfirmPossess_Input;
-            exit.performed += ExitSelectionMode_Input;
-        }
-        else
-        {
-            selection.performed -= EnterSelectionMode_Input;
-            confirm.performed -= ConfirmPossess_Input;
-            exit.performed -= ExitSelectionMode_Input;
-        }
-    }
     void EnterSelectionMode()
     {
         var piratesInRange = GetPiratesInRange();
