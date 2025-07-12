@@ -2249,6 +2249,7 @@ MonoBehaviour:
   biteTickDamage: 0
   biteTickInterval: 0
   biteDuration: 0
+  healthBar: {fileID: 0}
   infected: 0
   healingCooldown: 5
   alreadyHealing: 0
@@ -52703,7 +52704,6 @@ MonoBehaviour:
   pirateFinalMove: {fileID: 0}
   bersaglio: {fileID: 0}
   quickTimeUIManager: {fileID: 0}
-  empowermentDialogue: {fileID: 0}
   playerInput: {fileID: 0}
   muriInvisibili: {fileID: 0}
   possessionManager: {fileID: 0}
@@ -67990,6 +67990,7 @@ MonoBehaviour:
   biteTickDamage: 10
   biteTickInterval: 5
   biteDuration: 3
+  healthBar: {fileID: 0}
   infected: 0
   healingCooldown: 5
   alreadyHealing: 0
