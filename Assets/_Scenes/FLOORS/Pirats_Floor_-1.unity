@@ -72669,6 +72669,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4951535713398908031, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
   m_PrefabInstance: {fileID: 8674782310777738132}
   m_PrefabAsset: {fileID: 0}
+--- !u!195 &1851281647 stripped
+NavMeshAgent:
+  m_CorrespondingSourceObject: {fileID: 1776706743948696010, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
+  m_PrefabInstance: {fileID: 8674782310777738132}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1853842567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -86903,7 +86908,7 @@ PrefabInstance:
     - target: {fileID: 7092936876287192849, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
       propertyPath: agent
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 1851281647}
     - target: {fileID: 7092936876287192849, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
       propertyPath: idleArea
       value: 

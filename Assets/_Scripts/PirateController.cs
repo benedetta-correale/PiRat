@@ -11,6 +11,7 @@ public class PirateController : MonoBehaviour
 
     public string CurrentState => state.ToString();
 
+    public State state;
 
     public event Action<PirateController> OnPirateDeath;
     public bool isPossessed { get; set; }
@@ -72,7 +73,6 @@ public class PirateController : MonoBehaviour
 
     // STATI INTERNI 
     private Coroutine infectionCoroutine;
-    private State state = State.Patrol;
     private int patrolIdx;
     private float suspicionTimer;
     private Vector3 suspicionTarget;
