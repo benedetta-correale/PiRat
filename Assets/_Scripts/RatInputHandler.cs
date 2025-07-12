@@ -104,6 +104,12 @@ public class RatInputHandler : MonoBehaviour
 
     private void UpdateWalkingAnimation(float inputMagnitude)
     {
+        if (movementLocked)
+        {
+            _ratAnimator.SetBool("isWalking", false); // Blocca l'animazione
+            return; // Non aggiornare ulteriormente
+        }
+
         bool isInputActive = moveInput.magnitude > 0.05f;
 
         if (isInputActive)
@@ -133,6 +139,7 @@ public class RatInputHandler : MonoBehaviour
             _ratAnimator.SetFloat(animSpeedParam, 1f);
         }
     }
+
 
 
 

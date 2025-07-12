@@ -1,11 +1,12 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 
 public class CameraControlManager : MonoBehaviour
 {
-    public static CameraControlManager Instance { get; private set; }
+
     private bool rotationLocked = false;
     [Header("References (assign in Inspector)")]
     public RatInputHandler ratController;
@@ -17,6 +18,8 @@ public class CameraControlManager : MonoBehaviour
     //[Header("Camera Offset & Rotation")]
     //public Vector3 cameraOffset = new Vector3(0f, 5f, -10f);
     //public Vector3 cameraEulerAngles = new Vector3(20f, 0f, 0f);
+
+    public Coroutine deathZoomCoroutine;
 
     [Header("Transition Settings")]
     [Range(0.1f, 10f)] public float transitionSpeed = 3f;
@@ -56,24 +59,11 @@ public class CameraControlManager : MonoBehaviour
     float yaw;
     Vector2 lookInput;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
+
 
     void Start()
     {
-        pirateTransform = null;
         currentTarget = ratTransform;
-
         if (currentTarget == null)
         {
             Debug.LogError("CameraController: manca il riferimento a Target!");
@@ -81,19 +71,29 @@ public class CameraControlManager : MonoBehaviour
             return;
         }
 
-        yaw = currentTarget.eulerAngles.y; // oppure 0f se vuoi partire sempre dietro
-
-
-        // ⬇️ Aggiunta: forza subito la posizione corretta al primo frame
-        Quaternion rot = Quaternion.Euler(0f, yaw, 0f);
-        transform.position = currentTarget.position + rot * offset;
-        transform.LookAt(currentTarget.position);
+        yaw = currentTarget.eulerAngles.y;
         defaultOffset = offset;
         currentOffset = offset;
         targetOffset = offset;
-        transform.position = cameraInitialPosition;
-        transform.rotation = Quaternion.Euler(cameraInitialRotation);
+
+        // Forza la posizione corretta al primo frame
+        transform.position = currentTarget.position + (Quaternion.Euler(0f, yaw, 0f) * offset);
+        transform.LookAt(currentTarget.position);
     }
+
+    // --- NUOVO METODO ---
+    /// <summary>
+    /// Aggiorna il target che la camera deve seguire. Essenziale dopo il caricamento di una scena.
+    /// </summary>
+    public void UpdateTarget(Transform newTarget)
+    {
+        currentTarget = newTarget;
+        ratTransform = newTarget; // Mantiene la coerenza
+        Debug.Log($"Camera target updated to: {newTarget.name}");
+    }
+
+
+
 
     public void LockRotation(bool locked)
     {
@@ -113,6 +113,7 @@ public class CameraControlManager : MonoBehaviour
     public void OnLook(InputAction.CallbackContext ctx)
     {
         lookInput = ctx.ReadValue<Vector2>();
+        Debug.Log($"Look input received: {lookInput}"); // Add this to debug
     }
 
     void LateUpdate()
@@ -248,6 +249,75 @@ public class CameraControlManager : MonoBehaviour
         }
     }
 
+    public void StartDeathZoom(float zoomMultiplier, float zoomSpeed, float duration)
+    {
+        LockRotation(true); // Blocca la rotazione durante lo zoom
+        StartCoroutine(ZoomInOnRat(zoomMultiplier, zoomSpeed, duration));
+    }
+
+    public IEnumerator ZoomInOnRat(float zoomMultiplier, float zoomSpeed, float duration)
+    {
+        LockRotation(false); // La rotazione resta attiva
+
+        Vector3 originalOffset = currentOffset;
+        Vector3 zoomOffset = currentOffset / zoomMultiplier;
+
+        float elapsed = 0f;
+        while (elapsed < duration)
+        {
+            targetOffset = Vector3.Lerp(originalOffset, zoomOffset, elapsed / duration);
+            elapsed += Time.deltaTime * zoomSpeed;
+            yield return null;
+        }
+        targetOffset = zoomOffset;
+    }
+
+    // --- METODO AGGIORNATO ---
+    public void ResetCameraAfterRespawn()
+    {
+        // 1. Interrompi la coroutine dello zoom se è attiva
+        if (deathZoomCoroutine != null)
+        {
+            StopCoroutine(deathZoomCoroutine);
+            deathZoomCoroutine = null;
+        }
+
+        // 2. Sblocca la rotazione
+        LockRotation(false);
+
+        // 3. ⚠️ PRIMA resetta il yaw se il target è valido
+        if (currentTarget != null)
+        {
+            yaw = currentTarget.eulerAngles.y;
+        }
+
+        // 4. Resetta l'offset dello zoom immediatamente
+        targetOffset = defaultOffset;
+        currentOffset = defaultOffset;
+
+        // 5. Controlla che il target sia valido PRIMA di usarlo
+        if (currentTarget == null)
+        {
+            Debug.LogError("CameraControlManager: Impossibile resettare la camera, currentTarget è nullo!");
+            return;
+        }
+
+        // 6. Riposiziona la camera usando il yaw appena resettato
+        transform.position = currentTarget.position + Quaternion.Euler(0f, yaw, 0f) * defaultOffset;
+        transform.LookAt(currentTarget.position);
+
+        Debug.Log($"Camera resettata: yaw={yaw}, position={transform.position}");
+    }
+
+    // --- METODO SEMPLIFICATO (ora non serve più chiamarlo separatamente) ---
+    public void ResetYawOnRespawn()
+    {
+        if (currentTarget != null)
+        {
+            yaw = currentTarget.eulerAngles.y;
+            Debug.Log($"Yaw resettato a: {yaw}");
+        }
+    }
 
 
 }

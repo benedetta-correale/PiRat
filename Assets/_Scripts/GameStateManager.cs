@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 public class GameStateManager : MonoBehaviour
 {
     public static GameStateManager Instance { get; private set; }
+    public Dictionary<string, bool> tutorialsSeen = new Dictionary<string, bool>();
+    public string lastSceneName = "";
+
+    private CameraControlManager cameraControlManager;
 
     [Header("Riferimenti al topo")]
     public BonusMalus bonusMalus;                   // componente che gestisce la vita
@@ -67,25 +71,38 @@ public class GameStateManager : MonoBehaviour
     }
 
 
+    // In GameStateManager.cs
+
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         if (skipInitialLoad)
         {
             skipInitialLoad = false;
+            lastSceneName = scene.name;
             return;
         }
 
-        // 1) Recupera il nuovo Topo
+        cameraControlManager = FindFirstObjectByType<CameraControlManager>();
+
+        // --- LOGICA AGGIORNATA ---
         var ratGO = GameObject.FindGameObjectWithTag("Player");
         if (ratGO != null)
         {
             bonusMalus = ratGO.GetComponent<BonusMalus>();
             ratInputHandler = ratGO.GetComponent<RatInputHandler>();
-            ratInteraction = ratGO.GetComponent<RatInteractionManager>();
-        }
-        else Debug.LogWarning("GameStateManager: non ho trovato il Player in scena.");
 
-        // 2) Posiziona il Topo
+            // 1. AGGIORNA IL TARGET DELLA CAMERA SUBITO!
+            if (cameraControlManager != null)
+            {
+                cameraControlManager.UpdateTarget(ratGO.transform);
+            }
+        }
+        else
+        {
+            Debug.LogWarning("GameStateManager: non ho trovato il Player in scena.");
+            return;
+        }
+
         var spawn = GameObject.FindWithTag(spawnPointTag);
         if (spawn != null && bonusMalus != null)
         {
@@ -94,51 +111,56 @@ public class GameStateManager : MonoBehaviour
             rt.rotation = spawn.transform.rotation;
         }
 
-        // 3) Ripristina vita e power-up
-        LoadRatData();
+        bool isRespawning = (scene.name == lastSceneName);
 
-        // 4) Forza l'aggiornamento della UI salute
-        var healthUI = GameObject.FindObjectOfType<RatHealthUI>();
-        if (healthUI != null)
-            healthUI.UpdateHealthBar(ratData.health, bonusMalus.maxHealth);
-        
-        // 5) Ripristino power-up via flags + config
-        if (powerUpConfig != null)
+        if (isRespawning)
         {
-            if (ratData.speedActive)
+            Debug.Log("Respawning in the same scene. Resetting health and camera.");
+            bonusMalus.currentHealth = bonusMalus.maxHealth;
+
+            // ✅ AGGIUNGI QUESTO: Ferma esplicitamente la coroutine dello zoom di morte
+            if (cameraControlManager != null)
             {
-                // 1) Ripristina il VFX di speed boost
-                ratInputHandler.SetSpeedVFX(powerUpConfig.speedVFXPrefab);
-
-                // 2) Riparte la coroutine con il tempo rimanente
-                StartCoroutine(ratInputHandler.SpeedBoostRoutine(
-                    ratData.speedMultiplier,
-                    ratData.speedTimeLeft
-                ));
-            }
-
-
-            if (ratData.damageActive)
-                ratInteraction.ActivateDamageBoost(
-                    ratData.damageAmount,
-                    powerUpConfig.damageVFXPrefab
-                );
-
-            if (ratData.poisonReady)
-            {
-                ratInteraction.PreparePoisonLeak(
-                    powerUpConfig.poisonPuddlePrefab,
-                    powerUpConfig.poisonVFXPrefab
-                );
-                ratInteraction.ConfigurePuddleTrap(
-                    powerUpConfig.poisonTrapPrefabs
-                );
+                if (cameraControlManager.deathZoomCoroutine != null)
+                {
+                    cameraControlManager.StopCoroutine(cameraControlManager.deathZoomCoroutine);
+                    cameraControlManager.deathZoomCoroutine = null;
+                }
             }
         }
+        else
+        {
+            Debug.Log("Loading new scene. Loading rat data.");
+           LoadRatData(); // La tua funzione per caricare i dati
+        }
 
+        // 2. RESETTA LA TELECAMERA (ora nell'ordine corretto)
+        if (cameraControlManager != null)
+        {
+            // Prima resetta il yaw, POI resetta la camera
+            cameraControlManager.ResetYawOnRespawn();
+            cameraControlManager.ResetCameraAfterRespawn();
+        }
+
+        // Aggiorna la UI della salute
+        var healthUI = FindObjectOfType<RatHealthUI>();
+        if (healthUI != null && bonusMalus != null)
+            healthUI.UpdateHealthBar(bonusMalus.currentHealth, bonusMalus.maxHealth);
+
+        lastSceneName = scene.name;
     }
 
 
+
+    public void SetTutorialSeen(string tutorialName, bool seen = true)
+    {
+        tutorialsSeen[tutorialName] = seen;
+    }
+
+    public bool HasSeenTutorial(string tutorialName)
+    {
+        return tutorialsSeen.ContainsKey(tutorialName) && tutorialsSeen[tutorialName];
+    }
 
     private void LoadRatData()
     {
