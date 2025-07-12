@@ -353,6 +353,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f23051eac276c4ac88fd16f5c771bbc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  state: 0
   animator: {fileID: 1604467177678238892}
   agent: {fileID: 6098928481179713824}
   patrolPoints: []
@@ -379,6 +380,7 @@ MonoBehaviour:
   biteTickDamage: 0
   biteTickInterval: 0
   biteDuration: 0
+  healthBar: {fileID: 3005356702782041730, guid: be9e5167043d64ea4a47b797b455c818, type: 3}
   infected: 0
   healingCooldown: 5
   alreadyHealing: 0

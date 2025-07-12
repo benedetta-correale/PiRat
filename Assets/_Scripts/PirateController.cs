@@ -61,6 +61,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private int biteTickDamage;
     [SerializeField] private float biteTickInterval;
     [SerializeField] private float biteDuration;
+    [SerializeField] Canvas healthBar;
     public bool infected = false;
 
     [Header("HEAL STATUS")]
@@ -550,11 +551,34 @@ public class PirateController : MonoBehaviour
 
         infected = false;
         OnPirateDeath?.Invoke(this);
-        agent.isStopped = true;
-        animator.SetTrigger("Die");
-        state = State.Dead;
-        agent.updateRotation = false;
 
+        // Ferma il movimento
+        agent.isStopped = true;
+        agent.updatePosition = false;
+        agent.updateRotation = false;
+        animator.SetTrigger("Die");
+
+        // Imposta lo stato a morto
+        state = State.Dead;
+
+        // Attiva la gravità se il pirata ha un Rigidbody
+        Rigidbody rb = GetComponent<Rigidbody>();
+        
+        // Imposta la posizione a terra (se necessario)
+        transform.position = new Vector3(transform.position.x, -1f, transform.position.z); // Imposta Y a 0 (terra)
+
+       
+
+        // Disattiva il Canvas del pirata (UI)
+        if (healthBar != null) // Assicurati che il riferimento al Canvas sia stato assegnato
+        {
+            healthBar.enabled = false; // Disattiva il Canvas del pirata
+        }
+        
+        if (alertIndicator != null)
+        {
+            alertIndicator.SetActive(false); // Disattiva l'indicatore di allerta
+        }
     }
 
     //GUARIGIONE

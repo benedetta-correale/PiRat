@@ -13704,6 +13704,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7338941149210747076, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: ratHealt
       value: 
@@ -14514,6 +14518,10 @@ PrefabInstance:
     - target: {fileID: 9050841610296798691, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 9120797889211474831, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 9156750390183178797, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
       propertyPath: m_Layer
@@ -21162,6 +21170,10 @@ PrefabInstance:
     - target: {fileID: 327372118454059980, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 768253035678827361, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 804452711534459536, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
       propertyPath: m_Speed
@@ -29670,6 +29682,10 @@ PrefabInstance:
     - target: {fileID: 7167560307159428903, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 7338941149210747076, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: ratHealt
@@ -39170,6 +39186,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: -5049032948309972686, guid: 058de047b01b744bda16fd83386afb05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1677000070}
+    - targetCorrespondingSourceObject: {fileID: -5049032948309972686, guid: 058de047b01b744bda16fd83386afb05, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1677000073}
     - targetCorrespondingSourceObject: {fileID: -1741465752379990778, guid: 058de047b01b744bda16fd83386afb05, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1317788694}
@@ -50185,6 +50204,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 768253035678827361, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 804452711534459536, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
       propertyPath: m_Speed
       value: 2
@@ -51871,6 +51894,10 @@ PrefabInstance:
     - target: {fileID: 3356478674257008480, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 3539830087811765108, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 4402650574596145664, guid: e69e3452779734ddfbe546e8e41ca58c, type: 3}
       propertyPath: m_Layer
@@ -67054,6 +67081,28 @@ MonoBehaviour:
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: 9a4d84d5435674c1daf790d3a4151e96, type: 2}
   m_BuildHeightMesh: 0
+--- !u!64 &1677000073
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1677000069}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 0
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 5305871256624515941, guid: 058de047b01b744bda16fd83386afb05, type: 3}
 --- !u!1001 &1677273303
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -71632,6 +71681,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 332533627624455419, guid: 61a8d0f41c1d4493490fe9dc5896136b, type: 3}
   m_PrefabInstance: {fileID: 1821372959}
+  m_PrefabAsset: {fileID: 0}
+--- !u!223 &1821793281 stripped
+Canvas:
+  m_CorrespondingSourceObject: {fileID: 6283742064725684028, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+  m_PrefabInstance: {fileID: 3614474141445445625}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1825877819
 PrefabInstance:
@@ -82987,6 +83041,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 768253035678827361, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 804452711534459536, guid: 712f6425f8ce54246a241e8ed384bea0, type: 3}
       propertyPath: m_Speed
       value: 2
@@ -83516,6 +83574,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 7338941149210747076, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: ratHealt
       value: 
@@ -83524,6 +83586,10 @@ PrefabInstance:
       propertyPath: eyeHeight
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: healthBar
+      value: 
+      objectReference: {fileID: 1821793281}
     - target: {fileID: 7399275269632119633, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: chaseSpeed
       value: 2
@@ -84070,6 +84136,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 4728498619232393302, guid: dafa78ddb65c94e738609122f2d4afb7, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 4870141253629970358, guid: dafa78ddb65c94e738609122f2d4afb7, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -84351,6 +84421,10 @@ PrefabInstance:
     - target: {fileID: 825464269857458213, guid: f5f4e6695f6b64bd0b843beb275f6eb3, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 829439549355800237, guid: f5f4e6695f6b64bd0b843beb275f6eb3, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 1181020915003016118, guid: f5f4e6695f6b64bd0b843beb275f6eb3, type: 3}
       propertyPath: m_Layer
@@ -84844,6 +84918,10 @@ PrefabInstance:
     - target: {fileID: 5826549695015088420, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: m_Layer
       value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 6082403525661643295, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
       objectReference: {fileID: 0}
     - target: {fileID: 6202915442073160803, guid: fe35f5aefc072439286f7870a237c25a, type: 3}
       propertyPath: m_Layer
@@ -85925,6 +86003,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 9120797889211474831, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 9156750390183178797, guid: d7e1afa01e0b6447a9d5b9b2f927ef01, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -86235,6 +86317,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1757165714}
     m_Modifications:
+    - target: {fileID: 212959234764188943, guid: 583df6ca9f7a44f979e0750298b5757e, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 314981448678004944, guid: 583df6ca9f7a44f979e0750298b5757e, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -86816,6 +86902,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 8045055903675877200, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     - target: {fileID: 8068288709478844448, guid: d87d0911682074366a1b7f09180bbb43, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -86917,6 +87007,10 @@ PrefabInstance:
       propertyPath: 'healArea.Array.data[0]'
       value: 
       objectReference: {fileID: 2081535862}
+    - target: {fileID: 7365416279833414333, guid: a5099bb92f27344d3bbd1a710c53e1b4, type: 3}
+      propertyPath: m_Name
+      value: BarPirateCanvas
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

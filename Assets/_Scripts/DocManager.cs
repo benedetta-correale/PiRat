@@ -240,10 +240,9 @@ public class DocManager : MonoBehaviour
 
     // FIND PIRATE
     
-    private GameObject FindBestPirateInHealAreas()
+   private GameObject FindBestPirateInHealAreas()
     {
         GameObject best = null;
-
         float lowestHealth = float.MaxValue;
 
         foreach (Transform area in healArea)
@@ -252,13 +251,16 @@ public class DocManager : MonoBehaviour
 
             foreach (Collider col in hits)
             {
-                Debug.Log("sto cercando pirati");
+                Debug.Log("Sto cercando pirati");
+
+                // Verifica se è un pirata
                 if (!col.CompareTag("Pirate")) continue;
 
                 PirateController pc = col.GetComponent<PirateController>();
-                if (pc == null || !pc.infected || pc.alreadyHealing || pc.currentHealth > pc.maxHealth * 0.5f) continue;
-                if (pc.GetCurrentState() == PirateController.State.Dead) continue;
+                if (pc == null || !pc.infected || pc.alreadyHealing || pc.currentHealth > pc.maxHealth * 0.5f || pc.currentHealth == 0.0f)
+                    continue; // Ignora il pirata morto, già curato o con salute alta
 
+                // Se il pirata ha la salute più bassa, consideralo per la cura
                 if (pc.currentHealth < lowestHealth)
                 {
                     lowestHealth = pc.currentHealth;
@@ -267,8 +269,25 @@ public class DocManager : MonoBehaviour
             }
         }
 
+        // Se il pirata scelto è morto, cerca un altro pirata
+        while (best != null)
+        {
+            PirateController bestPirate = best.GetComponent<PirateController>();
+
+            if (bestPirate != null && bestPirate.currentHealth == 0.0f)
+            {
+                Debug.Log("Il pirata selezionato è morto. Cerco un altro pirata...");
+                best = null; // Annulla la selezione del pirata morto
+                // Rilancia la ricerca per un altro pirata
+                return FindBestPirateInHealAreas(); 
+            }
+
+            break; // Esci dal ciclo se il pirata non è morto
+        }
+
         return best;
     }
+
 
 
     // GIZMOS
