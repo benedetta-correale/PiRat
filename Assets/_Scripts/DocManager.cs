@@ -173,7 +173,15 @@ public class DocManager : MonoBehaviour
             return;
         }
 
-        // Segui dinamicamente la posizione attuale del pirata
+        PirateController pc = currentTarget.GetComponent<PirateController>();
+        if (pc != null && pc.IsDead) // Aggiungi questo controllo
+        {
+            Debug.Log("Target pirate died while looking for them. Re-entering Idle.");
+            currentTarget = null;
+            EnterIdle(); // Torna in idle per cercare un nuovo target
+            return;
+        }
+
         agent.SetDestination(currentTarget.transform.position);
 
         float distance = Vector3.Distance(transform.position, currentTarget.transform.position);
@@ -181,7 +189,6 @@ public class DocManager : MonoBehaviour
         if (distance <= 1.5f)
         {
             EnterHealing();
-            
         }
     }
 
@@ -211,18 +218,20 @@ public class DocManager : MonoBehaviour
             PirateController pc = currentTarget.GetComponent<PirateController>();
             if (pc != null)
             {
-                pc.EnterBeingHealed(transform.position, 2f);
-                pc.Heal(recoveryPoints);
-                Debug.Log("PirataCurato");
+                if (pc.IsDead) // Aggiungi questo controllo
+                {
+                    Debug.Log("Pirate died during healing. Finding new target or going idle.");
+                    currentTarget = null;
+                }
+                else
+                {
+                    pc.EnterBeingHealed(transform.position, 2f);
+                    pc.Heal(recoveryPoints);
+                    Debug.Log("PirataCurato");
+                }
             }
-
             currentTarget = null;
-
         }
-
-        // Cura fatta → reset trigger, imposta camminata
-        
-    
 
         GameObject nextTarget = FindBestPirateInHealAreas();
         if (nextTarget != null)
@@ -235,7 +244,6 @@ public class DocManager : MonoBehaviour
             EnterIdle();
         }
     }
-
     #endregion Healing
 
     // FIND PIRATE
@@ -253,14 +261,13 @@ public class DocManager : MonoBehaviour
             {
                 Debug.Log("Sto cercando pirati");
 
-                // Verifica se è un pirata
                 if (!col.CompareTag("Pirate")) continue;
 
                 PirateController pc = col.GetComponent<PirateController>();
-                if (pc == null || !pc.infected || pc.alreadyHealing || pc.currentHealth > pc.maxHealth * 0.5f || pc.currentHealth == 0.0f)
-                    continue; // Ignora il pirata morto, già curato o con salute alta
+                // Modifica qui: Aggiungi pc.IsDead() nel controllo iniziale per filtrare subito i pirati morti
+                if (pc == null || pc.IsDead || pc.alreadyHealing || pc.currentHealth > pc.maxHealth * 0.5f || pc.currentHealth == 0.0f)
+                    continue;
 
-                // Se il pirata ha la salute più bassa, consideralo per la cura
                 if (pc.currentHealth < lowestHealth)
                 {
                     lowestHealth = pc.currentHealth;
@@ -268,23 +275,8 @@ public class DocManager : MonoBehaviour
                 }
             }
         }
-
-        // Se il pirata scelto è morto, cerca un altro pirata
-        while (best != null)
-        {
-            PirateController bestPirate = best.GetComponent<PirateController>();
-
-            if (bestPirate != null && bestPirate.currentHealth == 0.0f)
-            {
-                Debug.Log("Il pirata selezionato è morto. Cerco un altro pirata...");
-                best = null; // Annulla la selezione del pirata morto
-                // Rilancia la ricerca per un altro pirata
-                return FindBestPirateInHealAreas(); 
-            }
-
-            break; // Esci dal ciclo se il pirata non è morto
-        }
-
+        // Rimuovi il ciclo while che controllava i pirati morti alla fine,
+        // dato che sono già stati filtrati all'inizio.
         return best;
     }
 

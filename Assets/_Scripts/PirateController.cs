@@ -79,11 +79,13 @@ public class PirateController : MonoBehaviour
     private Vector3 suspicionTarget;
     private bool hasStartedInvestigating;
     private bool hasDealtDamageThisAttack = false;
-
     private bool ratWasRecentlyInvincible = false;
     private float retryAttackTime = 0f;
+    private bool _isDead = false;
 
     public float currentHealth;
+
+    public bool IsDead => _isDead;
 
 
 
@@ -112,9 +114,10 @@ public class PirateController : MonoBehaviour
 
     private void Update()
     {
-
-        if (state == State.Dead) return;
-
+        if (_isDead)
+        {
+            return;
+        }
 
         switch (state)
         {
@@ -130,6 +133,8 @@ public class PirateController : MonoBehaviour
 
     private void EnterPatrol()
     {
+        if (state == State.Dead) return; // prevenzione pattugliamento dopo la morte
+
         state = State.Patrol;
         ResetAlert();
 
@@ -173,6 +178,7 @@ public class PirateController : MonoBehaviour
 
     private void EnterSuspicious()
     {
+        if (state == State.Dead) return; // prevenzione sospetto dopo la morte
         state = State.Suspicious;
         suspicionTimer = 0f;
         suspicionTarget = ratTransform.position;
@@ -227,6 +233,7 @@ public class PirateController : MonoBehaviour
     #region Chasing
     private void EnterChasing()
     {
+        if (state == State.Dead) return; // prevenzione inseguimento dopo la morte
         state = State.Chasing;
         //alertIndicator.SetActive(false);
         agent.speed = chaseSpeed;
@@ -273,7 +280,10 @@ public class PirateController : MonoBehaviour
     #region Attack
 
     private void EnterAttacking()
+
     {
+
+        if (state == State.Dead) return; // prevenzione attacco dopo la morte
         if (Time.time < retryAttackTime)
             return;
 
@@ -412,6 +422,7 @@ public class PirateController : MonoBehaviour
 
     public void EnterBeingHealed(Vector3 medicPosition, float duration)
     {
+        if (_isDead) return;
         state = State.BeingHealed;
 
         agent.isStopped = true;
@@ -499,6 +510,7 @@ public class PirateController : MonoBehaviour
     public void TakeDamage(int dmg)
 
     {
+        if (_isDead) return; // prevenzione danni dopo la morte
 
         if (ratTransform != null)
         {
@@ -509,7 +521,11 @@ public class PirateController : MonoBehaviour
         currentHealth = Mathf.Max(0f, currentHealth - dmg);
         healthFill.fillAmount = currentHealth / maxHealth;
 
-        if (currentHealth <= 0f) Die();
+        if (currentHealth <= 0f && !_isDead)
+        {
+            Die();
+            Debug.Log($"{name} è morto!");
+        };
 
         // Lancia l'infezione al primo danno, se non è già partita
         if (!infected)
@@ -547,27 +563,58 @@ public class PirateController : MonoBehaviour
 
     private void Die()
     {
-        if (state == State.Dead) return; // prevenzione doppia morte
+
+        Debug.Log($"{name} sta morendo...");
+        _isDead = true; // Imposta lo stato a morto
 
         infected = false;
         OnPirateDeath?.Invoke(this);
 
-        // Ferma il movimento
-        agent.isStopped = true;
-        agent.updatePosition = false;
-        agent.updateRotation = false;
-        animator.SetTrigger("Die");
+        if (agent != null) // Essential: Check if the agent reference is valid
+        {
+            // First, stop the agent if it's enabled and active on the NavMesh.
+            // This avoids the error if it's already disabled.
+            if (agent.enabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = true; // Attempt to stop it
+                agent.updatePosition = false; // Disable position updates
+                agent.updateRotation = false; // Disable rotation updates
+                
+            }
 
-        // Imposta lo stato a morto
-        state = State.Dead;
-
+            // Then, disable the agent entirely.
+            // This is safe even if isStopped couldn't be set.
+            agent.enabled = false;
+        }
+        
+        if (animator != null) animator.SetTrigger("Die");
+    
         // Attiva la gravità se il pirata ha un Rigidbody
         Rigidbody rb = GetComponent<Rigidbody>();
-        
-        // Imposta la posizione a terra (se necessario)
-        transform.position = new Vector3(transform.position.x, -1f, transform.position.z); // Imposta Y a 0 (terra)
+        Debug.Log("Rigidbody trovato: " + (rb != null));
+        if (rb != null)
+        {
+            rb.useGravity = true; // Riattiva la gravità per far cadere il pirata
+            rb.isKinematic = false; // Disabilita la modalità Kinematic per far interagire il Rigidbody con la fisica
+            rb.linearVelocity = Vector3.zero; // Ferma il movimento corrente
+            rb.angularVelocity = Vector3.zero; // Ferma la rotazione corrente
+            rb.constraints = RigidbodyConstraints.None;
+            transform.position = new Vector3(transform.position.x, 2.0f, transform.position.z); // Forza la posizione a terra
 
-       
+            // Poi riblocca tutto
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        SphereCollider sphere = GetComponent<SphereCollider>();
+        if (sphere != null)
+        {
+            sphere.enabled = false;
+        }
+
+        this.enabled = false; // Disabilita lo script per fermare ulteriori aggiornamenti
+    
+        // Imposta la posizione a terra (se necessario)
+        //transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z); // Imposta Y a 0 (terra)
 
         // Disattiva il Canvas del pirata (UI)
         if (healthBar != null) // Assicurati che il riferimento al Canvas sia stato assegnato
@@ -581,10 +628,18 @@ public class PirateController : MonoBehaviour
         }
     }
 
+        public void OnDeathAnimationEnd()
+    {
+        // Debug.Log("Animazione di morte finita per: " + gameObject.name);
+        gameObject.SetActive(false); // Disattiva il GameObject del pirata
+    }
+
     //GUARIGIONE
 
     public void Heal(int recoveryPoints)
     {
+        if (_isDead) return;
+
         currentHealth = Mathf.Min(currentHealth + recoveryPoints, maxHealth);
         healthFill.fillAmount = currentHealth / maxHealth;
 
