@@ -61,7 +61,7 @@ public class PirateController : MonoBehaviour
     [SerializeField] private int biteTickDamage;
     [SerializeField] private float biteTickInterval;
     [SerializeField] private float biteDuration;
-    [SerializeField] Canvas healthBar;
+    [SerializeField] Image healthBar;
     public bool infected = false;
 
     [Header("HEAL STATUS")]
@@ -86,6 +86,7 @@ public class PirateController : MonoBehaviour
     public float currentHealth;
 
     public bool IsDead => _isDead;
+    private bool hasTakenDamage = false; // per attivare la barra della vita al primo danno
 
 
 
@@ -101,6 +102,16 @@ public class PirateController : MonoBehaviour
 
         if (ratHealt == null)
             Debug.LogError($"{name} → ratHealt è NULL");
+
+        if (healthBar != null)
+        {
+            healthBar.gameObject.SetActive(false); // Assicurati che la barra della vita sia disabilitata all'inizio
+            Debug.Log($"{name} → healthBar disabilitata all'inizio");
+            }
+        ; // Assicurati che la barra della vita sia disabilitata all'inizio
+        
+        
+
     }
 
     private void Start()
@@ -290,7 +301,7 @@ public class PirateController : MonoBehaviour
         if (ratManager != null && ratManager.invincible)
         {
             ratWasRecentlyInvincible = true;
-            retryAttackTime = Time.time + 10f;
+            retryAttackTime = Time.time ;
             EnterChasing();
             return;
         }
@@ -527,6 +538,18 @@ public class PirateController : MonoBehaviour
             Debug.Log($"{name} è morto!");
         };
 
+        // NUOVA MODIFICA: Attiva la barra della vita al primo danno
+        if (!hasTakenDamage)
+        {
+            hasTakenDamage = true;
+            if (healthBar != null)
+            {
+               healthBar.gameObject.SetActive(true); // Assicurati che la barra della vita sia visibile
+                Debug.Log($"{name} → healthBar attivata al primo danno");
+            }
+        }
+
+
         // Lancia l'infezione al primo danno, se non è già partita
         if (!infected)
         {
@@ -632,7 +655,7 @@ public class PirateController : MonoBehaviour
     {
         Debug.Log("Animazione di morte terminata per " + gameObject.name);
         // Qui puoi aggiungere logica per rimuovere il pirata dalla scena o gestire la sua morte
-        Destroy(gameObject); // Per esempio, distruggi il GameObject
+       gameObject.SetActive(false); // Per esempio, distruggi il GameObject
     }
 
     //GUARIGIONE

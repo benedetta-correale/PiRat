@@ -129,6 +129,12 @@ public class RatInteractionManager : MonoBehaviour
         {
             if (hit.collider.CompareTag("Pirate"))
             {
+                //se colpisce il medico mentre sta guarendo un pirata, non può mordere
+                /*if(hit.collider.GetComponent<DocManager>().isHealing && hit.collider.name == "Medico")
+                {
+                    Debug.Log("Il medico sta guarendo un pirata, non può mordere!");
+                    return;
+                }*/
                 TryStartBite(hit.collider.GetComponent<PirateController>());
                 successfulBite = true;
             }
@@ -213,7 +219,7 @@ public class RatInteractionManager : MonoBehaviour
         biting = true;
         _ratAnimator.SetTrigger("Bite");
         StartCoroutine(StartQuickTimeEvent(enemyController));
-        SetInvincibleForSeconds(10.0f);
+        SetInvincibleForSeconds(3.0f);
 
         // ✅ Avvia un timer per resettare `biting`
         StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione

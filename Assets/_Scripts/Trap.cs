@@ -46,6 +46,13 @@ public class Trap : MonoBehaviour
 
     private GameObject glueVFXInstance;
 
+    [Header("suoni trappole")]
+    [SerializeField] private AudioClip springSound;
+    [SerializeField] private AudioClip glueSound;
+    [SerializeField] private AudioClip slideSound;
+    private AudioSource audioSource;
+    private AudioClip lastClipPlayed = null; // Per evitare di riprodurre lo stesso clip consecutivamente
+
     private void OnTriggerEnter(Collider other)
     {
         // === LOGICA PER IL RATTO (ATTIVAZIONE DELLA TRAPPOLA) ===
@@ -65,6 +72,7 @@ public class Trap : MonoBehaviour
             // Controlla anche se l'animatore sta facendo un backflip
             Animator ratAnimator = other.GetComponent<Animator>();
             bool isBackflipAnimation = false;
+
             if (ratAnimator != null)
             {
                 AnimatorStateInfo stateInfo = ratAnimator.GetCurrentAnimatorStateInfo(0);
@@ -117,6 +125,10 @@ public class Trap : MonoBehaviour
         if (attractionCollider != null)
             attractionCollider.enabled = false;
     }
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }   
     private IEnumerator WaitForBackflipEnd(RatInteractionManager rim)
     {
         Animator ratAnimator = rim.GetComponent<Animator>();
@@ -268,6 +280,7 @@ public class Trap : MonoBehaviour
                 // 1) Effetti VFX e danno al ratto
                 if (trapVFXPrefab != null)
                     SpawnVFX(trapVFXPrefab, other.transform);
+                PlayClip(springSound, false); // Riproduci suono di scatto
 
                 var hp = other.GetComponent<BonusMalus>();
                 if (hp != null)
@@ -336,6 +349,7 @@ public class Trap : MonoBehaviour
                     if (trapVFXPrefab != null)
                     {
                         glueVFXInstance = Instantiate(trapVFXPrefab, other.transform.position, Quaternion.identity, other.transform);
+                        PlayClip(glueSound, false); // Riproduci suono di colla
                     }
                 }
                 break;
@@ -343,6 +357,7 @@ public class Trap : MonoBehaviour
             case TrapType.Slide:
                 if (trapVFXPrefab != null)
                     SpawnVFX(trapVFXPrefab, other.transform);
+                PlayClip(slideSound, false);
 
                 var rb = other.GetComponent<Rigidbody>();
                 if (rb != null)
@@ -412,7 +427,7 @@ public class Trap : MonoBehaviour
         /* -----------------------------------------------------------
          * 2. Attendi arrivo o cambio di stato
          * --------------------------------------------------------- */
-        
+
 
         float arriveDistance = Mathf.Max(pirateAgent.stoppingDistance, 0.3f); // minimo 30 cm
 
@@ -499,5 +514,19 @@ public class Trap : MonoBehaviour
             );
         }
 #endif
+    }
+
+    // FUNZIONE USATA PER LA RIPRODUZIONE DEL SUONO 
+    private void PlayClip(AudioClip clip, bool loop = true)
+    {
+        if (clip == null)
+            return;
+
+        audioSource.Stop(); //Ferma immediatamente qualsiasi suono che l'AudioSource sta attualmente riproducendo.
+        audioSource.clip = clip; // Imposta il nuovo AudioClip da riprodurre.
+        audioSource.loop = loop; // Specifica se il suono deve essere ripetuto in loop continuo (true) o suonato una volta sola (false).
+        audioSource.Play(); //riproduce l'audio 
+
+        lastClipPlayed = clip;
     }
 }

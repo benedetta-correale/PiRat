@@ -26,12 +26,17 @@ public class DocManager : MonoBehaviour
     [SerializeField] private float healRay = 10.0f;
     [SerializeField] private int recoveryPoints = 40;
     private bool hasHealed = false; // flag per evitare più cure
+    public bool isHealing = false; // flag per indicare se il pirata è in cura
 
     // -----------------
 
     [Header("Health")]
     [SerializeField] private int maxHealth = 100;
     private int currentHealth;
+    [SerializeField] private Canvas healthBar; // Riferimento al Canvas della salute del pirata
+
+    private bool _isDead = false; // flag per lo stato di morte
+    public bool IsDead => _isDead; // proprietà per accedere allo stato di morte
 
     // --------- STATI INTERNI 
     private State currentState = State.Idle;
@@ -50,6 +55,7 @@ public class DocManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (_isDead) return; // Se il pirata è morto, non fare nulla
         switch (currentState)
         {
             case State.Idle: UpdateIdle(); break;
@@ -65,6 +71,7 @@ public class DocManager : MonoBehaviour
     private void EnterIdle()
 
     {
+        if(_isDead) return; // Non entrare in idle se il pirata è morto
         
         currentState = State.Idle;
         currentTarget = null;
@@ -151,7 +158,9 @@ public class DocManager : MonoBehaviour
     #region LookingFor
     private void EnterLookingFor()
     {
+        if (_isDead) return; // Non entrare in LookingFor se il pirata è morto
         currentState = State.LookingFor;
+        isHealing = false;
 
         if (currentTarget != null)
         {
@@ -176,7 +185,7 @@ public class DocManager : MonoBehaviour
         PirateController pc = currentTarget.GetComponent<PirateController>();
         if (pc != null && pc.IsDead) // Aggiungi questo controllo
         {
-            Debug.Log("Target pirate died while looking for them. Re-entering Idle.");
+            //Debug.Log("Target pirate died while looking for them. Re-entering Idle.");
             currentTarget = null;
             EnterIdle(); // Torna in idle per cercare un nuovo target
             return;
@@ -201,12 +210,15 @@ public class DocManager : MonoBehaviour
 
     private void EnterHealing()
     {
+        
+        if (_isDead) return; // Non entrare in Healing se il pirata è morto
         currentState = State.Healing;
 
         // Ferma il medico
         agent.isStopped = true;
         
         animator.SetTrigger("Heal");
+        isHealing = true;
 
         hasHealed = false;
     }
@@ -220,14 +232,14 @@ public class DocManager : MonoBehaviour
             {
                 if (pc.IsDead) // Aggiungi questo controllo
                 {
-                    Debug.Log("Pirate died during healing. Finding new target or going idle.");
+                   // Debug.Log("Pirate died during healing. Finding new target or going idle.");
                     currentTarget = null;
                 }
                 else
                 {
                     pc.EnterBeingHealed(transform.position, 2f);
                     pc.Heal(recoveryPoints);
-                    Debug.Log("PirataCurato");
+                    //Debug.Log("PirataCurato");
                 }
             }
             currentTarget = null;
@@ -238,6 +250,7 @@ public class DocManager : MonoBehaviour
         {
             currentTarget = nextTarget;
             EnterLookingFor();
+            
         }
         else
         {
@@ -259,7 +272,7 @@ public class DocManager : MonoBehaviour
 
             foreach (Collider col in hits)
             {
-                Debug.Log("Sto cercando pirati");
+                //Debug.Log("Sto cercando pirati");
 
                 if (!col.CompareTag("Pirate")) continue;
 
@@ -278,6 +291,78 @@ public class DocManager : MonoBehaviour
         // Rimuovi il ciclo while che controllava i pirati morti alla fine,
         // dato che sono già stati filtrati all'inizio.
         return best;
+    }
+
+    private void Die()
+
+    {
+
+        Debug.Log($"{name} sta morendo...");
+        _isDead = true; // Imposta lo stato a morto
+
+
+        //OnPirateDeath?.Invoke(this);
+
+        if (agent != null) // Essential: Check if the agent reference is valid
+        {
+            // First, stop the agent if it's enabled and active on the NavMesh.
+            // This avoids the error if it's already disabled.
+            if (agent.enabled && agent.isOnNavMesh)
+            {
+                agent.isStopped = true; // Attempt to stop it
+                agent.updatePosition = false; // Disable position updates
+                agent.updateRotation = false; // Disable rotation updates
+                
+            }
+
+            // Then, disable the agent entirely.
+            // This is safe even if isStopped couldn't be set.
+            agent.enabled = false;
+        }
+        
+        if (animator != null) animator.SetTrigger("Die");
+    
+        // Attiva la gravità se il pirata ha un Rigidbody
+        Rigidbody rb = GetComponent<Rigidbody>();
+        Debug.Log("Rigidbody trovato: " + (rb != null));
+        if (rb != null)
+        {
+            rb.useGravity = true; // Riattiva la gravità per far cadere il pirata
+            rb.isKinematic = false; // Disabilita la modalità Kinematic per far interagire il Rigidbody con la fisica
+            rb.linearVelocity = Vector3.zero; // Ferma il movimento corrente
+            rb.angularVelocity = Vector3.zero; // Ferma la rotazione corrente
+            //rb.constraints = RigidbodyConstraints.None;
+            //transform.position = new Vector3(transform.position.x, 2.0f, transform.position.z); // Forza la posizione a terra
+
+            // Poi riblocca tutto
+            rb.constraints = RigidbodyConstraints.FreezeAll;
+        }
+
+        SphereCollider sphere = GetComponent<SphereCollider>();
+        if (sphere != null)
+        {
+            sphere.enabled = false;
+        }
+
+        this.enabled = false; // Disabilita lo script per fermare ulteriori aggiornamenti
+    
+        // Imposta la posizione a terra (se necessario)
+        //transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z); // Imposta Y a 0 (terra)
+
+        // Disattiva il Canvas del pirata (UI)
+        if (healthBar != null) // Assicurati che il riferimento al Canvas sia stato assegnato
+        {
+            healthBar.enabled = false; // Disattiva il Canvas del pirata
+        }
+        
+        
+    }
+
+    public void OnDeathAnimationEnd()
+    {
+        Debug.Log("Animazione di morte terminata per " + gameObject.name);
+        // Qui puoi aggiungere logica per rimuovere il pirata dalla scena o gestire la sua morte
+        Destroy(gameObject); // Per esempio, distruggi il GameObject
     }
 
 

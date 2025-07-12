@@ -563,6 +563,7 @@ MonoBehaviour:
   healRay: 10
   recoveryPoints: 40
   maxHealth: 100
+  healthBar: {fileID: 0}
 --- !u!54 &-7170604822663427171
 Rigidbody:
   m_ObjectHideFlags: 0
