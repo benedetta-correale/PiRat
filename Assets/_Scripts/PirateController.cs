@@ -598,8 +598,8 @@ public class PirateController : MonoBehaviour
             rb.isKinematic = false; // Disabilita la modalità Kinematic per far interagire il Rigidbody con la fisica
             rb.linearVelocity = Vector3.zero; // Ferma il movimento corrente
             rb.angularVelocity = Vector3.zero; // Ferma la rotazione corrente
-            rb.constraints = RigidbodyConstraints.None;
-            transform.position = new Vector3(transform.position.x, 2.0f, transform.position.z); // Forza la posizione a terra
+            //rb.constraints = RigidbodyConstraints.None;
+            //transform.position = new Vector3(transform.position.x, 2.0f, transform.position.z); // Forza la posizione a terra
 
             // Poi riblocca tutto
             rb.constraints = RigidbodyConstraints.FreezeAll;
@@ -628,10 +628,11 @@ public class PirateController : MonoBehaviour
         }
     }
 
-        public void OnDeathAnimationEnd()
+    public void OnDeathAnimationEnd()
     {
-        // Debug.Log("Animazione di morte finita per: " + gameObject.name);
-        gameObject.SetActive(false); // Disattiva il GameObject del pirata
+        Debug.Log("Animazione di morte terminata per " + gameObject.name);
+        // Qui puoi aggiungere logica per rimuovere il pirata dalla scena o gestire la sua morte
+        Destroy(gameObject); // Per esempio, distruggi il GameObject
     }
 
     //GUARIGIONE
