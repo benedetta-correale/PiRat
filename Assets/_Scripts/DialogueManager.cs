@@ -62,7 +62,6 @@ public class DialogueManager : MonoBehaviour
         ratMovementScript.enabled = false;
         cameraScript.enabled = false;
         ratInteractionManager.allowBite = false;
-        possessionManager.EnablePossessionInput(false); // blocca tutto
         bersaglio.gameObject.SetActive(false);
         continueDialogue = playerInput.actions["ContinueDialogue"];
 
@@ -133,7 +132,7 @@ public class DialogueManager : MonoBehaviour
             switch (index)
             {
                 case 0:
-                    possessionManager.EnablePossessionInput(true);
+                    if (RatInteractionManager.HasCompletedFirstQuickTime) pirateFinalMove?.MoveToFinalTarget();
                     promptUIManager.ShowPrompt(InputKeyType.LeftTrigger, "Enter in selection mode with left trigger or TAB", true);
                     StartCoroutine(WaitForSelectionMode());
                     break;
@@ -158,16 +157,13 @@ public class DialogueManager : MonoBehaviour
 
         promptUIManager.HidePrompt();
         promptUIManager.ShowPrompt(InputKeyType.ButtonEast, "Possess pirate with this button or ENTER", true);
+        muriInvisibili.SetActive(false);
 
         // aspetta che confermi la selezione
         yield return new WaitUntil(() =>
             possessionManager.CurrentState == PossessionState.FollowingTrail ||
             possessionManager.CurrentState == PossessionState.Possessing
         );
-
-        pirateFinalMove?.MoveToFinalTarget();
-
-        muriInvisibili.SetActive(false);
 
         promptUIManager.HidePrompt();
         ShowNextLine();  // solo adesso va avanti con il dialogo
@@ -232,7 +228,7 @@ public class DialogueManager : MonoBehaviour
     {
         return isDialogueActive;
     }
-
+    
     public void ContinuePrisonerDialogue()
     {
         if (waitingForRatTrigger)
@@ -240,10 +236,5 @@ public class DialogueManager : MonoBehaviour
             waitingForRatTrigger = false;
             ShowNextLine(); // riprende il dialogo da dove si era bloccato
         }
-    }
-
-    public void PromptUIExitPossession()
-    {
-        promptUIManager?.ShowPrompt(InputKeyType.ButtonSouth, "Return to rat with this button or RETURN");
     }
 }

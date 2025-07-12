@@ -1,6 +1,7 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Collections;
+using UnityEngine.SceneManagement;
 
 public class BonusMalus : MonoBehaviour
 {
@@ -17,10 +18,14 @@ public class BonusMalus : MonoBehaviour
     public RatInteractionManager rat;
     [SerializeField]
     private PossessionManager pm;
+    public Animator animator;
+    [SerializeField] private RatInputHandler inputHandler;
+    [SerializeField] private RatInteractionManager interactionManager;
+    [SerializeField] private Rigidbody ratRigidbody;
     void Awake()
     {
         currentHealth = maxHealth;
-        
+        animator = GetComponent<Animator>();
         NotifyHealthChange();
     }
 
@@ -58,11 +63,50 @@ public class BonusMalus : MonoBehaviour
         NotifyHealthChange();
     }
 
+
+    // In BonusMalus.cs
+
+    private IEnumerator ReloadSceneAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+
+        // NON salvare i dati qui, altrimenti salvi la vita a 0.
+        // GameStateManager.Instance.SaveRatData(); // RIMUOVI O COMMENTA QUESTA RIGA
+
+        // Ricarica la scena corrente
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
     private void Die()
     {
         Debug.Log("Il topo è morto!");
         onDeath?.Invoke();
-        //animator.SetTrigger("Die"); // Attiva l'animazione di morte
+        animator.SetTrigger("Die");
+
+        // Blocca i movimenti
+        inputHandler.movementLocked = true;
+
+        // Impedisci morso e altre interazioni
+        interactionManager.allowBite = false;
+
+        // Blocca fisicamente il topo
+        ratRigidbody.constraints = RigidbodyConstraints.FreezeAll;
+
+        // Avvia zoom della camera
+        // Ensure that the coroutine is stored in the deathZoomCoroutine field
+        if (CameraControlManager.Instance != null)
+        {
+            CameraControlManager.Instance.deathZoomCoroutine = CameraControlManager.Instance.StartCoroutine(
+                CameraControlManager.Instance.ZoomInOnRat(zoomMultiplier: 1.5f, zoomSpeed: 1f, duration: 3f)
+            );
+        }
+
+
+        // Salva il nome della scena PRIMA di ricaricarla. Questo è corretto.
+        GameStateManager.Instance.lastSceneName = SceneManager.GetActiveScene().name;
+
+        // Dopo un delay, ricarica la scena
+        StartCoroutine(ReloadSceneAfterDelay(4f)); // Delay totale (animazione + zoom)
     }
 
     private void NotifyHealthChange()

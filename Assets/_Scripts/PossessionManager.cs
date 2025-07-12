@@ -45,9 +45,8 @@ public class PossessionManager : MonoBehaviour
     private InputAction moveAction;
 
     public PossessionState CurrentState => currentState;
-    public GameObject oculiVolume;
     public GameObject globalVolume;
-
+    public GameObject oculiVolume;
 
     void Start()
     {
@@ -59,8 +58,6 @@ public class PossessionManager : MonoBehaviour
         // Ottieni riferimento al PlayerInput
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
-        globalVolume.SetActive(true);
-        oculiVolume.SetActive(false);
     }
 
     void OnDestroy()
@@ -77,25 +74,6 @@ public class PossessionManager : MonoBehaviour
         }
     }
 
-    public void EnablePossessionInput(bool enable)
-    {
-        var selection = playerInput.actions["Selection"];
-        var confirm = playerInput.actions["Possess"];
-        var exit = playerInput.actions["Exit Selection"];
-
-        if (enable)
-        {
-            selection.performed += EnterSelectionMode_Input;
-            confirm.performed += ConfirmPossess_Input;
-            exit.performed += ExitSelectionMode_Input;
-        }
-        else
-        {
-            selection.performed -= EnterSelectionMode_Input;
-            confirm.performed -= ConfirmPossess_Input;
-            exit.performed -= ExitSelectionMode_Input;
-        }
-    }
     void EnterSelectionMode()
     {
         var piratesInRange = GetPiratesInRange();
@@ -125,9 +103,6 @@ public class PossessionManager : MonoBehaviour
 
         if (ratAnimator != null)
             ratAnimator.SetBool("isWalking", false);
-
-        globalVolume.SetActive(false);
-        oculiVolume.SetActive(true);
     }
 
     void HandleSelectionInput()
@@ -149,9 +124,6 @@ public class PossessionManager : MonoBehaviour
 
     private void ConfirmSelection(List<Transform> piratesInRange)
     {
-
-        globalVolume.SetActive(false);
-        globalVolume.SetActive(true);
         HideScie();
 
         // disabilita input e animator del ratto
@@ -190,6 +162,8 @@ public class PossessionManager : MonoBehaviour
         cameraManager.FollowTrail(currentTrail.transform);
         cameraManager.LockRotation(true);
 
+        globalVolume.SetActive(false);
+        oculiVolume.SetActive(true);
     }
 
     void ExitSelectionMode()
@@ -233,11 +207,11 @@ public class PossessionManager : MonoBehaviour
         if (ratAnimator != null)
             ratAnimator.SetBool("isWalking", false);
 
+        oculiVolume.SetActive(false);
+        globalVolume.SetActive(true);
+
         currentState = PossessionState.Idle;
         canSwitchBackToRat = false;
-
-        globalVolume.SetActive(true);
-        oculiVolume.SetActive(false);
         Invoke(nameof(EnableSwitchBack), 0.2f);
     }
 
@@ -449,7 +423,6 @@ public class PossessionManager : MonoBehaviour
         if (pc != null) pc.isPossessed = true;
         currentTrailTarget = null;
     }
-
 
     private void InterruptTrail()
     {

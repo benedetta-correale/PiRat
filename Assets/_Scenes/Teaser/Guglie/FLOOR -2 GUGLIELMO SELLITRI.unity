@@ -2242,6 +2242,7 @@ MonoBehaviour:
   attackRange: 2
   attackCooldown: 2
   attackDamage: 10
+  damageRange: 1.5
   maxHealth: 100
   healthFill: {fileID: 793911462}
   biteTickDamage: 0
@@ -23727,6 +23728,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29ffd97aa482427498177f719c0afb99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lastSceneName: 
   bonusMalus: {fileID: 614801737}
   ratInputHandler: {fileID: 614801730}
   ratInteraction: {fileID: 543450653137747182}
@@ -52697,11 +52699,14 @@ MonoBehaviour:
   forceRightBoxOnly: 0
   promptUIManager: {fileID: 0}
   pirateAutoMove: {fileID: 0}
+  pirateFinalMove: {fileID: 0}
   bersaglio: {fileID: 0}
   quickTimeUIManager: {fileID: 0}
   empowermentDialogue: {fileID: 0}
   playerInput: {fileID: 0}
   muriInvisibili: {fileID: 0}
+  possessionManager: {fileID: 0}
+  ratInteractionManager: {fileID: 0}
 --- !u!1001 &1561452890
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67975,8 +67980,9 @@ MonoBehaviour:
   baseFillSpeed: 5
   chaseSpeed: 3
   attackRange: 1
-  attackCooldown: 5
-  attackDamage: 10
+  attackCooldown: 1
+  attackDamage: 20
+  damageRange: 1.5
   maxHealth: 200
   healthFill: {fileID: 6918262938464841742}
   biteTickDamage: 10
@@ -79096,7 +79102,23 @@ PrefabInstance:
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: pm
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 543450653137747189}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: animator
+      value: 
+      objectReference: {fileID: 1799581600365552266}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: inputHandler
+      value: 
+      objectReference: {fileID: 614801730}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: ratRigidbody
+      value: 
+      objectReference: {fileID: 1799581600365552265}
+    - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: interactionManager
+      value: 
+      objectReference: {fileID: 543450653137747182}
     - target: {fileID: 4840180647165213175, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: onHealthChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -79186,6 +79208,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 457930929}
     - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+      propertyPath: powerUpConfig
+      value: 
+      objectReference: {fileID: 11400000, guid: aaa846010519583418564d6b2641ed7d, type: 2}
+    - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: quickTimeUIManager
       value: 
       objectReference: {fileID: 1706496220}
@@ -79203,6 +79229,16 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+--- !u!54 &1799581600365552265 stripped
+Rigidbody:
+  m_CorrespondingSourceObject: {fileID: 2168895866766626322, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+  m_PrefabInstance: {fileID: 1799581600365552264}
+  m_PrefabAsset: {fileID: 0}
+--- !u!95 &1799581600365552266 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 7153946457091642587, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
+  m_PrefabInstance: {fileID: 1799581600365552264}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6918262938464841740
 PrefabInstance:
   m_ObjectHideFlags: 0

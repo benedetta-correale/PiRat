@@ -257,7 +257,6 @@ public class DocManager : MonoBehaviour
 
                 PirateController pc = col.GetComponent<PirateController>();
                 if (pc == null || !pc.infected || pc.alreadyHealing || pc.currentHealth > pc.maxHealth * 0.5f) continue;
-                if (pc.GetCurrentState() == PirateController.State.Dead) continue;
 
                 if (pc.currentHealth < lowestHealth)
                 {
