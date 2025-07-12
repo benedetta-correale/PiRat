@@ -581,15 +581,15 @@ public class RatInteractionManager : MonoBehaviour
 
 
     // — Metodi per salvare e ripristinare i power-up attivi —
-    public List<CheesePowerUpType> GetActivePowerUps()
+    public List<TrapType> GetActivePowerUps()
     {
-        var list = new List<CheesePowerUpType>();
+        var list = new List<TrapType>();
         if (_ratInputHandler.speedBoostActive)
-            list.Add(CheesePowerUpType.SpeedBoost);
+            list.Add(TrapType.Spring);
         if (IsDamageBoostActive)
-            list.Add(CheesePowerUpType.DamageBoost);
+            list.Add(TrapType.Glue);
         if (CanPee)
-            list.Add(CheesePowerUpType.PoisonLeak);
+            list.Add(TrapType.Slide);
         return list;
     }
 

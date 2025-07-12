@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
-using Microsoft.Unity.VisualStudio.Editor;
 using UnityEngine.InputSystem;
 
 public enum InputKeyType
@@ -93,7 +92,7 @@ public class PromptUIManager : MonoBehaviour
             case InputKeyType.LeftStick:
                 float x = Input.GetAxisRaw("Horizontal");
                 float y = Input.GetAxisRaw("Vertical");
-                if (x != 0 || y != 0 || 
+                if (x != 0 || y != 0 ||
                     Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) ||
                     Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
                 {
@@ -116,8 +115,8 @@ public class PromptUIManager : MonoBehaviour
 
             case InputKeyType.ButtonEast:
                 if (
-                    Input.GetKeyDown(KeyCode.Space) || 
-                    Input.GetKeyDown(KeyCode.Return) || 
+                    Input.GetKeyDown(KeyCode.Space) ||
+                    Input.GetKeyDown(KeyCode.Return) ||
                     (continueDialogue != null && continueDialogue.triggered)
                 )
                 {
@@ -184,6 +183,26 @@ public class PromptUIManager : MonoBehaviour
         inputContainer.SetActive(true);
     }
 
+    public void ShowText(string message, bool freezeTime = true)
+    {
+        _expectedKey = InputKeyType.ButtonEast;
+        _waitingForInput = freezeTime;  // ci interessa solo se è bloccato
+
+        // freeze time?
+        if (freezeTime && !_isFrozen)
+        {
+            _prevTimeScale = Time.timeScale;
+            Time.timeScale = 0f;
+            _isFrozen = true;
+        }
+
+        // testo
+        promptText.text = message;
+
+        // container on
+        inputContainer.SetActive(true);
+    }
+
     /// <summary>
     /// Nasconde la UI prompt e ripristina il Time.timeScale se era frozen.
     /// </summary>
@@ -205,5 +224,4 @@ public class PromptUIManager : MonoBehaviour
             if (go != null)
                 go.SetActive(false);
     }
-
 }

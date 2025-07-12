@@ -1,4 +1,3 @@
-using Microsoft.Unity.VisualStudio.Editor;
 using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -36,9 +35,8 @@ public class DialogueManager : MonoBehaviour
     public PromptUIManager promptUIManager;
     public PirateAutoMove pirateAutoMove;
     public PirateFinalMove pirateFinalMove;
-    public UnityEngine.UI.Image bersaglio;
+    public Image bersaglio;
     public QuickTimeUIManager quickTimeUIManager;
-    [SerializeField] private DialogueSequence empowermentDialogue;
     private InputAction continueDialogue;
     [SerializeField] private PlayerInput playerInput;
     public GameObject muriInvisibili;
@@ -240,10 +238,5 @@ public class DialogueManager : MonoBehaviour
             waitingForRatTrigger = false;
             ShowNextLine(); // riprende il dialogo da dove si era bloccato
         }
-    }
-
-    public void PromptUIExitPossession()
-    {
-        promptUIManager?.ShowPrompt(InputKeyType.ButtonSouth, "Return to rat with this button or RETURN");
     }
 }

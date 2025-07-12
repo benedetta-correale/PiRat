@@ -1,12 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
 using UnityEngine.InputSystem;
-using FischlWorks_FogWar;
 using UnityEngine.AI;
-using System;
 using UnityEngine.VFX;
-
-
 
 public enum PossessionState { Idle, Selecting, FollowingTrail, Possessing }
 
@@ -48,7 +44,6 @@ public class PossessionManager : MonoBehaviour
     public GameObject oculiVolume;
     public GameObject globalVolume;
 
-
     void Start()
     {
         if (cameraManager != null)
@@ -59,6 +54,7 @@ public class PossessionManager : MonoBehaviour
         // Ottieni riferimento al PlayerInput
         playerInput = GetComponent<PlayerInput>();
         moveAction = playerInput.actions["Move"];
+
         globalVolume.SetActive(true);
         oculiVolume.SetActive(false);
     }
@@ -126,8 +122,8 @@ public class PossessionManager : MonoBehaviour
         if (ratAnimator != null)
             ratAnimator.SetBool("isWalking", false);
 
-        globalVolume.SetActive(false);
-        oculiVolume.SetActive(true);
+        currentState = PossessionState.Selecting;
+        UpdateVolumes();
     }
 
     void HandleSelectionInput()
@@ -145,13 +141,8 @@ public class PossessionManager : MonoBehaviour
         AggiornaScie(piratesInRange);
     }
 
-
-
     private void ConfirmSelection(List<Transform> piratesInRange)
     {
-
-        globalVolume.SetActive(false);
-        globalVolume.SetActive(true);
         HideScie();
 
         // disabilita input e animator del ratto
@@ -167,10 +158,7 @@ public class PossessionManager : MonoBehaviour
         Transform target = piratesInRange[selectedIndex];
         currentTrailTarget = target;
 
-        // esci dalla selezione (qui si resetta anche selectedIndex a -1)
-        ExitSelectionMode();
-
-        // adesso posso cambiare stato
+        ExitSelectionMode(skipVolumeUpdate: true);
         currentState = PossessionState.FollowingTrail;
 
         Vector3 spawnPos = ratTransform.position;
@@ -185,14 +173,13 @@ public class PossessionManager : MonoBehaviour
         currentTrail.OnArrived += OnTrailArrived;
         currentTrail.MoveTo(currentTrailTarget);
 
-
         cameraManager.ResetZoom();
         cameraManager.FollowTrail(currentTrail.transform);
         cameraManager.LockRotation(true);
-
+        UpdateVolumes();
     }
 
-    void ExitSelectionMode()
+    void ExitSelectionMode(bool skipVolumeUpdate = false)
     {
         selectedIndex = -1;
         HideScie();
@@ -211,15 +198,20 @@ public class PossessionManager : MonoBehaviour
             if (ratAnimator != null)
                 ratAnimator.SetBool("isWalking", false);
         }
+
+        currentState = PossessionState.Idle;
+        if (!skipVolumeUpdate)
+            UpdateVolumes();
     }
 
     void SwitchToRat()
     {
-        // ✅ Disattiva il flag isPossessed su tutti i pirati
         foreach (Transform p in ratInteraction.infectedPirates)
         {
             PirateController pc = p.GetComponent<PirateController>();
             if (pc != null) pc.isPossessed = false;
+
+            SetEyesActive(p, false); // 👈 aggiungi questa riga
         }
 
         cameraManager.SwitchToRat();
@@ -235,10 +227,10 @@ public class PossessionManager : MonoBehaviour
 
         currentState = PossessionState.Idle;
         canSwitchBackToRat = false;
-
-        globalVolume.SetActive(true);
-        oculiVolume.SetActive(false);
         Invoke(nameof(EnableSwitchBack), 0.2f);
+
+        currentState = PossessionState.Idle;
+        UpdateVolumes();
     }
 
     void EnableSwitchBack() => canSwitchBackToRat = true;
@@ -270,6 +262,8 @@ public class PossessionManager : MonoBehaviour
             // torna automaticamente al ratto
             SwitchToRat();
         }
+
+        UpdateVolumes();
     }
     // ─────────────────────────────────────────────────────────────────
 
@@ -447,7 +441,12 @@ public class PossessionManager : MonoBehaviour
         currentState = PossessionState.Possessing;
         PirateController pc = currentTrailTarget.GetComponent<PirateController>();
         if (pc != null) pc.isPossessed = true;
+        SetEyesActive(currentTrailTarget, true);
+
         currentTrailTarget = null;
+
+        currentState = PossessionState.Possessing;
+        UpdateVolumes();
     }
 
 
@@ -459,5 +458,45 @@ public class PossessionManager : MonoBehaviour
             Destroy(currentTrail.gameObject);
             currentTrail = null;
         }
+    }
+
+    private void UpdateVolumes()
+    {
+        bool showOculi = currentState == PossessionState.Selecting
+                    || currentState == PossessionState.FollowingTrail
+                    || currentState == PossessionState.Possessing;
+
+        oculiVolume.SetActive(showOculi);
+        globalVolume.SetActive(!showOculi);
+
+        Debug.Log($"[UpdateVolumes] Stato: {currentState}, OculiVolume: {(showOculi ? "ON" : "OFF")}");
+    }
+
+
+    private void SetEyesActive(Transform pirate, bool active)
+    {
+        var eyes = FindChildByNameRecursive(pirate, "Eyes");
+        if (eyes != null)
+        {
+            eyes.gameObject.SetActive(active);
+        }
+        else
+        {
+            Debug.LogWarning($"Nessun oggetto 'Eyes' trovato in {pirate.name}");
+        }
+    }
+
+    private Transform FindChildByNameRecursive(Transform parent, string targetName)
+    {
+        foreach (Transform child in parent)
+        {
+            if (child.name == targetName)
+                return child;
+
+            var result = FindChildByNameRecursive(child, targetName);
+            if (result != null)
+                return result;
+        }
+        return null;
     }
 }
