@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8417019044136240924}
   - component: {fileID: 6315893091247339610}
   - component: {fileID: 2410684797594604184}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EyeSx
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -95,7 +95,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6803178528883870045}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Eyes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 9071966056214683494}
   - component: {fileID: 7425315678962421057}
   - component: {fileID: 1212068075264226541}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: EyeDx
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -26,11 +26,11 @@ public class CheeseTrigger : MonoBehaviour
                     break;
                 
                 case CheesePowerUpType.DamageBoost:
-                    promptUIManager.ShowPrompt(InputKeyType.RightTrigger, "Bite this cheese to double the damage to the pirates with right trigger or mouse click", true);
+                    promptUIManager.ShowText("This cheese doubles the damage to pirates with your first bite", true);
                     break;
 
                 case CheesePowerUpType.PoisonLeak:
-                    promptUIManager.ShowPrompt(InputKeyType.RightTrigger, "Bite this cheese to infect with pee with right trigger or mouse click", true);
+                    promptUIManager.ShowPrompt(InputKeyType.ButtonWest, "Infect with pee with this button or P", true);
                     break;
             } 
         }      

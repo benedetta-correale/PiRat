@@ -22,7 +22,7 @@ public class TrapTrigger : MonoBehaviour
                     break;
 
                 case TrapTypeTutorial.Glue:
-                    promptUIManager.ShowPrompt(InputKeyType.LeftStick, "Attention! This trap holds you, move to break here", true);
+                    promptUIManager.ShowText("Attention! This trap holds you, move to break here", true);
                     break;
 
                 case TrapTypeTutorial.Slide:

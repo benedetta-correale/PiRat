@@ -30735,16 +30735,16 @@ PrefabInstance:
       objectReference: {fileID: 1536266211}
     - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: infectedPirates.Array.size
-      value: 0
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: 'infectedPirates.Array.data[0]'
       value: 
-      objectReference: {fileID: 1785820479}
+      objectReference: {fileID: 1937059819}
     - target: {fileID: 9122812352272184940, guid: 8dcdb9da92a0a734a902f6c2632af3e1, type: 3}
       propertyPath: 'infectedPirates.Array.data[1]'
       value: 
-      objectReference: {fileID: 947664986}
+      objectReference: {fileID: 1607739791}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

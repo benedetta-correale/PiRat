@@ -52,6 +52,7 @@ public class PromptUIManager : MonoBehaviour
     private InputAction continueDialogue;
     private InputAction rotateCamera;
     private InputAction exitSelectionMode;
+    private InputAction piss;
     [SerializeField] private PlayerInput playerInput;
 
     private void Awake()
@@ -81,6 +82,8 @@ public class PromptUIManager : MonoBehaviour
         continueDialogue = playerInput.actions["ContinueDialogue"];
         rotateCamera = playerInput.actions["Look"];
         exitSelectionMode = playerInput.actions["Exit Selection"];
+        piss = playerInput.actions["Piss"];
+
     }
 
     void Update()
@@ -121,6 +124,13 @@ public class PromptUIManager : MonoBehaviour
                 )
                 {
                     bersaglio.gameObject.SetActive(false);
+                    ConfirmPromptInput();
+                }
+                break;
+            
+            case InputKeyType.ButtonWest:
+                if (Input.GetKeyDown(KeyCode.P) || piss.triggered)
+                {
                     ConfirmPromptInput();
                 }
                 break;
