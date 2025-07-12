@@ -4,9 +4,9 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour
 {
     private static TutorialManager instance;
-    
-    // Usa l'enum globale pubblico definito in CheesePowerUp.cs
-    private HashSet<CheesePowerUpType> shownTutorials = new();
+
+    private HashSet<CheesePowerUpType> shownCheeseTutorials = new();
+    private HashSet<TrapType> shownTrapTutorials = new();
 
     private void Awake()
     {
@@ -20,14 +20,17 @@ public class TutorialManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // ---- Cheese
     public static bool HasTutorialBeenShown(CheesePowerUpType type)
-    {
-        return instance != null && instance.shownTutorials.Contains(type);
-    }
+        => instance != null && instance.shownCheeseTutorials.Contains(type);
 
     public static void MarkTutorialAsShown(CheesePowerUpType type)
-    {
-        if (instance != null)
-            instance.shownTutorials.Add(type);
-    }
+        => instance?.shownCheeseTutorials.Add(type);
+
+    // ---- Trap
+    public static bool HasTutorialBeenShown(TrapType type)
+        => instance != null && instance.shownTrapTutorials.Contains(type);
+
+    public static void MarkTutorialAsShown(TrapType type)
+        => instance?.shownTrapTutorials.Add(type);
 }

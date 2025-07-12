@@ -81,6 +81,7 @@ GameObject:
   - component: {fileID: 3724629108204768264}
   - component: {fileID: 7053204479964532986}
   - component: {fileID: 4502089600974236576}
+  - component: {fileID: 6812511087146224718}
   m_Layer: 0
   m_Name: Trap_Spring
   m_TagString: Untagged
@@ -309,6 +310,20 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &6812511087146224718
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6879533389167179289}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 35fa73ea910604bfbb672c4cb80ee9bd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  promptUIManager: {fileID: 0}
+  trapType: 0
 --- !u!1001 &4433604046902664292
 PrefabInstance:
   m_ObjectHideFlags: 0

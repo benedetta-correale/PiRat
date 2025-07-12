@@ -2418,6 +2418,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 252690230}
     m_Modifications:
+    - target: {fileID: 5453832472543653805, guid: fc83b8b861a0c674993b21e385367568, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8228117490930797501, guid: fc83b8b861a0c674993b21e385367568, type: 3}
       propertyPath: m_Name
       value: Trap_Slide (2)
@@ -2537,6 +2541,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 252690230}
     m_Modifications:
+    - target: {fileID: 6812511087146224718, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
       value: Trap_Spring (1)
@@ -20485,11 +20493,6 @@ VisualEffect:
       m_Array: []
     m_Bool:
       m_Array: []
---- !u!1 &572797947 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
-  m_PrefabInstance: {fileID: 1748216669}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &574255729
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -21239,6 +21242,10 @@ PrefabInstance:
       propertyPath: 'm_Materials.Array.data[0]'
       value: 
       objectReference: {fileID: 2100000, guid: bd1b26c239aa24b9ab10ccfd1c2606c4, type: 2}
+    - target: {fileID: 7972748427544381125, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalScale.x
       value: 0.69064
@@ -22910,6 +22917,10 @@ PrefabInstance:
       propertyPath: m_Center.x
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 7972748427544381125, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.59
@@ -29208,6 +29219,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 252690230}
     m_Modifications:
+    - target: {fileID: 6812511087146224718, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
       value: Trap_Spring (3)
@@ -29987,6 +30002,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 252690230}
     m_Modifications:
+    - target: {fileID: 5453832472543653805, guid: fc83b8b861a0c674993b21e385367568, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8228117490930797501, guid: fc83b8b861a0c674993b21e385367568, type: 3}
       propertyPath: m_Name
       value: Trap_Slide (3)
@@ -32976,6 +32995,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 252690230}
     m_Modifications:
+    - target: {fileID: 6812511087146224718, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
       value: Trap_Spring (2)
@@ -50640,6 +50663,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 252690230}
     m_Modifications:
+    - target: {fileID: 5453832472543653805, guid: fc83b8b861a0c674993b21e385367568, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8228117490930797501, guid: fc83b8b861a0c674993b21e385367568, type: 3}
       propertyPath: m_Name
       value: Trap_Slide (1)
@@ -54616,9 +54643,13 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: 0.012454033
       objectReference: {fileID: 0}
+    - target: {fileID: 5453832472543653805, guid: fc83b8b861a0c674993b21e385367568, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8228117490930797501, guid: fc83b8b861a0c674993b21e385367568, type: 3}
       propertyPath: m_Name
-      value: Trap_Slide_Tutorail
+      value: Trap_Slide
       objectReference: {fileID: 0}
     - target: {fileID: 8753860711390351623, guid: fc83b8b861a0c674993b21e385367568, type: 3}
       propertyPath: m_LocalPosition.x
@@ -54663,35 +54694,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8228117490930797501, guid: fc83b8b861a0c674993b21e385367568, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1541971587}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fc83b8b861a0c674993b21e385367568, type: 3}
 --- !u!4 &1541971585 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8753860711390351623, guid: fc83b8b861a0c674993b21e385367568, type: 3}
   m_PrefabInstance: {fileID: 1541971584}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1541971586 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8228117490930797501, guid: fc83b8b861a0c674993b21e385367568, type: 3}
-  m_PrefabInstance: {fileID: 1541971584}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1541971587
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1541971586}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35fa73ea910604bfbb672c4cb80ee9bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  promptUIManager: {fileID: 1468598750}
-  trapType: 2
 --- !u!1 &1543773807 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -4133703932355585839, guid: 21407e4a4d782604dadf74c68824395a, type: 3}
@@ -57361,7 +57370,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_Name
-      value: Trap_Glue_Tutorial
+      value: Trap_Glue
       objectReference: {fileID: 0}
     - target: {fileID: 2227269445072625570, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_Size.x
@@ -57387,6 +57396,10 @@ PrefabInstance:
       propertyPath: trapVFXPrefab
       value: 
       objectReference: {fileID: 1594160248338174, guid: 23981215f5bbd55418039f95730dde55, type: 3}
+    - target: {fileID: 7972748427544381125, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.18
@@ -57433,9 +57446,6 @@ PrefabInstance:
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1588578892}
-    - targetCorrespondingSourceObject: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1588578897}
   m_SourcePrefab: {fileID: 100100000, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
 --- !u!4 &1588578890 stripped
@@ -57448,20 +57458,6 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 1158704076848209735, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
   m_PrefabInstance: {fileID: 1588578889}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1588578892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1588578891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35fa73ea910604bfbb672c4cb80ee9bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  promptUIManager: {fileID: 1468598750}
-  trapType: 1
 --- !u!65 &1588578897
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -57749,6 +57745,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 252690230}
     m_Modifications:
+    - target: {fileID: 6812511087146224718, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
       value: Trap_Spring (4)
@@ -68577,9 +68577,13 @@ PrefabInstance:
       propertyPath: m_Center.z
       value: -0.030114567
       objectReference: {fileID: 0}
+    - target: {fileID: 6812511087146224718, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_Name
-      value: Trap_Spring_Tutorial
+      value: Trap_Spring
       objectReference: {fileID: 0}
     - target: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
       propertyPath: m_LocalScale.x
@@ -68644,30 +68648,13 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 6879533389167179289, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1748216675}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
 --- !u!4 &1748216670 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 7048373314812715366, guid: bf837d53472ef7740b8a76828142eaf5, type: 3}
   m_PrefabInstance: {fileID: 1748216669}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1748216675
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 572797947}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 35fa73ea910604bfbb672c4cb80ee9bd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  promptUIManager: {fileID: 1468598750}
-  trapType: 0
 --- !u!1 &1748296270
 GameObject:
   m_ObjectHideFlags: 0
@@ -79288,6 +79275,10 @@ PrefabInstance:
       propertyPath: m_Center.x
       value: 0.05
       objectReference: {fileID: 0}
+    - target: {fileID: 7972748427544381125, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
+      propertyPath: promptUIManager
+      value: 
+      objectReference: {fileID: 1468598750}
     - target: {fileID: 8757774935842682332, guid: 8a49c904666e9e74dafee8bbb7a48c08, type: 3}
       propertyPath: m_LocalScale.x
       value: 1.59
