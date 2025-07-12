@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.SceneManagement;
 
 public class GameStateManager : MonoBehaviour
@@ -58,6 +59,13 @@ public class GameStateManager : MonoBehaviour
     /// </summary>
     public void SaveRatData()
     {
+        // Aggiungi controlli nulli per assicurarti che i riferimenti siano validi prima di usarli.
+        if (bonusMalus == null || ratInputHandler == null || ratInteraction == null)
+        {
+            Debug.LogWarning("GameStateManager: Tentativo di salvare dati del ratto, ma alcuni riferimenti (BonusMalus, RatInputHandler, RatInteractionManager) non sono validi. Assicurati che il ratto sia presente e configurato nella scena attuale.");
+            return; // Interrompi la funzione se i riferimenti sono nulli per evitare l'errore.
+        }
+
         ratData.health = bonusMalus.currentHealth;
 
         ratData.speedActive = ratInputHandler.speedBoostActive;
@@ -72,6 +80,29 @@ public class GameStateManager : MonoBehaviour
 
 
     // In GameStateManager.cs
+
+    void Update()
+    {
+        // Controlla i tasti numerici da 1 a 4
+        for (int i = 0; i <= 3; i++) // Per scene 0, 1, 2, 3
+        {
+            if (Keyboard.current != null && Keyboard.current[Key.Digit1 + i].wasPressedThisFrame)
+            {
+                // Verifica che l'indice della scena sia valido
+                if (i < SceneManager.sceneCountInBuildSettings)
+                {
+                    Debug.Log($"Caricamento scena di debug: {i}");
+                    SaveRatData(); // Salva i dati del topo prima di cambiare scena
+                    SceneManager.LoadScene(i); // Carica la scena corrispondente all'indice
+                }
+                else
+                {
+                    Debug.LogWarning($"La scena con indice {i} non esiste nelle Build Settings.");
+                }
+                break; // Esci dal loop una volta trovato il tasto premuto
+            }
+        }
+    }
 
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
@@ -90,6 +121,9 @@ public class GameStateManager : MonoBehaviour
         {
             bonusMalus = ratGO.GetComponent<BonusMalus>();
             ratInputHandler = ratGO.GetComponent<RatInputHandler>();
+
+            // Assicurati che anche ratInteraction venga assegnato qui.
+            ratInteraction = ratGO.GetComponent<RatInteractionManager>();
 
             // 1. AGGIORNA IL TARGET DELLA CAMERA SUBITO!
             if (cameraControlManager != null)

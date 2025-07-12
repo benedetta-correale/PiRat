@@ -38,7 +38,21 @@ public class RatInputHandler : MonoBehaviour
     public float currentSpeedBoostMultiplier { get; private set; }
     public float speedBoostRemainingTime { get; private set; }
 
-    void Awake() => rb = GetComponent<Rigidbody>();
+    
+    public LayerMask stairLayer; // Layer delle scale/zone dove la Y non deve essere ancorata
+    private RigidbodyConstraints originalConstraints; // Per salvare i vincoli originali del Rigidbody
+    void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+        _ratAnimator = GetComponent<Animator>();
+        // --- MODIFICA ---
+        // Salva i vincoli originali del Rigidbody.
+        // Assicurati che nel Rigidbody del topo, in Unity Editor,
+        // la "Position Y" sia INIZIALMENTE spuntata sotto "Constraints" -> "Freeze Position".
+        // Questo sarà il comportamento predefinito.
+        originalConstraints = rb.constraints;
+        // --- FINE MODIFICA ---
+    }
 
     private void Start()
     {
@@ -91,6 +105,7 @@ public class RatInputHandler : MonoBehaviour
                 targetRot,
                 rotationSpeed * Time.fixedDeltaTime
             );
+            
             rb.MoveRotation(newRot);
         }
 
@@ -99,6 +114,8 @@ public class RatInputHandler : MonoBehaviour
 
         // Animazioni
         UpdateWalkingAnimation(desiredMove.magnitude);
+
+        
     }
 
 
@@ -140,6 +157,28 @@ public class RatInputHandler : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        // Se il collider appartiene al layer delle scale, disabilita l'ancoraggio Y
+        if (((1 << other.gameObject.layer) & stairLayer) != 0)
+        {
+            rb.constraints &= ~RigidbodyConstraints.FreezePositionY;
+            Debug.Log("Ancoraggio Y disabilitato (su scale/rampe)");
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        // Quando esci dal collider delle scale, riabilita l'ancoraggio Y
+        if (((1 << other.gameObject.layer) & stairLayer) != 0)
+        {
+
+            rb.constraints |= RigidbodyConstraints.FreezePositionY; // Aggiungi il vincolo FreezePositionY
+            Debug.Log("Ancoraggio Y riabilitato (fuori da scale/rampe)");
+            // Opzionale: Resetta la Y al valore iniziale quando esci dalle scale per "riportarlo a terra"
+            // initialY = transform.position.y; // Se vuoi che la nuova "quota zero" sia dove esci dalle scale
+        }
+    }
 
 
 
