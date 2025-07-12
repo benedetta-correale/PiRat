@@ -5,7 +5,7 @@ public class CheeseTrigger : MonoBehaviour
     public PromptUIManager promptUIManager;
     private bool hasTriggered = false;
     public enum CheesePowerUpType { Heal, SpeedBoost, DamageBoost, PoisonLeak }
-    private CheesePowerUpType powerUpType;
+    public CheesePowerUpType powerUpType;
 
     private void OnTriggerEnter(Collider other)
     {

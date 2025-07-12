@@ -43,6 +43,8 @@ public class PossessionManager : MonoBehaviour
     public PossessionState CurrentState => currentState;
     public GameObject oculiVolume;
     public GameObject globalVolume;
+    public Color defaultColor;
+    public Color selectedColor;
 
     void Start()
     {
@@ -326,9 +328,6 @@ public class PossessionManager : MonoBehaviour
             Destroy(scieAttive[scieAttive.Count - 1].gameObject);
             scieAttive.RemoveAt(scieAttive.Count - 1);
         }
-
-        Color selectedColor = Color.green;
-        Color defaultColor = new Color(1f, 1f, 1f, 0.2f); // bianco traslucido
 
         for (int i = 0; i < piratesInRange.Count; i++)
         {

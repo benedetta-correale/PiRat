@@ -3,6 +3,7 @@ using UnityEngine;
 public class CaptainExitTrigger : MonoBehaviour
 {
     [SerializeField] private PrisonerDialogueTrigger prisonerTrigger;
+    public GameObject captain;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -12,6 +13,7 @@ public class CaptainExitTrigger : MonoBehaviour
 
             // Disattiva per sicurezza
             gameObject.SetActive(false);
+            Destroy(captain);
         }
     }
 }
