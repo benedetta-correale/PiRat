@@ -44,6 +44,15 @@ public class PirateAudioManager : MonoBehaviour
     {
         currentState = pirate.GetCurrentState();
 
+        if (pirate.IsDead)
+        {
+            if (deadClip != null && lastClipPlayed != deadClip)
+            {
+                PlayClip(deadClip, false); // suono di morte
+            }
+            return; // Non fare nulla se il pirata è morto
+        };
+
 
         switch (currentState)
         {
@@ -62,9 +71,6 @@ public class PirateAudioManager : MonoBehaviour
                 break;
             case State.BeingHealed:
                 PlayClip(beingHealedClip, false); // suono di guarigione
-                break;
-            case State.Dead:
-                PlayClip(deadClip, false); // suono di morte
                 break;
         }
 
@@ -107,6 +113,18 @@ public class PirateAudioManager : MonoBehaviour
 
         // Imposta il prossimo momento in cui un altro suono può essere riprodotto
         nextWalkingClipTime = Time.time + walkingClipCooldown;
+    }
+
+    private void PlayIdleSound()
+    {
+        if (idleClip == null || idleClip == lastClipPlayed) return;
+
+        audioSource.Stop();
+        audioSource.clip = idleClip;
+        audioSource.loop = true; // Loop per l'idle
+        audioSource.Play();
+
+        lastClipPlayed = idleClip;
     }
     
     public void PlayAttackSound()

@@ -539,9 +539,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   idleClip: {fileID: 0}
-  attackClip: {fileID: 0}
+  attackClip: {fileID: 8300000, guid: e4e28b45b3dfa4e7eaa3d44889f1f376, type: 3}
   beingHealedClip: {fileID: 0}
-  deadClip: {fileID: 0}
+  deadClip: {fileID: 8300000, guid: b5d991ce8741f4e7ebd0d4f8319d7509, type: 3}
   walkingClips:
   - {fileID: 8300000, guid: 16fd14a9f530e4b47a96a1b9959cb5c5, type: 3}
   - {fileID: 8300000, guid: 9f461f0c31f9e418b84011bb1665bcb6, type: 3}

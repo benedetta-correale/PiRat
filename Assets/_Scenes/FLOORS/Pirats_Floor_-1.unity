@@ -22612,7 +22612,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &690646340
 Transform:
   m_ObjectHideFlags: 0
@@ -29832,6 +29832,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6720020593791677557, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: attackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: b8295decbc45645bea8109ac29be11d2, type: 3}
     - target: {fileID: 6985952811880285973, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: m_Layer
       value: 7
@@ -83863,6 +83867,14 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 7
       objectReference: {fileID: 0}
+    - target: {fileID: 6720020593791677557, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: deadClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 51255e24958cf4c22ba8390f692691e0, type: 3}
+    - target: {fileID: 6720020593791677557, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
+      propertyPath: attackClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 100d21a2204f04226ab5a7e4dce65702, type: 3}
     - target: {fileID: 6985952811880285973, guid: cff631e6ef8624e45a4a08c46f7e6325, type: 3}
       propertyPath: m_Layer
       value: 7

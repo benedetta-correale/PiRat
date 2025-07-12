@@ -178,7 +178,7 @@ public class PirateController : MonoBehaviour
 
     private void EnterSuspicious()
     {
-        if (state == State.Dead) return; // prevenzione sospetto dopo la morte
+        if (_isDead) return; // prevenzione sospetto dopo la morte
         state = State.Suspicious;
         suspicionTimer = 0f;
         suspicionTarget = ratTransform.position;

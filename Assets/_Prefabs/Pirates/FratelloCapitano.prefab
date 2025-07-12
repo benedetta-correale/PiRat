@@ -675,7 +675,7 @@ MonoBehaviour:
   idleClip: {fileID: 0}
   attackClip: {fileID: 0}
   beingHealedClip: {fileID: 0}
-  deadClip: {fileID: 0}
+  deadClip: {fileID: 8300000, guid: 1f914f7bf6f5044328620070ab8b649d, type: 3}
   walkingClips:
   - {fileID: 8300000, guid: 16fd14a9f530e4b47a96a1b9959cb5c5, type: 3}
   - {fileID: 8300000, guid: 9f461f0c31f9e418b84011bb1665bcb6, type: 3}

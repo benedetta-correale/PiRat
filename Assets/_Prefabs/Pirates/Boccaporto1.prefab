@@ -532,7 +532,7 @@ MonoBehaviour:
   idleClip: {fileID: 0}
   attackClip: {fileID: 8300000, guid: b8295decbc45645bea8109ac29be11d2, type: 3}
   beingHealedClip: {fileID: 0}
-  deadClip: {fileID: 0}
+  deadClip: {fileID: 8300000, guid: 51255e24958cf4c22ba8390f692691e0, type: 3}
   walkingClips:
   - {fileID: 8300000, guid: 16fd14a9f530e4b47a96a1b9959cb5c5, type: 3}
   - {fileID: 8300000, guid: 9f461f0c31f9e418b84011bb1665bcb6, type: 3}
