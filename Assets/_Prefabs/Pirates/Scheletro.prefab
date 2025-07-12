@@ -75,9 +75,6 @@ PrefabInstance:
       addedObject: {fileID: 3524463652104910971}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98caf3e1614d43de80faef60f368c2f, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 7621264715536511062}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98caf3e1614d43de80faef60f368c2f, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 6277839223234955771}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98caf3e1614d43de80faef60f368c2f, type: 3}
       insertIndex: -1
@@ -88,6 +85,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98caf3e1614d43de80faef60f368c2f, type: 3}
       insertIndex: -1
       addedObject: {fileID: -7308973075034388793}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f98caf3e1614d43de80faef60f368c2f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4291969576878337971}
   m_SourcePrefab: {fileID: 100100000, guid: f98caf3e1614d43de80faef60f368c2f, type: 3}
 --- !u!95 &672074806253152693 stripped
 Animator:
@@ -168,27 +168,6 @@ MonoBehaviour:
   alreadyHealing: 0
   healingEndTime: 3
   currentHealth: 0
---- !u!135 &7621264715536511062
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6122727263390198133}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!64 &6277839223234955771
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -364,6 +343,29 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 4ee76647b0db74220a5668a804c634b3, type: 3}
   walkingClipCooldown: 0.5
   nextWalkingClipTime: 0
+--- !u!136 &4291969576878337971
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6122727263390198133}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.45
+  m_Height: 2.09
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.55, z: 0}
 --- !u!4 &6896027722289034191 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f98caf3e1614d43de80faef60f368c2f, type: 3}

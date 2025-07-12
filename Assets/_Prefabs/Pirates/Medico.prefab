@@ -290,7 +290,7 @@ PrefabInstance:
       addedObject: {fileID: -7170604822663427171}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: afab9e5c50ee84593a8781ee0dd677ec, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 6687711370640030902}
+      addedObject: {fileID: 7959874270139751197}
   m_SourcePrefab: {fileID: 100100000, guid: afab9e5c50ee84593a8781ee0dd677ec, type: 3}
 --- !u!95 &1321612614680231429 stripped
 Animator:
@@ -378,8 +378,8 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!135 &6687711370640030902
-SphereCollider:
+--- !u!136 &7959874270139751197
+CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -396,9 +396,11 @@ SphereCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
+  serializedVersion: 2
+  m_Radius: 0.45
+  m_Height: 2.09
+  m_Direction: 1
+  m_Center: {x: 0, y: 0.55, z: 0}
 --- !u!4 &7870613094692682486 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3316851555440916834, guid: afab9e5c50ee84593a8781ee0dd677ec, type: 3}
