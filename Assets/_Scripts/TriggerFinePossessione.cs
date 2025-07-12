@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -11,6 +10,8 @@ public class TriggerFinePossessione : MonoBehaviour
     private InputAction exitSelectionMode;
     [SerializeField] private PlayerInput playerInput;
     private bool firstTime = true;
+    public PossessionManager possessionManager;
+    public GameObject boccaporto;
 
     void Start()
     {
@@ -19,7 +20,7 @@ public class TriggerFinePossessione : MonoBehaviour
 
     void Update()
     {
-        if (exitSelectionMode.triggered && firstTime)
+        if (exitSelectionMode.triggered && firstTime && possessionManager.CurrentState == PossessionState.Possessing)
         {
             promptUIManager.HidePrompt();
             dialogueManager.StartDialogue(dialogueStartGame);
@@ -30,7 +31,7 @@ public class TriggerFinePossessione : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if (!hasTriggered) return;
-        if (other.CompareTag("Pirate"))
+        if (other.CompareTag("Pirate") && other.gameObject == boccaporto)
         {
             hasTriggered = false;
             promptUIManager.ShowPrompt(InputKeyType.ButtonSouth, "Return to rat with this button or ESCAPE", true);

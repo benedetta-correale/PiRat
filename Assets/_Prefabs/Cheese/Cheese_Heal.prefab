@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 2488570795774911789}
   - component: {fileID: -1189141880997829306}
   - component: {fileID: 2048812923944406869}
+  - component: {fileID: 5568333173702013316}
   m_Layer: 0
   m_Name: Cheese_Heal
   m_TagString: Cheese
@@ -131,8 +132,6 @@ MonoBehaviour:
   wasNear: 0
   poisonPuddlePrefab: {fileID: 0}
   VFXPrefab: {fileID: 1247282762272248, guid: 9ab168a77239b3d43be281129b95e8b8, type: 3}
-  enableTrapFromPuddle: 0
-  trapPrefabs: []
   outlineMaterial: {fileID: 2100000, guid: 0ea20aaec9632a24f80e622ff8f27e60, type: 2}
   triggerCollider: {fileID: 2048812923944406869}
   playerTag: Player
@@ -178,3 +177,17 @@ SphereCollider:
   serializedVersion: 3
   m_Radius: 0.9
   m_Center: {x: -0.00036211312, y: 0.0121643795, z: -0.10568257}
+--- !u!114 &5568333173702013316
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8690275320204957918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 661196a95b6654e7ea75663a1aabf023, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  promptUIManager: {fileID: 0}
+  powerUpType: 0
