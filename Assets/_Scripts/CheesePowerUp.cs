@@ -70,7 +70,7 @@ public class CheesePowerUp : MonoBehaviour
             newMats[1] = outlineMaterial;
             _renderer.materials = newMats;
 
-            triggerCollider.enabled = true; // ✅ attiva il collider
+            triggerCollider.enabled = true; // ✅ attiva il collider ziofiuster
         }
         else
         {
