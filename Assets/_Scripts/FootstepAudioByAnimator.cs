@@ -65,8 +65,7 @@ public class RatAudioControllerByAnimator : MonoBehaviour
         }
 
         // --- Morso (in uno dei due stati previsti) ---
-        bool isInBiteState = stateInfo.IsName(biteStateName1) || stateInfo.IsName(biteStateName2);
-        if (isInBiteState)
+        if (stateInfo.IsName(biteStateName2)) // Solo BITE con salto all'indietro
         {
             if (!bitePlayed && biteClip != null)
             {
@@ -79,5 +78,5 @@ public class RatAudioControllerByAnimator : MonoBehaviour
         {
             bitePlayed = false;
         }
-    }
+            }
 }
