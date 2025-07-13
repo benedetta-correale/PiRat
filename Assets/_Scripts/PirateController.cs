@@ -655,7 +655,13 @@ public class PirateController : MonoBehaviour
     {
         Debug.Log("Animazione di morte terminata per " + gameObject.name);
         // Qui puoi aggiungere logica per rimuovere il pirata dalla scena o gestire la sua morte
-       gameObject.SetActive(false); // Per esempio, distruggi il GameObject
+        DestroyAfterDelay(3.0f); // Per esempio, distruggi il GameObject
+    }
+
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false); // Disattiva il GameObject dopo il ritardo
     }
 
     //GUARIGIONE

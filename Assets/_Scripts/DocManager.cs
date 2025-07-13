@@ -1,5 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Collections;
+
 
 
 public class DocManager : MonoBehaviour
@@ -373,8 +375,14 @@ public class DocManager : MonoBehaviour
     {
         Debug.Log("Animazione di morte terminata per " + gameObject.name);
         // Qui puoi aggiungere logica per rimuovere il pirata dalla scena o gestire la sua morte
-        Destroy(gameObject); // Per esempio, distruggi il GameObject
+        DestroyAfterDelay(3.0f);
     }
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false); // Disattiva il GameObject dopo il ritardo
+    }
+
 
     public void TakeDamage(int dmg)
 
@@ -410,8 +418,8 @@ public class DocManager : MonoBehaviour
         }
 
 
-        
-        
+
+
 
     }
 
