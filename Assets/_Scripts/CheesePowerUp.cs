@@ -19,9 +19,13 @@ public class CheesePowerUp : MonoBehaviour
     
     [SerializeField] private GameObject VFXPrefab;
 
-    
+    [Header("Audio Clips")]
+    [SerializeField] private AudioClip healClip;
+    [SerializeField] private AudioClip speedBoostClip;
+    [SerializeField] private AudioClip damageBoostClip;
+    [SerializeField] private AudioClip poisonLeakClip;
 
-
+        
     [Header("Outline & Trigger")]
     private Material _defaultMaterial;
     private bool outlineActive = false;
@@ -30,6 +34,7 @@ public class CheesePowerUp : MonoBehaviour
     [SerializeField] private string playerTag = "Player";
 
     private Renderer _renderer;
+    private AudioSource _audioSource;
 
     void Awake()
     {
@@ -43,6 +48,12 @@ public class CheesePowerUp : MonoBehaviour
             triggerCollider.isTrigger = true;
             triggerCollider.enabled = false;
         }
+        _audioSource = GetComponent<AudioSource>();
+        if (_audioSource == null)
+        {
+            _audioSource = gameObject.AddComponent<AudioSource>();
+        }
+        _audioSource.playOnAwake = false;
     }
 
     public void EnableOutline(bool enable)
@@ -84,6 +95,7 @@ public class CheesePowerUp : MonoBehaviour
             case CheesePowerUpType.Heal:
                 if (bonusMalus != null && bonusMalus.currentHealth < bonusMalus.maxHealth)
                 {
+                    PlaySound(healClip);
                     bonusMalus.Heal(healAmount);
                     consumed = true;
                     StartCoroutine(EnableHealVFXAfterDestroy(rat.transform, 1.7f));
@@ -94,6 +106,7 @@ public class CheesePowerUp : MonoBehaviour
                 var ratInput = rat.GetComponent<RatInputHandler>();
                 if (ratInput != null)
                 {
+                    PlaySound(speedBoostClip);
                     ratInput.StartCoroutine(ratInput.SpeedBoostRoutine(speedMultiplier, speedDuration));
                     consumed = true;
                     StartCoroutine(EnableSpeedVFXAfterDestroy(ratInput, 1.7f));
@@ -101,11 +114,13 @@ public class CheesePowerUp : MonoBehaviour
                 break;
 
             case CheesePowerUpType.DamageBoost:
+                PlaySound(damageBoostClip);
                 consumed = true;
                 StartCoroutine(EnableDamageVFXAfterDestroy(rat, 1.7f));
                 break;
 
             case CheesePowerUpType.PoisonLeak:
+                PlaySound(poisonLeakClip);
                 consumed = true;
                 StartCoroutine(EnablePeeVFXAfterDestroy(rat, 1.7f));
                 break;
@@ -146,42 +161,50 @@ public class CheesePowerUp : MonoBehaviour
     {
         yield return new WaitForSeconds(delay);
         ratInput.SetSpeedVFX(VFXPrefab);
+        PlaySound(speedBoostClip);
     }
 
     private IEnumerator EnableDamageVFXAfterDestroy(RatInteractionManager rat, float delay)
-    {
-        yield return new WaitForSeconds(delay);
-        rat.ActivateDamageBoost(extraDamage, VFXPrefab);
-    }
+{
+    yield return new WaitForSeconds(delay);
+    rat.ActivateDamageBoost(extraDamage, VFXPrefab);
+    PlaySound(damageBoostClip);
+}
 
     private IEnumerator EnablePeeVFXAfterDestroy(RatInteractionManager rat, float delay)
+{
+    yield return new WaitForSeconds(delay);
+
+    rat.PreparePoisonLeak(poisonPuddlePrefab, VFXPrefab);
+
+    var trapConfig = GetComponent<TrapConfig>();
+    if (trapConfig != null && trapConfig.enableTrapFromPuddle)
+        rat.ConfigurePuddleTrap(trapConfig.trapPrefabs);
+
+    PlaySound(poisonLeakClip);
+}
+
+
+private void PlaySound(AudioClip clip)
+{
+    if (_audioSource != null && clip != null)
     {
-        yield return new WaitForSeconds(delay);
-
-        // Solo segnala che può pisciare + VFX
-        rat.PreparePoisonLeak(poisonPuddlePrefab, VFXPrefab);
-
-        // Se il formaggio ha un TrapConfig, passa le sue trappole
-        var trapConfig = GetComponent<TrapConfig>();
-        if (trapConfig != null && trapConfig.enableTrapFromPuddle)
-        {
-            rat.ConfigurePuddleTrap(trapConfig.trapPrefabs);
-        }
+        _audioSource.PlayOneShot(clip);
     }
-
-
+}
 
 
     private IEnumerator EnableHealVFXAfterDestroy(Transform ratTransform, float delay)
+{
+    yield return new WaitForSeconds(delay);
+    if (VFXPrefab != null)
     {
-        yield return new WaitForSeconds(delay);
-        if (VFXPrefab != null)
-        {
-            var vfx = Instantiate(VFXPrefab, ratTransform.position, Quaternion.identity, ratTransform);
-            vfx.transform.localPosition = Vector3.zero;
-            Destroy(vfx, 2f);
-        }
+        var vfx = Instantiate(VFXPrefab, ratTransform.position, Quaternion.identity, ratTransform);
+        vfx.transform.localPosition = Vector3.zero;
+        Destroy(vfx, 2f);
     }
+    PlaySound(healClip);
+}
     
      private void OnTriggerExit(Collider other)
     {
