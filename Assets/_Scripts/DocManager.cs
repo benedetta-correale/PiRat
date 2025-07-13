@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.UI;
+
 
 public class DocManager : MonoBehaviour
 
@@ -33,7 +35,8 @@ public class DocManager : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int maxHealth = 100;
     private int currentHealth;
-    [SerializeField] private Canvas healthBar; // Riferimento al Canvas della salute del pirata
+    [SerializeField] private Image healthBar; // Riferimento al Canvas della salute del pirata
+    [SerializeField] private Image healthFill;
 
     private bool _isDead = false; // flag per lo stato di morte
     public bool IsDead => _isDead; // proprietà per accedere allo stato di morte
@@ -42,13 +45,19 @@ public class DocManager : MonoBehaviour
     private State currentState = State.Idle;
     private float idleTimer;              // timer per attendere tra un punto e l'altro
     private Vector3 nextIdlePoint;
-
+    private bool hasTakenDamage = false; // flag per sapere se il pirata ha preso danni
 
 
     void Awake()
     {
         if (!agent) agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         currentHealth = maxHealth;
+        if (healthBar != null)
+        {
+            healthBar.gameObject.SetActive(false); // Assicurati che la barra della vita sia inizialmente nascosta
+
+        }
+         healthFill.fillAmount = 1f; // Imposta la barra della salute al massimo
 
     }
 
@@ -364,6 +373,45 @@ public class DocManager : MonoBehaviour
         // Qui puoi aggiungere logica per rimuovere il pirata dalla scena o gestire la sua morte
         Destroy(gameObject); // Per esempio, distruggi il GameObject
     }
+
+    public void TakeDamage(int dmg)
+
+    {
+        if (_isDead) return; // prevenzione danni dopo la morte
+
+        /*if (ratTransform != null)
+        {
+            Vector3 dir = (ratTransform.position - transform.position).normalized;
+            transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
+        }*/
+
+        currentHealth = Mathf.Max(0, currentHealth - dmg);
+        healthFill.fillAmount = currentHealth / maxHealth;
+
+        if (currentHealth <= 0f && !_isDead)
+        {
+            Die();
+            Debug.Log($"{name} è morto!");
+        }
+        ;
+
+        // NUOVA MODIFICA: Attiva la barra della vita al primo danno
+        if (!hasTakenDamage)
+        {
+            hasTakenDamage = true;
+            if (healthBar != null)
+            {
+                healthBar.gameObject.SetActive(true); // Assicurati che la barra della vita sia visibile
+                Debug.Log($"{name} → healthBar attivata al primo danno");
+            }
+        }
+
+
+        
+        
+
+    }
+
 
 
 
