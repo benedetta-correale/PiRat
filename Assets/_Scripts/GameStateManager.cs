@@ -19,6 +19,8 @@ public class GameStateManager : MonoBehaviour
     [Header("PowerUp Configuration")]
     public PowerUpConfig powerUpConfig;
 
+    [SerializeField] private GameObject tutorial;
+    [SerializeField] private GameObject dialogueManager;
 
     [Header("Tag del punto di spawn in ogni scena")]
     public string spawnPointTag = "SpawnPoint";
@@ -189,6 +191,8 @@ public class GameStateManager : MonoBehaviour
     public void SetTutorialSeen(string tutorialName, bool seen = true)
     {
         tutorialsSeen[tutorialName] = seen;
+        
+        
     }
 
     public bool HasSeenTutorial(string tutorialName)

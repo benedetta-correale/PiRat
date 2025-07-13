@@ -43,6 +43,8 @@ public class DialogueManager : MonoBehaviour
     public PossessionManager possessionManager;
     public RatInteractionManager ratInteractionManager;
 
+    [SerializeField] private GameObject tutorial;
+
     public void ForceRightBoxOnly(bool value)
     {
         forceRightBoxOnly = value;
@@ -50,22 +52,39 @@ public class DialogueManager : MonoBehaviour
 
     void Start()
     {
-        leftDialogueBox.SetActive(false);
-        rightDialogueBox.SetActive(false);
+        // Verifica se il tutorial è stato visto, se no lo esegui
+        if (!GameStateManager.Instance.HasSeenTutorial("prisoner"))
+        {
+            // Se il tutorial non è stato visto, avvialo
+            StartDialogue(introDialogue);
 
-        rat.position = ratInitialPosition;
-        mainCamera.position = cameraInitialPosition;
-        mainCamera.rotation = Quaternion.Euler(cameraInitialRotation);
+            // Imposta il flag come visto
+            GameStateManager.Instance.SetTutorialSeen("prisoner", true);
+            // Inizializza i vari componenti
+            leftDialogueBox.SetActive(false);
+            rightDialogueBox.SetActive(false);
+            rat.position = ratInitialPosition;
+            mainCamera.position = cameraInitialPosition;
+            mainCamera.rotation = Quaternion.Euler(cameraInitialRotation);
 
-        ratMovementScript.enabled = false;
-        cameraScript.enabled = false;
-        ratInteractionManager.allowBite = false;
-        possessionManager.EnablePossessionInput(false); // blocca tutto
-        bersaglio.gameObject.SetActive(false);
-        continueDialogue = playerInput.actions["ContinueDialogue"];
+            ratMovementScript.enabled = false;
+            cameraScript.enabled = false;
+            ratInteractionManager.allowBite = false;
+            possessionManager.EnablePossessionInput(false); // blocca tutto
+            bersaglio.gameObject.SetActive(false);
+            continueDialogue = playerInput.actions["ContinueDialogue"];
+        }
+        else
+        {
+            // Se il tutorial è già stato visto, non fare nulla o esegui altre azioni
+            Debug.Log("Tutorial già completato.");
+            tutorial.SetActive(false); // Nascondi il tutorial se non serve
+            this.enabled = false; // Disabilita il manager se non serve
+        }
 
-        StartDialogue(introDialogue); // ← avvia subito il primo dialogo
+        
     }
+
 
     void Update()
     {

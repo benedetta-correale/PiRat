@@ -82,7 +82,30 @@ public class BonusMalus : MonoBehaviour
 
     private void Die()
     {
-        Debug.Log("Il topo è morto!");
+
+        // Aggiungi gli altri controlli di sicurezza
+        if (ratRigidbody != null)
+        {
+            ratRigidbody.isKinematic = true;
+        }
+        else
+        {
+            Debug.LogWarning("Rigidbody non trovato");
+        }
+
+        // Gestisci altre possibili verifiche di null
+        if (cameraControlManager != null)
+        {
+            cameraControlManager.deathZoomCoroutine = cameraControlManager.StartCoroutine(
+                cameraControlManager.ZoomInOnRat(zoomMultiplier: 1.5f, zoomSpeed: 1f, duration: 3f)
+            );
+        }
+        else {
+            Debug.LogWarning("cameraControlManager non è stato trovato o inizializzato.");
+        }
+    
+
+            Debug.Log("Il topo è morto!");
         onDeath?.Invoke();
         animator.SetTrigger("Die");
 
