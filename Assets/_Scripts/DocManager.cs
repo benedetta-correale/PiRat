@@ -1,4 +1,8 @@
 using UnityEngine;
+using UnityEngine.UI;
+using System.Collections;
+
+
 
 public class DocManager : MonoBehaviour
 
@@ -33,7 +37,8 @@ public class DocManager : MonoBehaviour
     [Header("Health")]
     [SerializeField] private int maxHealth = 100;
     private int currentHealth;
-    [SerializeField] private Canvas healthBar; // Riferimento al Canvas della salute del pirata
+    [SerializeField] private Image healthBar; // Riferimento al Canvas della salute del pirata
+    [SerializeField] private Image healthFill;
 
     private bool _isDead = false; // flag per lo stato di morte
     public bool IsDead => _isDead; // proprietà per accedere allo stato di morte
@@ -42,7 +47,7 @@ public class DocManager : MonoBehaviour
     private State currentState = State.Idle;
     private float idleTimer;              // timer per attendere tra un punto e l'altro
     private Vector3 nextIdlePoint;
-
+    private bool hasTakenDamage = false; // flag per sapere se il pirata ha preso danni
 
 
     void Awake()
@@ -50,6 +55,14 @@ public class DocManager : MonoBehaviour
         if (!agent) agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         currentHealth = maxHealth;
 
+        // NUOVO: Inizializza la barra di riempimento della vita al massimo
+        
+
+        // Se la healthBar (che ora è un'immagine) è il contenitore principale e vuoi vederla sempre all'inizio:
+        if (healthBar != null)
+        {
+            healthBar.gameObject.SetActive(false); // Assicurati che il GameObject dell'immagine di sfondo sia attivo
+        }
     }
 
     // Update is called once per frame
@@ -362,8 +375,54 @@ public class DocManager : MonoBehaviour
     {
         Debug.Log("Animazione di morte terminata per " + gameObject.name);
         // Qui puoi aggiungere logica per rimuovere il pirata dalla scena o gestire la sua morte
-        Destroy(gameObject); // Per esempio, distruggi il GameObject
+        DestroyAfterDelay(3.0f);
     }
+    private IEnumerator DestroyAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        gameObject.SetActive(false); // Disattiva il GameObject dopo il ritardo
+    }
+
+
+    public void TakeDamage(int dmg)
+
+    {
+        if (_isDead) return; // prevenzione danni dopo la morte
+
+        /*if (ratTransform != null)
+        {
+            Vector3 dir = (ratTransform.position - transform.position).normalized;
+            transform.rotation = Quaternion.LookRotation(new Vector3(dir.x, 0f, dir.z));
+        }*/
+
+        currentHealth = Mathf.Max(0, currentHealth - dmg);
+        healthFill.fillAmount = (float)currentHealth / maxHealth;
+
+        if (currentHealth <= 0f && !_isDead)
+        {
+            Debug.Log($"{name} sta morendo (condizione superata)");
+            Die();
+            Debug.Log($"{name} è morto!");
+        }
+
+        // NUOVA MODIFICA: Attiva la barra della vita al primo danno
+        if (!hasTakenDamage)
+        {
+            hasTakenDamage = true;
+            if (healthBar != null)
+            {
+                healthBar.gameObject.SetActive(true); // Assicurati che la barra della vita sia visibile
+                Debug.Log($"{name} → healthBar attivata al primo danno");
+                healthFill.fillAmount = (float)currentHealth / maxHealth; // Assicurati che sia 1 (vita piena)
+            }
+        }
+
+
+
+
+
+    }
+
 
 
 

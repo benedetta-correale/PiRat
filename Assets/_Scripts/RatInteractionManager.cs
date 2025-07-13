@@ -127,15 +127,19 @@ public class RatInteractionManager : MonoBehaviour
         // 1. 🔍 Raggio frontale
         if (Physics.Raycast(origin, direction, out hit, biteDistance, LayerMask.GetMask("PirateHittable")))
         {
-            if (hit.collider.CompareTag("Pirate"))
+            Debug.Log($"Raggio morso colpito: {hit.collider.name}");
+            PirateController pirate = hit.collider.GetComponent<PirateController>();
+            DocManager doctor = hit.collider.GetComponent<DocManager>(); // Prova a prendere il DocManager
+
+            if (pirate != null)
             {
-                //se colpisce il medico mentre sta guarendo un pirata, non può mordere
-                /*if(hit.collider.GetComponent<DocManager>().isHealing && hit.collider.name == "Medico")
-                {
-                    Debug.Log("Il medico sta guarendo un pirata, non può mordere!");
-                    return;
-                }*/
-                TryStartBite(hit.collider.GetComponent<PirateController>());
+                TryStartBite(pirate); // Morso al Pirata
+                successfulBite = true;
+            }
+            else if (doctor != null) // Se è un Medico
+            {
+                Debug.Log($"Raggio morso colpito un Medico: {doctor.name}");
+                TryBiteDoctor(doctor); // Nuovo metodo per mordere il Medico
                 successfulBite = true;
             }
             else if (hit.collider.CompareTag("Cheese"))
@@ -211,7 +215,7 @@ public class RatInteractionManager : MonoBehaviour
 
 
 
-    private void TryStartBite(PirateController controller)
+    private void TryStartBite(PirateController controller )
     {
         if (controller == null) return;
         enemyController = controller;
@@ -224,10 +228,29 @@ public class RatInteractionManager : MonoBehaviour
         // ✅ Avvia un timer per resettare `biting`
         StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione
     }
+
+    // NUOVO metodo per mordere un Medico (senza QuickTime Event)
+    private void TryBiteDoctor(DocManager doctor)
+    {
+        if (doctor == null) return;
+
+        _ratInputHandler.movementLocked = true;
+        biting = true;
+        _ratAnimator.SetTrigger("Bite");
+
+        doctor.TakeDamage(Damage + bonusDamage);
+        Debug.Log($"Il ratto ha morso il Medico {doctor.name} infliggendo {Damage + bonusDamage} danni.");
+        StartCoroutine(StartQuickTimeEventDoctor(doctor));
+
+        SetInvincibleForSeconds(3.0f);
+        StartCoroutine(ResetBitingAfterDelay(1.2f));
+    }
+
     private IEnumerator ResetBitingAfterDelay(float delay)
     {
         yield return new WaitForSeconds(delay);
         biting = false;
+        _ratInputHandler.movementLocked = false;  // 🔓 sblocca il ratto
         Debug.Log("biting = false dopo morso (timer)");
     }
 
@@ -287,12 +310,15 @@ public class RatInteractionManager : MonoBehaviour
         }
     }
 
+
+
     public void ActivateDamageBoost(int amount, GameObject prefab)
     {
         bonusDamage = amount;
 
         if (prefab != null)
         {
+
             if (damageVFXInstance != null) Destroy(damageVFXInstance);
             damageVFXInstance = Instantiate(prefab, transform.position, Quaternion.identity, transform);
             damageVFXInstance.transform.localPosition = Vector3.zero;
@@ -320,6 +346,29 @@ public class RatInteractionManager : MonoBehaviour
         isQuickTimeActive = false;
 
         HandleQuickTimeResult(precision, quickTimeConfirmed, targetPirate);
+    }
+
+    private IEnumerator StartQuickTimeEventDoctor(DocManager targetPirate)
+    {
+        Debug.Log("QTE INIZIATO");
+        quickTimeConfirmed = false;
+        isQuickTimeActive = true;
+
+        quickTimeUIManager.StartQuickTime();
+        float timer = 0f;
+
+        while (quickTimeUIManager.IsQuickTimeActive)
+        {
+            timer += Time.deltaTime;
+            if (quickTimeConfirmed) break;
+            yield return null;
+        }
+
+        float precision = quickTimeUIManager.Precision;
+        quickTimeUIManager.StopQuickTime();
+        isQuickTimeActive = false;
+
+        HandleQuickTimeResultDoctor(precision, quickTimeConfirmed, targetPirate);
     }
 
     private void HandleQuickTimeResult(float precision, bool buttonPressed, PirateController targetPirate)
@@ -390,6 +439,76 @@ public class RatInteractionManager : MonoBehaviour
             damageVFXInstance = null;
         }
     }
+    private void HandleQuickTimeResultDoctor(float precision, bool buttonPressed, DocManager targetPirate)
+    {
+        if (!buttonPressed)
+        {
+            Debug.Log("QuickTime fallito, nessun pulsante premuto.");
+            _ratAnimator.SetTrigger("JumpBack"); // Animazione fallita
+            StartCoroutine(UnlockAfterAnimationFixed(1f));
+
+
+            return;
+        }
+
+        if (!HasCompletedFirstQuickTime && precision >= 0.5f && buttonPressed)
+        {
+            HasCompletedFirstQuickTime = true;
+        }
+
+        float currentScale = quickTimeUIManager.CurrentScale;
+        float startScale = quickTimeUIManager.StartingScale;
+        float scaleRatio = currentScale / startScale;
+
+        Debug.Log("QuickTime scale ratio: " + scaleRatio);
+
+        // Zone mapping
+        if (scaleRatio > 0.87f || scaleRatio < 0.24f) // zone esterna e interna nere
+        {
+            //Debug.Log("❌ Fuori bersaglio (fallimento)");
+            _ratAnimator.SetTrigger("JumpBack");
+            StartCoroutine(UnlockAfterAnimationFixed(1f));
+            return;
+        }
+        else if ((scaleRatio >= 0.75f && scaleRatio <= 0.87f) || (scaleRatio <= 0.38f && scaleRatio >= 0.24f))
+        {
+            vfxManager.PlayBiteVFX();
+            isBackflipping = true;
+            Debug.Log("🟡 Zona gialla");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            //Infect(targetPirate);
+            ExecuteBackflip(0.5f, 0.4f);
+        }
+        else if ((scaleRatio >= 0.63f && scaleRatio < 0.75f) || (scaleRatio <= 0.5 && scaleRatio > 0.38f))
+        {
+            vfxManager.PlayBiteVFX();
+            isBackflipping = true;
+            Debug.Log("🔵 Zona blu");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            //Infect(targetPirate);
+            ExecuteBackflip(1f, 0.7f);
+        }
+        else
+        {
+            vfxManager.PlayBiteVFX();
+            isBackflipping = true;
+            Debug.Log("🔴 Zona rossa");
+            targetPirate.TakeDamage(Damage + bonusDamage);
+            //Infect(targetPirate);
+            ExecuteBackflip(1.5f, 1f);
+        }
+
+
+
+        bonusDamage = 0;
+        if (damageVFXInstance != null)
+        {
+            Destroy(damageVFXInstance);
+            damageVFXInstance = null;
+        }
+    }
+
+
 
     private void ExecuteBackflip(float distanceMultiplier, float delayBeforeMove = 0.35f)
     {

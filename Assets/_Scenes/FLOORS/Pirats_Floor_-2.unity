@@ -55800,7 +55800,7 @@ MonoBehaviour:
   rightSpeakerText: {fileID: 1989901616}
   rightDialogueText: {fileID: 693780062}
   rightDialogueBox: {fileID: 627391371}
-  introDialogue: {fileID: 11400000, guid: 7e6405e80d94e4f74815b18623db4593, type: 2}
+  introDialogue: {fileID: 11400000, guid: 7d9ccf01e4aceb942891445555d81cba, type: 2}
   rat: {fileID: 543450653137747181}
   ratInitialPosition: {x: 28, y: 1.6, z: 4.668388}
   cameraInitialPosition: {x: 25.54538, y: 13.55, z: 12.93151}
@@ -71019,7 +71019,7 @@ RectTransform:
   m_GameObject: {fileID: 1816754675}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5248799, y: 0.5248799, z: 0.5248799}
+  m_LocalScale: {x: 0.53, y: 0.53, z: 0.53}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 865513046}
@@ -71049,7 +71049,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 26177e0890885a745bbde750d64114ce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f2e7db90139eb4f93805440191eb3184, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -71964,7 +71964,7 @@ RectTransform:
   m_GameObject: {fileID: 1838796161}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.89, y: 1.89, z: 1.89}
+  m_LocalScale: {x: 1.9800001, y: 1.9800001, z: 1.9800001}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1706496221}
@@ -71994,7 +71994,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 26177e0890885a745bbde750d64114ce, type: 3}
+  m_Sprite: {fileID: 21300000, guid: f2e7db90139eb4f93805440191eb3184, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1

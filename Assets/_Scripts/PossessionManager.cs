@@ -131,17 +131,30 @@ public class PossessionManager : MonoBehaviour
     void HandleSelectionInput()
     {
         var piratesInRange = GetPiratesInRange();
-        if (piratesInRange.Count == 0) return;
 
-        // lettura input del movimento dallo stick del nuovo sistema
+        if (piratesInRange.Count == 0)
+        {
+            Debug.Log("Nessun pirata nel raggio di selezione: uscita dalla modalità.");
+            ExitSelectionMode();
+            return;
+        }
+
+        // Se il selezionato non è più valido, resetta selezione
+        if (selectedIndex >= piratesInRange.Count || !piratesInRange.Contains(ratInteraction.infectedPirates[selectedIndex]))
+        {
+            Debug.Log("Il pirata selezionato è uscito dal raggio. Reset selezione.");
+            selectedIndex = 0; // oppure -1 se vuoi che non ci sia selezione automatica
+        }
+
+        // Input direzionale per cambiare target
         Vector2 inputDir = moveAction.ReadValue<Vector2>();
-
         if (inputDir != Vector2.zero)
-
             SelectClosestInDirection(inputDir.normalized, piratesInRange);
 
+        // Aggiorna le scie solo per i pirati validi
         AggiornaScie(piratesInRange);
     }
+
 
     private void ConfirmSelection(List<Transform> piratesInRange)
     {
@@ -379,8 +392,20 @@ public class PossessionManager : MonoBehaviour
             return new List<Transform>();
 
         return ratInteraction.infectedPirates.FindAll(p =>
-        Vector3.Distance(p.position, ratTransform.position) <= maxSelectionDistance);
+        {
+            // Escludi pirati morti
+            PirateController pc = p.GetComponent<PirateController>();
+            if (pc == null || pc.IsDead)
+            {
+                Debug.Log($"{p.name} escluso: {(pc == null ? "nessun PirateController" : "è morto")}");
+                return false;
+            }
+
+            // Dentro il raggio di selezione
+            return Vector3.Distance(p.position, ratTransform.position) <= maxSelectionDistance;
+        });
     }
+
 
     // Metodo per entrare nella modalità selezione
     public void EnterSelectionMode_Input(InputAction.CallbackContext context)
