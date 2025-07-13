@@ -14,6 +14,8 @@ public class DocManager : MonoBehaviour
     [SerializeField] private UnityEngine.AI.NavMeshAgent agent;
     private GameObject currentTarget;
     private Animator pirateAnim;
+    private AudioSource audioSource;
+    private AudioClip lastClipPlayed = null; // Per evitare di riprodurre lo stesso clip consecutivamente
 
     // ------------
 
@@ -29,6 +31,8 @@ public class DocManager : MonoBehaviour
     [SerializeField] private Transform[] healArea;
     [SerializeField] private float healRay = 10.0f;
     [SerializeField] private int recoveryPoints = 40;
+    [SerializeField] private GameObject healVFXPrefab;
+    [SerializeField] private AudioClip healClip;
     private bool hasHealed = false; // flag per evitare più cure
     public bool isHealing = false; // flag per indicare se il pirata è in cura
 
@@ -245,7 +249,7 @@ public class DocManager : MonoBehaviour
             {
                 if (pc.IsDead) // Aggiungi questo controllo
                 {
-                   // Debug.Log("Pirate died during healing. Finding new target or going idle.");
+                    // Debug.Log("Pirate died during healing. Finding new target or going idle.");
                     currentTarget = null;
                 }
                 else
@@ -253,6 +257,20 @@ public class DocManager : MonoBehaviour
                     pc.EnterBeingHealed(transform.position, 2f);
                     pc.Heal(recoveryPoints);
                     //Debug.Log("PirataCurato");
+
+                    //VFX HEAL
+
+                    if (healVFXPrefab != null)
+                    {
+                        GameObject vfx = Instantiate(
+                            healVFXPrefab,
+                            pc.transform.position + Vector3.up * 1f, // leggermente sopra il pirata
+                            Quaternion.identity
+                        );
+
+                        Destroy(vfx, 2f); // distrugge il VFX dopo 2 secondi per pulizia
+                    }
+                    
                 }
             }
             currentTarget = null;
@@ -270,11 +288,13 @@ public class DocManager : MonoBehaviour
             EnterIdle();
         }
     }
+
+
     #endregion Healing
 
-    // FIND PIRATE
-    
-   private GameObject FindBestPirateInHealAreas()
+    // ------------------------ FIND PIRATE
+
+    private GameObject FindBestPirateInHealAreas()
     {
         GameObject best = null;
         float lowestHealth = float.MaxValue;
@@ -422,6 +442,20 @@ public class DocManager : MonoBehaviour
 
 
     }
+
+    // SUONO CURA DEL MEDICO 
+    public void PlayHealSound()
+    {
+        if (healClip == null) return;
+
+        audioSource.Stop();
+        audioSource.clip = healClip;
+        audioSource.loop = false;
+        audioSource.Play();
+
+        lastClipPlayed = healClip;
+    }
+
 
 
 
