@@ -127,15 +127,19 @@ public class RatInteractionManager : MonoBehaviour
         // 1. 🔍 Raggio frontale
         if (Physics.Raycast(origin, direction, out hit, biteDistance, LayerMask.GetMask("PirateHittable")))
         {
-            if (hit.collider.CompareTag("Pirate"))
+            Debug.Log($"Raggio morso colpito: {hit.collider.name}");
+            PirateController pirate = hit.collider.GetComponent<PirateController>();
+            DocManager doctor = hit.collider.GetComponent<DocManager>(); // Prova a prendere il DocManager
+
+            if (pirate != null)
             {
-                //se colpisce il medico mentre sta guarendo un pirata, non può mordere
-                /*if(hit.collider.GetComponent<DocManager>().isHealing && hit.collider.name == "Medico")
-                {
-                    Debug.Log("Il medico sta guarendo un pirata, non può mordere!");
-                    return;
-                }*/
-                TryStartBite(hit.collider.GetComponent<PirateController>());
+                TryStartBite(pirate); // Morso al Pirata
+                successfulBite = true;
+            }
+            else if (doctor != null) // Se è un Medico
+            {
+                Debug.Log($"Raggio morso colpito un Medico: {doctor.name}");
+                TryBiteDoctor(doctor); // Nuovo metodo per mordere il Medico
                 successfulBite = true;
             }
             else if (hit.collider.CompareTag("Cheese"))
@@ -211,7 +215,7 @@ public class RatInteractionManager : MonoBehaviour
 
 
 
-    private void TryStartBite(PirateController controller)
+    private void TryStartBite(PirateController controller )
     {
         if (controller == null) return;
         enemyController = controller;
@@ -223,6 +227,23 @@ public class RatInteractionManager : MonoBehaviour
 
         // ✅ Avvia un timer per resettare `biting`
         StartCoroutine(ResetBitingAfterDelay(1.2f)); // ← adatta il tempo alla durata dell’animazione
+    }
+
+    // NUOVO metodo per mordere un Medico (senza QuickTime Event)
+    private void TryBiteDoctor(DocManager doctor)
+    {
+        if (doctor == null) return;
+        //doctorController = doctor; // Assicurati di avere un campo 'doctorController'
+        _ratInputHandler.movementLocked = true;
+        biting = true;
+        _ratAnimator.SetTrigger("Bite"); // Usa la stessa animazione di morso del ratto
+        //StartCoroutine(StartQuickTimeEvent(doctor)); // Non serve QTE per il medico
+
+        doctor.TakeDamage(Damage); // Danno diretto al medico
+        Debug.Log($"Il ratto ha morso il Medico {doctor.name} infliggendo {Damage + bonusDamage} danni.");
+
+        SetInvincibleForSeconds(3.0f);
+        StartCoroutine(ResetBitingAfterDelay(1.2f));
     }
     private IEnumerator ResetBitingAfterDelay(float delay)
     {
