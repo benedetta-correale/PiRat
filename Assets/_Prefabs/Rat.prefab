@@ -3671,6 +3671,8 @@ GameObject:
   - component: {fileID: 4840180647165213175}
   - component: {fileID: 8209141591351060995}
   - component: {fileID: 4434297207494486838}
+  - component: {fileID: 6928670289825289632}
+  - component: {fileID: -6591389148822527722}
   m_Layer: 8
   m_Name: Rat
   m_TagString: Player
@@ -3767,6 +3769,9 @@ MonoBehaviour:
   minAnimSpeed: 0.5
   maxAnimSpeed: 2.3
   movementLocked: 0
+  stairLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!114 &424945752872594393
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3972,6 +3977,10 @@ MonoBehaviour:
         m_CallState: 2
     m_ActionId: ea2ef9e8-1a67-457d-9af1-f4c68d827786
     m_ActionName: 'Player/Selection[/XInputControllerWindows/leftTrigger,/Keyboard/tab]'
+  - m_PersistentCalls:
+      m_Calls: []
+    m_ActionId: 1fc6082f-ada1-4d9f-9539-19c8f5787e3d
+    m_ActionName: 'Player/ContinueDialogue[/Keyboard/enter]'
   m_NeverAutoSwitchControlSchemes: 0
   m_DefaultControlScheme: Gamepad
   m_DefaultActionMap: Player
@@ -4045,6 +4054,7 @@ MonoBehaviour:
   biting: 0
   infectedPirates: []
   isBackflipping: 0
+  allowBite: 1
 --- !u!114 &4840180647165213175
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4080,6 +4090,10 @@ MonoBehaviour:
   VFXPrefab: {fileID: 1639086506678902, guid: 631d19474f303c2438dd37274b631d4c, type: 3}
   rat: {fileID: 9122812352272184940}
   pm: {fileID: 0}
+  animator: {fileID: 0}
+  inputHandler: {fileID: 0}
+  interactionManager: {fileID: 0}
+  ratRigidbody: {fileID: 0}
 --- !u!114 &8209141591351060995
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4117,6 +4131,127 @@ MonoBehaviour:
   trailPrefab: {fileID: 1723944384526231354, guid: 751e2ad0e184a654e9eff552f95ee16a, type: 3}
   trailStoppingDistance: 1
   maxSelectionDistance: 15
+  playerInput: {fileID: 0}
+  oculiVolume: {fileID: 0}
+  globalVolume: {fileID: 0}
+  defaultColor: {r: 0, g: 0, b: 0, a: 0}
+  selectedColor: {r: 0, g: 0, b: 0, a: 0}
+--- !u!82 &6928670289825289632
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452103283487795676}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_Resource: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+--- !u!114 &-6591389148822527722
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8452103283487795676}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8a833d5f7d3654a15bbb8b63f5cec3df, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  footstepClip: {fileID: 8300000, guid: 739273a79c32b499483ef36e2b9d2f0d, type: 3}
+  footstepVolume: 0.7
+  biteClip: {fileID: 8300000, guid: d0383d4bb67fa47fcbecf18584c7a17c, type: 3}
+  biteVolume: 0.8
+  walkingStateName: WalkRatAnimation
+  biteStateName1: 
+  biteStateName2: BiteWithJumpBack
 --- !u!1 &8717209134903833235
 GameObject:
   m_ObjectHideFlags: 0
