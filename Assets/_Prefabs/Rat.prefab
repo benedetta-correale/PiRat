@@ -4247,7 +4247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   footstepClip: {fileID: 8300000, guid: 739273a79c32b499483ef36e2b9d2f0d, type: 3}
   footstepVolume: 0.7
-  biteClip: {fileID: 8300000, guid: d0383d4bb67fa47fcbecf18584c7a17c, type: 3}
+  biteClip: {fileID: 0}
   biteVolume: 0.8
   walkingStateName: WalkRatAnimation
   biteStateName1: 

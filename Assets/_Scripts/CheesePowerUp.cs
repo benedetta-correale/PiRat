@@ -95,7 +95,7 @@ public class CheesePowerUp : MonoBehaviour
             case CheesePowerUpType.Heal:
                 if (bonusMalus != null && bonusMalus.currentHealth < bonusMalus.maxHealth)
                 {
-                    PlaySound(healClip);
+                    PlaySound(healClip, 1f);
                     bonusMalus.Heal(healAmount);
                     consumed = true;
                     StartCoroutine(EnableHealVFXAfterDestroy(rat.transform, 1.7f));
@@ -106,7 +106,7 @@ public class CheesePowerUp : MonoBehaviour
                 var ratInput = rat.GetComponent<RatInputHandler>();
                 if (ratInput != null)
                 {
-                    PlaySound(speedBoostClip);
+                    PlaySound(speedBoostClip, 1f);
                     ratInput.StartCoroutine(ratInput.SpeedBoostRoutine(speedMultiplier, speedDuration));
                     consumed = true;
                     StartCoroutine(EnableSpeedVFXAfterDestroy(ratInput, 1.7f));
@@ -114,13 +114,13 @@ public class CheesePowerUp : MonoBehaviour
                 break;
 
             case CheesePowerUpType.DamageBoost:
-                PlaySound(damageBoostClip);
+                PlaySound(damageBoostClip, 1f);
                 consumed = true;
                 StartCoroutine(EnableDamageVFXAfterDestroy(rat, 1.7f));
                 break;
 
             case CheesePowerUpType.PoisonLeak:
-                PlaySound(poisonLeakClip);
+                PlaySound(poisonLeakClip, 1f);
                 consumed = true;
                 StartCoroutine(EnablePeeVFXAfterDestroy(rat, 1.7f));
                 break;
@@ -185,12 +185,18 @@ public class CheesePowerUp : MonoBehaviour
 }
 
 
-private void PlaySound(AudioClip clip)
+private void PlaySound(AudioClip clip, float delay = 0f)
 {
     if (_audioSource != null && clip != null)
     {
-        _audioSource.PlayOneShot(clip);
+        StartCoroutine(PlaySoundDelayed(clip, delay));
     }
+}
+
+private IEnumerator PlaySoundDelayed(AudioClip clip, float delay)
+{
+    yield return new WaitForSeconds(delay);
+    _audioSource.PlayOneShot(clip);
 }
 
 
