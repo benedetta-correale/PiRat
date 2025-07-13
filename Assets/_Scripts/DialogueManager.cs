@@ -78,6 +78,9 @@ public class DialogueManager : MonoBehaviour
         {
             // Se il tutorial è già stato visto, non fare nulla o esegui altre azioni
             Debug.Log("Tutorial già completato.");
+            leftDialogueBox.SetActive(false);
+            rightDialogueBox.SetActive(false);
+            bersaglio.gameObject.SetActive(false);
             tutorial.SetActive(false); // Nascondi il tutorial se non serve
             this.enabled = false; // Disabilita il manager se non serve
         }
