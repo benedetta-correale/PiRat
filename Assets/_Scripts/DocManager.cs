@@ -52,13 +52,15 @@ public class DocManager : MonoBehaviour
     {
         if (!agent) agent = GetComponent<UnityEngine.AI.NavMeshAgent>();
         currentHealth = maxHealth;
+
+        // NUOVO: Inizializza la barra di riempimento della vita al massimo
+        
+
+        // Se la healthBar (che ora è un'immagine) è il contenitore principale e vuoi vederla sempre all'inizio:
         if (healthBar != null)
         {
-            healthBar.gameObject.SetActive(false); // Assicurati che la barra della vita sia inizialmente nascosta
-
+            healthBar.gameObject.SetActive(false); // Assicurati che il GameObject dell'immagine di sfondo sia attivo
         }
-         healthFill.fillAmount = 1f; // Imposta la barra della salute al massimo
-
     }
 
     // Update is called once per frame
@@ -386,14 +388,14 @@ public class DocManager : MonoBehaviour
         }*/
 
         currentHealth = Mathf.Max(0, currentHealth - dmg);
-        healthFill.fillAmount = currentHealth / maxHealth;
+        healthFill.fillAmount = (float)currentHealth / maxHealth;
 
         if (currentHealth <= 0f && !_isDead)
         {
+            Debug.Log($"{name} sta morendo (condizione superata)");
             Die();
             Debug.Log($"{name} è morto!");
         }
-        ;
 
         // NUOVA MODIFICA: Attiva la barra della vita al primo danno
         if (!hasTakenDamage)
@@ -403,6 +405,7 @@ public class DocManager : MonoBehaviour
             {
                 healthBar.gameObject.SetActive(true); // Assicurati che la barra della vita sia visibile
                 Debug.Log($"{name} → healthBar attivata al primo danno");
+                healthFill.fillAmount = (float)currentHealth / maxHealth; // Assicurati che sia 1 (vita piena)
             }
         }
 
