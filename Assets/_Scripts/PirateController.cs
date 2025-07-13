@@ -62,14 +62,17 @@ public class PirateController : MonoBehaviour
     [SerializeField] private float biteTickInterval;
     [SerializeField] private float biteDuration;
     [SerializeField] Image healthBar;
+    [SerializeField] private GameObject damageVFXPrefab; // Prefab per gli effetti visivi del danno
     public bool infected = false;
 
     [Header("HEAL STATUS")]
-
     [SerializeField] private float healingCooldown = 5f; // tempo in secondi dopo la guarigione
     private float lastHealedTime = -Mathf.Infinity;
     public bool alreadyHealing = false;
     public float healingEndTime = 3.0f; // usata per fermare il movimento di camminata del pirata per un certo tempo 
+
+    [Header("Death VFX")]
+    [SerializeField] private GameObject deathVFXPrefab;
 
 
     // STATI INTERNI 
@@ -531,12 +534,24 @@ public class PirateController : MonoBehaviour
 
         currentHealth = Mathf.Max(0f, currentHealth - dmg);
         healthFill.fillAmount = currentHealth / maxHealth;
+        
+        if (damageVFXPrefab != null)
 
+        {
+            GameObject vfx = Instantiate(
+                damageVFXPrefab,
+                transform.position + Vector3.up * 1.2f,
+                Quaternion.identity
+            );
+
+            Destroy(vfx, 2f);
+        }
         if (currentHealth <= 0f && !_isDead)
         {
             Die();
             Debug.Log($"{name} è morto!");
-        };
+        }
+        ;
 
         // NUOVA MODIFICA: Attiva la barra della vita al primo danno
         if (!hasTakenDamage)
@@ -660,8 +675,21 @@ public class PirateController : MonoBehaviour
 
     private IEnumerator DestroyAfterDelay(float delay)
     {
-        yield return new WaitForSeconds(delay);
-        gameObject.SetActive(false); // Disattiva il GameObject dopo il ritardo
+        yield return new WaitForSeconds(delay); // aspetta i 3 secondi
+
+        // Mostra il VFX quando il pirata sta per sparire
+        if (deathVFXPrefab != null)
+        {
+            GameObject vfx = Instantiate(
+                deathVFXPrefab,
+                transform.position + Vector3.up * 1f, // leggermente sopra il corpo
+                Quaternion.identity
+            );
+
+            Destroy(vfx, 2f); // distrugge il VFX dopo 2 secondi
+        }
+
+        gameObject.SetActive(false); // il pirata scompare
     }
 
     //GUARIGIONE
